@@ -1,0 +1,12 @@
+{
+  "_rules": "A GitHub owner is added only from a source that allows it: the project's own website or GitHub, a founder's own claim, or a platform that gave written permission. Each entry records its source and the date it was checked.",
+  "projects": [
+    {
+      "name": "MetaDAO",
+      "github": ["metaDAOproject"],
+      "base_mint": null,
+      "source": "https://github.com/metaDAOproject",
+      "checked": "2026-11-14"
+    }
+  ]
+}
