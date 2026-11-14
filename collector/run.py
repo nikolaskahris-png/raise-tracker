@@ -28,7 +28,7 @@ LAUNCHPADS = {
     "v0.5": "mooNhciQJi1LqHDmse2JPic2NqG2PXCanbE3ZYzP3qA",
 }
 LAUNCH_DISC = discriminator("Launch")
-TOKEN_PROGRAMS = ["TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCnbJwhtjnTaE"]
+TOKEN_PROGRAMS = ["TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"]
 
 
 def program_accounts(program, disc):
