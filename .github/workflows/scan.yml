@@ -1,0 +1,27 @@
+name: scan-raises
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 5 * * *'   # daily 05:17 UTC
+permissions:
+  contents: write
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Scan MetaDAO launchpad
+        env:
+          HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
+        run: node scripts/scan.mjs
+      - name: Commit data
+        if: always()
+        run: |
+          git config user.name "raise-tracker-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "data: scan $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push
