@@ -197,7 +197,9 @@ for (const r of raises) {
       flows.push({ ticker: label, track: r.track || '', time_utc: new Date(tx.blockTime * 1000).toISOString(), usdc: delta.toFixed(6), class: cls, approval, market_decision: decision, decision_ref: decisionRef, prior_passed_vote: priorVote,
         counterparty: others.map(o => o.owner).join(' '), signature: s.signature, instructions: [...new Set(names)].join(' ') });
     }
-    const start = Number(r.raised_usd) * 0.8; // 20% to liquidity; no completed raise had a bid wall at time of writing
+    // Starting treasury = the USDC the launchpad actually deposited (CompleteLaunch), read from the chain.
+    // Not raised x 0.8: e.g. Ranger raised 8,000,000 but its treasury received 6,000,000.
+    const start = sums.launch_funding;
     const months = (now - Date.parse(r.completed_utc || r.closed_utc)) / (30.4375 * 864e5);
     // Squads resets a monthly limit every 30 days, so a team can draw a full month at the start of each period.
     const periods = Math.max(1, Math.ceil((now - Date.parse(r.completed_utc || r.closed_utc)) / (30 * 864e5)));
