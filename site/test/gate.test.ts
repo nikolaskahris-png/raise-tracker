@@ -21,7 +21,7 @@ function copy(): string {
 }
 function edit(dir: string, file: string, fn: (s: string) => string): void {
   const p = join(dir, file);
-  const before = readFileSync(p, 'utf8');
+  const before = readFileSync(p, 'utf8').replace(/\r\n?/g, '\n'); // tamper on LF text whatever the checkout did
   const after = fn(before);
   assert.notEqual(after, before, `tamper did not change ${file}`);
   writeFileSync(p, after);
