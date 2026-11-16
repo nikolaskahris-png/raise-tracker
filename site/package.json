@@ -1,0 +1,14 @@
+{
+  "name": "raise-tracker-site",
+  "private": true,
+  "type": "module",
+  "description": "Static site for raise-tracker. No runtime dependencies: TypeScript run by Node's type stripping, tests with node:test.",
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "typecheck": "tsc -p .",
+    "test": "node --test test/money.test.ts test/html.test.ts test/gate.test.ts",
+    "build": "node src/build.ts",
+    "check-html": "node src/check-html.ts",
+    "spot-check": "node src/spot-check.ts"
+  }
+}

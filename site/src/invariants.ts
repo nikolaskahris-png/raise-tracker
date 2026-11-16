@@ -1,0 +1,84 @@
+// The publication gate. Every check here must pass or nothing is published.
+// The same function runs in the build and in the tests (including the tamper tests).
+import { fmtUsd, matchesCents, ratio, toCents } from './money.ts';
+import { FLOW_CLASSES, TRACKS } from './schema.ts';
+import type { Site } from './model.ts';
+
+/** Problems the treasury script reports that the site knows how to show ("not read"). Anything else stops the build. */
+export const KNOWN_PROBLEMS = [/^\S+: treasury USDC account mismatch$/];
+export const MAX_REPORT_GAP_MS = 2 * 60 * 60 * 1000;
+
+export function checkInvariants(site: Site): string[] {
+  const fail: string[] = [];
+  const { inputs } = site;
+  const sr = inputs.scanReport;
+
+  // 1. The scan itself reported no failed check and no decode error.
+  if (sr.failingChecks !== 0) fail.push(`scan-report: ${sr.failingChecks} rows failed a check`);
+  if (sr.decodeErrors !== 0) fail.push(`scan-report: ${sr.decodeErrors} decode errors`);
+  for (const r of site.decoded) if (r.checks !== 'OK') fail.push(`raises.csv ${r.launch}: checks "${r.checks}"`);
+
+  // 2. Counts per track recomputed from raises.csv equal the report.
+  for (const t of TRACKS) {
+    const rs = site.decoded.filter((r) => r.track === t);
+    const c = rs.filter((r) => r.state === 'Complete').length;
+    const f = rs.filter((r) => r.state === 'Refunding').length;
+    const want = sr.tracks[t];
+    if (rs.length !== want.raises || c !== want.complete || f !== want.refunding || rs.length - c - f !== want.other) {
+      fail.push(`track ${t}: raises.csv gives ${rs.length}/${c}/${f}, report says ${want.raises}/${want.complete}/${want.refunding}`);
+    }
+  }
+
+  // 3. Raised amounts and oversubscription are consistent.
+  for (const r of site.decoded) {
+    if (r.state === 'Complete' && r.raised === null) fail.push(`raises.csv ${r.launch}: complete without a raised amount`);
+    if (r.raised !== null && r.raised > 0n) {
+      if (r.oversubscription !== ratio(r.committed, r.raised, 2)) {
+        fail.push(`raises.csv ${r.launch}: oversubscription ${r.oversubscription} != committed/raised ${ratio(r.committed, r.raised, 2)}`);
+      }
+    }
+  }
+
+  // 4. Treasury rows: unique, joined to a raise, reconciled, and every column equals the sum of its movements.
+  const seen = new Set<string>();
+  for (const t of inputs.treasury) {
+    if (seen.has(t.mint)) fail.push(`treasury.csv: ${t.mint} appears twice`);
+    seen.add(t.mint);
+    const company = site.companies.find((c) => c.raise.mint === t.mint);
+    if (!company) { fail.push(`treasury.csv: ${t.label} has no completed raise`); continue; }
+    if (company.raise.raised !== t.raised) fail.push(`${t.label}: raised ${fmtUsd(t.raised)} in treasury.csv, ${company.raise.raised === null ? 'none' : fmtUsd(company.raise.raised)} in raises.csv`);
+    if (company.raise.dao !== t.dao || company.raise.daoVault !== t.daoVault || company.raise.launch !== t.launch) fail.push(`${t.label}: DAO, vault or launch differs between files`);
+    if (!t.reconciles) fail.push(`${t.label}: the script says the history does not reconcile`);
+    const tr = company.treasury;
+    if (!tr) { fail.push(`${t.label}: no treasury model`); continue; }
+    for (const c of FLOW_CLASSES) {
+      if (!matchesCents(tr.byClass[c], t.cols[c])) fail.push(`${t.label}: ${c} movements sum to ${fmtUsd(tr.byClass[c], { decimals: 2 })}, treasury.csv says ${fmtUsd(t.cols[c], { decimals: 2 })}`);
+    }
+    if (!matchesCents(tr.net, t.balanceNow)) fail.push(`${t.label}: movements net to ${fmtUsd(tr.net, { decimals: 2 })}, balance is ${fmtUsd(t.balanceNow, { decimals: 2 })}`);
+    if (tr.flows.filter((f) => f.cls === 'launch_funding').length !== 1) fail.push(`${t.label}: expected exactly one launch deposit`);
+  }
+
+  // 5. Movements: unique signatures per treasury, and every movement belongs to a treasury row.
+  const sigs = new Set<string>();
+  for (const f of inputs.flows) {
+    const key = `${f.mint}:${f.signature}`;
+    if (sigs.has(key)) fail.push(`treasury-flows.csv: ${f.signature} listed twice for ${f.label}`);
+    sigs.add(key);
+    if (!seen.has(f.mint)) fail.push(`treasury-flows.csv: ${f.label} has movements but no treasury row`);
+  }
+
+  // 6. Every company without a treasury has a known, shown problem.
+  for (const c of site.companies) if (!c.treasury && !c.problem) fail.push(`${c.displayName}: no treasury and no reported problem`);
+  for (const p of inputs.treasuryReport.problems) if (!KNOWN_PROBLEMS.some((re) => re.test(p))) fail.push(`treasury-report: unknown problem "${p}"`);
+
+  // 7. The treasury report ran after the scan, on the same data.
+  const gap = inputs.treasuryReport.at.getTime() - sr.at.getTime();
+  if (gap < 0) fail.push('treasury-report is older than scan-report (the treasury step ran on old data)');
+  if (gap > MAX_REPORT_GAP_MS) fail.push('treasury-report is more than 2 hours after scan-report');
+
+  // 8. Totals are not empty (a silent empty file must never publish as zeros).
+  if (site.companies.length === 0 || inputs.flows.length === 0) fail.push('no companies or no movements');
+  if (toCents(site.companies.reduce((a, c) => a + (c.treasury?.totalIn ?? 0n), 0n)) <= 0n) fail.push('total inflow is zero');
+
+  return fail;
+}
