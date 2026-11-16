@@ -32,6 +32,7 @@ if (failures.length) {
 const ctx: Ctx = {
   base: process.env['BASE_PATH'] ?? '/raise-tracker/',
   scanAt: site.inputs.scanReport.at,
+  scanSlot: site.inputs.scanReport.slot,
   commit: commitOf(),
   repo: process.env['GITHUB_REPOSITORY'] ?? 'nikolaskahris-png/raise-tracker',
 };

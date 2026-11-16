@@ -1,6 +1,7 @@
 import { addrUrl, chip, fig, label } from '../fig.ts';
 import { fmtInt } from '../money.ts';
 import { CONFIDENCE, pct1 } from '../stats.ts';
+import { SAMPLE_MOVEMENTS, SAMPLE_TREASURIES } from '../chain-check.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import type { Site } from '../model.ts';
 
@@ -94,6 +95,7 @@ ${PROGRAMS.map((p) => `<tr><td>${label(p.v, 'Launchpad version')}</td><td>${chip
 
 <h2 id="reconcile">Reconciliation</h2>
 <p>For each treasury we add up every movement, positive in and negative out, and compare the total with the balance read in the same scan. A treasury is shown only if they agree. Amounts are added as whole numbers of micro-USDC (USDC has six decimals), never as floating-point numbers, so no amount is lost to rounding.</p>
+<p>The data keeps the slot the scan started at (shown at the top of every page, linked to its block) and, for each treasury, the slot at which its balance was read (<code>balance_slot</code> in treasury.csv). A balance on this site is the balance at that slot; the explorer shows today's.</p>
 
 <h2 id="names">Names</h2>
 <p>A company's name and symbol are read from its token's <b>onchain metadata</b>, the Metaplex metadata account derived from the token's mint. Each company page links that account. The metadata is set by whoever controls it, usually the team or the launchpad, so a name is a declaration, not a verified fact.</p>
@@ -109,7 +111,8 @@ ${PROGRAMS.map((p) => `<tr><td>${label(p.v, 'Launchpad version')}</td><td>${chip
 <li>every treasury reconciles, and every total and balance equals the exact sum of its movements, to the cent;</li>
 <li>the treasury scan ran after the raise scan, on the same data;</li>
 <li>any problem the scan reports is a known kind, shown on the site as "not read" and never as zero;</li>
-<li>after the build, every number on every page is a linked figure, and a sample of balances and transactions is re-read from the chain and compared.</li>
+<li>after the build, every digit on every page is a linked figure, a date, an address, a labelled rule of the method or a verbatim quote;</li>
+<li>the chain is read again before publishing. For ${L(fmtInt(SAMPLE_TREASURIES))} treasuries picked at random, the USDC account is read now; every successful transaction on it after the slot at which the scan read it is subtracted; the result must equal the balance shown, to the micro-USDC. ${L(fmtInt(SAMPLE_MOVEMENTS))} movements picked at random are read again and must match to the micro-USDC. If the chain cannot be reached, nothing is published.</li>
 </ul>
 
 <h2 id="limits">What we do not know yet</h2>

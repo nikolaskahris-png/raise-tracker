@@ -5,6 +5,7 @@
 export type Source =
   | { readonly kind: 'tx'; readonly signature: string }
   | { readonly kind: 'account'; readonly address: string }
+  | { readonly kind: 'block'; readonly slot: number }
   | { readonly kind: 'sum'; readonly href: string; readonly what: string }
   | { readonly kind: 'formula'; readonly href: string; readonly formula: string }
   | { readonly kind: 'declared'; readonly href: string; readonly by: string };
@@ -12,6 +13,7 @@ export type Source =
 export const EXPLORER = 'https://explorer.solana.com';
 export const txUrl = (sig: string): string => `${EXPLORER}/tx/${sig}`;
 export const addrUrl = (a: string): string => `${EXPLORER}/address/${a}`;
+export const blockUrl = (slot: number): string => `${EXPLORER}/block/${slot}`;
 
 export function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -24,6 +26,7 @@ function mark(src: Source, dark: boolean): string {
   switch (src.kind) {
     case 'tx':
     case 'account':
+    case 'block':
       return `<span class="mk mk-v${dk}" aria-hidden="true">${CHECK}</span>`;
     case 'sum':
       return `<span class="mk mk-s${dk}" aria-hidden="true">Σ</span>`;
@@ -38,6 +41,7 @@ function hrefOf(src: Source): string {
   switch (src.kind) {
     case 'tx': return txUrl(src.signature);
     case 'account': return addrUrl(src.address);
+    case 'block': return blockUrl(src.slot);
     case 'sum':
     case 'formula':
     case 'declared': return src.href;
@@ -48,6 +52,7 @@ function titleOf(src: Source): string {
   switch (src.kind) {
     case 'tx': return 'Verified onchain: opens the transaction';
     case 'account': return 'Verified onchain: opens the account it is read from';
+    case 'block': return 'Verified onchain: opens the block at this slot';
     case 'sum': return `Sum of ${src.what}`;
     case 'formula': return `Computed: ${src.formula}`;
     case 'declared': return `Declared by ${src.by}, not onchain`;

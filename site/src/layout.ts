@@ -1,9 +1,11 @@
 // Page shell and stylesheet, ported from the design canvas (raise-tracker design, 16 Nov 2026).
-import { chip, date, esc } from './fig.ts';
+import { chip, date, esc, fig } from './fig.ts';
+import { fmtInt } from './money.ts';
 
 export type Ctx = {
   readonly base: string; // URL prefix, e.g. "/raise-tracker/"
   readonly scanAt: Date;
+  readonly scanSlot: number; // slot the scan started at
   readonly commit: string | null; // data commit the site was built from
   readonly repo: string;
 };
@@ -43,7 +45,7 @@ ${nav(url(ctx, 'methodology/'), 'Methodology', o.active === 'methodology')}
 </div>
 </header>
 <div class="banner"><div class="wrap banner-in">
-<span class="banner-lead"><span class="dot" aria-hidden="true"></span>Data from the scan of ${date(ctx.scanAt, 'minute')}</span>
+<span class="banner-lead"><span class="dot" aria-hidden="true"></span>Data from the scan of ${date(ctx.scanAt, 'minute')}, slot ${fig(fmtInt(ctx.scanSlot), { kind: 'block', slot: ctx.scanSlot }, { dark: true, style: 'color:#FFFFFF' })}</span>
 <span>${o.banner ?? 'Rebuilt automatically after every scan. If a check fails, the previous version stays up.'}</span>
 ${commit}
 </div></div>
