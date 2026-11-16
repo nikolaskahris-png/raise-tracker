@@ -1,0 +1,60 @@
+name: site
+# Builds the public site from the latest data and publishes it to GitHub Pages.
+# Runs after every scan. If any check fails, nothing is deployed and the previous version stays online.
+on:
+  workflow_run:
+    workflows: [scan-raises]
+    types: [completed]
+  push:
+    branches: [main]
+    paths: ['site/**', 'registry/**', '.github/workflows/site.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install the typechecker (development only; the site has no runtime dependencies)
+        working-directory: site
+        run: npm install --no-save --no-package-lock typescript@7.0.2 @types/node@22
+      - name: Typecheck
+        working-directory: site
+        run: npx tsc -p .
+      - name: Tests (frozen data, tamper tests, HTML checks)
+        working-directory: site
+        run: npm test
+      - name: Build from the latest data (publication gate and HTML checks)
+        working-directory: site
+        env:
+          BASE_PATH: /raise-tracker/
+        run: node src/build.ts
+      - name: Re-read a sample from the chain
+        working-directory: site
+        env:
+          HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
+        run: node src/spot-check.ts
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
