@@ -20,6 +20,8 @@ async function rpc(method, params) {
   throw new Error(`${method}: gave up after retries`);
 }
 
+// The slot the scan starts at, kept in the data so every figure can be dated onchain.
+const scanSlot = await rpc('getSlot', [{ commitment: 'confirmed' }]);
 const disc = createHash('sha256').update('account:Launch').digest().subarray(0, 8);
 const discB58 = b58e(disc);
 
@@ -96,14 +98,14 @@ const cols = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading',
 const esc = s => { s = s === undefined || s === null ? '' : String(s); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
 mkdirSync('data', { recursive: true });
 writeFileSync('data/raises.csv', [cols.join(',')].concat(rows.map(r => cols.map(c => esc(r[c])).join(','))).join('\n') + '\n');
-writeFileSync('data/raises.json', JSON.stringify({ scanned_at: new Date().toISOString(), programs: PROGRAMS, counts, rows }, null, 1));
+writeFileSync('data/raises.json', JSON.stringify({ scanned_at: new Date().toISOString(), scanned_slot: scanSlot, programs: PROGRAMS, counts, rows }, null, 1));
 
 const dec = rows.filter(r => r.decoded === 'yes');
 const byState = {}; for (const r of dec) byState[r.state] = (byState[r.state] || 0) + 1;
 const trackStats = t => { const set = dec.filter(r => r.track === t); const c = set.filter(r => r.state === 'Complete').length, f = set.filter(r => r.state === 'Refunding').length; return `- ${t}: ${set.length} raises, ${c} complete, ${f} refunding, ${set.length - c - f} other${c + f ? `, success ${(100 * c / (c + f)).toFixed(1)}% of finished` : ''}`; };
 const failedChecks = dec.filter(r => r.checks !== 'OK');
 const report = [
-  `# Scan report — ${new Date().toISOString()}`, '',
+  `# Scan report — ${new Date().toISOString()}`, '', `Slot at the start of the scan: ${scanSlot}`, '',
   '## Launch accounts per program', ...Object.entries(counts).map(([v, n]) => `- ${v} (${PROGRAMS[v]}): ${n}${DECODABLE.has(v) ? '' : ' — not decoded (older layout)'}`), '',
   '## By track', trackStats('curated'), trackStats('permissionless'), trackStats('test'), '',
   '## Decoded raises by state', ...Object.entries(byState).map(([s, n]) => `- ${s}: ${n}`), '',

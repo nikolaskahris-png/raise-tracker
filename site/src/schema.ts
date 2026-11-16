@@ -167,6 +167,8 @@ export type TreasuryRow = {
   readonly usdcAccount: string;
   readonly multisig: string;
   readonly spendingLimitAccount: string | null;
+  /** Slot at which the scan read this treasury's balance: at that slot the balance equals the sum of the movements. */
+  readonly balanceSlot: number;
 };
 
 export const FLOW_CLASSES = ['launch_funding', 'inflow_other', 'team_budget', 'market_approved', 'admin_after_vote', 'admin_vote_passed_after', 'admin_vote_no_finalize', 'admin_no_vote_found', 'admin_against_market', 'liquidation', 'other_out'] as const;
@@ -189,7 +191,7 @@ const CLASS_COLUMN: Record<FlowClass, string> = {
 export function parseTreasury(text: string): TreasuryRow[] {
   const F = 'treasury.csv';
   const { header, rows } = parseCsv(text, F);
-  requireColumns(F, header, ['ticker', 'base_mint', 'launch', 'dao', 'dao_vault', 'track', 'raised_usd', 'balance_now_usd', ...Object.values(CLASS_COLUMN), 'periods_started', 'monthly_budget_usd', 'spending_limit_now_usd', 'limit_changed', 'reconciles', 'treasury_usdc_account', 'squads_multisig', 'spending_limit_account']);
+  requireColumns(F, header, ['ticker', 'base_mint', 'launch', 'dao', 'dao_vault', 'track', 'raised_usd', 'balance_now_usd', ...Object.values(CLASS_COLUMN), 'periods_started', 'monthly_budget_usd', 'spending_limit_now_usd', 'limit_changed', 'reconciles', 'treasury_usdc_account', 'squads_multisig', 'spending_limit_account', 'balance_slot']);
   return rows.map((r) => {
     const cols = {} as Record<FlowClass, Micro>;
     for (const c of FLOW_CLASSES) cols[c] = money(F, r, CLASS_COLUMN[c]);
@@ -211,6 +213,7 @@ export function parseTreasury(text: string): TreasuryRow[] {
       usdcAccount: addr(F, r, 'treasury_usdc_account'),
       multisig: addr(F, r, 'squads_multisig'),
       spendingLimitAccount: optAddr(F, r, 'spending_limit_account'),
+      balanceSlot: int(F, r, 'balance_slot'),
     };
   });
 }
@@ -279,6 +282,8 @@ export function parseFlows(text: string): Flow[] {
 
 export type ScanReport = {
   readonly at: Date;
+  /** Slot the scan started at. */
+  readonly slot: number;
   readonly failingChecks: number;
   readonly decodeErrors: number;
   readonly tracks: Readonly<Record<Track, { raises: number; complete: number; refunding: number; other: number }>>;
@@ -290,16 +295,17 @@ const lf = (s: string): string => s.replace(/\r\n?/g, '\n');
 export function parseScanReport(raw: string): ScanReport {
   const md = lf(raw);
   const at = /^# Scan report — (\S+)$/m.exec(md)?.[1];
+  const slot = /^Slot at the start of the scan: (\d+)$/m.exec(md)?.[1];
   const failing = /^## Rows failing a check: (\d+)$/m.exec(md)?.[1];
   const errors = /^## Decode errors: (\d+)$/m.exec(md)?.[1];
-  if (!at || failing === undefined || errors === undefined) throw new SchemaError('scan-report.md: unexpected format');
+  if (!at || slot === undefined || failing === undefined || errors === undefined) throw new SchemaError('scan-report.md: unexpected format');
   const tracks = {} as Record<Track, { raises: number; complete: number; refunding: number; other: number }>;
   for (const t of TRACKS) {
     const m = new RegExp(`^- ${t}: (\\d+) raises, (\\d+) complete, (\\d+) refunding, (\\d+) other`, 'm').exec(md);
     if (!m) throw new SchemaError(`scan-report.md: no line for track ${t}`);
     tracks[t] = { raises: Number(m[1]), complete: Number(m[2]), refunding: Number(m[3]), other: Number(m[4]) };
   }
-  return { at: new Date(at), failingChecks: Number(failing), decodeErrors: Number(errors), tracks };
+  return { at: new Date(at), slot: Number(slot), failingChecks: Number(failing), decodeErrors: Number(errors), tracks };
 }
 
 export type TreasuryReport = { readonly at: Date; readonly problems: readonly string[] };

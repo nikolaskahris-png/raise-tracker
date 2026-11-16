@@ -249,7 +249,7 @@ for (const r of raises) {
       months_since_raise: months.toFixed(2), periods_started: periods, monthly_budget_usd: r.monthly_budget_usd, budget_allowed_usd: allowed.toFixed(2),
       spending_limit_now_usd: slNow ? slNow.amount.toFixed(2) : '', spending_limit_period: slNow ? slNow.period : '', limit_changed: slNow ? (Math.abs(slNow.amount - Number(r.monthly_budget_usd)) > 0.005 ? 'yes' : 'no') : 'unknown',
       max_30day_team_draw_usd: maxWindow.toFixed(2),
-      team_budget_used_pct: allowed > 0 ? (100 * sums.team_budget / allowed).toFixed(1) : '', reconciles: reconciles ? 'yes' : 'NO', treasury_usdc_account: ata, squads_multisig: multisig, spending_limit_account: slAddr });
+      team_budget_used_pct: allowed > 0 ? (100 * sums.team_budget / allowed).toFixed(1) : '', reconciles: reconciles ? 'yes' : 'NO', treasury_usdc_account: ata, squads_multisig: multisig, spending_limit_account: slAddr, balance_slot: acct.context.slot });
   } catch (e) { problems.push(`${label}: ${e.message}`); }
 }
 
