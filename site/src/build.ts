@@ -1,5 +1,5 @@
 // Build: read data → check every invariant → render pages → write dist/. Any failure exits non-zero and nothing is written.
-import { copyFileSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -51,7 +51,10 @@ const write = (rel: string, content: string) => {
   mkdirSync(dirname(p), { recursive: true });
   writeFileSync(p, content);
 };
-write('site.css', CSS);
+// Typefaces are served by the site itself (assets/fonts, SIL Open Font License): no request goes to Google.
+const FONTS = join(here, '..', 'assets', 'fonts');
+for (const f of readdirSync(FONTS)) if (f !== 'fonts.css') copyFileSync(join(FONTS, f), (mkdirSync(join(out, 'fonts'), { recursive: true }), join(out, 'fonts', f)));
+write('site.css', readFileSync(join(FONTS, 'fonts.css'), 'utf8') + CSS);
 write('index.html', homePage(ctx, site));
 write('404.html', notFoundPage(ctx));
 for (const c of site.companies) {

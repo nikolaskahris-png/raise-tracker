@@ -41,9 +41,6 @@ export function page(ctx: Ctx, o: { title: string; description: string; active?:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(o.title)}</title>
 <meta name="description" content="${esc(o.description)}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Inter+Tight:wght@500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${url(ctx, 'site.css')}">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='1' y='1' width='20' height='20' rx='6' fill='white' stroke='%230A0B0F' stroke-width='1.6'/%3E%3Cpath d='M6 14.5h3.2M6 11h6.5M6 7.5h10' stroke='%232A44E8' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
