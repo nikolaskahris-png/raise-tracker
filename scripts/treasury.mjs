@@ -158,7 +158,7 @@ const summary = [], flows = [], seen = {}, problems = [];
 const now = Date.now();
 
 for (const r of raises) {
-  const label = r.ticker || r.base_mint.slice(0, 8);
+  const label = r.metadata_symbol || r.base_mint.slice(0, 8); // the onchain symbol, else the mint prefix
   try {
     const ata = usdcAta(r.dao_vault), multisig = squadsMultisig(r.dao);
     const acct = await rpc('getAccountInfo', [ata, { encoding: 'jsonParsed' }]);

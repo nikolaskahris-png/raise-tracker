@@ -78,9 +78,6 @@ export type Raise = {
   readonly decoded: true;
   readonly version: Version;
   readonly launch: string;
-  readonly ticker: string | null;
-  readonly apiName: string | null;
-  readonly stillTrading: boolean;
   readonly metadataAccount: string | null; // Metaplex metadata account of the token, null if it has none
   readonly metadataName: string | null; // name the token declares onchain
   readonly metadataSymbol: string | null;
@@ -106,7 +103,7 @@ export type Raise = {
   readonly checks: string;
 };
 
-const RAISE_COLS = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'token_decimals', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'] as const;
+const RAISE_COLS = ['version', 'launch', 'decoded', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'token_decimals', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'] as const;
 
 export function parseRaises(text: string): (Raise | UndecodedLaunch)[] {
   const F = 'raises.csv';
@@ -125,9 +122,6 @@ export function parseRaises(text: string): (Raise | UndecodedLaunch)[] {
       decoded: true,
       version,
       launch,
-      ticker: r.get('ticker') || null,
-      apiName: r.get('name') || null,
-      stillTrading: oneOf(F, r, 'still_trading', ['yes', 'no'] as const) === 'yes',
       metadataAccount: optAddr(F, r, 'metadata_account'),
       metadataName: r.get('metadata_name') || null,
       metadataSymbol: r.get('metadata_symbol') || null,
