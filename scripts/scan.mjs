@@ -2,6 +2,7 @@
 // Needs env HELIUS_API_KEY (GitHub Actions secret). Writes data/raises.csv, data/raises.json, data/scan-report.md
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { makeRpc } from './rpc.mjs';
 import { b58e, b58d, PROGRAMS, DECODABLE, decodeLaunch, raisedAmount, checks, metadataAddress, decodeMetadata } from './decode.mjs';
 
 const KEY = process.env.HELIUS_API_KEY;
@@ -9,16 +10,7 @@ if (!KEY) { console.error('HELIUS_API_KEY is not set'); process.exit(1); }
 const RPC = `https://mainnet.helius-rpc.com/?api-key=${KEY}`;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-async function rpc(method, params) {
-  for (let a = 1; a <= 5; a++) {
-    const r = await fetch(RPC, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }) });
-    if (r.status === 429 || r.status >= 500) { await sleep(1000 * a); continue; }
-    const j = await r.json();
-    if (j.error) throw new Error(`${method}: ${JSON.stringify(j.error)}`);
-    return j.result;
-  }
-  throw new Error(`${method}: gave up after retries`);
-}
+const { rpc } = makeRpc(RPC, { minGapMs: 0 }); // retries network failures too (scripts/rpc.mjs)
 
 // The slot the scan starts at, kept in the data so every figure can be dated onchain.
 const scanSlot = await rpc('getSlot', [{ commitment: 'confirmed' }]);
