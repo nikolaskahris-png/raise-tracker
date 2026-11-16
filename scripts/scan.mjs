@@ -2,7 +2,7 @@
 // Needs env HELIUS_API_KEY (GitHub Actions secret). Writes data/raises.csv, data/raises.json, data/scan-report.md
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { b58e, b58d, PROGRAMS, DECODABLE, decodeLaunch, raisedAmount, checks } from './decode.mjs';
+import { b58e, b58d, PROGRAMS, DECODABLE, decodeLaunch, raisedAmount, checks, metadataAddress, decodeMetadata } from './decode.mjs';
 
 const KEY = process.env.HELIUS_API_KEY;
 if (!KEY) { console.error('HELIUS_API_KEY is not set'); process.exit(1); }
@@ -70,8 +70,29 @@ for (const [v, prog] of Object.entries(PROGRAMS)) {
   await sleep(400); // free plan: getProgramAccounts is limited to 5/sec
 }
 
+// Onchain token metadata (Metaplex): the name and symbol the token itself declares. Read for every decoded raise.
+{
+  const dec = rows.filter(r => r.decoded === 'yes');
+  for (let i = 0; i < dec.length; i += 100) {
+    const batch = dec.slice(i, i + 100);
+    const addrs = batch.map(r => metadataAddress(r.base_mint));
+    const res = await rpc('getMultipleAccounts', [addrs, { encoding: 'base64', commitment: 'confirmed' }]);
+    batch.forEach((r, j) => {
+      const acct = res.value[j];
+      r.metadata_account = acct ? addrs[j] : '';
+      if (!acct) { r.metadata_name = ''; r.metadata_symbol = ''; return; }
+      try {
+        const m = decodeMetadata(Buffer.from(acct.data[0], 'base64'));
+        if (m.mint !== r.base_mint) throw new Error('metadata names another mint');
+        r.metadata_name = m.name; r.metadata_symbol = m.symbol;
+      } catch (e) { problems.push(`${r.launch}: token metadata: ${e.message}`); r.metadata_name = ''; r.metadata_symbol = ''; }
+    });
+    await sleep(150);
+  }
+}
+
 rows.sort((x, y) => (x.started_utc || '').localeCompare(y.started_utc || ''));
-const cols = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'];
+const cols = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'];
 const esc = s => { s = s === undefined || s === null ? '' : String(s); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
 mkdirSync('data', { recursive: true });
 writeFileSync('data/raises.csv', [cols.join(',')].concat(rows.map(r => cols.map(c => esc(r[c])).join(','))).join('\n') + '\n');

@@ -54,7 +54,7 @@ mkdirSync(join(out, 'data'), { recursive: true });
 for (const f of ['raises.csv', 'treasury.csv', 'treasury-flows.csv', 'scan-report.md', 'treasury-report.md']) copyFileSync(join(dataDir, f), join(out, 'data', f));
 writeFileSync(join(out, '.nojekyll'), '');
 
-const htmlProblems = checkHtmlDir(out, site.companies.map((c) => c.raise.mint));
+const htmlProblems = checkHtmlDir(out, site.companies.map((c) => c.raise.mint), new Set([...site.inputs.names.values()].map((n) => n.quote)));
 if (htmlProblems.length) {
   console.error(`Built pages failed ${htmlProblems.length} check(s):`);
   for (const p of htmlProblems.slice(0, 50)) console.error(`  - ${p}`);

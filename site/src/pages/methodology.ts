@@ -36,8 +36,8 @@ export function methodologyPage(ctx: Ctx, site: Site): string {
 <ul>
 <li><b>Solana mainnet</b>, read through a standard RPC provider. Every raise, balance and movement comes from here.</li>
 <li><b>MetaDAO's open-source programs</b> (<a href="https://github.com/metaDAOproject/programs" rel="noopener">github.com/metaDAOproject/programs</a>). We decode accounts with the field layouts in that code, one layout per program version.</li>
-<li><b>MetaDAO's public market API</b>, only for a token's name and ticker. Names are marked as declared, because they are not onchain.</li>
-<li><b>Press reports</b>, only for the names of tokens that are not in that API. Each such page links its source and says how it was matched to the chain.</li>
+<li><b>Each token's onchain metadata</b> (its Metaplex metadata account), for the company's name and symbol. It is onchain and anyone can read it, but whoever controls the token's metadata chose it, so names are marked as declared.</li>
+<li><b>Published articles</b>, only to add a project name that the onchain metadata does not give. We quote the sentence word for word, with the article's date and the day we read it, and take nothing else from it.</li>
 </ul>
 <p>We do not collect from websites whose terms forbid automated collection, and we never compile information about a person. Founder information appears only when founders add it themselves.</p>
 
@@ -69,7 +69,7 @@ ${PROGRAMS.map((p) => `<tr><td>${label(p.v, 'Launchpad version')}</td><td>${chip
 <ul>
 ${Object.entries(ADMIN_KEYS).map(([k, v]) => `<li>${chip(k, 'address')} ${v}</li>`).join('')}
 </ul>
-<p>For every movement approved this way we show the most recent proposal that passed on the same DAO in the ${L('60')} days before it, and how many days earlier it was enqueued. <b>This is context, not proof.</b> It tells you which decision to read; it does not prove that the proposal approved that exact amount. Two cases are confirmed by press: Ranger Finance's liquidation in <time datetime="2026-03">March 2026</time> and ZKFG's proposal ${label('008', 'Proposal name used in the press')}. A movement with no passed proposal in that window, or whose own proposal did not pass, is labelled as such and listed first.</p>
+<p>For every movement approved this way we show the most recent proposal that passed on the same DAO in the ${L('60')} days before it, and how many days earlier it was enqueued. <b>This is context, not proof.</b> It tells you which decision to read; it does not prove that the proposal approved that exact amount. A movement with no passed proposal in that window, or whose own proposal did not pass, is labelled as such and listed first.</p>
 
 <h2 id="budget">Team budget</h2>
 <p>The team's monthly allowance is a Squads spending limit with a ${L('30-day')} period. <b>Allowed at the launch limit</b> is the number of periods started since the raise times the monthly limit set at launch. A DAO can change its limit by proposal, so we also read the current limit. When it differs from the launch limit, the page says so and marks the change as pending until the transaction that changed it is linked. Draws above the launch limit are not judged while that is pending.</p>
@@ -78,7 +78,9 @@ ${Object.entries(ADMIN_KEYS).map(([k, v]) => `<li>${chip(k, 'address')} ${v}</li
 <p>For each treasury we add up every movement, positive in and negative out, and compare the total with the balance read in the same scan. A treasury is shown only if they agree. Amounts are added as whole numbers of micro-USDC (USDC has six decimals), never as floating-point numbers, so no amount is lost to rounding.</p>
 
 <h2 id="names">Names</h2>
-<p>A token's name comes from MetaDAO's market API when it is listed there. Tokens that no longer trade are not listed; for those, a name is taken from a press report only when the chain matches the report (for example the exact amount and date of a payout), and the page shows the source and the match. Otherwise the company is shown by its mint address with the name pending.</p>
+<p>A company's name and symbol are read from its token's <b>onchain metadata</b>, the Metaplex metadata account derived from the token's mint. Each company page links that account. The metadata is set by whoever controls it, usually the team or the launchpad, so a name is a declaration, not a verified fact.</p>
+<p>When an article names the project behind a token more fully than the metadata does, the page shows the article's sentence <b>word for word</b>, the publisher, the date it was published and the day we read it. The build refuses a quote unless it names the token's onchain symbol, so a quote cannot be attached to the wrong token. We do not take amounts, dates or any other fact from articles: every figure comes from the chain.</p>
+<p>A token without onchain metadata is shown by its mint address, with the name marked as pending.</p>
 
 <h2 id="gate">The publication gate</h2>
 <p>The data is rescanned every day. The site is rebuilt only from data that passes every check below. If any check fails, nothing is published and the previous version stays online:</p>

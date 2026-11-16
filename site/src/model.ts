@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { sum, type Micro } from './money.ts';
 import {
   FLOW_CLASSES, parseFlows, parseNames, parseRaises, parseScanReport, parseTreasury, parseTreasuryReport,
-  type DeclaredName, type Flow, type FlowClass, type Raise, type ScanReport, type TreasuryReport, type TreasuryRow, type UndecodedLaunch,
+  type PressName, type Flow, type FlowClass, type Raise, type ScanReport, type TreasuryReport, type TreasuryRow, type UndecodedLaunch,
 } from './schema.ts';
 
 export const MIN_REAL_RAISE: Micro = 10_000_000_000n; // $10,000, same rule as scripts/scan.mjs
@@ -15,7 +15,7 @@ export type Inputs = {
   readonly flows: readonly Flow[];
   readonly scanReport: ScanReport;
   readonly treasuryReport: TreasuryReport;
-  readonly names: ReadonlyMap<string, DeclaredName>;
+  readonly names: ReadonlyMap<string, PressName>;
 };
 
 export function readInputs(dataDir: string, registryDir: string): Inputs {
@@ -30,9 +30,12 @@ export function readInputs(dataDir: string, registryDir: string): Inputs {
   };
 }
 
+/**
+ * A company name. "onchain": the name and symbol the token declares in its Metaplex metadata account
+ * (verifiable onchain, but set by whoever controls the metadata). "press" adds a project name quoted verbatim from an article.
+ */
 export type Name =
-  | { readonly kind: 'api'; readonly name: string }
-  | { readonly kind: 'declared'; readonly name: string; readonly source: string; readonly basis: string }
+  | { readonly kind: 'onchain'; readonly name: string; readonly symbol: string; readonly account: string; readonly press: PressName | null }
   | { readonly kind: 'none' };
 
 export type Treasury = {
@@ -61,11 +64,17 @@ export type Site = {
   readonly allFlows: readonly Flow[];
 };
 
-export function nameOf(r: Raise, names: ReadonlyMap<string, DeclaredName>): Name {
-  if (r.apiName) return { kind: 'api', name: r.apiName };
-  const d = names.get(r.mint);
-  if (d) return { kind: 'declared', ...d };
+export function nameOf(r: Raise, names: ReadonlyMap<string, PressName>): Name {
+  if (r.metadataAccount && r.metadataName && r.metadataSymbol) {
+    return { kind: 'onchain', name: r.metadataName, symbol: r.metadataSymbol, account: r.metadataAccount, press: names.get(r.mint) ?? null };
+  }
   return { kind: 'none' };
+}
+
+/** "Project (SYMBOL)" when a press name adds the project, else the onchain name, else the mint prefix. */
+export function displayNameOf(r: Raise, name: Name): string {
+  if (name.kind === 'onchain') return name.press ? `${name.press.project} (${name.symbol})` : name.name;
+  return `${r.mint.slice(0, 8)}…`;
 }
 
 export function buildSite(inputs: Inputs): Site {
@@ -85,7 +94,7 @@ export function buildSite(inputs: Inputs): Site {
     .filter((r) => r.state === 'Complete' && r.dao !== null)
     .map((r) => {
       const name = nameOf(r, inputs.names);
-      const displayName = name.kind === 'none' ? (r.ticker ?? `${r.mint.slice(0, 8)}…`) : name.name;
+      const displayName = displayNameOf(r, name);
       const row = treasuryByMint.get(r.mint);
       let treasury: Treasury | null = null;
       if (row) {

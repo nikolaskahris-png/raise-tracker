@@ -75,6 +75,9 @@ export type Raise = {
   readonly ticker: string | null;
   readonly apiName: string | null;
   readonly stillTrading: boolean;
+  readonly metadataAccount: string | null; // Metaplex metadata account of the token, null if it has none
+  readonly metadataName: string | null; // name the token declares onchain
+  readonly metadataSymbol: string | null;
   readonly mint: string;
   readonly state: LaunchState;
   readonly launchAuthority: string;
@@ -96,7 +99,7 @@ export type Raise = {
   readonly checks: string;
 };
 
-const RAISE_COLS = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'] as const;
+const RAISE_COLS = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'] as const;
 
 export function parseRaises(text: string): (Raise | UndecodedLaunch)[] {
   const F = 'raises.csv';
@@ -118,6 +121,9 @@ export function parseRaises(text: string): (Raise | UndecodedLaunch)[] {
       ticker: r.get('ticker') || null,
       apiName: r.get('name') || null,
       stillTrading: oneOf(F, r, 'still_trading', ['yes', 'no'] as const) === 'yes',
+      metadataAccount: optAddr(F, r, 'metadata_account'),
+      metadataName: r.get('metadata_name') || null,
+      metadataSymbol: r.get('metadata_symbol') || null,
       mint: addr(F, r, 'base_mint'),
       state: oneOf(F, r, 'state', STATES),
       launchAuthority: addr(F, r, 'launch_authority'),
@@ -305,19 +311,35 @@ export function parseTreasuryReport(raw: string): TreasuryReport {
 
 // ---- registry/names.json ------------------------------------------------------------------------
 
-export type DeclaredName = { readonly name: string; readonly source: string; readonly basis: string };
+/** A project name quoted verbatim from a published article. Dates are YYYY-MM-DD. */
+export type PressName = {
+  readonly project: string;
+  readonly quote: string;
+  readonly source: string;
+  readonly publisher: string;
+  readonly published: string;
+  readonly read: string;
+};
 
-export function parseNames(json: string): ReadonlyMap<string, DeclaredName> {
+const DAY = /^\d{4}-\d{2}-\d{2}$/;
+
+export function parseNames(json: string): ReadonlyMap<string, PressName> {
   const raw = JSON.parse(json) as Record<string, unknown>;
-  const out = new Map<string, DeclaredName>();
+  const out = new Map<string, PressName>();
   for (const [k, v] of Object.entries(raw)) {
     if (k.startsWith('_')) continue;
     if (!BASE58.test(k)) throw new SchemaError(`names.json: key ${k} is not a mint`);
-    const o = v as Record<string, unknown>;
-    if (typeof o['name'] !== 'string' || typeof o['basis'] !== 'string' || typeof o['source'] !== 'string' || !/^https:\/\//.test(o['source'])) {
-      throw new SchemaError(`names.json: ${k} needs name, https source and basis`);
-    }
-    out.set(k, { name: o['name'], source: o['source'], basis: o['basis'] });
+    const o = (v ?? {}) as Record<string, unknown>;
+    const s = (f: string): string => {
+      const x = o[f];
+      if (typeof x !== 'string' || x.trim() === '') throw new SchemaError(`names.json: ${k} needs ${f}`);
+      return x;
+    };
+    const entry: PressName = { project: s('project'), quote: s('quote'), source: s('source'), publisher: s('publisher'), published: s('published'), read: s('read') };
+    if (!/^https:\/\//.test(entry.source)) throw new SchemaError(`names.json: ${k} source must be an https URL`);
+    for (const d of ['published', 'read'] as const) if (!DAY.test(entry[d]) || Number.isNaN(Date.parse(entry[d]))) throw new SchemaError(`names.json: ${k} ${d} must be YYYY-MM-DD`);
+    if (entry.quote.length > 300) throw new SchemaError(`names.json: ${k} quote is longer than a short excerpt`);
+    out.set(k, entry);
   }
   return out;
 }

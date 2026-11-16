@@ -76,6 +76,16 @@ export function checkInvariants(site: Site): string[] {
   if (gap < 0) fail.push('treasury-report is older than scan-report (the treasury step ran on old data)');
   if (gap > MAX_REPORT_GAP_MS) fail.push('treasury-report is more than 2 hours after scan-report');
 
+  // 8a. Names. Every press name belongs to a company on the site, and its verbatim quote names the token's onchain symbol,
+  //     so a quote can never be attached to the wrong token.
+  for (const [mint, press] of inputs.names) {
+    const c = site.companies.find((x) => x.raise.mint === mint);
+    if (!c) { fail.push(`names.json: ${mint} is not a company on the site`); continue; }
+    if (c.name.kind !== 'onchain') { fail.push(`names.json: ${mint} has no onchain metadata to match the quote against`); continue; }
+    const sym = c.name.symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (!new RegExp(`(^|[^A-Za-z0-9])\\$?${sym}([^A-Za-z0-9]|$)`).test(press.quote)) fail.push(`names.json: the quote for ${mint} does not name the onchain symbol ${c.name.symbol}`);
+  }
+
   // 8. Totals are not empty (a silent empty file must never publish as zeros).
   if (site.companies.length === 0 || inputs.flows.length === 0) fail.push('no companies or no movements');
   if (toCents(site.companies.reduce((a, c) => a + (c.treasury?.totalIn ?? 0n), 0n)) <= 0n) fail.push('total inflow is zero');

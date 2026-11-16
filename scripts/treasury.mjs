@@ -10,7 +10,7 @@
 //   other            anything else (reported with the instruction names seen, so it can be reviewed)
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { b58e, b58d, USDC } from './decode.mjs';
+import { b58e, b58d, USDC, pda } from './decode.mjs';
 
 const KEY = process.env.HELIUS_API_KEY;
 if (!KEY) { console.error('HELIUS_API_KEY is not set'); process.exit(1); }
@@ -45,12 +45,6 @@ async function rpc(method, params) {
   throw new Error(`${method}: gave up after retries`);
 }
 
-// Program-derived address (same algorithm as Solana's findProgramAddress).
-const P = 2n ** 255n - 19n;
-const mp = (b, e) => { let r = 1n; b %= P; while (e > 0n) { if (e & 1n) r = r * b % P; b = b * b % P; e >>= 1n; } return r; };
-const D = ((-121665n * mp(121666n, P - 2n)) % P + P) % P;
-function onCurve(h) { let y = 0n; for (let i = 31; i >= 0; i--) y = y * 256n + BigInt(h[i]); const s = y >> 255n; y &= (1n << 255n) - 1n; if (y >= P) return false; const u = (y * y - 1n + P) % P, v = (D * y % P * y + 1n) % P; const x2 = u * mp(v, P - 2n) % P; if (x2 === 0n) return s === 0n; return mp(x2, (P - 1n) / 2n) === 1n; }
-function pda(seeds, prog) { const pid = b58d(prog); for (let bump = 255; bump >= 0; bump--) { const h = createHash('sha256').update(Buffer.concat([...seeds.map(s => Buffer.from(s)), Buffer.from([bump]), Buffer.from(pid), Buffer.from('ProgramDerivedAddress')])).digest(); if (!onCurve(h)) return b58e(h); } throw new Error('no pda'); }
 const enc = s => new TextEncoder().encode(s);
 const usdcAta = owner => pda([b58d(owner), b58d(TOKEN), b58d(USDC)], ATA);
 const squadsMultisig = dao => pda([enc('multisig'), enc('multisig'), b58d(dao)], SQUADS);
