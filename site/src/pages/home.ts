@@ -1,12 +1,13 @@
-import { duration, fig, label, esc, txUrl } from '../fig.ts';
+import { chip, duration, fig, label, esc, txUrl } from '../fig.ts';
 import { fmtInt, fmtUsd, pct, sum, type Micro } from '../money.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import { displayName } from './company.ts';
 import { MIN_REAL_RAISE, type Company, type Site } from '../model.ts';
-import { ADMIN_CLASSES, isAdmin, type FlowClass, type Track } from '../schema.ts';
+import { byAuthority, trackHeadline, trackOutcomes, TRACK_NAME, TRACK_SHORT } from '../tracks.ts';
+import { CONFIDENCE, pct1 } from '../stats.ts';
+import { ADMIN_CLASSES, isAdmin, type FlowClass } from '../schema.ts';
 
 const COLORS = { team: '#2A44E8', market: '#0F1A4A', admin: '#F08C2B', left: '#C9D1F5', other: '#8A8F9C' } as const;
-const WORDS = ['', '', 'twice', 'three times', 'four times', 'five times', 'six times', 'seven times', 'eight times', 'nine times', 'ten times'];
 const ARROW = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg>';
 const CHECK = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"></path></svg>';
 const CLOCK = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="8" cy="8" r="5.5"></circle><path d="M8 5v3.2l2 1.3"></path></svg>';
@@ -31,15 +32,6 @@ function bar(parts: { v: Micro; color: string }[], whole: Micro, cls = 'bar'): s
   return `<div class="${cls}">${parts.filter((p) => p.v > 0n).map((p) => `<div style="width:${share(p.v, whole)};background:${p.color}"></div>`).join('')}</div>`;
 }
 
-function trackStats(site: Site, t: Track) {
-  const rs = site.real.filter((r) => r.track === t);
-  const complete = rs.filter((r) => r.state === 'Complete');
-  const refunded = rs.filter((r) => r.state === 'Refunding');
-  const open = rs.length - complete.length - refunded.length;
-  const raised = sum(complete.map((r) => r.raised ?? 0n));
-  const tiny = refunded.filter((r) => r.committed * 100n < r.minimum).length;
-  return { rs, complete, refunded, open, raised, tiny, finished: complete.length + refunded.length };
-}
 
 function companyRow(ctx: Ctx, c: Company): string {
   const r = c.raise;
@@ -72,8 +64,11 @@ export function homePage(ctx: Ctx, site: Site): string {
   const csv = (f: string) => url(ctx, `data/${f}`);
   const meth = (a: string) => url(ctx, `methodology/#${a}`);
   const T = totals(site);
-  const cur = trackStats(site, 'curated');
-  const perm = trackStats(site, 'permissionless');
+  const other = trackOutcomes(site, 'curated');
+  const perm = trackOutcomes(site, 'permissionless');
+  const authorities = byAuthority(site);
+  const CONF = label(pct1(CONFIDENCE).replace('.0%', '%'), 'Confidence level of every interval on this site');
+  const ciFig = (x: number, dark = true) => fig(pct1(x), { kind: 'formula', href: meth('tracks'), formula: 'Wilson score interval at the confidence level shown' }, { dark });
   const tests = site.decoded.filter((r) => r.minimum < MIN_REAL_RAISE).length;
   const launchAccounts = site.inputs.raises.length;
   const withTreasury = site.companies.filter((c) => c.treasury);
@@ -83,15 +78,8 @@ export function homePage(ctx: Ctx, site: Site): string {
   const flowsCount = site.allFlows.length;
   const reconciled = withTreasury.filter((c) => c.treasury?.row.reconciles).length;
 
-  // Headline ratio, written from the data so it can never drift from it.
-  const rateC = cur.finished ? cur.complete.length / cur.finished : 0;
-  const rateP = perm.finished ? perm.complete.length / perm.finished : 0;
-  const times = rateP > 0 ? Math.floor(rateC / rateP) : 0;
-  const rateCurated = cur.finished ? pct(BigInt(cur.complete.length), BigInt(cur.finished)) : '0%';
-  const ratePerm = perm.finished ? pct(BigInt(perm.complete.length), BigInt(perm.finished)) : '0%';
-  const headline = times >= 2 && times < WORDS.length
-    ? `Curated raises complete ${WORDS[times]} as often as permissionless ones.`
-    : 'How often each kind of raise completes.';
+  // The title is written from the data: a direction only when the 95% intervals do not overlap, never a multiple.
+  const headline = trackHeadline(other, perm);
 
   // Admin-key movements: only what the order of the transactions shows, written from the data.
   const adminFlows = site.allFlows.filter((f) => isAdmin(f.cls));
@@ -149,26 +137,29 @@ export function homePage(ctx: Ctx, site: Site): string {
 
 <section id="raises" class="wrap" style="padding-top:24px;padding-bottom:24px">
 <div style="background:#0A0B0F;color:#FFFFFF;border-radius:20px;padding:clamp(24px,4vw,48px)">
-<div class="eyebrow" style="color:#8E95A8;margin-bottom:14px">Raise outcomes by track</div>
+<div class="eyebrow" style="color:#8E95A8;margin-bottom:14px">Raise outcomes by launch authority</div>
 <h2 style="font-size:clamp(28px,3.6vw,42px);line-height:1.1;font-weight:600;max-width:760px">${headline}</h2>
-<p style="color:#A9AFBF;font-size:16px;line-height:1.55;max-width:640px;margin-top:14px">Each square is one finished raise. Filled means it completed and the treasury was funded. Outlined means it missed its minimum and investors were refunded.</p>
+<p style="color:#A9AFBF;font-size:16px;line-height:1.55;max-width:640px;margin-top:14px">Each square is one finished raise. Filled means it completed and the treasury was funded. Outlined means it missed its minimum and investors were refunded. The range under each rate is its ${CONF} confidence interval: with few raises, the true rate could be anywhere in it.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;margin-top:40px">
-${[
-    { s: cur, name: 'Curated', sub: 'Every launch authority except the permissionless one', rate: rateCurated, color: '#8EA0FF', big: '#FFFFFF' },
-    { s: perm, name: 'Permissionless', sub: 'Launched through the permissionless authority (Futardio, now Backable)', rate: ratePerm, color: '#F5A55A', big: '#F5A55A' },
-  ].map(({ s, name, sub, rate, color, big }) => `<div>
+${([
+    { s: other, t: 'curated' as const, sub: 'Every launch authority except the permissionless one. Who controls them, and how their raises were chosen, is not onchain.', color: '#8EA0FF', big: '#FFFFFF' },
+    { s: perm, t: 'permissionless' as const, sub: 'The authority of MetaDAO\'s permissionless platform (Futardio, now Backable).', color: '#F5A55A', big: '#F5A55A' },
+  ]).map(({ s, t, sub, color, big }) => `<div>
 <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid #23283A;padding-bottom:14px">
-<div><div style="font-size:15px;font-weight:600">${name}</div><div style="font-size:13px;color:#A9AFBF;margin-top:4px">${sub}</div></div>
-${fig(rate, { kind: 'formula', href: meth('tracks'), formula: 'completed / (completed + refunded)' }, { dark: true, style: `font-family:'Inter Tight',sans-serif;font-size:56px;font-weight:600;letter-spacing:-0.03em;color:${big}` })}
+<div><div style="font-size:15px;font-weight:600">${TRACK_NAME[t]}</div><div style="font-size:13px;color:#A9AFBF;margin-top:4px;max-width:280px">${sub}</div></div>
+${s.finished ? fig(pct(BigInt(s.complete.length), BigInt(s.finished)), { kind: 'formula', href: meth('tracks'), formula: 'completed / (completed + refunded)' }, { dark: true, style: `font-family:'Inter Tight',sans-serif;font-size:56px;font-weight:600;letter-spacing:-0.03em;color:${big}` }) : ''}
 </div>
+${s.ci ? `<div style="font-size:13px;color:#C9CEDA;margin-top:10px">${CONF} interval ${ciFig(s.ci.low)} to ${ciFig(s.ci.high)} · n = ${fig(fmtInt(s.finished), { kind: 'sum', href: csv('raises.csv'), what: `finished raises, ${TRACK_NAME[t].toLowerCase()}` }, { dark: true })} finished raises</div>` : ''}
 <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:20px;max-width:340px" role="img" aria-label="${s.complete.length} completed, ${s.refunded.length} refunded">${squares(s.complete.length, color)}${squares(s.refunded.length, color, true)}</div>
-<div style="font-size:14px;color:#C9CEDA;margin-top:18px;line-height:1.7">${fig(fmtInt(s.complete.length), { kind: 'sum', href: csv('raises.csv'), what: `completed ${name.toLowerCase()} raises` }, { dark: true })} of ${fig(fmtInt(s.finished), { kind: 'sum', href: csv('raises.csv'), what: `finished ${name.toLowerCase()} raises` }, { dark: true })} finished raises completed · ${fig(fmtInt(s.refunded.length), { kind: 'sum', href: csv('raises.csv'), what: 'refunded raises' }, { dark: true })} refunded · ${fig(fmtInt(s.open), { kind: 'sum', href: csv('raises.csv'), what: 'raises not finished' }, { dark: true })} not finished<br>Raised in completed raises: ${fig(fmtUsd(s.raised, { decimals: 'auto' }), { kind: 'sum', href: csv('raises.csv'), what: `raised amounts of completed ${name.toLowerCase()} raises` }, { dark: true })}${s.tiny > 0 ? `<br><span style="color:#A9AFBF">${fig(fmtInt(s.tiny), { kind: 'sum', href: csv('raises.csv'), what: 'refunded raises whose commitments were under 1% of the minimum' }, { dark: true })} of the refunds drew less than ${label('1%', 'Threshold used to describe the refunds')} of their minimum.</span>` : ''}</div>
+<div style="font-size:14px;color:#C9CEDA;margin-top:18px;line-height:1.7">${fig(fmtInt(s.complete.length), { kind: 'sum', href: csv('raises.csv'), what: `completed raises, ${TRACK_NAME[t].toLowerCase()}` }, { dark: true })} completed · ${fig(fmtInt(s.refunded.length), { kind: 'sum', href: csv('raises.csv'), what: `refunded raises, ${TRACK_NAME[t].toLowerCase()}` }, { dark: true })} refunded · ${fig(fmtInt(s.open), { kind: 'sum', href: csv('raises.csv'), what: `raises not finished, ${TRACK_NAME[t].toLowerCase()}` }, { dark: true })} not finished<br>Raised in completed raises: ${fig(fmtUsd(s.raised, { decimals: 'auto' }), { kind: 'sum', href: csv('raises.csv'), what: `raised amounts of completed raises, ${TRACK_NAME[t].toLowerCase()}` }, { dark: true })}</div>
 </div>`).join('')}
 </div>
-<div style="font-size:12px;color:#8E95A8;margin-top:32px;line-height:1.6;border-top:1px solid #23283A;padding-top:16px">Finished means Complete or Refunding. ${fig(fmtInt(tests), { kind: 'sum', href: csv('raises.csv'), what: 'test launches' }, { dark: true })} test launches with a minimum under ${label('$10,000', 'Fixed rule of the method')} are left out. The track comes from the launch authority recorded onchain. The names Futardio and Backable are labels, not onchain: see the <a href="${meth('tracks')}" style="color:#AEBBFF">methodology</a>.</div>
+<div style="font-size:12px;color:#8E95A8;margin-top:32px;line-height:1.6;border-top:1px solid #23283A;padding-top:16px">Finished means Complete or Refunding. ${fig(fmtInt(tests), { kind: 'sum', href: csv('raises.csv'), what: 'test launches' }, { dark: true })} test launches with a minimum under ${label('$10,000', 'Fixed rule of the method')} are left out. The split comes from the launch authority recorded onchain. The names Futardio and Backable are labels, not onchain: see the <a href="${meth('tracks')}" style="color:#AEBBFF">methodology</a>.</div>
 </div>
+<div class="card tblbox" style="margin-top:16px"><table class="tbl" style="min-width:720px"><caption style="text-align:left;padding:16px 20px 4px;font-weight:600">Every launch authority, with its raises</caption><thead><tr><th scope="col">Launch authority</th><th scope="col">Group</th><th scope="col" class="r">Raises</th><th scope="col" class="r">Completed</th><th scope="col" class="r">Refunded</th><th scope="col" class="r">Not finished</th><th scope="col">Completion rate, ${CONF} interval</th></tr></thead><tbody>
+${authorities.map((a) => `<tr><td>${chip(a.authority, 'address')}</td><td>${TRACK_SHORT[a.track]}</td><td class="r">${fig(fmtInt(a.o.raises.length), { kind: 'sum', href: csv('raises.csv'), what: `raises started by ${a.authority}` })}</td><td class="r">${fig(fmtInt(a.o.complete.length), { kind: 'sum', href: csv('raises.csv'), what: `completed raises started by ${a.authority}` })}</td><td class="r">${fig(fmtInt(a.o.refunded.length), { kind: 'sum', href: csv('raises.csv'), what: `refunded raises started by ${a.authority}` })}</td><td class="r">${fig(fmtInt(a.o.open), { kind: 'sum', href: csv('raises.csv'), what: `unfinished raises started by ${a.authority}` })}</td><td>${a.o.ci ? `${fig(pct(BigInt(a.o.complete.length), BigInt(a.o.finished)), { kind: 'formula', href: meth('tracks'), formula: 'completed / (completed + refunded)' })} <span class="muted">(${ciFig(a.o.ci.low, false)} to ${ciFig(a.o.ci.high, false)}, n = ${fig(fmtInt(a.o.finished), { kind: 'sum', href: csv('raises.csv'), what: `finished raises started by ${a.authority}` })})</span>` : '<span class="muted">none finished</span>'}</td></tr>`).join('')}
+</tbody></table></div>
 </section>
-
 <section class="wrap" style="padding-top:48px;padding-bottom:24px">
 <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px">
 <div><div class="eyebrow" style="margin-bottom:12px">All ${fig(fmtInt(withTreasury.length), { kind: 'sum', href: csv('treasury.csv'), what: 'treasuries read' })} treasuries</div><h2 style="font-size:clamp(26px,3vw,36px);font-weight:600">Where every dollar went</h2></div>
@@ -190,7 +181,7 @@ ${cat(COLORS.left, 'Still in the treasuries', T.left, `${fig(share(T.left, T.tot
 <input type="radio" name="trk" id="t-cur" checked><input type="radio" name="trk" id="t-perm"><input type="radio" name="trk" id="t-all">
 <div class="tabhead" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px">
 <div><div class="eyebrow" style="margin-bottom:12px">Companies</div><h2 style="font-size:clamp(26px,3vw,36px);font-weight:600">Completed raises with a treasury</h2></div>
-<div class="tabbar" role="group" aria-label="Track"><label for="t-cur">Curated</label><label for="t-perm">Permissionless</label><label for="t-all">All</label></div>
+<div class="tabbar" role="group" aria-label="Track"><label for="t-cur">Other authorities</label><label for="t-perm">Permissionless</label><label for="t-all">All</label></div>
 </div>
 <div class="panels">
 <div class="tab-panel p-cur">${table(ctx, sortedCur)}</div>
@@ -222,4 +213,4 @@ ${site.undecoded.length ? `<div class="card" style="padding:20px"><span class="b
   return page(ctx, { title: 'raise-tracker: onchain raises on MetaDAO, and where every dollar went', description: 'What teams raised onchain on MetaDAO, and where every dollar of their treasuries went. Every figure links to its Solana transaction.', active: 'companies', body });
 }
 
-export const _test = { trackStats, totals };
+export const _test = { totals };

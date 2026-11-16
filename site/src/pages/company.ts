@@ -2,6 +2,7 @@ import { addrUrl, chip, date, duration, esc, fig, label, txUrl } from '../fig.ts
 import { fmtInt, fmtUsd, microToDecimal, pct, ratio, sum, type Micro } from '../money.ts';
 import { addr, page, url, type Ctx } from '../layout.ts';
 import type { Company, Site, Treasury } from '../model.ts';
+import { TRACK_SHORT } from '../tracks.ts';
 import { ADMIN_CLASSES, isAdmin, type Flow, type FlowClass } from '../schema.ts';
 
 export const PERIOD_MS = 30 * 86_400_000; // Squads monthly spending limit period
@@ -90,7 +91,8 @@ function header(ctx: Ctx, c: Company, movementsCount: number | null): string {
 ${nameBadge(c)}
 </div>
 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:16px">
-<span class="badge b-n">${r.track === 'curated' ? 'Curated' : 'Permissionless'}</span>
+<span class="badge b-n">${r.track === 'permissionless' ? TRACK_SHORT.permissionless : TRACK_SHORT.curated}</span>
+${chip(r.launchAuthority, 'address', `authority ${r.launchAuthority.slice(0, 6)}…`)}
 <span class="badge b-v">Raise complete</span>
 <span class="badge b-n">Launchpad ${label(r.version.replace(/^v0?(\d)(\d)?(\d)?$/, (_m, a: string, b?: string, d?: string) => `v0.${a}${b ? `.${b}` : ''}${d ? `.${d}` : ''}`), 'Launchpad program version')}</span>
 ${chip(r.mint, 'address', `${c.name.kind === 'onchain' ? c.name.symbol + ' · ' : ''}${r.mint.slice(0, 6)}…`)}
