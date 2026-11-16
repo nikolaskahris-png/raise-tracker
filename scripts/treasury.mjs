@@ -26,6 +26,9 @@ const PROGRAM_NAMES = {
   moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM: 'launchpad_v07', MooNyh4CBUYEKyXVnjGYQ8mEiJDpGvJMdvrZx1iGeHV: 'launchpad_v06',
   [TOKEN]: 'spl_token', [ATA]: 'ata', JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4: 'jupiter',
 };
+const FUTARCHY = 'FUTARELBfJfQ8RDGhg1wdhddq1odMAJUePHFuBYfUxKq';
+const PROPOSAL_STATES = ['Draft', 'Pending', 'Passed', 'Failed', 'Removed'];
+const SL_PERIODS = ['OneTime', 'Day', 'Week', 'Month'];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 let calls = 0;
@@ -79,6 +82,40 @@ async function allSignatures(address) {
 }
 const getTx = sig => rpc('getTransaction', [sig, { encoding: 'jsonParsed', maxSupportedTransactionVersion: 0, commitment: 'confirmed' }]);
 
+// Futarchy Proposal accounts (state/proposal.rs). Only the prefix up to squads_proposal is decoded;
+// state is a Borsh enum where Draft carries a u64, so the offset after it varies.
+function decodeProposalPrefix(d) {
+  let o = 8; const dv = new DataView(d.buffer, d.byteOffset, d.byteLength);
+  const number = dv.getUint32(o, true); o += 4;
+  o += 32; // proposer
+  const enqueued = Number(dv.getBigInt64(o, true)); o += 8;
+  const tag = d[o++]; if (tag > 4) throw new Error('bad proposal state ' + tag); if (tag === 0) o += 8;
+  o += 32 + 32; // base_vault, quote_vault
+  const dao = b58e(d.subarray(o, o + 32)); o += 32;
+  o += 1 + 32 + 4; // pda_bump, question, duration_in_seconds
+  const squads_proposal = b58e(d.subarray(o, o + 32));
+  return { number, enqueued, state: PROPOSAL_STATES[tag], dao, squads_proposal };
+}
+// Squads v4 SpendingLimit account.
+function decodeSpendingLimit(d) {
+  let o = 8; const dv = new DataView(d.buffer, d.byteOffset, d.byteLength); const pk = () => { const x = b58e(d.subarray(o, o + 32)); o += 32; return x; };
+  const multisig = pk(), create_key = pk(); o += 1; const mint = pk();
+  const amount = Number(dv.getBigUint64(o, true)) / 1e6; o += 8;
+  const period = SL_PERIODS[d[o++]]; const remaining = Number(dv.getBigUint64(o, true)) / 1e6; o += 8;
+  const last_reset = Number(dv.getBigInt64(o, true));
+  return { multisig, create_key, mint, amount, period, remaining, last_reset };
+}
+const proposalBySquads = new Map(); let proposalDecodeErrors = 0;
+{
+  const disc = b58e(createHash('sha256').update('account:Proposal').digest().subarray(0, 8));
+  const accts = await rpc('getProgramAccounts', [FUTARCHY, { encoding: 'base64', filters: [{ memcmp: { offset: 0, bytes: disc } }] }]);
+  for (const a of accts) {
+    try { const p = decodeProposalPrefix(Buffer.from(a.account.data[0], 'base64')); proposalBySquads.set(p.squads_proposal, { ...p, address: a.pubkey }); }
+    catch { proposalDecodeErrors++; }
+  }
+  console.log(`futarchy proposals indexed: ${proposalBySquads.size}, decode errors: ${proposalDecodeErrors}`);
+}
+
 const approvalCache = new Map();
 async function approvalOf(proposal) {
   if (approvalCache.has(proposal)) return approvalCache.get(proposal);
@@ -95,7 +132,8 @@ async function approvalOf(proposal) {
     if (n.some(x => /^futarchy:Admin/.test(x)) || n.includes('futarchy:ExecuteMultisigProposalApproval')) { admin = true; if (n.some(x => /^futarchy:Admin/.test(x))) signersOf(tx).forEach(k => approvers.add(k)); }
   }
   const how = admin ? 'admin_approved' : finalize ? 'market_approved' : 'unknown';
-  const res = { how, approver: [...approvers].join(' '), names: [...names].join(' ') };
+  const linked = proposalBySquads.get(proposal);
+  const res = { how, approver: [...approvers].join(' '), names: [...names].join(' '), decision: linked ? linked.state : 'none', decision_number: linked ? linked.number : '', decision_address: linked ? linked.address : '' };
   approvalCache.set(proposal, res); return res;
 }
 
@@ -112,7 +150,8 @@ for (const r of raises) {
     const info = acct.value?.data?.parsed?.info;
     if (!info || info.mint !== USDC || info.owner !== r.dao_vault) { problems.push(`${label}: treasury USDC account mismatch`); continue; }
     const balanceNow = Number(info.tokenAmount.amount) / 1e6;
-    const sums = { launch_funding: 0, inflow_other: 0, team_budget: 0, market_approved: 0, admin_approved: 0, liquidation: 0, other_out: 0 };
+    const sums = { launch_funding: 0, inflow_other: 0, team_budget: 0, market_approved: 0, admin_no_market: 0, admin_against_market: 0, liquidation: 0, other_out: 0 };
+    const teamUses = [];
     let net = 0;
     for (const s of await allSignatures(ata)) {
       if (s.err) continue;
@@ -124,7 +163,7 @@ for (const r of raises) {
       net += delta;
       const names = ixNames(tx.meta.logMessages);
       for (const n of names) seen[n] = (seen[n] || 0) + 1;
-      let cls, approval = '';
+      let cls, approval = '', decision = '', decisionRef = '';
       if (delta > 0) cls = names.some(n => n.startsWith('launchpad')) ? 'launch_funding' : 'inflow_other';
       else if (names.includes('squads:SpendingLimitUse')) cls = 'team_budget';
       else if (names.some(n => n.startsWith('liquidation:'))) cls = 'liquidation';
@@ -132,28 +171,49 @@ for (const r of raises) {
         const ix = allIxs(tx).find(i => i.programId === SQUADS && i.accounts && i.accounts[0] === multisig && i.accounts.length >= 4);
         const proposal = ix ? ix.accounts[1] : null;
         const a = proposal ? await approvalOf(proposal) : { how: 'unknown', approver: '' };
-        cls = a.how === 'market_approved' ? 'market_approved' : a.how === 'admin_approved' ? 'admin_approved' : 'other_out';
+        // A movement counts as market-decided when the exact Squads transaction had a futarchy proposal that Passed,
+        // whichever key approved it in the end. Otherwise the admin path is reported separately.
+        if (a.decision === 'Passed') cls = 'market_approved';
+        else if (a.how === 'admin_approved') cls = a.decision === 'none' ? 'admin_no_market' : 'admin_against_market';
+        else cls = 'other_out';
+        if (proposal && proposalBySquads.has(proposal) && proposalBySquads.get(proposal).dao !== r.dao) problems.push(`${label}: linked proposal belongs to another DAO (${proposal})`);
+        decision = a.decision; decisionRef = a.decision_address ? `#${a.decision_number} ${a.decision_address}` : '';
         approval = `${a.how}${a.approver ? ' by ' + a.approver : ''}${a.how === 'unknown' ? ' [' + (a.names || 'no futarchy instructions') + ']' : ''}${names.includes('futarchy:AdminExecuteMultisigProposal') ? ' (executed via admin key)' : ''} proposal=${proposal || '?'}`;
       } else cls = 'other_out';
       sums[cls] += Math.abs(delta);
+      if (cls === 'team_budget') teamUses.push({ t: tx.blockTime, amt: -delta });
       // counterparty: the other USDC account whose balance moved the opposite way
       const others = (tx.meta.postTokenBalances || []).filter(b => b.mint === USDC && b.accountIndex !== idx).map(b => {
         const pre = (tx.meta.preTokenBalances || []).find(x => x.accountIndex === b.accountIndex);
         return { owner: b.owner, d: Number(b.uiTokenAmount.amount) / 1e6 - (pre ? Number(pre.uiTokenAmount.amount) / 1e6 : 0) };
       }).filter(o => Math.sign(o.d) === -Math.sign(delta));
-      flows.push({ ticker: label, track: r.track || '', time_utc: new Date(tx.blockTime * 1000).toISOString(), usdc: delta.toFixed(6), class: cls, approval,
+      flows.push({ ticker: label, track: r.track || '', time_utc: new Date(tx.blockTime * 1000).toISOString(), usdc: delta.toFixed(6), class: cls, approval, market_decision: decision, decision_ref: decisionRef,
         counterparty: others.map(o => o.owner).join(' '), signature: s.signature, instructions: [...new Set(names)].join(' ') });
     }
     const start = Number(r.raised_usd) * 0.8; // 20% to liquidity; no completed raise had a bid wall at time of writing
     const months = (now - Date.parse(r.completed_utc || r.closed_utc)) / (30.4375 * 864e5);
-    const allowed = Number(r.monthly_budget_usd) * months;
+    // Squads resets a monthly limit every 30 days, so a team can draw a full month at the start of each period.
+    const periods = Math.max(1, Math.ceil((now - Date.parse(r.completed_utc || r.closed_utc)) / (30 * 864e5)));
+    const allowed = Number(r.monthly_budget_usd) * periods;
+    let slNow = null;
+    try {
+      const slAddr = pda([enc('multisig'), b58d(multisig), enc('spending_limit'), b58d(r.dao)], SQUADS);
+      const sl = await rpc('getAccountInfo', [slAddr, { encoding: 'base64' }]);
+      if (sl.value) { const d = decodeSpendingLimit(Buffer.from(sl.value.data[0], 'base64')); if (d.multisig === multisig && d.create_key === r.dao && d.mint === USDC) slNow = d; else problems.push(`${label}: spending limit account did not match`); }
+    } catch (e) { problems.push(`${label}: spending limit read failed: ${e.message}`); }
+    // Largest amount drawn in any single 30-day window, compared with the launch limit.
+    teamUses.sort((x, y) => x.t - y.t); let maxWindow = 0;
+    for (let i = 0, j = 0, run = 0; j < teamUses.length; j++) { run += teamUses[j].amt; while (teamUses[j].t - teamUses[i].t >= 30 * 86400) run -= teamUses[i++].amt; maxWindow = Math.max(maxWindow, run); }
     const reconciles = Math.abs(net - balanceNow) < 0.01;
     if (!reconciles) problems.push(`${label}: history sums to ${net.toFixed(2)} but balance is ${balanceNow.toFixed(2)}`);
     summary.push({ ticker: label, track: r.track || '', raised_usd: r.raised_usd, start_treasury_usd: start.toFixed(2), balance_now_usd: balanceNow.toFixed(2),
       launch_funding_usd: sums.launch_funding.toFixed(2), inflow_other_usd: sums.inflow_other.toFixed(2),
-      team_budget_usd: sums.team_budget.toFixed(2), market_approved_usd: sums.market_approved.toFixed(2), admin_approved_usd: sums.admin_approved.toFixed(2),
+      team_budget_usd: sums.team_budget.toFixed(2), market_approved_usd: sums.market_approved.toFixed(2),
+      admin_no_market_usd: sums.admin_no_market.toFixed(2), admin_against_market_usd: sums.admin_against_market.toFixed(2),
       liquidation_usd: sums.liquidation.toFixed(2), other_out_usd: sums.other_out.toFixed(2),
-      months_since_raise: months.toFixed(2), monthly_budget_usd: r.monthly_budget_usd, budget_allowed_usd: allowed.toFixed(2),
+      months_since_raise: months.toFixed(2), periods_started: periods, monthly_budget_usd: r.monthly_budget_usd, budget_allowed_usd: allowed.toFixed(2),
+      spending_limit_now_usd: slNow ? slNow.amount.toFixed(2) : '', spending_limit_period: slNow ? slNow.period : '', limit_changed: slNow ? (Math.abs(slNow.amount - Number(r.monthly_budget_usd)) > 0.005 ? 'yes' : 'no') : 'unknown',
+      max_30day_team_draw_usd: maxWindow.toFixed(2),
       team_budget_used_pct: allowed > 0 ? (100 * sums.team_budget / allowed).toFixed(1) : '', reconciles: reconciles ? 'yes' : 'NO', treasury_usdc_account: ata, squads_multisig: multisig });
   } catch (e) { problems.push(`${label}: ${e.message}`); }
 }
@@ -165,8 +225,10 @@ const tot = k => summary.reduce((a, s) => a + Number(s[k]), 0).toFixed(0);
 const report = [
   `# Treasury report — ${new Date().toISOString()}`, '', `Treasuries: ${summary.length} of ${raises.length}. RPC calls: ${calls}.`,
   `Reconciled (history sums exactly to today's balance): ${summary.filter(s => s.reconciles === 'yes').length}/${summary.length}`, '',
-  '## Outflows, all treasuries (USD)', `- team_budget: ${tot('team_budget_usd')}`, `- market_approved: ${tot('market_approved_usd')}`, `- admin_approved: ${tot('admin_approved_usd')}`, `- liquidation: ${tot('liquidation_usd')}`, `- other_out: ${tot('other_out_usd')}`, '',
-  '## Admin-approved movements', ...flows.filter(f => f.class === 'admin_approved').map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC to ${f.counterparty || '?'} — ${f.approval}`), '',
+  `Futarchy proposals indexed: ${proposalBySquads.size} (decode errors: ${proposalDecodeErrors})`, '',
+  '## Outflows, all treasuries (USD)', `- team_budget: ${tot('team_budget_usd')}`, `- market_approved (linked proposal Passed): ${tot('market_approved_usd')}`, `- admin_no_market (admin key, no linked proposal): ${tot('admin_no_market_usd')}`, `- admin_against_market (admin key, linked proposal not Passed): ${tot('admin_against_market_usd')}`, `- liquidation: ${tot('liquidation_usd')}`, `- other_out: ${tot('other_out_usd')}`, '',
+  '## Every movement approved through an admin key', ...flows.filter(f => /admin_approved/.test(f.approval)).map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC to ${f.counterparty || '?'} — class ${f.class}, market decision: ${f.market_decision}${f.decision_ref ? ' ' + f.decision_ref : ''} — ${f.approval}`), '',
+  '## Team budget', ...summary.map(x => `- ${x.ticker}: drew ${Number(x.team_budget_usd).toFixed(0)} over ${x.periods_started} period(s) of ${x.monthly_budget_usd}/month at launch (allowed ${Number(x.budget_allowed_usd).toFixed(0)}); limit now ${x.spending_limit_now_usd || '?'} ${x.spending_limit_period}; changed: ${x.limit_changed}; largest 30-day draw ${Number(x.max_30day_team_draw_usd).toFixed(0)}`), '',
   '## Unclassified outflows', ...flows.filter(f => f.class === 'other_out').map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC to ${f.counterparty || '?'} — ${f.approval || f.instructions}`), '',
   '## Instruction names seen on treasury movements (for review)', ...Object.entries(seen).sort((a, b) => b[1] - a[1]).map(([n, c]) => `- ${n}: ${c}`), '',
   `## Problems: ${problems.length}`, ...problems.map(p => `- ${p}`), '',
