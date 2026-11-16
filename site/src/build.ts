@@ -10,6 +10,10 @@ import { homePage } from './pages/home.ts';
 import { companyPage, movementsCsv } from './pages/company.ts';
 import { methodologyPage, notFoundPage } from './pages/methodology.ts';
 import { checkHtmlDir } from './check-html.ts';
+import { allLists, resetLists } from './lists.ts';
+import { listPage } from './pages/list.ts';
+import { CONSTANT_TEXT } from './constants.ts';
+import { identifiersOf } from './model.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..', '..');
@@ -40,6 +44,7 @@ const ctx: Ctx = {
   repo: process.env['GITHUB_REPOSITORY'] ?? 'nikolaskahris-png/raise-tracker',
 };
 
+resetLists(ctx.base);
 rmSync(out, { recursive: true, force: true });
 const write = (rel: string, content: string) => {
   const p = join(out, rel);
@@ -56,9 +61,23 @@ for (const c of site.companies) {
 }
 mkdirSync(join(out, 'data'), { recursive: true });
 for (const f of ['raises.csv', 'treasury.csv', 'treasury-flows.csv', 'scan-report.md', 'treasury-report.md']) copyFileSync(join(dataDir, f), join(out, 'data', f));
+// One page per Σ figure. Writing a list page can register no new list (its totals open itself), but loop to be sure.
+const written = new Set<string>();
+for (let pending = allLists(); pending.length; pending = allLists().filter((e) => !written.has(e.id))) {
+  for (const e of pending) {
+    const p = listPage(ctx, site, e);
+    write(`lists/${e.id}/index.html`, p.html);
+    write(`lists/${e.id}/list.csv`, p.csv);
+    written.add(e.id);
+  }
+}
 writeFileSync(join(out, '.nojekyll'), '');
 
-const htmlProblems = checkHtmlDir(out, site.companies.map((c) => c.raise.mint), new Set([...site.inputs.names.values()].map((n) => n.quote)));
+const htmlProblems = checkHtmlDir(out, site.companies.map((c) => c.raise.mint), {
+  quotes: new Set([...site.inputs.names.values()].map((n) => n.quote)),
+  identifiers: identifiersOf(site),
+  constants: CONSTANT_TEXT,
+});
 if (htmlProblems.length) {
   console.error(`Built pages failed ${htmlProblems.length} check(s):`);
   for (const p of htmlProblems.slice(0, 50)) console.error(`  - ${p}`);

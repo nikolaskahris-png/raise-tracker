@@ -27,6 +27,12 @@ function optAddr(file: string, row: CsvRow, col: string): string | null {
 function money(file: string, row: CsvRow, col: string): Micro {
   try { return parseMicro(req(file, row, col)); } catch (e) { throw at(file, row, col, (e as Error).message); }
 }
+function tokenAmount(file: string, row: CsvRow, col: string, decimals: number): string {
+  const v = req(file, row, col);
+  const m = /^\d+(?:\.(\d+))?$/.exec(v);
+  if (!m || (m[1]?.length ?? 0) > decimals) throw at(file, row, col, `not a token amount with at most ${decimals} decimals: "${v}"`);
+  return v;
+}
 function optMoney(file: string, row: CsvRow, col: string): Micro | null {
   return row.get(col) === '' ? null : money(file, row, col);
 }
@@ -92,14 +98,15 @@ export type Raise = {
   readonly oversubscription: string;
   readonly monthlyBudget: Micro;
   readonly budgetWallets: readonly string[];
-  readonly performanceTokens: Micro; // token amount with 6 decimals, not dollars
+  readonly tokenDecimals: number; // read from the token's mint
+  readonly performanceTokens: string; // exact decimal token amount, using tokenDecimals
   readonly insiderLockMonths: number;
   readonly dao: string | null;
   readonly daoVault: string | null;
   readonly checks: string;
 };
 
-const RAISE_COLS = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'] as const;
+const RAISE_COLS = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'token_decimals', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'] as const;
 
 export function parseRaises(text: string): (Raise | UndecodedLaunch)[] {
   const F = 'raises.csv';
@@ -138,7 +145,8 @@ export function parseRaises(text: string): (Raise | UndecodedLaunch)[] {
       oversubscription: r.get('oversubscription'),
       monthlyBudget: money(F, r, 'monthly_budget_usd'),
       budgetWallets: wallets,
-      performanceTokens: money(F, r, 'performance_package_tokens'),
+      tokenDecimals: int(F, r, 'token_decimals'),
+      performanceTokens: tokenAmount(F, r, 'performance_package_tokens', int(F, r, 'token_decimals')),
       insiderLockMonths: int(F, r, 'insider_lock_months'),
       dao: optAddr(F, r, 'dao'),
       daoVault: optAddr(F, r, 'dao_vault'),
@@ -169,6 +177,10 @@ export type TreasuryRow = {
   readonly spendingLimitAccount: string | null;
   /** Slot at which the scan read this treasury's balance: at that slot the balance equals the sum of the movements. */
   readonly balanceSlot: number;
+  /** The launch transaction, and the USDC it sent to accounts other than this treasury (exact, from its balance changes). */
+  readonly launchSignature: string;
+  readonly launchOther: Micro;
+  readonly launchRecipients: readonly { readonly owner: string; readonly account: string; readonly amount: Micro }[];
 };
 
 export const FLOW_CLASSES = ['launch_funding', 'inflow_other', 'team_budget', 'market_approved', 'admin_after_vote', 'admin_vote_passed_after', 'admin_vote_no_finalize', 'admin_no_vote_found', 'admin_against_market', 'liquidation', 'other_out'] as const;
@@ -191,7 +203,7 @@ const CLASS_COLUMN: Record<FlowClass, string> = {
 export function parseTreasury(text: string): TreasuryRow[] {
   const F = 'treasury.csv';
   const { header, rows } = parseCsv(text, F);
-  requireColumns(F, header, ['ticker', 'base_mint', 'launch', 'dao', 'dao_vault', 'track', 'raised_usd', 'balance_now_usd', ...Object.values(CLASS_COLUMN), 'periods_started', 'monthly_budget_usd', 'spending_limit_now_usd', 'limit_changed', 'reconciles', 'treasury_usdc_account', 'squads_multisig', 'spending_limit_account', 'balance_slot']);
+  requireColumns(F, header, ['ticker', 'base_mint', 'launch', 'dao', 'dao_vault', 'track', 'raised_usd', 'balance_now_usd', ...Object.values(CLASS_COLUMN), 'periods_started', 'monthly_budget_usd', 'spending_limit_now_usd', 'limit_changed', 'reconciles', 'treasury_usdc_account', 'squads_multisig', 'spending_limit_account', 'balance_slot', 'launch_signature', 'launch_other_usdc', 'launch_other_recipients']);
   return rows.map((r) => {
     const cols = {} as Record<FlowClass, Micro>;
     for (const c of FLOW_CLASSES) cols[c] = money(F, r, CLASS_COLUMN[c]);
@@ -214,6 +226,13 @@ export function parseTreasury(text: string): TreasuryRow[] {
       multisig: addr(F, r, 'squads_multisig'),
       spendingLimitAccount: optAddr(F, r, 'spending_limit_account'),
       balanceSlot: int(F, r, 'balance_slot'),
+      launchSignature: (() => { const s = req(F, r, 'launch_signature'); if (!SIGNATURE.test(s)) throw at(F, r, 'launch_signature', 'not a base58 signature'); return s; })(),
+      launchOther: money(F, r, 'launch_other_usdc'),
+      launchRecipients: r.get('launch_other_recipients') === '' ? [] : r.get('launch_other_recipients').split(' ').map((x) => {
+        const [owner = '', account = '', amount = ''] = x.split(':');
+        if (!BASE58.test(owner) || !BASE58.test(account)) throw at(F, r, 'launch_other_recipients', `bad recipient ${x}`);
+        try { return { owner, account, amount: parseMicro(amount) }; } catch (e) { throw at(F, r, 'launch_other_recipients', (e as Error).message); }
+      }),
     };
   });
 }
@@ -233,6 +252,8 @@ export type Flow = {
   readonly adminKeys: readonly string[];
   readonly counterparty: readonly string[];
   readonly signature: string;
+  /** Program instructions the transaction ran, as program:Instruction names (from its logs). */
+  readonly instructions: readonly string[];
 };
 
 const REF = /^#(\d+) ([1-9A-HJ-NP-Za-km-z]{32,44})$/;
@@ -240,7 +261,7 @@ const REF = /^#(\d+) ([1-9A-HJ-NP-Za-km-z]{32,44})$/;
 export function parseFlows(text: string): Flow[] {
   const F = 'treasury-flows.csv';
   const { header, rows } = parseCsv(text, F);
-  requireColumns(F, header, ['ticker', 'base_mint', 'time_utc', 'usdc', 'class', 'approval', 'decision_ref', 'prior_vote_number', 'prior_vote_address', 'prior_vote_finalize_signature', 'prior_vote_finalized_utc', 'counterparty', 'signature']);
+  requireColumns(F, header, ['ticker', 'base_mint', 'time_utc', 'usdc', 'class', 'approval', 'decision_ref', 'prior_vote_number', 'prior_vote_address', 'prior_vote_finalize_signature', 'prior_vote_finalized_utc', 'counterparty', 'signature', 'instructions']);
   return rows.map((r) => {
     const cls = oneOf(F, r, 'class', FLOW_CLASSES);
     const usdc = money(F, r, 'usdc');
@@ -273,7 +294,7 @@ export function parseFlows(text: string): Flow[] {
     counterparty.forEach((c) => { if (!BASE58.test(c)) throw at(F, r, 'counterparty', `bad address ${c}`); });
     return {
       mint: addr(F, r, 'base_mint'), label: req(F, r, 'ticker'), time: time(F, r, 'time_utc'), usdc, cls,
-      decisionNumber, decisionAddress, prior, adminKeys, counterparty, signature: sig,
+      decisionNumber, decisionAddress, prior, adminKeys, counterparty, signature: sig, instructions: (r.get('instructions') || '').split(' ').filter(Boolean),
     };
   });
 }

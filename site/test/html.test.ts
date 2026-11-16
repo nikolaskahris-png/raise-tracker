@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { badTokens, unsourcedDigits } from '../src/check-html.ts';
 import { fig, chip, label, date } from '../src/fig.ts';
+import { constant, CONSTANT_TEXT } from '../src/constants.ts';
 import { parseCsv } from '../src/csv.ts';
 
 const page = (main: string) => `<html><body><header>2026</header><main>${main}</main><footer>v1</footer></body></html>`;
@@ -10,9 +11,9 @@ test('a number typed into the page is caught', () => {
   assert.deepEqual(unsourcedDigits(page('<p>Raised $8,000,000 in total</p>')), ['Raised $8,000,000 in total']);
 });
 
-test('numbers inside a figure, a time, a chip or a label are allowed', () => {
-  const html = page(`<p>Raised ${fig('$8,000,000', { kind: 'account', address: '8uMemVUT1ToSuda2jBVhcaPmJWq5C3bKe7DhrM5wkqZP' })} on ${date(new Date('2026-07-21T16:59:30Z'))} by ${chip('8uMemVUT1ToSuda2jBVhcaPmJWq5C3bKe7DhrM5wkqZP', 'address')} over ${label('30-day', 'rule')} periods</p>`);
-  assert.deepEqual(unsourcedDigits(html), []);
+test('numbers inside a figure, a time, a chip, a constant or an identifier label are allowed', () => {
+  const html = page(`<p>Raised ${fig('$8,000,000', { kind: 'account', address: '8uMemVUT1ToSuda2jBVhcaPmJWq5C3bKe7DhrM5wkqZP' })} on ${date(new Date('2026-07-21T16:59:30Z'))} by ${chip('8uMemVUT1ToSuda2jBVhcaPmJWq5C3bKe7DhrM5wkqZP', 'address')} over ${constant('spending_limit_period_days')}-day periods for ${label('P2P Protocol', 'name')}</p>`);
+  assert.deepEqual(unsourcedDigits(html, { constants: CONSTANT_TEXT, identifiers: new Set(['P2P Protocol']) }), []);
 });
 
 test('a figure without a link does not count as sourced', () => {

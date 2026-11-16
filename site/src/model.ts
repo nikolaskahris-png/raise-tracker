@@ -7,7 +7,8 @@ import {
   type PressName, type Flow, type FlowClass, type Raise, type ScanReport, type TreasuryReport, type TreasuryRow, type UndecodedLaunch,
 } from './schema.ts';
 
-export const MIN_REAL_RAISE: Micro = 10_000_000_000n; // $10,000, same rule as scripts/scan.mjs
+export { MIN_REAL_RAISE } from './constants.ts';
+import { MIN_REAL_RAISE } from './constants.ts';
 
 export type Inputs = {
   readonly raises: readonly (Raise | UndecodedLaunch)[];
@@ -69,6 +70,20 @@ export function nameOf(r: Raise, names: ReadonlyMap<string, PressName>): Name {
     return { kind: 'onchain', name: r.metadataName, symbol: r.metadataSymbol, account: r.metadataAccount, press: names.get(r.mint) ?? null };
   }
   return { kind: 'none' };
+}
+
+/** Every name, symbol and mint prefix the data gives: the only texts a label may show with digits in them. */
+export function identifiersOf(site: Site): Set<string> {
+  const out = new Set<string>();
+  for (const r of site.decoded) {
+    for (const s of [r.metadataName, r.metadataSymbol, r.ticker, r.apiName]) if (s) out.add(s);
+    out.add(`${r.mint.slice(0, 8)}…`);
+  }
+  for (const c of site.companies) {
+    out.add(c.displayName);
+    if (c.name.kind === 'onchain' && c.name.press) out.add(c.name.press.project);
+  }
+  return out;
 }
 
 /** "Project (SYMBOL)" when a press name adds the project, else the onchain name, else the mint prefix. */

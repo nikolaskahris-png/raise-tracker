@@ -11,6 +11,10 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { b58e, b58d, USDC, pda } from './decode.mjs';
+// Fixed rules of the method, shared with scan.mjs and the site.
+const C = JSON.parse(readFileSync(new URL('../constants.json', import.meta.url), 'utf8'));
+const DAY_S = 86400;
+const PERIOD_S = C.spending_limit_period_days * DAY_S;
 
 const KEY = process.env.HELIUS_API_KEY;
 if (!KEY) { console.error('HELIUS_API_KEY is not set'); process.exit(1); }
@@ -144,11 +148,12 @@ async function finalizeOf(address) {
   }
   finalizeCache.set(address, found); return found;
 }
-const ADMIN_VOTE_WINDOW_S = 60 * 86400; // a proposal that passed up to 60 days before an admin-key movement is shown with it
+const ADMIN_VOTE_WINDOW_S = C.admin_vote_window_days * DAY_S; // a proposal that passed up to this long before an admin-key movement is shown with it
 const iso = t => new Date(t * 1000).toISOString();
+const microStr = v => `${v < 0n ? '-' : ''}${(v < 0n ? -v : v) / 1000000n}.${((v < 0n ? -v : v) % 1000000n).toString().padStart(6, '0')}`;
 
 const raises = JSON.parse(readFileSync('data/raises.json', 'utf8')).rows
-  .filter(r => r.decoded === 'yes' && r.state === 'Complete' && Number(r.minimum_raise_usd) >= 10000 && r.dao_vault && r.dao);
+  .filter(r => r.decoded === 'yes' && r.state === 'Complete' && Number(r.minimum_raise_usd) >= C.min_real_raise_usd && r.dao_vault && r.dao);
 const summary = [], flows = [], seen = {}, problems = [];
 const now = Date.now();
 
@@ -163,6 +168,8 @@ for (const r of raises) {
     const sums = { launch_funding: 0, inflow_other: 0, team_budget: 0, market_approved: 0, admin_after_vote: 0, admin_vote_passed_after: 0, admin_vote_no_finalize: 0, admin_no_vote_found: 0, admin_against_market: 0, liquidation: 0, other_out: 0 };
     const teamUses = [];
     let net = 0;
+    // The launch transaction: where the raised USDC went besides this treasury (exact base units, read from the transaction).
+    let launch = { signature: '', others: [] };
     for (const s of await allSignatures(ata)) {
       if (s.err) continue;
       const tx = await getTx(s.signature); if (!tx) { problems.push(`${label}: missing tx ${s.signature}`); continue; }
@@ -193,7 +200,7 @@ for (const r of raises) {
           //   admin_vote_no_finalize  a proposal is marked Passed but its FinalizeProposal transaction was not found
           if (a.decision !== 'none') cls = 'admin_against_market';
           else {
-            const cands = (proposalsByDao[r.dao] || []).filter(p => p.state === 'Passed' && p.enqueued <= tx.blockTime && tx.blockTime - p.enqueued <= ADMIN_VOTE_WINDOW_S + 30 * 86400);
+            const cands = (proposalsByDao[r.dao] || []).filter(p => p.state === 'Passed' && p.enqueued <= tx.blockTime && tx.blockTime - p.enqueued <= 2 * ADMIN_VOTE_WINDOW_S);
             const withF = []; for (const p of cands) withF.push({ p, f: await finalizeOf(p.address) });
             const before = withF.filter(x => x.f && x.f.time <= tx.blockTime && tx.blockTime - x.f.time <= ADMIN_VOTE_WINDOW_S).sort((x, y) => y.f.time - x.f.time)[0];
             const after = withF.filter(x => x.f && x.f.time > tx.blockTime).sort((x, y) => x.f.time - y.f.time)[0];
@@ -212,6 +219,13 @@ for (const r of raises) {
         decision = a.decision; decisionRef = a.decision_address ? `#${a.decision_number} ${a.decision_address}` : '';
         approval = `${a.how}${a.approver ? ' by ' + a.approver : ''}${a.how === 'unknown' ? ' [' + (a.names || 'no futarchy instructions') + ']' : ''}${names.includes('futarchy:AdminExecuteMultisigProposal') ? ' (executed via admin key)' : ''} proposal=${proposal || '?'}`;
       } else cls = 'other_out';
+      if (cls === 'launch_funding') {
+        const pre = i => BigInt((tx.meta.preTokenBalances || []).find(x => x.accountIndex === i)?.uiTokenAmount.amount ?? '0');
+        const others = (tx.meta.postTokenBalances || []).filter(b => b.mint === USDC && b.accountIndex !== idx)
+          .map(b => ({ owner: b.owner, account: keys[b.accountIndex], amount: BigInt(b.uiTokenAmount.amount) - pre(b.accountIndex) }))
+          .filter(o => o.amount > 0n);
+        launch = { signature: s.signature, others };
+      }
       sums[cls] += Math.abs(delta);
       if (cls === 'team_budget') teamUses.push({ t: tx.blockTime, amt: -delta });
       // counterparty: the other USDC account whose balance moved the opposite way
@@ -226,9 +240,9 @@ for (const r of raises) {
     // Starting treasury = the USDC the launchpad actually deposited (CompleteLaunch), read from the chain.
     // Not raised x 0.8: e.g. Ranger raised 8,000,000 but its treasury received 6,000,000.
     const start = sums.launch_funding;
-    const months = (now - Date.parse(r.completed_utc || r.closed_utc)) / (30.4375 * 864e5);
+    const months = (now - Date.parse(r.completed_utc || r.closed_utc)) / (C.average_month_days * DAY_S * 1000);
     // Squads resets a monthly limit every 30 days, so a team can draw a full month at the start of each period.
-    const periods = Math.max(1, Math.ceil((now - Date.parse(r.completed_utc || r.closed_utc)) / (30 * 864e5)));
+    const periods = Math.max(1, Math.ceil((now - Date.parse(r.completed_utc || r.closed_utc)) / (PERIOD_S * 1000)));
     const allowed = Number(r.monthly_budget_usd) * periods;
     let slNow = null; let slAddr = '';
     try {
@@ -238,7 +252,7 @@ for (const r of raises) {
     } catch (e) { problems.push(`${label}: spending limit read failed: ${e.message}`); }
     // Largest amount drawn in any single 30-day window, compared with the launch limit.
     teamUses.sort((x, y) => x.t - y.t); let maxWindow = 0;
-    for (let i = 0, j = 0, run = 0; j < teamUses.length; j++) { run += teamUses[j].amt; while (teamUses[j].t - teamUses[i].t >= 30 * 86400) run -= teamUses[i++].amt; maxWindow = Math.max(maxWindow, run); }
+    for (let i = 0, j = 0, run = 0; j < teamUses.length; j++) { run += teamUses[j].amt; while (teamUses[j].t - teamUses[i].t >= PERIOD_S) run -= teamUses[i++].amt; maxWindow = Math.max(maxWindow, run); }
     const reconciles = Math.abs(net - balanceNow) < 0.01;
     if (!reconciles) problems.push(`${label}: history sums to ${net.toFixed(2)} but balance is ${balanceNow.toFixed(2)}`);
     summary.push({ ticker: label, base_mint: r.base_mint, launch: r.launch, dao: r.dao, dao_vault: r.dao_vault, track: r.track || '', raised_usd: r.raised_usd, start_treasury_usd: start.toFixed(2), balance_now_usd: balanceNow.toFixed(2),
@@ -249,7 +263,9 @@ for (const r of raises) {
       months_since_raise: months.toFixed(2), periods_started: periods, monthly_budget_usd: r.monthly_budget_usd, budget_allowed_usd: allowed.toFixed(2),
       spending_limit_now_usd: slNow ? slNow.amount.toFixed(2) : '', spending_limit_period: slNow ? slNow.period : '', limit_changed: slNow ? (Math.abs(slNow.amount - Number(r.monthly_budget_usd)) > 0.005 ? 'yes' : 'no') : 'unknown',
       max_30day_team_draw_usd: maxWindow.toFixed(2),
-      team_budget_used_pct: allowed > 0 ? (100 * sums.team_budget / allowed).toFixed(1) : '', reconciles: reconciles ? 'yes' : 'NO', treasury_usdc_account: ata, squads_multisig: multisig, spending_limit_account: slAddr, balance_slot: acct.context.slot });
+      team_budget_used_pct: allowed > 0 ? (100 * sums.team_budget / allowed).toFixed(1) : '', reconciles: reconciles ? 'yes' : 'NO', treasury_usdc_account: ata, squads_multisig: multisig, spending_limit_account: slAddr, balance_slot: acct.context.slot,
+      launch_signature: launch.signature, launch_other_usdc: microStr(launch.others.reduce((a, o) => a + o.amount, 0n)),
+      launch_other_recipients: launch.others.map(o => `${o.owner}:${o.account}:${microStr(o.amount)}`).join(' ') });
   } catch (e) { problems.push(`${label}: ${e.message}`); }
 }
 

@@ -2,12 +2,12 @@
 // The same function runs in the build and in the tests (including the tamper tests).
 import { fmtUsd, matchesCents, ratio, toCents } from './money.ts';
 import { FLOW_CLASSES, TRACKS } from './schema.ts';
+import { ADMIN_VOTE_WINDOW_MS } from './constants.ts';
 import type { Site } from './model.ts';
 
 /** Problems the treasury script reports that the site knows how to show ("not read"). Anything else stops the build. */
 export const KNOWN_PROBLEMS = [/^\S+: treasury USDC account mismatch$/];
 export const MAX_REPORT_GAP_MS = 2 * 60 * 60 * 1000;
-export const ADMIN_VOTE_WINDOW_MS = 60 * 86_400_000; // same window as scripts/treasury.mjs (moves to constants.json in section 6)
 
 export function checkInvariants(site: Site): string[] {
   const fail: string[] = [];
@@ -56,7 +56,11 @@ export function checkInvariants(site: Site): string[] {
       if (!matchesCents(tr.byClass[c], t.cols[c])) fail.push(`${t.label}: ${c} movements sum to ${fmtUsd(tr.byClass[c], { decimals: 2 })}, treasury.csv says ${fmtUsd(t.cols[c], { decimals: 2 })}`);
     }
     if (!matchesCents(tr.net, t.balanceNow)) fail.push(`${t.label}: movements net to ${fmtUsd(tr.net, { decimals: 2 })}, balance is ${fmtUsd(t.balanceNow, { decimals: 2 })}`);
-    if (tr.flows.filter((f) => f.cls === 'launch_funding').length !== 1) fail.push(`${t.label}: expected exactly one launch deposit`);
+    const launch = tr.flows.filter((f) => f.cls === 'launch_funding');
+    if (launch.length !== 1) fail.push(`${t.label}: expected exactly one launch deposit`);
+    else if (launch[0]?.signature !== t.launchSignature) fail.push(`${t.label}: launch_signature is not the launch deposit's transaction`);
+    if (t.launchRecipients.reduce((a, x) => a + x.amount, 0n) !== t.launchOther) fail.push(`${t.label}: launch_other_usdc is not the sum of its recipients`);
+    if (t.launchRecipients.some((x) => x.amount <= 0n)) fail.push(`${t.label}: a launch recipient with no USDC`);
   }
 
   // 5. Movements: unique signatures per treasury, and every movement belongs to a treasury row.

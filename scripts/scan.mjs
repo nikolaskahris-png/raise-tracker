@@ -1,7 +1,7 @@
 // Full scan of every MetaDAO launchpad raise, including failed and refunded ones.
 // Needs env HELIUS_API_KEY (GitHub Actions secret). Writes data/raises.csv, data/raises.json, data/scan-report.md
 import { createHash } from 'node:crypto';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { b58e, b58d, PROGRAMS, DECODABLE, decodeLaunch, raisedAmount, checks, metadataAddress, decodeMetadata } from './decode.mjs';
 
 const KEY = process.env.HELIUS_API_KEY;
@@ -34,8 +34,12 @@ try {
 
 // Launch authority used by MetaDAO's permissionless platform (Futardio, renamed Backable on 5 Oct 2026).
 // Identified from the chain: 124 of 147 raises with minimum >= $10k, first seen 2026-02-17, includes the FUTARDIO token itself.
-const PERMISSIONLESS_AUTHORITY = 'LRrTQLqFzAPxjschuAKQAqH1XHBuBgHqwhybENStARt';
-const MIN_REAL_RAISE_USD = 10000; // below this: test launches (many have $0.10-$20 minimums)
+// Fixed rules of the method, shared with treasury.mjs and the site.
+const C = JSON.parse(readFileSync(new URL('../constants.json', import.meta.url), 'utf8'));
+const PERMISSIONLESS_AUTHORITY = C.permissionless_authority;
+const MIN_REAL_RAISE_USD = C.min_real_raise_usd; // below this: test launches (many have $0.10-$20 minimums)
+/** An integer amount of base units as an exact decimal string with `decimals` places. */
+const units = (raw, decimals) => { const v = BigInt(raw); if (decimals === 0) return v.toString(); const s = v.toString().padStart(decimals + 1, '0'); return `${s.slice(0, -decimals)}.${s.slice(-decimals)}`.replace(/\.?0+$/, ''); };
 const usd = x => (x === null || x === undefined) ? '' : (Number(x) / 1e6).toString();
 const iso = x => (x === null || x === undefined) ? '' : new Date(Number(x) * 1000).toISOString();
 const rows = []; const counts = {}; const problems = [];
@@ -64,7 +68,7 @@ for (const [v, prog] of Object.entries(PROGRAMS)) {
       oversubscription: raised ? (Number(d.total_committed_amount) / Number(raised)).toFixed(2) : '',
       monthly_budget_usd: usd(d.monthly_spending_limit_amount), budget_wallets: d.monthly_spending_limit_members.length,
       budget_wallet_list: d.monthly_spending_limit_members.join(' '),
-      performance_package_tokens: usd(d.performance_package_token_amount), insider_lock_months: d.months_until_insiders_can_unlock,
+      performance_package_raw: d.performance_package_token_amount.toString(), insider_lock_months: d.months_until_insiders_can_unlock,
       dao: d.dao || '', dao_vault: d.dao_vault || '', team_address: d.team_address,
       bytes: data.length, checks: c.join(' ') || 'OK',
     });
@@ -93,8 +97,24 @@ for (const [v, prog] of Object.entries(PROGRAMS)) {
   }
 }
 
+// Token decimals, read from each mint account, so token amounts are never assumed to have 6 decimals.
+{
+  const dec = rows.filter(r => r.decoded === 'yes');
+  for (let i = 0; i < dec.length; i += 100) {
+    const batch = dec.slice(i, i + 100);
+    const res = await rpc('getMultipleAccounts', [batch.map(r => r.base_mint), { encoding: 'jsonParsed', commitment: 'confirmed' }]);
+    batch.forEach((r, j) => {
+      const d = res.value[j]?.data?.parsed?.info?.decimals;
+      if (!Number.isInteger(d)) { problems.push(`${r.launch}: mint ${r.base_mint} decimals not readable`); r.token_decimals = ''; r.performance_package_tokens = ''; return; }
+      r.token_decimals = d;
+      r.performance_package_tokens = units(r.performance_package_raw, d);
+    });
+    await sleep(150);
+  }
+}
+
 rows.sort((x, y) => (x.started_utc || '').localeCompare(y.started_utc || ''));
-const cols = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'];
+const cols = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'token_decimals', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'];
 const esc = s => { s = s === undefined || s === null ? '' : String(s); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
 mkdirSync('data', { recursive: true });
 writeFileSync('data/raises.csv', [cols.join(',')].concat(rows.map(r => cols.map(c => esc(r[c])).join(','))).join('\n') + '\n');
