@@ -2,7 +2,7 @@ import { addrUrl, chip, date, esc, fig, label, txUrl } from '../fig.ts';
 import { fmtInt, fmtUsd, microToDecimal, pct, ratio, sum, type Micro } from '../money.ts';
 import { addr, page, url, type Ctx } from '../layout.ts';
 import type { Company, Site, Treasury } from '../model.ts';
-import type { Flow, FlowClass } from '../schema.ts';
+import { ADMIN_CLASSES, isAdmin, type Flow, type FlowClass } from '../schema.ts';
 
 export const PERIOD_MS = 30 * 86_400_000; // Squads monthly spending limit period
 export const ADMIN_KEYS: Readonly<Record<string, string>> = {
@@ -19,14 +19,19 @@ const CLASS_BADGE: Record<FlowClass, string> = {
   inflow_other: '<span class="badge b-p">Other inflow</span>',
   team_budget: '<span class="badge b-v">Team budget</span>',
   market_approved: '<span class="badge b-k">Market vote</span>',
-  admin_after_vote: '<span class="badge b-o">Admin key after a vote</span>',
+  admin_after_vote: '<span class="badge b-o">Admin key, after a vote passed</span>',
+  admin_vote_passed_after: '<span class="badge b-p">Admin key, before the vote passed</span>',
+  admin_vote_no_finalize: '<span class="badge b-p">Admin key, vote time not found</span>',
   admin_no_vote_found: '<span class="badge b-p">Admin key, no recent vote</span>',
   admin_against_market: '<span class="badge b-p">Admin key, against a vote</span>',
   liquidation: '<span class="badge b-n">Liquidation</span>',
   other_out: '<span class="badge b-p">Unclassified</span>',
 };
 
-const proposalLink = (n: number, address: string) => `<a data-label href="${addrUrl(address)}" rel="noopener" title="Futarchy proposal account">#${n}</a>`;
+/** A proposal number is read from the proposal account onchain, so it is a figure that opens that account. */
+const proposalLink = (n: number, address: string) => fig(`#${n}`, { kind: 'account', address });
+const DAY_MS = 86_400_000;
+const daysBetween = (a: Date, b: Date) => (Math.abs(b.getTime() - a.getTime()) / DAY_MS).toFixed(1);
 
 function tokens(x: Micro): string {
   const whole = x / 1_000_000n, frac = x % 1_000_000n;
@@ -118,7 +123,7 @@ ${t && t.row.spendingLimitNow !== null && t.row.spendingLimitAccount ? cell('Tea
 function whereItWent(ctx: Ctx, t: Treasury): string {
   const meth = (a: string) => url(ctx, `methodology/#${a}`);
   const b = t.byClass;
-  const admin = b.admin_after_vote + b.admin_no_vote_found + b.admin_against_market;
+  const admin = sum(ADMIN_CLASSES.map((k) => b[k]));
   const other = b.liquidation + b.other_out;
   const share = (v: Micro) => (t.totalIn === 0n ? '0%' : pct(v, t.totalIn));
   const seg = (v: Micro, color: string, text = '', pattern = false) => v > 0n ? `<div style="width:${share(v)};background:${pattern ? 'repeating-linear-gradient(135deg,#F7C58A 0 6px,#FBE0BF 6px 12px)' : color};display:flex;align-items:center;padding-left:${text ? 12 : 0}px;color:${pattern ? '#5A2C00' : '#FFFFFF'};font-size:12px;font-weight:500;overflow:hidden;white-space:nowrap">${text}</div>` : '';
@@ -152,7 +157,7 @@ ${item(COLORS.team, 'Team budget', b.team_budget, { kind: 'sum', href: '#budget'
 ${b.market_approved > 0n ? item(COLORS.market, 'Approved by market vote', b.market_approved, { kind: 'sum', href: '#decisions', what: 'market-approved movements' }, `${fig(fmtInt(count('market_approved')), { kind: 'sum', href: '#decisions', what: 'market-approved movements' })} transactions · ${decisionsNote}`) : ''}
 </div></div>
 <div><div class="eyebrow" style="margin-bottom:14px" aria-hidden="true">&#160;</div><div style="display:flex;flex-direction:column;gap:16px">
-${admin > 0n ? item(COLORS.admin, 'Approved with the admin key', admin, { kind: 'sum', href: '#decisions', what: 'admin-key movements' }, `${fig(fmtInt(count('admin_after_vote') + count('admin_no_vote_found') + count('admin_against_market')), { kind: 'sum', href: '#decisions', what: 'admin-key movements' })} transactions · each listed below with the vote before it`) : ''}
+${admin > 0n ? item(COLORS.admin, 'Approved with the admin key', admin, { kind: 'sum', href: '#decisions', what: 'admin-key movements' }, `${fig(fmtInt(t.flows.filter((f) => isAdmin(f.cls)).length), { kind: 'sum', href: '#decisions', what: 'admin-key movements' })} transactions · each listed below with the nearest passed proposal`) : ''}
 ${other > 0n ? item(COLORS.other, 'Other outflows', other, { kind: 'sum', href: '#decisions', what: 'other outflows' }, 'not classified yet', true) : ''}
 ${item(COLORS.left, 'Still in the treasury', t.net, { kind: 'account', address: t.row.usdcAccount }, "balance of the vault's USDC account")}
 </div></div>
@@ -168,18 +173,21 @@ function decisions(ctx: Ctx, t: Treasury): string {
     let text: string;
     if (f.cls === 'market_approved' && f.decisionNumber !== null && f.decisionAddress) {
       text = `Proposal ${proposalLink(f.decisionNumber, f.decisionAddress)} passed; this transaction is the one it approved`;
-    } else if (f.cls === 'admin_after_vote' && f.priorVoteNumber !== null && f.priorVoteAddress) {
+    } else if (isAdmin(f.cls)) {
       const keys = f.adminKeys.length ? ` · signed by ${f.adminKeys.map((k) => chip(k, 'address', ADMIN_KEYS[k] ? `${k.slice(0, 6)}… (MetaDAO admin)` : undefined)).join(' ')}` : '';
-      text = `Approved with MetaDAO's admin key, ${fig(f.priorVoteDays ?? '', { kind: 'formula', href: url(ctx, 'methodology/#admin-key'), formula: 'days from the proposal being enqueued to this movement' })} days after proposal ${proposalLink(f.priorVoteNumber, f.priorVoteAddress)} passed on this DAO. Check on the proposal that it covers this payment${keys}`;
-    } else if (f.cls === 'admin_no_vote_found') {
-      text = 'Approved with an admin key, with no passed proposal on this DAO in the 60 days before';
-    } else if (f.cls === 'admin_against_market') {
-      text = 'Approved with an admin key although its own proposal did not pass';
+      const p = f.prior;
+      const passedTx = p?.finalizeSignature ? ` (${chip(p.finalizeSignature, 'tx', 'FinalizeProposal')})` : '';
+      const gap = p?.finalizedAt ? fig(daysBetween(p.finalizedAt, f.time), { kind: 'formula', href: url(ctx, 'methodology/#admin-key'), formula: 'days between the proposal\x27s FinalizeProposal transaction and this movement' }) : '';
+      if (f.cls === 'admin_after_vote' && p) text = `Approved with MetaDAO's admin key. Proposal ${proposalLink(p.number, p.address)} on this DAO passed ${gap} days before this movement${passedTx}. The chain does not say whether that proposal covers this payment: read it.${keys}`;
+      else if (f.cls === 'admin_vote_passed_after' && p) text = `Approved with MetaDAO's admin key <b>before</b> any proposal on this DAO had passed. Proposal ${proposalLink(p.number, p.address)}, already open, passed ${gap} days after this movement${passedTx}.${keys}`;
+      else if (f.cls === 'admin_vote_no_finalize' && p) text = `Approved with MetaDAO's admin key. Proposal ${proposalLink(p.number, p.address)} on this DAO is marked Passed, but we did not find its FinalizeProposal transaction, so we cannot say when it passed.${keys}`;
+      else if (f.cls === 'admin_no_vote_found') text = `Approved with MetaDAO's admin key, with no proposal on this DAO that passed in the ${label('60', 'Window in days')} days before it.${keys}`;
+      else text = `Approved with MetaDAO's admin key although its own proposal did not pass.${keys}`;
     } else {
       text = 'Not classified yet';
     }
     const to = f.counterparty.length ? ` · to ${f.counterparty.map((a) => chip(a, 'address')).join(' ')}` : '';
-    return `<div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:18px 24px;border-bottom:1px solid #EEF0F3${f.cls !== 'market_approved' ? ';background:#FFFAF3' : ''}">
+    return `<div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:18px 24px;border-bottom:1px solid #EEF0F3${f.cls === 'admin_after_vote' ? ';background:#FFFAF3' : f.cls !== 'market_approved' ? ';background:#FFF3E0' : ''}">
 <div class="muted" style="width:96px;font-size:13px">${date(f.time)}</div>
 ${fig(fmtUsd(f.usdc, { decimals: 2 }), { kind: 'tx', signature: f.signature }, { style: 'min-width:150px;font-weight:600;font-size:16px' })}
 ${CLASS_BADGE[f.cls]}
@@ -190,7 +198,7 @@ ${chip(f.signature, 'tx')}
   return `<section id="decisions" class="wrap" style="padding-top:56px">
 <div class="eyebrow" style="margin-bottom:12px">Governance</div>
 <h2 style="font-size:clamp(26px,3vw,34px);font-weight:600;margin-bottom:8px">Every spend outside the team budget</h2>
-<p class="soft" style="font-size:15px;margin:0 0 20px;max-width:720px;line-height:1.55">"Market vote" means a futarchy proposal for this exact transaction passed. "Admin key after a vote" means MetaDAO's admin key approved the transaction itself; we show the most recent proposal that passed on this DAO before it, so you can check that it covers the payment. <a href="${url(ctx, 'methodology/#admin-key')}">How this is decided</a></p>
+<p class="soft" style="font-size:15px;margin:0 0 20px;max-width:720px;line-height:1.55">"Market vote" means a futarchy proposal for this exact transaction passed. An admin-key movement was approved by MetaDAO's admin key, not by a vote on this transaction. We show the nearest proposal on the same DAO that passed, with the transaction that finalized it, and say whether it passed before or after the movement. Whether it covers the payment is not something the chain tells us. <a href="${url(ctx, 'methodology/#admin-key')}">How this is decided</a></p>
 <div class="card dl" style="overflow:hidden">${rows.map(line).join('')}</div>
 </section>`;
 }
@@ -327,9 +335,9 @@ export function companyPage(ctx: Ctx, _site: Site, c: Company): string {
 }
 
 export function movementsCsv(t: Treasury): string {
-  const rows = [['time_utc', 'class', 'usdc', 'proposal', 'prior_passed_vote', 'counterparty', 'signature', 'explorer']];
+  const rows = [['time_utc', 'class', 'usdc', 'proposal', 'nearest_passed_proposal', 'proposal_finalized_utc', 'proposal_finalize_signature', 'counterparty', 'signature', 'explorer']];
   for (const f of t.flows) {
-    rows.push([f.time.toISOString(), f.cls, microToDecimal(f.usdc), f.decisionNumber !== null ? `#${f.decisionNumber} ${f.decisionAddress ?? ''}` : '', f.priorVoteNumber !== null ? `#${f.priorVoteNumber} ${f.priorVoteAddress ?? ''}` : '', f.counterparty.join(' '), f.signature, txUrl(f.signature)]);
+    rows.push([f.time.toISOString(), f.cls, microToDecimal(f.usdc), f.decisionNumber !== null ? `#${f.decisionNumber} ${f.decisionAddress ?? ''}` : '', f.prior ? `#${f.prior.number} ${f.prior.address}` : '', f.prior?.finalizedAt?.toISOString() ?? '', f.prior?.finalizeSignature ?? '', f.counterparty.join(' '), f.signature, txUrl(f.signature)]);
   }
   return rows.map((r) => r.map((v) => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v)).join(',')).join('\n') + '\n';
 }

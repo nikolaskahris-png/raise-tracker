@@ -1,9 +1,9 @@
-import { fig, label, esc } from '../fig.ts';
+import { fig, label, esc, txUrl } from '../fig.ts';
 import { fmtInt, fmtUsd, pct, sum, type Micro } from '../money.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import { displayName } from './company.ts';
 import { MIN_REAL_RAISE, type Company, type Site } from '../model.ts';
-import type { Track } from '../schema.ts';
+import { ADMIN_CLASSES, isAdmin, type FlowClass, type Track } from '../schema.ts';
 
 const COLORS = { team: '#2A44E8', market: '#0F1A4A', admin: '#F08C2B', left: '#C9D1F5', other: '#8A8F9C' } as const;
 const WORDS = ['', '', 'twice', 'three times', 'four times', 'five times', 'six times', 'seven times', 'eight times', 'nine times', 'ten times'];
@@ -12,16 +12,14 @@ const CHECK = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" strok
 const CLOCK = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="8" cy="8" r="5.5"></circle><path d="M8 5v3.2l2 1.3"></path></svg>';
 
 export type Totals = {
-  readonly totalIn: Micro; readonly team: Micro; readonly market: Micro; readonly adminAfter: Micro; readonly adminNoVote: Micro;
-  readonly adminAgainst: Micro; readonly liquidation: Micro; readonly otherOut: Micro; readonly left: Micro; readonly inflowOther: Micro;
+  readonly totalIn: Micro; readonly team: Micro; readonly market: Micro; readonly admin: Micro; readonly liquidation: Micro; readonly otherOut: Micro; readonly left: Micro; readonly inflowOther: Micro;
 };
 
 export function totals(site: Site): Totals {
   const ts = site.companies.flatMap((c) => (c.treasury ? [c.treasury] : []));
   const s = (k: keyof (typeof ts)[number]['byClass']) => sum(ts.map((t) => t.byClass[k]));
   return {
-    totalIn: sum(ts.map((t) => t.totalIn)), team: s('team_budget'), market: s('market_approved'), adminAfter: s('admin_after_vote'),
-    adminNoVote: s('admin_no_vote_found'), adminAgainst: s('admin_against_market'), liquidation: s('liquidation'), otherOut: s('other_out'),
+    totalIn: sum(ts.map((t) => t.totalIn)), team: s('team_budget'), market: s('market_approved'), admin: sum(ADMIN_CLASSES.map((k) => s(k))), liquidation: s('liquidation'), otherOut: s('other_out'),
     left: sum(ts.map((t) => t.net)), inflowOther: s('inflow_other'),
   };
 }
@@ -56,7 +54,7 @@ function companyRow(ctx: Ctx, c: Company): string {
   const now = fig(fmtUsd(t.net, { decimals: 2 }), { kind: 'account', address: t.row.usdcAccount });
   const parts = [
     { v: t.byClass.team_budget, color: COLORS.team }, { v: t.byClass.market_approved, color: COLORS.market },
-    { v: t.byClass.admin_after_vote + t.byClass.admin_no_vote_found + t.byClass.admin_against_market, color: COLORS.admin },
+    { v: sum(ADMIN_CLASSES.map((k) => t.byClass[k])), color: COLORS.admin },
     { v: t.byClass.liquidation + t.byClass.other_out, color: COLORS.other }, { v: t.net, color: COLORS.left },
   ];
   return `<tr><td><a href="${href}" style="color:#0A0B0F"><div style="font-weight:600;display:flex;align-items:center;gap:8px">${displayName(c)}${nameTag}</div><div class="mono muted" style="font-size:12px">${label(sub, `Ticker or token mint ${r.mint}`)}</div></a></td><td class="r">${raised}</td><td class="r">${now}</td><td>${bar(parts, t.totalIn)}</td><td><a class="badge b-v" href="${href}">Reconciled</a></td></tr>`;
@@ -95,14 +93,22 @@ export function homePage(ctx: Ctx, site: Site): string {
     ? `Curated raises complete ${WORDS[times]} as often as permissionless ones.`
     : 'How often each kind of raise completes.';
 
-  // Admin-key movements: what we can and cannot say, written from the data.
-  const adminFlows = site.allFlows.filter((f) => f.cls === 'admin_after_vote' || f.cls === 'admin_no_vote_found' || f.cls === 'admin_against_market');
-  const afterVote = adminFlows.filter((f) => f.cls === 'admin_after_vote');
-  const days = afterVote.map((f) => Number(f.priorVoteDays));
-  const adminNote = adminFlows.length === 0 ? '' : adminFlows.length === afterVote.length
-    ? `<div class="note note-v" style="flex:1 1 360px"><span class="mk mk-v" style="width:22px;height:22px;background:#fff;margin-top:1px" aria-hidden="true">${CHECK}</span><div><b>Every admin-key movement came after a vote.</b> All ${fig(fmtInt(afterVote.length), { kind: 'sum', href: meth('admin-key'), what: 'movements approved with an admin key' })} movements approved with MetaDAO's admin key came ${fig(Math.min(...days).toFixed(1), { kind: 'formula', href: meth('admin-key'), formula: 'days between the most recent passed proposal on the DAO and the movement' })} to ${fig(Math.max(...days).toFixed(1), { kind: 'formula', href: meth('admin-key'), formula: 'days between the most recent passed proposal on the DAO and the movement' })} days after a proposal passed on the same DAO. Each one links that proposal so you can check that it covers the payment.</div></div>`
-    : `<div class="note note-p" style="flex:1 1 360px"><span class="mk mk-p" style="width:22px;height:22px;background:#fff;margin-top:1px" aria-hidden="true">${CLOCK}</span><div><b>Admin-key movements without a recent vote:</b> ${fig(fmtUsd(T.adminNoVote + T.adminAgainst, { decimals: 2 }), { kind: 'sum', href: meth('admin-key'), what: 'admin-key movements with no passed proposal on the DAO in the 60 days before, or against a vote' })}. Each one is listed on its company page.</div></div>`;
-
+  // Admin-key movements: only what the order of the transactions shows, written from the data.
+  const adminFlows = site.allFlows.filter((f) => isAdmin(f.cls));
+  const by = (c: FlowClass) => adminFlows.filter((f) => f.cls === c);
+  const afterVote = by('admin_after_vote');
+  const notAfter = adminFlows.length - afterVote.length;
+  const nAdmin = fig(fmtInt(adminFlows.length), { kind: 'sum', href: meth('admin-key'), what: 'movements approved with an admin key' });
+  const nAfter = fig(fmtInt(afterVote.length), { kind: 'sum', href: meth('admin-key'), what: 'admin-key movements that came after a proposal on the same DAO had passed' });
+  const gaps = afterVote.flatMap((f) => (f.prior?.finalizedAt && f.prior.finalizeSignature ? [{ days: (f.time.getTime() - f.prior.finalizedAt.getTime()) / 86_400_000, sig: f.prior.finalizeSignature }] : [])).sort((x, y) => x.days - y.days);
+  const gapFig = (g: { days: number; sig: string } | undefined) => (g ? fig(g.days.toFixed(1), { kind: 'formula', href: txUrl(g.sig), formula: 'days from the proposal\x27s FinalizeProposal transaction (opens it) to the movement' }) : '');
+  const others = ([['admin_vote_passed_after', 'came before the proposal passed'], ['admin_vote_no_finalize', 'follow a proposal whose passing time we did not find'], ['admin_no_vote_found', 'had no passed proposal on the DAO in the window'], ['admin_against_market', 'went against their own proposal']] as const)
+    .filter(([c]) => by(c).length > 0)
+    .map(([c, words]) => `${fig(fmtInt(by(c).length), { kind: 'sum', href: meth('admin-key'), what: `admin-key movements that ${words}` })} ${words}`);
+  const adminTitle = adminFlows.length === 0 ? '' : notAfter === 0
+    ? `Every admin-key movement came after a proposal on the same DAO had passed.`
+    : `Not every admin-key movement came after a vote.`;
+  const adminNote = adminFlows.length === 0 ? '' : `<div class="note ${notAfter === 0 ? 'note-v' : 'note-p'}" style="flex:1 1 360px"><span class="mk ${notAfter === 0 ? 'mk-v' : 'mk-p'}" style="width:22px;height:22px;background:#fff;margin-top:1px" aria-hidden="true">${notAfter === 0 ? CHECK : CLOCK}</span><div><b>${adminTitle}</b> Of ${nAdmin} movements approved with MetaDAO's admin key, ${nAfter} came after a proposal on the same DAO had passed${gaps.length ? `, ${gapFig(gaps[0])} to ${gapFig(gaps.at(-1))} days after its FinalizeProposal transaction` : ''}${others.length ? `; ${others.join('; ')}` : ''}. This is timing only: the chain does not tell us whether a proposal covers a payment. Each movement links its proposal.</div></div>`;
   const pending = T.inflowOther > 0n || T.otherOut > 0n
     ? `<div class="note note-p" style="flex:1 1 360px"><span class="mk mk-p" style="width:22px;height:22px;background:#fff;margin-top:1px" aria-hidden="true">${CLOCK}</span><div><b>Pending verification:</b> ${fig(fmtUsd(T.inflowOther, { decimals: 2 }), { kind: 'sum', href: csv('treasury-flows.csv'), what: 'inflows that did not come from a launch' })} came into treasuries after their raise, in ${fig(fmtInt(site.allFlows.filter((f) => f.cls === 'inflow_other').length), { kind: 'sum', href: csv('treasury-flows.csv'), what: 'inflow transactions' })} transactions. The amounts and senders are onchain; what each payment was for is not identified yet.${T.otherOut > 0n ? ` Also ${fig(fmtUsd(T.otherOut, { decimals: 2 }), { kind: 'sum', href: csv('treasury-flows.csv'), what: 'unclassified outflows' })} of outflows we have not classified.` : ''}</div></div>`
     : '';
@@ -169,11 +175,11 @@ ${fig(rate, { kind: 'formula', href: meth('tracks'), formula: 'completed / (comp
 <div class="soft" style="font-size:14px">Total that came in: ${fig(fmtUsd(T.totalIn, { decimals: 2 }), { kind: 'sum', href: csv('treasury-flows.csv'), what: 'all inflows to the treasuries' }, { style: 'font-weight:600;color:#0A0B0F' })}</div>
 </div>
 <div class="card" style="padding:clamp(20px,3vw,32px)">
-${bar([{ v: T.team, color: COLORS.team }, { v: T.market, color: COLORS.market }, { v: T.adminAfter + T.adminNoVote + T.adminAgainst, color: COLORS.admin }, { v: T.liquidation + T.otherOut, color: COLORS.other }, { v: T.left, color: COLORS.left }], T.totalIn, 'bar').replace('class="bar"', `class="bar" style="width:100%;height:44px;border-radius:10px;gap:2px" role="img" aria-label="Team budget ${share(T.team, T.totalIn)}, approved by market vote ${share(T.market, T.totalIn)}, approved with the admin key ${share(T.adminAfter + T.adminNoVote + T.adminAgainst, T.totalIn)}, still in the treasuries ${share(T.left, T.totalIn)}"`)}
+${bar([{ v: T.team, color: COLORS.team }, { v: T.market, color: COLORS.market }, { v: T.admin, color: COLORS.admin }, { v: T.liquidation + T.otherOut, color: COLORS.other }, { v: T.left, color: COLORS.left }], T.totalIn, 'bar').replace('class="bar"', `class="bar" style="width:100%;height:44px;border-radius:10px;gap:2px" role="img" aria-label="Team budget ${share(T.team, T.totalIn)}, approved by market vote ${share(T.market, T.totalIn)}, approved with the admin key ${share(T.admin, T.totalIn)}, still in the treasuries ${share(T.left, T.totalIn)}"`)}
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:24px;margin-top:28px">
 ${cat(COLORS.team, 'Team budget', T.team, `${fig(share(T.team, T.totalIn), { kind: 'formula', href: meth('categories'), formula: 'team budget / total in' })} · ${n('team_budget')} draws through the monthly spending limit`, csv('treasury-flows.csv'), 'team budget draws')}
 ${cat(COLORS.market, 'Approved by market vote', T.market, `${fig(share(T.market, T.totalIn), { kind: 'formula', href: meth('categories'), formula: 'market-approved / total in' })} · ${n('market_approved')} transactions, each the subject of a passed proposal`, csv('treasury-flows.csv'), 'market-approved movements')}
-${cat(COLORS.admin, 'Approved with MetaDAO\'s admin key', T.adminAfter + T.adminNoVote + T.adminAgainst, `${fig(share(T.adminAfter + T.adminNoVote + T.adminAgainst, T.totalIn), { kind: 'formula', href: meth('admin-key'), formula: 'admin-key movements / total in' })} · ${fig(fmtInt(adminFlows.length), { kind: 'sum', href: meth('admin-key'), what: 'admin-key movements' })} transactions, see below`, meth('admin-key'), 'movements approved with an admin key')}
+${cat(COLORS.admin, 'Approved with MetaDAO\'s admin key', T.admin, `${fig(share(T.admin, T.totalIn), { kind: 'formula', href: meth('admin-key'), formula: 'admin-key movements / total in' })} · ${fig(fmtInt(adminFlows.length), { kind: 'sum', href: meth('admin-key'), what: 'admin-key movements' })} transactions, see below`, meth('admin-key'), 'movements approved with an admin key')}
 ${cat(COLORS.left, 'Still in the treasuries', T.left, `${fig(share(T.left, T.totalIn), { kind: 'formula', href: meth('categories'), formula: 'balances / total in' })} · USDC balance of the treasuries, reconciled`, csv('treasury.csv'), 'treasury balances')}
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:28px">${adminNote}${pending}</div>
