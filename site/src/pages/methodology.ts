@@ -1,5 +1,6 @@
 import { addrUrl, chip, esc, fig } from '../fig.ts';
 import { fmtInt } from '../money.ts';
+import { startedSentence } from '../tracks.ts';
 import type { ListRows } from '../lists.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import type { Site } from '../model.ts';
@@ -31,7 +32,6 @@ const squadsCode = (line: number): string => `<a class="chip" href="https://gith
 
 export function methodologyPage(ctx: Ctx, site: Site): string {
   const csv = (f: string) => url(ctx, `data/${f}`);
-  const permCount = site.decoded.filter((r) => r.launchAuthority === PERMISSIONLESS_AUTHORITY).length;
   const permFirst = site.decoded.filter((r) => r.launchAuthority === PERMISSIONLESS_AUTHORITY && r.started).map((r) => r.started as Date).sort((a, b) => a.getTime() - b.getTime())[0];
   const example = site.companies.find((c) => c.treasury) ?? null;
   const otherAuthorities = new Set(site.real.filter((r) => r.track === 'curated').map((r) => r.launchAuthority)).size;
@@ -65,7 +65,7 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 <p><b>Raised.</b> Version ${programChip('v06')} stores the final amount directly. Versions ${programChip('v07')} and later store the approved amount, which is the amount raised once the raise is complete. <b>Oversubscription</b> is committed divided by raised.</p>
 
 <h2 id="tracks">Raises by launch authority</h2>
-<p>Each launch account records the <b>launch authority</b>, the key that started the raise. It is the only split of raises the chain gives us. One authority, ${chip(PERMISSIONLESS_AUTHORITY, 'address')}, started ${n(permCount, 'raises started by the permissionless authority', { raises: site.decoded.filter((r) => r.launchAuthority === PERMISSIONLESS_AUTHORITY) })} raises from ${day(permFirst)} onward, including the platform's own FUTARDIO token. We identify it as MetaDAO's permissionless platform, launched as Futardio and renamed Backable. That identification is ours, from the chain; it is not declared onchain.</p>
+<p>Each launch account records the <b>launch authority</b>, the key that started the raise. It is the only split of raises the chain gives us. One authority, ${chip(PERMISSIONLESS_AUTHORITY, 'address')}, started its first raise on ${day(permFirst)}, the platform's own FUTARDIO token among them. It started ${startedSentence(site, 'permissionless')} We identify it as MetaDAO's permissionless platform, launched as Futardio and renamed Backable. That identification is ours, from the chain; it is not declared onchain.</p>
 <p>Every other authority (${n(otherAuthorities, 'launch authorities other than the permissionless one, among real raises', { authorities: [...new Set(site.real.filter((r) => r.track === 'curated').map((r) => r.launchAuthority))] })} of them among real raises) is grouped as <b>other launch authorities</b>. We do not know who controls those keys or how their raises were chosen, so the site does not call them curated or selected. The home page lists every authority with its own counts.</p>
 <p>A raise with a minimum under ${constant('min_real_raise_usd')} is treated as a <b>test launch</b> and left out of every rate and total. The <b>completion rate</b> is completed raises divided by finished raises, where finished means Complete or Refunding.</p>
 <p><b>Uncertainty.</b> Each rate is shown with its ${constant('confidence')} <b>Wilson score interval</b> and the number of finished raises it rests on (n). With few raises the interval is wide. The home page's title names a direction only when the two groups' intervals do not overlap, and it never states a ratio between the rates: with these sample sizes a ratio is far too uncertain.</p>
