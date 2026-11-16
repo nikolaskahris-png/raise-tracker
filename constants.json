@@ -1,0 +1,14 @@
+{
+  "_about": "Every fixed rule of the method, in one place. scripts/scan.mjs, scripts/treasury.mjs and the site all read this file; site/test/constants.test.ts checks that none of them keeps its own copy, and the methodology page quotes these values.",
+  "min_real_raise_usd": 10000,
+  "permissionless_authority": "LRrTQLqFzAPxjschuAKQAqH1XHBuBgHqwhybENStARt",
+  "admin_vote_window_days": 60,
+  "spending_limit_period_days": 30,
+  "average_month_days": 30.4375,
+  "stale_hours": 36,
+  "confidence": 0.95,
+  "sample_treasuries": 3,
+  "sample_movements": 10,
+  "ledger_min_usd": 1000,
+  "scan_times_utc": ["05:17", "17:41"]
+}
