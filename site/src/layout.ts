@@ -117,10 +117,11 @@ p{margin:0}
 .mk{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:999px;flex:none;font-size:10px;font-weight:600;font-family:Inter,sans-serif;line-height:1}
 .mk-v,.mk-s,.mk-f{background:#E8ECFF;color:#2A44E8}
 .mk-d{border:1px dashed #7A8090;color:#4A5060;width:13px;height:13px}
+.mk-o{border:1px dashed #2A44E8;width:13px;height:13px}.mk-o::after{content:"";width:5px;height:5px;border-radius:999px;background:#2A44E8}
 .mk-p{background:#FFEBCC;color:#8A4200}
 .mk-dk{background:#1E2440;color:#AEBBFF}
 .badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
-.b-v{background:#EEF1FF;color:#2236C7}.b-d{background:#FFFFFF;color:#3D4250;border:1px dashed #9AA0AE}
+.b-v{background:#EEF1FF;color:#2236C7}.b-d{background:#FFFFFF;color:#3D4250;border:1px dashed #9AA0AE}.b-od{background:#F4F6FF;color:#2236C7;border:1px dashed #8EA0FF}
 .b-p{background:#FFF3E0;color:#8A4200}.b-n{background:#F1F2F5;color:#3D4250}
 .b-o{background:#FFF0E0;color:#8A4200}.b-k{background:#E7E9F4;color:#0F1A4A}
 .chip{font-family:'JetBrains Mono',monospace;font-size:12px;color:#3D4250;background:#F1F2F5;border-radius:6px;padding:3px 7px;display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
