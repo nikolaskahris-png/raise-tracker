@@ -82,14 +82,20 @@ const getTx = sig => rpc('getTransaction', [sig, { encoding: 'jsonParsed', maxSu
 const approvalCache = new Map();
 async function approvalOf(proposal) {
   if (approvalCache.has(proposal)) return approvalCache.get(proposal);
-  let res = { how: 'unknown', approver: '' };
+  // Read the whole history of the Squads proposal and decide how it was approved.
+  // Market path: futarchy FinalizeProposal (a passed decision market) approves it.
+  // Admin paths (names differ across futarchy versions): any futarchy instruction whose name starts with "Admin",
+  // or ExecuteMultisigProposalApproval, which consumes an approval enqueued by the admin or a liquidator.
+  let finalize = false, admin = false, approvers = new Set(), names = new Set();
   for (const s of await allSignatures(proposal)) {
     if (s.err) continue;
-    const tx = await getTx(s.signature); const names = ixNames(tx.meta.logMessages);
-    if (names.includes('futarchy:FinalizeProposal') && names.includes('squads:ProposalApprove')) { res = { how: 'market_approved', approver: '' }; break; }
-    if (names.includes('futarchy:AdminEnqueueMultisigProposalApproval')) res = { how: 'admin_approved', approver: signersOf(tx).join(' ') };
-    if (names.includes('futarchy:ExecuteMultisigProposalApproval') && res.how === 'unknown') res = { how: 'admin_approved', approver: '(enqueue tx not seen)' };
+    const tx = await getTx(s.signature); const n = ixNames(tx.meta.logMessages);
+    n.filter(x => x.startsWith('futarchy:') || x.startsWith('squads:Proposal')).forEach(x => names.add(x));
+    if (n.includes('futarchy:FinalizeProposal')) finalize = true;
+    if (n.some(x => /^futarchy:Admin/.test(x)) || n.includes('futarchy:ExecuteMultisigProposalApproval')) { admin = true; if (n.some(x => /^futarchy:Admin/.test(x))) signersOf(tx).forEach(k => approvers.add(k)); }
   }
+  const how = admin ? 'admin_approved' : finalize ? 'market_approved' : 'unknown';
+  const res = { how, approver: [...approvers].join(' '), names: [...names].join(' ') };
   approvalCache.set(proposal, res); return res;
 }
 
@@ -127,7 +133,7 @@ for (const r of raises) {
         const proposal = ix ? ix.accounts[1] : null;
         const a = proposal ? await approvalOf(proposal) : { how: 'unknown', approver: '' };
         cls = a.how === 'market_approved' ? 'market_approved' : a.how === 'admin_approved' ? 'admin_approved' : 'other_out';
-        approval = `${a.how}${a.approver ? ' by ' + a.approver : ''}${names.includes('futarchy:AdminExecuteMultisigProposal') ? ' (executed via admin key)' : ''} proposal=${proposal || '?'}`;
+        approval = `${a.how}${a.approver ? ' by ' + a.approver : ''}${a.how === 'unknown' ? ' [' + (a.names || 'no futarchy instructions') + ']' : ''}${names.includes('futarchy:AdminExecuteMultisigProposal') ? ' (executed via admin key)' : ''} proposal=${proposal || '?'}`;
       } else cls = 'other_out';
       sums[cls] += Math.abs(delta);
       // counterparty: the other USDC account whose balance moved the opposite way
@@ -160,7 +166,8 @@ const report = [
   `# Treasury report — ${new Date().toISOString()}`, '', `Treasuries: ${summary.length} of ${raises.length}. RPC calls: ${calls}.`,
   `Reconciled (history sums exactly to today's balance): ${summary.filter(s => s.reconciles === 'yes').length}/${summary.length}`, '',
   '## Outflows, all treasuries (USD)', `- team_budget: ${tot('team_budget_usd')}`, `- market_approved: ${tot('market_approved_usd')}`, `- admin_approved: ${tot('admin_approved_usd')}`, `- liquidation: ${tot('liquidation_usd')}`, `- other_out: ${tot('other_out_usd')}`, '',
-  '## Admin-approved movements', ...flows.filter(f => f.class === 'admin_approved').map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC — ${f.approval}`), '',
+  '## Admin-approved movements', ...flows.filter(f => f.class === 'admin_approved').map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC to ${f.counterparty || '?'} — ${f.approval}`), '',
+  '## Unclassified outflows', ...flows.filter(f => f.class === 'other_out').map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC to ${f.counterparty || '?'} — ${f.approval || f.instructions}`), '',
   '## Instruction names seen on treasury movements (for review)', ...Object.entries(seen).sort((a, b) => b[1] - a[1]).map(([n, c]) => `- ${n}: ${c}`), '',
   `## Problems: ${problems.length}`, ...problems.map(p => `- ${p}`), '',
 ];
