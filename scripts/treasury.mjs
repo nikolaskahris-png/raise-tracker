@@ -194,7 +194,7 @@ for (const r of raises) {
         const pre = (tx.meta.preTokenBalances || []).find(x => x.accountIndex === b.accountIndex);
         return { owner: b.owner, d: Number(b.uiTokenAmount.amount) / 1e6 - (pre ? Number(pre.uiTokenAmount.amount) / 1e6 : 0) };
       }).filter(o => Math.sign(o.d) === -Math.sign(delta));
-      flows.push({ ticker: label, track: r.track || '', time_utc: new Date(tx.blockTime * 1000).toISOString(), usdc: delta.toFixed(6), class: cls, approval, market_decision: decision, decision_ref: decisionRef, prior_passed_vote: priorVote,
+      flows.push({ ticker: label, base_mint: r.base_mint, track: r.track || '', time_utc: new Date(tx.blockTime * 1000).toISOString(), usdc: delta.toFixed(6), class: cls, approval, market_decision: decision, decision_ref: decisionRef, prior_passed_vote: priorVote,
         counterparty: others.map(o => o.owner).join(' '), signature: s.signature, instructions: [...new Set(names)].join(' ') });
     }
     // Starting treasury = the USDC the launchpad actually deposited (CompleteLaunch), read from the chain.
@@ -204,9 +204,9 @@ for (const r of raises) {
     // Squads resets a monthly limit every 30 days, so a team can draw a full month at the start of each period.
     const periods = Math.max(1, Math.ceil((now - Date.parse(r.completed_utc || r.closed_utc)) / (30 * 864e5)));
     const allowed = Number(r.monthly_budget_usd) * periods;
-    let slNow = null;
+    let slNow = null; let slAddr = '';
     try {
-      const slAddr = pda([enc('multisig'), b58d(multisig), enc('spending_limit'), b58d(r.dao)], SQUADS);
+      slAddr = pda([enc('multisig'), b58d(multisig), enc('spending_limit'), b58d(r.dao)], SQUADS);
       const sl = await rpc('getAccountInfo', [slAddr, { encoding: 'base64' }]);
       if (sl.value) { const d = decodeSpendingLimit(Buffer.from(sl.value.data[0], 'base64')); if (d.multisig === multisig && d.create_key === r.dao && d.mint === USDC) slNow = d; else problems.push(`${label}: spending limit account did not match`); }
     } catch (e) { problems.push(`${label}: spending limit read failed: ${e.message}`); }
@@ -215,7 +215,7 @@ for (const r of raises) {
     for (let i = 0, j = 0, run = 0; j < teamUses.length; j++) { run += teamUses[j].amt; while (teamUses[j].t - teamUses[i].t >= 30 * 86400) run -= teamUses[i++].amt; maxWindow = Math.max(maxWindow, run); }
     const reconciles = Math.abs(net - balanceNow) < 0.01;
     if (!reconciles) problems.push(`${label}: history sums to ${net.toFixed(2)} but balance is ${balanceNow.toFixed(2)}`);
-    summary.push({ ticker: label, track: r.track || '', raised_usd: r.raised_usd, start_treasury_usd: start.toFixed(2), balance_now_usd: balanceNow.toFixed(2),
+    summary.push({ ticker: label, base_mint: r.base_mint, launch: r.launch, dao: r.dao, dao_vault: r.dao_vault, track: r.track || '', raised_usd: r.raised_usd, start_treasury_usd: start.toFixed(2), balance_now_usd: balanceNow.toFixed(2),
       launch_funding_usd: sums.launch_funding.toFixed(2), inflow_other_usd: sums.inflow_other.toFixed(2),
       team_budget_usd: sums.team_budget.toFixed(2), market_approved_usd: sums.market_approved.toFixed(2),
       admin_after_vote_usd: sums.admin_after_vote.toFixed(2), admin_no_vote_found_usd: sums.admin_no_vote_found.toFixed(2), admin_against_market_usd: sums.admin_against_market.toFixed(2),
@@ -223,7 +223,7 @@ for (const r of raises) {
       months_since_raise: months.toFixed(2), periods_started: periods, monthly_budget_usd: r.monthly_budget_usd, budget_allowed_usd: allowed.toFixed(2),
       spending_limit_now_usd: slNow ? slNow.amount.toFixed(2) : '', spending_limit_period: slNow ? slNow.period : '', limit_changed: slNow ? (Math.abs(slNow.amount - Number(r.monthly_budget_usd)) > 0.005 ? 'yes' : 'no') : 'unknown',
       max_30day_team_draw_usd: maxWindow.toFixed(2),
-      team_budget_used_pct: allowed > 0 ? (100 * sums.team_budget / allowed).toFixed(1) : '', reconciles: reconciles ? 'yes' : 'NO', treasury_usdc_account: ata, squads_multisig: multisig });
+      team_budget_used_pct: allowed > 0 ? (100 * sums.team_budget / allowed).toFixed(1) : '', reconciles: reconciles ? 'yes' : 'NO', treasury_usdc_account: ata, squads_multisig: multisig, spending_limit_account: slAddr });
   } catch (e) { problems.push(`${label}: ${e.message}`); }
 }
 
