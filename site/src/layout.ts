@@ -162,6 +162,7 @@ p{margin:0}
 .chart .b{flex:1;background:#2A44E8;border-radius:4px 4px 0 0;min-height:2px}
 .chart .zero{background:#E6E8EC}
 .chart .line{position:absolute;left:0;right:0}
+.periods{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px 16px;font-size:13px}.periods li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid #EEF0F3;padding:4px 0}
 .chart-x{display:flex;gap:8px;min-width:520px;margin-top:8px;font-size:11px;color:#5B6170;text-align:center}
 .chart-x span{flex:1}
 .ph{border:1px dashed #C9CDD6;border-radius:10px;padding:14px;font-size:13px;color:#5B6170}

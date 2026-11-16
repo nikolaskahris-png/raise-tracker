@@ -16,7 +16,7 @@ const registry = new Map<string, ListEntry>();
 let base = '/';
 
 /** Start a build: forget every list and set the URL prefix. */
-export function resetLists(urlBase: string): void { registry.clear(); base = urlBase; }
+export function resetLists(urlBase: string): void { registry.clear(); formulas.clear(); base = urlBase; }
 export const allLists = (): ListEntry[] => [...registry.values()];
 
 function keys(rows: ListRows): string[] {
@@ -38,5 +38,15 @@ export function listHref(what: string, rows: ListRows): string {
   if (!registry.has(id)) registry.set(id, { id, what, rows });
   return `${base}lists/${id}/`;
 }
+
+// Every formula shown on the site, written out on the methodology page. A formula figure opens its own entry,
+// so it can be read with a tap; nothing depends on hovering.
+const formulas = new Map<string, string>(); // formula text -> anchor id
+export function formulaHref(formula: string): string {
+  let id = formulas.get(formula);
+  if (!id) { id = `f-${createHash('sha256').update(formula).digest('hex').slice(0, 10)}`; formulas.set(formula, id); }
+  return `${base}methodology/#${id}`;
+}
+export const allFormulas = (): { formula: string; id: string }[] => [...formulas.entries()].map(([formula, id]) => ({ formula, id })).sort((a, b) => a.formula.localeCompare(b.formula));
 
 export const rowCount = (rows: ListRows): number => keys(rows).length;

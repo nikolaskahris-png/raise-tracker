@@ -279,12 +279,13 @@ ${changed && limitNow !== null ? `<div class="line" style="bottom:${h(limitNow)}
 ${bars}
 </div>
 <div class="chart-x">${periods.map((p) => `<span>${shortDate(p.start)}</span>`).join('')}</div></div>
-<div class="muted" style="font-size:12px;margin-top:10px;line-height:1.5">Each bar is a ${constant('spending_limit_period_days')}-day period counted from the end of the raise, the same length as the limit's period. The program resets the limit on its own clock, so one period's bar can include a draw from the next period's allowance. Hover a bar for its total.</div>
+<div class="muted" style="font-size:12px;margin-top:10px;line-height:1.5">Each bar is a ${constant('spending_limit_period_days')}-day period counted from the end of the raise, the same length as the limit's period. The program resets the limit on its own clock, so one period's bar can include a draw from the next period's allowance. The total of each period is listed below; each opens its draws.</div>
+<ul class="periods" aria-label="Total drawn in each period">${periods.map((p) => `<li>${shortDate(p.start)} ${fig(fmtUsd(p.drawn), { kind: 'sum', what: `${c.displayName}: team draws in one spending-limit period`, rows: { flows: p.flows } })}</li>`).join('')}</ul>
 </div>
 <div class="card" style="flex:1 1 300px;padding:8px 24px">
 <div class="kv"><span class="soft">Drawn so far</span>${fig(fmtUsd(drawn, { decimals: 2 }), { kind: 'sum', what: `${c.displayName}: team budget draws`, rows: { flows: t.flows.filter((f) => f.cls === 'team_budget') } }, { style: 'font-weight:600' })}</div>
 <div class="kv"><span class="soft">Allowed at the launch limit</span>${fig(fmtUsd(allowed, { decimals: 2 }), { kind: 'formula', href: meth('budget'), formula: 'periods started × monthly limit at launch' }, { style: 'font-weight:600' })}</div>
-<div class="muted" style="font-size:12px;margin:-4px 0 8px">= ${fig(fmtInt(t.row.periodsStarted), { kind: 'formula', href: meth('budget'), formula: '30-day periods started since the raise' })} periods × ${fig(fmtUsd(launchLimit), { kind: 'account', address: r.launch })}</div>
+<div class="muted" style="font-size:12px;margin:-4px 0 8px">= ${fig(fmtInt(t.row.periodsStarted), { kind: 'formula', href: meth('budget'), formula: 'spending-limit periods started since the raise' })} periods × ${fig(fmtUsd(launchLimit), { kind: 'account', address: r.launch })}</div>
 <div class="kv"><span class="soft">Largest ${constant('spending_limit_period_days')}-day period</span>${fig(fmtUsd(maxDraw, { decimals: 2 }), { kind: 'sum', what: `${c.displayName}: team draws in the largest period`, rows: { flows: periods.find((p) => p.drawn === maxDraw)?.flows ?? [] } }, { style: 'font-weight:600' })}</div>
 <div class="kv"><span class="soft">Wallets that can draw</span>${fig(fmtInt(r.budgetWallets.length), { kind: 'account', address: r.launch }, { style: 'font-weight:600' })}</div>
 <div style="display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 12px">${r.budgetWallets.map((w) => addr(w)).join('')}</div>

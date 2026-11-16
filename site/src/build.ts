@@ -53,7 +53,6 @@ const write = (rel: string, content: string) => {
 };
 write('site.css', CSS);
 write('index.html', homePage(ctx, site));
-write('methodology/index.html', methodologyPage(ctx, site));
 write('404.html', notFoundPage(ctx));
 for (const c of site.companies) {
   write(`company/${c.raise.mint}/index.html`, companyPage(ctx, site, c));
@@ -61,6 +60,7 @@ for (const c of site.companies) {
 }
 mkdirSync(join(out, 'data'), { recursive: true });
 for (const f of ['raises.csv', 'treasury.csv', 'treasury-flows.csv', 'scan-report.md', 'treasury-report.md']) copyFileSync(join(dataDir, f), join(out, 'data', f));
+write('methodology/index.html', methodologyPage(ctx, site)); // last: lists every formula the other pages used
 // One page per Σ figure. Writing a list page can register no new list (its totals open itself), but loop to be sure.
 const written = new Set<string>();
 for (let pending = allLists(); pending.length; pending = allLists().filter((e) => !written.has(e.id))) {
