@@ -1,6 +1,6 @@
-# Treasury report — 2026-11-16T00:40:04.281Z
+# Treasury report — 2026-11-16T00:45:41.505Z
 
-Treasuries: 31 of 33. RPC calls: 1386.
+Treasuries: 31 of 33. RPC calls: 1446.
 Reconciled (history sums exactly to today's balance): 31/31
 
 Futarchy proposals indexed: 183 (decode errors: 0)
@@ -8,21 +8,22 @@ Futarchy proposals indexed: 183 (decode errors: 0)
 ## Outflows, all treasuries (USD)
 - team_budget: 8311587
 - market_approved (linked proposal Passed): 12267500
-- admin_no_market (admin key, no linked proposal): 6038457
+- admin_after_vote (admin key; a proposal on this DAO passed in the 60 days before): 6038457
+- admin_no_vote_found (admin key; no passed proposal on this DAO in the 60 days before): 0
 - admin_against_market (admin key, linked proposal not Passed): 0
 - liquidation: 0
 - other_out: 2976
 
 ## Every movement approved through an admin key
-- 2026-05-04T20:27:15.000Z UMBRA -250000.000000 USDC to 5AeN744ZH5qeeszMqQREMRCYeTwA2yKYJFv2VWe2u4LS — class admin_no_market, market decision: none — admin_approved by CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 proposal=E8DedCK1CArsruzbJkjc8CdPaDW2oK1AW5K2XRbAhoxw
-- 2026-08-01T02:10:44.000Z LOYAL -176688.000000 USDC to F7zuL14omw4JJfS1cvsWXVb3wh48dvsonMJgoc9tYu3e — class admin_no_market, market decision: none — admin_approved by FofGriQgNhD5jBXazF3t2CaM7VS2Y1Sj9qawGPRGYWe7 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw proposal=7FZjZWMZaMD9HUqbf3zdGDwsDSXe6C3n36qXwJ7YSQ96
-- 2026-06-25T22:51:36.000Z ZKFHiLAf -356860.112407 USDC to EJiABtACRvRTTtCRWBRYdZAnCnKNdYvVYVGmaW5ZWSb9 — class admin_no_market, market decision: none — admin_approved by 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw A4THR6vJ6LWJ75681gfRrDhgRfxHbxhjdJV9Bz5v97GK CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 (executed via admin key) proposal=EBSF29RDGk6wi1Mvepeps5cNhmapFP8Fx87RsFnGJ7W2
-- 2026-05-30T01:26:21.000Z PAYZP1W3 -166000.000000 USDC to EMw5QicuN3pgFq2XwdKXUPKvvQkDqZ3ToPvcRdWdbrLJ — class admin_no_market, market decision: none — admin_approved by B3tDgrBf1CXt7gWwzT1Sw8X7SVqkAWFyPZahCKrhU3ZK 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw proposal=8DZvBgeUeVBKBk8NHCNCxeV5pEQFQr7DoUrFQNiXR2Kk
-- 2026-09-11T23:40:22.000Z PAYZP1W3 -39108.759249 USDC to BbdKwPwDxRdc3oc34sd8TVp4JHYSjW71wWbfVNyXqHjH — class admin_no_market, market decision: none — admin_approved by FofGriQgNhD5jBXazF3t2CaM7VS2Y1Sj9qawGPRGYWe7 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw proposal=7MDhkFStgYzzLN1sbT95S6Rc2FsgnUSUyoh1cj2sYMiz
-- 2026-03-05T23:55:04.000Z RNGRtJMb -5047249.684578 USDC to 7mZMudt1SQzmxiNyV3oQ68ot8aSs2uGMw8YwNLSE3rQg — class admin_no_market, market decision: none — admin_approved by CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 proposal=5927AmmV4wL5h2VVRei9tWYg3LLF2ZsedvTNkMmquTnZ
-- 2026-03-08T19:36:38.000Z FUTARDIO -550.000000 USDC to FRhn3rKF4GgsXdLHLV66wxeEV6bvkQguTb6Utzrpt1NJ — class admin_no_market, market decision: none — admin_approved by CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 proposal=Dyp2BRt3C2tcJxyU5iAX6vhDoohXDY27iNBKceeKHGhc
-- 2026-05-26T21:58:03.000Z FUTARDIO -1000.000000 USDC to 3gXzFVWE2J4Pcy5yDy7LY2yomiyB6P1ZfxmwF8QKf3b9 — class admin_no_market, market decision: none — admin_approved by A4THR6vJ6LWJ75681gfRrDhgRfxHbxhjdJV9Bz5v97GK CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 EP3SoC2SvR3d4c2eXVBvhEMWSr2j3YtoCY3UMiQV7BPD proposal=44MkAFrV9qFFiy2ZLe4PHZRzti1KPbPXZ6E83rVVK4Aw
-- 2026-05-26T22:00:25.000Z FUTARDIO -1000.000000 USDC to 3gXzFVWE2J4Pcy5yDy7LY2yomiyB6P1ZfxmwF8QKf3b9 — class admin_no_market, market decision: none — admin_approved by A4THR6vJ6LWJ75681gfRrDhgRfxHbxhjdJV9Bz5v97GK CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 EP3SoC2SvR3d4c2eXVBvhEMWSr2j3YtoCY3UMiQV7BPD proposal=D97syiUw2JZy1j83FZBB4arhWhT33jXvSWH6ZaNymuFS
+- 2026-05-04T20:27:15.000Z UMBRA -250000.000000 USDC to 5AeN744ZH5qeeszMqQREMRCYeTwA2yKYJFv2VWe2u4LS — class admin_after_vote, prior passed vote #4 2a5qE2E8pSv2EqHAfDvAuKHqMpMubBVjGPZr7bChiZKy, enqueued 3.0 days earlier — admin_approved by CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 proposal=E8DedCK1CArsruzbJkjc8CdPaDW2oK1AW5K2XRbAhoxw
+- 2026-08-01T02:10:44.000Z LOYAL -176688.000000 USDC to F7zuL14omw4JJfS1cvsWXVb3wh48dvsonMJgoc9tYu3e — class admin_after_vote, prior passed vote #4 98zXsz1RtvYw4zHrxaZDdGBU3BgqfsX9XJbXBLSJUBST, enqueued 9.1 days earlier — admin_approved by FofGriQgNhD5jBXazF3t2CaM7VS2Y1Sj9qawGPRGYWe7 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw proposal=7FZjZWMZaMD9HUqbf3zdGDwsDSXe6C3n36qXwJ7YSQ96
+- 2026-06-25T22:51:36.000Z ZKFHiLAf -356860.112407 USDC to EJiABtACRvRTTtCRWBRYdZAnCnKNdYvVYVGmaW5ZWSb9 — class admin_after_vote, prior passed vote #8 APk1tpQq75LyrMmE4ryhuEjV37qggVaqrJgYpzKJ975z, enqueued 8.6 days earlier — admin_approved by 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw A4THR6vJ6LWJ75681gfRrDhgRfxHbxhjdJV9Bz5v97GK CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 (executed via admin key) proposal=EBSF29RDGk6wi1Mvepeps5cNhmapFP8Fx87RsFnGJ7W2
+- 2026-05-30T01:26:21.000Z PAYZP1W3 -166000.000000 USDC to EMw5QicuN3pgFq2XwdKXUPKvvQkDqZ3ToPvcRdWdbrLJ — class admin_after_vote, prior passed vote #4 2VmEeSdSfwDBWUYHH61iJCz8TwdmEqhTSmXWBgpHrWzN, enqueued 3.2 days earlier — admin_approved by B3tDgrBf1CXt7gWwzT1Sw8X7SVqkAWFyPZahCKrhU3ZK 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw proposal=8DZvBgeUeVBKBk8NHCNCxeV5pEQFQr7DoUrFQNiXR2Kk
+- 2026-09-11T23:40:22.000Z PAYZP1W3 -39108.759249 USDC to BbdKwPwDxRdc3oc34sd8TVp4JHYSjW71wWbfVNyXqHjH — class admin_after_vote, prior passed vote #5 7dDZKPT7RG8W8pm2sejwzDBbSP8iR7jHq4Kh1ch4TVJS, enqueued 6.5 days earlier — admin_approved by FofGriQgNhD5jBXazF3t2CaM7VS2Y1Sj9qawGPRGYWe7 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw proposal=7MDhkFStgYzzLN1sbT95S6Rc2FsgnUSUyoh1cj2sYMiz
+- 2026-03-05T23:55:04.000Z RNGRtJMb -5047249.684578 USDC to 7mZMudt1SQzmxiNyV3oQ68ot8aSs2uGMw8YwNLSE3rQg — class admin_after_vote, prior passed vote #4 DPATwR2HLcGZCBZCTffzagV4r7dp5FF2C9aJmiuCDUpS, enqueued 3.0 days earlier — admin_approved by CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 proposal=5927AmmV4wL5h2VVRei9tWYg3LLF2ZsedvTNkMmquTnZ
+- 2026-03-08T19:36:38.000Z FUTARDIO -550.000000 USDC to FRhn3rKF4GgsXdLHLV66wxeEV6bvkQguTb6Utzrpt1NJ — class admin_after_vote, prior passed vote #1 Hw4KF6uZxdu8demt2z1Z9ePSF9Bxuyqtt3nFgoLK9EHu, enqueued 3.8 days earlier — admin_approved by CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 proposal=Dyp2BRt3C2tcJxyU5iAX6vhDoohXDY27iNBKceeKHGhc
+- 2026-05-26T21:58:03.000Z FUTARDIO -1000.000000 USDC to 3gXzFVWE2J4Pcy5yDy7LY2yomiyB6P1ZfxmwF8QKf3b9 — class admin_after_vote, prior passed vote #4 E5AEP2hCTfYVq4Rnc1TKZjTauSSEYFFBr8g49ktoN3pU, enqueued 15.1 days earlier — admin_approved by A4THR6vJ6LWJ75681gfRrDhgRfxHbxhjdJV9Bz5v97GK CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 EP3SoC2SvR3d4c2eXVBvhEMWSr2j3YtoCY3UMiQV7BPD proposal=44MkAFrV9qFFiy2ZLe4PHZRzti1KPbPXZ6E83rVVK4Aw
+- 2026-05-26T22:00:25.000Z FUTARDIO -1000.000000 USDC to 3gXzFVWE2J4Pcy5yDy7LY2yomiyB6P1ZfxmwF8QKf3b9 — class admin_after_vote, prior passed vote #4 E5AEP2hCTfYVq4Rnc1TKZjTauSSEYFFBr8g49ktoN3pU, enqueued 15.1 days earlier — admin_approved by A4THR6vJ6LWJ75681gfRrDhgRfxHbxhjdJV9Bz5v97GK CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 EP3SoC2SvR3d4c2eXVBvhEMWSr2j3YtoCY3UMiQV7BPD proposal=D97syiUw2JZy1j83FZBB4arhWhT33jXvSWH6ZaNymuFS
 
 ## Team budget
 - UMBRA: drew 1163631 over 14 period(s) of 34091/month at launch (allowed 477274); limit now 150000.00 Month; changed: yes; largest 30-day draw 200000
