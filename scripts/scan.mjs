@@ -30,6 +30,10 @@ try {
   for (const x of t) tickers[x.base_currency] = { ticker: x.base_symbol, name: x.base_name };
 } catch (e) { console.warn('tickers unavailable:', e.message); }
 
+// Launch authority used by MetaDAO's permissionless platform (Futardio, renamed Backable on 5 Oct 2026).
+// Identified from the chain: 124 of 147 raises with minimum >= $10k, first seen 2026-02-17, includes the FUTARDIO token itself.
+const PERMISSIONLESS_AUTHORITY = 'LRrTQLqFzAPxjschuAKQAqH1XHBuBgHqwhybENStARt';
+const MIN_REAL_RAISE_USD = 10000; // below this: test launches (many have $0.10-$20 minimums)
 const usd = x => (x === null || x === undefined) ? '' : (Number(x) / 1e6).toString();
 const iso = x => (x === null || x === undefined) ? '' : new Date(Number(x) * 1000).toISOString();
 const rows = []; const counts = {}; const problems = [];
@@ -50,6 +54,8 @@ for (const [v, prog] of Object.entries(PROGRAMS)) {
     rows.push({
       version: v, launch: a.pubkey, decoded: 'yes', ticker: tk.ticker || '', name: tk.name || '', still_trading: tk.ticker ? 'yes' : 'no',
       base_mint: d.base_mint, state: d.state,
+      launch_authority: d.launch_authority,
+      track: Number(d.minimum_raise_amount) / 1e6 < MIN_REAL_RAISE_USD ? 'test' : (d.launch_authority === PERMISSIONLESS_AUTHORITY ? 'permissionless' : 'curated'),
       started_utc: iso(d.unix_timestamp_started), closed_utc: iso(d.unix_timestamp_closed), completed_utc: iso(d.unix_timestamp_completed),
       duration_days: d.seconds_for_launch / 86400,
       minimum_raise_usd: usd(d.minimum_raise_amount), committed_usd: usd(d.total_committed_amount), raised_usd: usd(raised),
@@ -65,7 +71,7 @@ for (const [v, prog] of Object.entries(PROGRAMS)) {
 }
 
 rows.sort((x, y) => (x.started_utc || '').localeCompare(y.started_utc || ''));
-const cols = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'base_mint', 'state', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'];
+const cols = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'];
 const esc = s => { s = s === undefined || s === null ? '' : String(s); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
 mkdirSync('data', { recursive: true });
 writeFileSync('data/raises.csv', [cols.join(',')].concat(rows.map(r => cols.map(c => esc(r[c])).join(','))).join('\n') + '\n');
@@ -73,10 +79,12 @@ writeFileSync('data/raises.json', JSON.stringify({ scanned_at: new Date().toISOS
 
 const dec = rows.filter(r => r.decoded === 'yes');
 const byState = {}; for (const r of dec) byState[r.state] = (byState[r.state] || 0) + 1;
+const trackStats = t => { const set = dec.filter(r => r.track === t); const c = set.filter(r => r.state === 'Complete').length, f = set.filter(r => r.state === 'Refunding').length; return `- ${t}: ${set.length} raises, ${c} complete, ${f} refunding, ${set.length - c - f} other${c + f ? `, success ${(100 * c / (c + f)).toFixed(1)}% of finished` : ''}`; };
 const failedChecks = dec.filter(r => r.checks !== 'OK');
 const report = [
   `# Scan report — ${new Date().toISOString()}`, '',
   '## Launch accounts per program', ...Object.entries(counts).map(([v, n]) => `- ${v} (${PROGRAMS[v]}): ${n}${DECODABLE.has(v) ? '' : ' — not decoded (older layout)'}`), '',
+  '## By track', trackStats('curated'), trackStats('permissionless'), trackStats('test'), '',
   '## Decoded raises by state', ...Object.entries(byState).map(([s, n]) => `- ${s}: ${n}`), '',
   `## Not in MetaDAO's ticker list (likely failed, refunded or delisted): ${dec.filter(r => r.still_trading === 'no').length}`, '',
   `## Rows failing a check: ${failedChecks.length}`, ...failedChecks.map(r => `- ${r.launch} ${r.ticker}: ${r.checks}`), '',

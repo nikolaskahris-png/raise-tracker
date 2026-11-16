@@ -17,6 +17,11 @@ jobs:
         env:
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
         run: node scripts/scan.mjs
+      - name: Classify treasury flows
+        if: always()
+        env:
+          HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
+        run: node scripts/treasury.mjs
       - name: Commit data
         if: always()
         run: |
