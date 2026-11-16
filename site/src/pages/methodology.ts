@@ -2,7 +2,7 @@ import { addrUrl, chip, fig, label } from '../fig.ts';
 import { fmtInt } from '../money.ts';
 import { CONFIDENCE, pct1 } from '../stats.ts';
 import { SAMPLE_MOVEMENTS, SAMPLE_TREASURIES } from '../chain-check.ts';
-import { page, url, type Ctx } from '../layout.ts';
+import { page, url, STALE_HOURS, type Ctx } from '../layout.ts';
 import type { Site } from '../model.ts';
 
 export const PERMISSIONLESS_AUTHORITY = 'LRrTQLqFzAPxjschuAKQAqH1XHBuBgHqwhybENStARt';
@@ -103,7 +103,8 @@ ${PROGRAMS.map((p) => `<tr><td>${label(p.v, 'Launchpad version')}</td><td>${chip
 <p>A token without onchain metadata is shown by its mint address, with the name marked as pending.</p>
 
 <h2 id="gate">The publication gate</h2>
-<p>The data is rescanned every day. The site is rebuilt only from data that passes every check below. If any check fails, nothing is published and the previous version stays online:</p>
+<p>A scan is scheduled twice a day, at ${label('05:17', 'Scheduled time, UTC')} and ${label('17:41', 'Scheduled time, UTC')} UTC. GitHub starts scheduled runs late on this repository, by about eight hours so far, so the two times keep at least one scan within the day. The site is rebuilt after every scan, and once a day on its own. The bar at the top of every page says when the data was scanned, says that the site rebuilt itself only when a scheduled scan started that build, and warns when the data is more than ${label(fmtInt(STALE_HOURS), 'Hours after which the data counts as stale')} hours old; your browser checks the age again when you open the page.</p>
+<p>The site is built only from data that passes every check below. If any check fails, nothing is published and the previous version stays online:</p>
 <ul>
 <li>every row of every file matches its schema (addresses, signatures, dates, amounts);</li>
 <li>the scan reports no failed check and no decode error;</li>

@@ -1,16 +1,31 @@
 // Page shell and stylesheet, ported from the design canvas (raise-tracker design, 16 Nov 2026).
-import { chip, date, esc, fig } from './fig.ts';
+import { chip, date, esc, fig, label } from './fig.ts';
 import { fmtInt } from './money.ts';
 
 export type Ctx = {
   readonly base: string; // URL prefix, e.g. "/raise-tracker/"
   readonly scanAt: Date;
   readonly scanSlot: number; // slot the scan started at
+  readonly builtAt: Date; // when this build ran (SITE_NOW overrides it in tests)
+  /** What started this build: GitHub's event_name for the site workflow, and for a workflow_run, the scan's own event. */
+  readonly siteTrigger: string | null;
+  readonly scanTrigger: string | null;
   readonly commit: string | null; // data commit the site was built from
   readonly repo: string;
 };
 
 export const url = (ctx: Ctx, path: string): string => `${ctx.base}${path.replace(/^\//, '')}`;
+
+/** Data older than this counts as stale and the banner says so (at build time, and again in the browser). */
+export const STALE_HOURS = 36;
+export const isStale = (ctx: Ctx): boolean => ctx.builtAt.getTime() - ctx.scanAt.getTime() > STALE_HOURS * 3_600_000;
+
+/** Says the site rebuilt itself only when this very build was started by a scheduled scan; otherwise it claims nothing. */
+export function buildNote(ctx: Ctx): string {
+  if (ctx.siteTrigger === 'workflow_run' && ctx.scanTrigger === 'schedule') return 'Rebuilt automatically after the scheduled scan. ';
+  if (ctx.siteTrigger === 'workflow_run') return 'Rebuilt after a scan started by hand. ';
+  return '';
+}
 
 const ICON = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.6"></rect><path d="M6 14.5h3.2M6 11h6.5M6 7.5h10" stroke="#2A44E8" stroke-width="1.6" stroke-linecap="round"></path></svg>';
 const CODE = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5.5 4L1.5 8l4 4M10.5 4l4 4-4 4"></path></svg>';
@@ -46,8 +61,10 @@ ${nav(url(ctx, 'methodology/'), 'Methodology', o.active === 'methodology')}
 </header>
 <div class="banner"><div class="wrap banner-in">
 <span class="banner-lead"><span class="dot" aria-hidden="true"></span>Data from the scan of ${date(ctx.scanAt, 'minute')}, slot ${fig(fmtInt(ctx.scanSlot), { kind: 'block', slot: ctx.scanSlot }, { dark: true, style: 'color:#FFFFFF' })}</span>
-<span>${o.banner ?? 'Rebuilt automatically after every scan. If a check fails, the previous version stays up.'}</span>
+<span>${o.banner ? `${o.banner} ` : ''}${buildNote(ctx)}If a check fails, nothing is published and the previous version stays up.</span>
 ${commit}
+<span class="stale" data-scan="${ctx.scanAt.toISOString()}" data-hours="${STALE_HOURS}"${isStale(ctx) ? '' : ' hidden'}>This data is more than ${label(fmtInt(STALE_HOURS), 'Hours after which the data counts as stale')} hours old. The latest scan may have failed or not run yet.</span>
+<script>(function(){var s=document.querySelector('.stale');if(!s)return;var h=(Date.now()-Date.parse(s.getAttribute('data-scan')))/36e5;if(h>Number(s.getAttribute('data-hours')))s.hidden=false;})();</script>
 </div></div>
 <main id="main">
 ${o.body}
@@ -87,6 +104,8 @@ p{margin:0}
 .banner{background:#0A0B0F;color:#C9CEDA;font-size:13px}
 .banner-in{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding-top:10px;padding-bottom:10px}
 .banner-lead{display:inline-flex;align-items:center;gap:8px;color:#FFFFFF;font-weight:500}
+.stale{flex-basis:100%;background:#FFF3E0;color:#5A2C00;border-radius:8px;padding:8px 12px;font-weight:500}
+.stale[hidden]{display:none}
 .dot{width:7px;height:7px;border-radius:999px;background:#7C8CFF}
 .foot{border-top:1px solid #E6E8EC;background:#FFFFFF;margin-top:72px}
 .foot-in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-top:28px;padding-bottom:28px;font-size:13px;color:#5B6170}

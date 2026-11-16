@@ -1,10 +1,18 @@
 name: scan-raises
 on:
   workflow_dispatch:
+  # GitHub starts scheduled runs late on this repo: the first 05:17 run started at 13:36 UTC (16 Nov 2026), and
+  # daily-snapshot's 03:17 runs started at 11:01 and 11:31. A second, independent time keeps a scan within the day
+  # even when one schedule is delayed or dropped. Each run is a full scan; the data commit is idempotent.
   schedule:
-    - cron: '17 5 * * *'   # daily 05:17 UTC
+    - cron: '17 5 * * *'    # 05:17 UTC
+    - cron: '41 17 * * *'   # 17:41 UTC, backup
 permissions:
   contents: write
+# One data writer at a time (shared with daily-snapshot), so two pushes never race.
+concurrency:
+  group: data-writes
+  cancel-in-progress: false
 jobs:
   scan:
     runs-on: ubuntu-latest
@@ -29,4 +37,5 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/
           git diff --cached --quiet || git commit -m "data: scan $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase
           git push

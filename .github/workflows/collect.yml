@@ -8,8 +8,9 @@ on:
 permissions:
   contents: write
 
+# One data writer at a time (shared with scan-raises), so two pushes never race.
 concurrency:
-  group: snapshot
+  group: data-writes
   cancel-in-progress: false
 
 jobs:
@@ -36,4 +37,5 @@ jobs:
           git config user.email "snapshot-bot@users.noreply.github.com"
           git add data
           git diff --cached --quiet || git commit -m "snapshot $(date -u +%F) (${{ github.event_name }})"
+          git pull --rebase
           git push

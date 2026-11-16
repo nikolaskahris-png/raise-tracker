@@ -1,10 +1,14 @@
 name: site
 # Builds the public site from the latest data and publishes it to GitHub Pages.
-# Runs after every scan. If any check fails, nothing is deployed and the previous version stays online.
+# Runs after every scan of main, and once a day on its own so the stale-data warning appears even if scans stop.
+# If any check fails, nothing is deployed and the previous version stays online.
 on:
   workflow_run:
     workflows: [scan-raises]
     types: [completed]
+    branches: [main]   # scans run on pull-request branches must not rebuild the public site
+  schedule:
+    - cron: '23 9 * * *'
   push:
     branches: [main]
     paths: ['site/**', 'registry/**', '.github/workflows/site.yml']
@@ -39,6 +43,9 @@ jobs:
         working-directory: site
         env:
           BASE_PATH: /raise-tracker/
+          # What started this build. The banner says "rebuilt automatically" only when a scheduled scan did.
+          SITE_TRIGGER: ${{ github.event_name }}
+          SCAN_TRIGGER: ${{ github.event.workflow_run.event }}
         run: node src/build.ts
       - name: Re-read a sample from the chain
         working-directory: site

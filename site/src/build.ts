@@ -33,6 +33,9 @@ const ctx: Ctx = {
   base: process.env['BASE_PATH'] ?? '/raise-tracker/',
   scanAt: site.inputs.scanReport.at,
   scanSlot: site.inputs.scanReport.slot,
+  builtAt: process.env['SITE_NOW'] ? new Date(process.env['SITE_NOW']) : new Date(),
+  siteTrigger: process.env['SITE_TRIGGER'] || null,
+  scanTrigger: process.env['SCAN_TRIGGER'] || null,
   commit: commitOf(),
   repo: process.env['GITHUB_REPOSITORY'] ?? 'nikolaskahris-png/raise-tracker',
 };
