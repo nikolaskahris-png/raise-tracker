@@ -2,6 +2,9 @@
 
 Slot at the start of the scan: 469948591
 
+raises.json sha256: 27b307ca3bb0bfd4278ec0582fca6e0943e14bb598319cbec2f7d484a26ec7c0
+raises.csv sha256: b43609c3914a5c0d0d12739c03cf762f615386ee672299051a9bebc0bad3ea7c
+
 ## Launch accounts per program
 - v08 (moonDJUoHteKkGATejA5bdJVwJ6V6Dg74gyqyJTx73n): 0
 - v07 (moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM): 173

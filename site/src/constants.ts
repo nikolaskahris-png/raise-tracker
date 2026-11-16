@@ -17,6 +17,7 @@ type Constants = {
   readonly sample_movements: number;
   readonly ledger_min_usd: number;
   readonly scan_times_utc: readonly string[];
+  readonly max_report_gap_hours: number;
 };
 
 export const C: Constants = JSON.parse(readFileSync(new URL('../../constants.json', import.meta.url), 'utf8')) as Constants;
@@ -40,6 +41,7 @@ export const CONSTANT_TEXT: Readonly<Record<string, string>> = {
   sample_treasuries: String(C.sample_treasuries),
   sample_movements: String(C.sample_movements),
   ledger_min_usd: usd(C.ledger_min_usd),
+  max_report_gap_hours: String(C.max_report_gap_hours),
   ...Object.fromEntries(C.scan_times_utc.map((t, i) => [`scan_times_utc.${i}`, t])),
 };
 

@@ -299,6 +299,9 @@ export type ScanReport = {
   readonly at: Date;
   /** Slot the scan started at. */
   readonly slot: number;
+  /** sha256 of the raises.json and raises.csv the scan wrote. */
+  readonly raisesJsonSha: string;
+  readonly raisesCsvSha: string;
   readonly failingChecks: number;
   readonly decodeErrors: number;
   readonly tracks: Readonly<Record<Track, { raises: number; complete: number; refunding: number; other: number }>>;
@@ -311,26 +314,30 @@ export function parseScanReport(raw: string): ScanReport {
   const md = lf(raw);
   const at = /^# Scan report — (\S+)$/m.exec(md)?.[1];
   const slot = /^Slot at the start of the scan: (\d+)$/m.exec(md)?.[1];
+  const jsonSha = /^raises\.json sha256: ([0-9a-f]{64})$/m.exec(md)?.[1];
+  const csvSha = /^raises\.csv sha256: ([0-9a-f]{64})$/m.exec(md)?.[1];
   const failing = /^## Rows failing a check: (\d+)$/m.exec(md)?.[1];
   const errors = /^## Decode errors: (\d+)$/m.exec(md)?.[1];
-  if (!at || slot === undefined || failing === undefined || errors === undefined) throw new SchemaError('scan-report.md: unexpected format');
+  if (!at || slot === undefined || !jsonSha || !csvSha || failing === undefined || errors === undefined) throw new SchemaError('scan-report.md: unexpected format');
   const tracks = {} as Record<Track, { raises: number; complete: number; refunding: number; other: number }>;
   for (const t of TRACKS) {
     const m = new RegExp(`^- ${t}: (\\d+) raises, (\\d+) complete, (\\d+) refunding, (\\d+) other`, 'm').exec(md);
     if (!m) throw new SchemaError(`scan-report.md: no line for track ${t}`);
     tracks[t] = { raises: Number(m[1]), complete: Number(m[2]), refunding: Number(m[3]), other: Number(m[4]) };
   }
-  return { at: new Date(at), slot: Number(slot), failingChecks: Number(failing), decodeErrors: Number(errors), tracks };
+  return { at: new Date(at), slot: Number(slot), raisesJsonSha: jsonSha, raisesCsvSha: csvSha, failingChecks: Number(failing), decodeErrors: Number(errors), tracks };
 }
 
-export type TreasuryReport = { readonly at: Date; readonly problems: readonly string[] };
+/** `read`: the raises.json the treasury step read (its sha256 and scan slot). */
+export type TreasuryReport = { readonly at: Date; readonly problems: readonly string[]; readonly read: { readonly sha256: string; readonly slot: number } };
 
 export function parseTreasuryReport(raw: string): TreasuryReport {
   const md = lf(raw);
   const at = /^# Treasury report — (\S+)$/m.exec(md)?.[1];
   const lines = md.split('\n');
   const head = lines.findIndex((l) => /^## Problems: \d+$/.test(l));
-  if (!at || head < 0) throw new SchemaError('treasury-report.md: unexpected format');
+  const read = /^Read raises\.json sha256: ([0-9a-f]{64}), from the scan at slot (\d+)$/m.exec(md);
+  if (!at || head < 0 || !read?.[1] || !read[2]) throw new SchemaError('treasury-report.md: unexpected format');
   const count = Number(/\d+/.exec(lines[head] ?? '')?.[0]);
   const problems: string[] = [];
   for (const l of lines.slice(head + 1)) {
@@ -338,7 +345,7 @@ export function parseTreasuryReport(raw: string): TreasuryReport {
     problems.push(l.slice(2));
   }
   if (problems.length !== count) throw new SchemaError('treasury-report.md: problem count does not match the list');
-  return { at: new Date(at), problems };
+  return { at: new Date(at), problems, read: { sha256: read[1], slot: Number(read[2]) } };
 }
 
 // ---- registry/names.json ------------------------------------------------------------------------

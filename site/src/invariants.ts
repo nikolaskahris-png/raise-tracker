@@ -2,12 +2,12 @@
 // The same function runs in the build and in the tests (including the tamper tests).
 import { fmtUsd, matchesCents, ratio, toCents } from './money.ts';
 import { FLOW_CLASSES, TRACKS } from './schema.ts';
-import { ADMIN_VOTE_WINDOW_MS } from './constants.ts';
+import { ADMIN_VOTE_WINDOW_MS, C } from './constants.ts';
 import type { Site } from './model.ts';
 
 /** Problems the treasury script reports that the site knows how to show ("not read"). Anything else stops the build. */
 export const KNOWN_PROBLEMS = [/^\S+: treasury USDC account mismatch$/];
-export const MAX_REPORT_GAP_MS = 2 * 60 * 60 * 1000;
+export const MAX_REPORT_GAP_MS = C.max_report_gap_hours * 3_600_000;
 
 export function checkInvariants(site: Site): string[] {
   const fail: string[] = [];
@@ -80,10 +80,14 @@ export function checkInvariants(site: Site): string[] {
   for (const c of site.companies) if (!c.treasury && !c.problem) fail.push(`${c.displayName}: no treasury and no reported problem`);
   for (const p of inputs.treasuryReport.problems) if (!KNOWN_PROBLEMS.some((re) => re.test(p))) fail.push(`treasury-report: unknown problem "${p}"`);
 
-  // 7. The treasury report ran after the scan, on the same data.
+  // 7. The treasury step ran on the very data the scan wrote: the raises.json it read has the scan's sha256 and slot,
+  //    and the raises.csv the site reads has the scan's sha256. It also ran after the scan, and soon after.
+  if (inputs.treasuryReport.read.sha256 !== sr.raisesJsonSha) fail.push('treasury-report read a raises.json that is not the one the scan wrote (sha256 differs)');
+  if (inputs.treasuryReport.read.slot !== sr.slot) fail.push(`treasury-report read the scan of slot ${inputs.treasuryReport.read.slot}, scan-report is slot ${sr.slot}`);
+  if (inputs.raisesCsvSha !== sr.raisesCsvSha) fail.push('raises.csv is not the file the scan wrote (sha256 differs)');
   const gap = inputs.treasuryReport.at.getTime() - sr.at.getTime();
   if (gap < 0) fail.push('treasury-report is older than scan-report (the treasury step ran on old data)');
-  if (gap > MAX_REPORT_GAP_MS) fail.push('treasury-report is more than 2 hours after scan-report');
+  if (gap > MAX_REPORT_GAP_MS) fail.push(`treasury-report is more than ${C.max_report_gap_hours} hours after scan-report`);
 
   // 8a. Names. Every press name belongs to a company on the site, and its verbatim quote names the token's onchain symbol,
   //     so a quote can never be attached to the wrong token.

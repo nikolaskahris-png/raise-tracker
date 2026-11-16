@@ -131,7 +131,7 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 <li>the scan reports no failed check and no decode error;</li>
 <li>counts per track recomputed from the raises file equal the scan report;</li>
 <li>every treasury reconciles, and every total and balance equals the exact sum of its movements, to the cent;</li>
-<li>the treasury scan ran after the raise scan, on the same data;</li>
+<li>the treasury step read the very <code>raises.json</code> the scan wrote: the treasury report records a hash of its exact bytes and its scan slot, and both must equal the ones in the scan report; the <code>raises.csv</code> the site reads must have the hash the scan recorded for it; and the treasury step ran after the scan, within ${constant('max_report_gap_hours')} hours;</li>
 <li>any problem the scan reports is a known kind, shown on the site as "not read" and never as zero;</li>
 <li>after the build, every digit on every page is a linked figure, a date, an address, a labelled rule of the method or a verbatim quote;</li>
 <li>the chain is read again before publishing. For ${constant('sample_treasuries')} treasuries picked at random, the USDC account is read now; every successful transaction on it after the slot at which the scan read it is subtracted; the result must equal the balance shown, to the micro-USDC. ${constant('sample_movements')} movements picked at random are read again and must match to the micro-USDC. If the chain cannot be reached, nothing is published.</li>
