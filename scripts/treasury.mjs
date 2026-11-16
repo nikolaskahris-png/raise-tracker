@@ -11,6 +11,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { b58e, b58d, USDC, pda } from './decode.mjs';
+import { makeRpc } from './rpc.mjs';
 // Fixed rules of the method, shared with scan.mjs and the site.
 const C = JSON.parse(readFileSync(new URL('../constants.json', import.meta.url), 'utf8'));
 const DAY_S = 86400;
@@ -35,19 +36,7 @@ const PROPOSAL_STATES = ['Draft', 'Pending', 'Passed', 'Failed', 'Removed'];
 const SL_PERIODS = ['OneTime', 'Day', 'Week', 'Month'];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-let calls = 0;
-async function rpc(method, params) {
-  for (let a = 1; a <= 6; a++) {
-    calls++; await sleep(110); // free plan: 10 requests/second
-    const r = await fetch(RPC, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }) });
-    if (r.status === 429 || r.status >= 500) { await sleep(1000 * a); continue; }
-    const text = await r.text(); let j;
-    try { j = JSON.parse(text); } catch { throw new Error(`${method}: HTTP ${r.status} ${text.slice(0, 80)}`); }
-    if (j.error) throw new Error(`${method}: ${JSON.stringify(j.error)}`);
-    return j.result;
-  }
-  throw new Error(`${method}: gave up after retries`);
-}
+const { rpc, stats: rpcStats } = makeRpc(RPC); // retries network failures too (scripts/rpc.mjs)
 
 const enc = s => new TextEncoder().encode(s);
 const usdcAta = owner => pda([b58d(owner), b58d(TOKEN), b58d(USDC)], ATA);
@@ -158,7 +147,7 @@ const summary = [], flows = [], seen = {}, problems = [];
 const now = Date.now();
 
 for (const r of raises) {
-  const label = r.ticker || r.base_mint.slice(0, 8);
+  const label = r.metadata_symbol || r.base_mint.slice(0, 8); // the onchain symbol, else the mint prefix
   try {
     const ata = usdcAta(r.dao_vault), multisig = squadsMultisig(r.dao);
     const acct = await rpc('getAccountInfo', [ata, { encoding: 'jsonParsed' }]);
@@ -167,6 +156,7 @@ for (const r of raises) {
     const balanceNow = Number(info.tokenAmount.amount) / 1e6;
     const sums = { launch_funding: 0, inflow_other: 0, team_budget: 0, market_approved: 0, admin_after_vote: 0, admin_vote_passed_after: 0, admin_vote_no_finalize: 0, admin_no_vote_found: 0, admin_against_market: 0, liquidation: 0, other_out: 0 };
     const teamUses = [];
+    const mine = []; // this treasury's movements, kept only if the whole treasury is read
     let net = 0;
     // The launch transaction: where the raised USDC went besides this treasury (exact base units, read from the transaction).
     let launch = { signature: '', others: [] };
@@ -233,7 +223,7 @@ for (const r of raises) {
         const pre = (tx.meta.preTokenBalances || []).find(x => x.accountIndex === b.accountIndex);
         return { owner: b.owner, d: Number(b.uiTokenAmount.amount) / 1e6 - (pre ? Number(pre.uiTokenAmount.amount) / 1e6 : 0) };
       }).filter(o => Math.sign(o.d) === -Math.sign(delta));
-      flows.push({ ticker: label, base_mint: r.base_mint, track: r.track || '', time_utc: new Date(tx.blockTime * 1000).toISOString(), usdc: delta.toFixed(6), class: cls, approval, market_decision: decision, decision_ref: decisionRef,
+      mine.push({ ticker: label, base_mint: r.base_mint, track: r.track || '', time_utc: new Date(tx.blockTime * 1000).toISOString(), usdc: delta.toFixed(6), class: cls, approval, market_decision: decision, decision_ref: decisionRef,
         prior_vote_number: prior ? prior.number : '', prior_vote_address: prior ? prior.address : '', prior_vote_finalize_signature: prior ? prior.finalize_signature : '', prior_vote_finalized_utc: prior ? prior.finalized_utc : '',
         counterparty: others.map(o => o.owner).join(' '), signature: s.signature, instructions: [...new Set(names)].join(' ') });
     }
@@ -266,6 +256,7 @@ for (const r of raises) {
       team_budget_used_pct: allowed > 0 ? (100 * sums.team_budget / allowed).toFixed(1) : '', reconciles: reconciles ? 'yes' : 'NO', treasury_usdc_account: ata, squads_multisig: multisig, spending_limit_account: slAddr, balance_slot: acct.context.slot,
       launch_signature: launch.signature, launch_other_usdc: microStr(launch.others.reduce((a, o) => a + o.amount, 0n)),
       launch_other_recipients: launch.others.map(o => `${o.owner}:${o.account}:${microStr(o.amount)}`).join(' ') });
+    flows.push(...mine);
   } catch (e) { problems.push(`${label}: ${e.message}`); }
 }
 
@@ -274,7 +265,7 @@ writeFileSync('data/treasury.csv', csv(summary));
 writeFileSync('data/treasury-flows.csv', csv(flows));
 const tot = k => summary.reduce((a, s) => a + Number(s[k]), 0).toFixed(0);
 const report = [
-  `# Treasury report — ${new Date().toISOString()}`, '', `Treasuries: ${summary.length} of ${raises.length}. RPC calls: ${calls}.`,
+  `# Treasury report — ${new Date().toISOString()}`, '', `Treasuries: ${summary.length} of ${raises.length}. RPC calls: ${rpcStats.calls}.`,
   `Reconciled (history sums exactly to today's balance): ${summary.filter(s => s.reconciles === 'yes').length}/${summary.length}`, '',
   `Futarchy proposals indexed: ${proposalBySquads.size} (decode errors: ${proposalDecodeErrors})`, '',
   '## Outflows, all treasuries (USD)', `- team_budget: ${tot('team_budget_usd')}`, `- market_approved (linked proposal Passed): ${tot('market_approved_usd')}`, `- admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): ${tot('admin_after_vote_usd')}`, `- admin_vote_passed_after (admin key; a proposal enqueued before the movement finalized as Passed after it): ${tot('admin_vote_passed_after_usd')}`, `- admin_vote_no_finalize (admin key; a Passed proposal whose FinalizeProposal was not found): ${tot('admin_vote_no_finalize_usd')}`,`- admin_no_vote_found (admin key; no passed proposal on this DAO in the 60 days before): ${tot('admin_no_vote_found_usd')}`, `- admin_against_market (admin key, linked proposal not Passed): ${tot('admin_against_market_usd')}`, `- liquidation: ${tot('liquidation_usd')}`, `- other_out: ${tot('other_out_usd')}`, '',

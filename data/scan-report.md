@@ -1,6 +1,6 @@
-# Scan report — 2026-11-16T14:13:51.587Z
+# Scan report — 2026-11-16T18:26:37.014Z
 
-Slot at the start of the scan: 470160981
+Slot at the start of the scan: 470231712
 
 ## Launch accounts per program
 - v08 (moonDJUoHteKkGATejA5bdJVwJ6V6Dg74gyqyJTx73n): 0
@@ -11,17 +11,15 @@ Slot at the start of the scan: 470160981
 
 ## By track
 - curated: 23 raises, 14 complete, 3 refunding, 6 other, success 82.4% of finished
-- permissionless: 124 raises, 19 complete, 101 refunding, 4 other, success 15.8% of finished
+- permissionless: 124 raises, 19 complete, 102 refunding, 3 other, success 15.7% of finished
 - test: 67 raises, 40 complete, 11 refunding, 16 other, success 78.4% of finished
 
 ## Decoded raises by state
 - Initialized: 10
-- Live: 11
+- Live: 10
 - Closed: 5
 - Complete: 73
-- Refunding: 115
-
-## Not in MetaDAO's ticker list (likely failed, refunded or delisted): 186
+- Refunding: 116
 
 ## Rows failing a check: 0
 

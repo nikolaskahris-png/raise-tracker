@@ -54,9 +54,9 @@ test('the frozen data gives the published headline figures', () => {
   assert.equal(site.real.length, 147);
   assert.equal(site.companies.length, 33);
   assert.equal(site.companies.filter((c) => c.treasury).length, 31);
-  const umbra = site.companies.find((c) => c.raise.ticker === 'UMBRA');
+  const umbra = site.companies.find((c) => c.raise.metadataSymbol === 'UMBRA');
   assert.equal(umbra?.treasury?.net, 989_308_398_318n); // the exact balance; the CSV shows it rounded to 989,308.40
-  const avici = site.companies.find((c) => c.raise.ticker === 'AVICI');
+  const avici = site.companies.find((c) => c.raise.metadataSymbol === 'AVICI');
   assert.equal(avici?.treasury?.net, 1_600_000_595_000n); // exactly half a cent, the case floats round down
 });
 

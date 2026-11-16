@@ -2,6 +2,7 @@
 // Needs env HELIUS_API_KEY (GitHub Actions secret). Writes data/raises.csv, data/raises.json, data/scan-report.md
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { makeRpc } from './rpc.mjs';
 import { b58e, b58d, PROGRAMS, DECODABLE, decodeLaunch, raisedAmount, checks, metadataAddress, decodeMetadata } from './decode.mjs';
 
 const KEY = process.env.HELIUS_API_KEY;
@@ -9,28 +10,15 @@ if (!KEY) { console.error('HELIUS_API_KEY is not set'); process.exit(1); }
 const RPC = `https://mainnet.helius-rpc.com/?api-key=${KEY}`;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-async function rpc(method, params) {
-  for (let a = 1; a <= 5; a++) {
-    const r = await fetch(RPC, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }) });
-    if (r.status === 429 || r.status >= 500) { await sleep(1000 * a); continue; }
-    const j = await r.json();
-    if (j.error) throw new Error(`${method}: ${JSON.stringify(j.error)}`);
-    return j.result;
-  }
-  throw new Error(`${method}: gave up after retries`);
-}
+const { rpc } = makeRpc(RPC, { minGapMs: 0 }); // retries network failures too (scripts/rpc.mjs)
 
 // The slot the scan starts at, kept in the data so every figure can be dated onchain.
 const scanSlot = await rpc('getSlot', [{ commitment: 'confirmed' }]);
 const disc = createHash('sha256').update('account:Launch').digest().subarray(0, 8);
 const discB58 = b58e(disc);
 
-// Ticker names from MetaDAO's public market API (only tokens that still trade are listed there).
-let tickers = {};
-try {
-  const t = await (await fetch('https://market-api.metadao.fi/api/tickers')).json();
-  for (const x of t) tickers[x.base_currency] = { ticker: x.base_symbol, name: x.base_name };
-} catch (e) { console.warn('tickers unavailable:', e.message); }
+// Names and symbols come from each token's onchain metadata (below). MetaDAO's market API is not used: metadao.fi's terms
+// forbid automated monitoring without written consent (DECISIONS.md, 16 Nov 2026).
 
 // Launch authority used by MetaDAO's permissionless platform (Futardio, renamed Backable on 5 Oct 2026).
 // Identified from the chain: 124 of 147 raises with minimum >= $10k, first seen 2026-02-17, includes the FUTARDIO token itself.
@@ -56,9 +44,8 @@ for (const [v, prog] of Object.entries(PROGRAMS)) {
     catch (e) { problems.push(`${v} ${a.pubkey}: ${e.message}`); rows.push({ version: v, launch: a.pubkey, bytes: data.length, decoded: 'error' }); continue; }
     const c = checks(d, discOk);
     const raised = raisedAmount(d);
-    const tk = tickers[d.base_mint] || {};
     rows.push({
-      version: v, launch: a.pubkey, decoded: 'yes', ticker: tk.ticker || '', name: tk.name || '', still_trading: tk.ticker ? 'yes' : 'no',
+      version: v, launch: a.pubkey, decoded: 'yes',
       base_mint: d.base_mint, state: d.state,
       launch_authority: d.launch_authority,
       track: Number(d.minimum_raise_amount) / 1e6 < MIN_REAL_RAISE_USD ? 'test' : (d.launch_authority === PERMISSIONLESS_AUTHORITY ? 'permissionless' : 'curated'),
@@ -114,7 +101,7 @@ for (const [v, prog] of Object.entries(PROGRAMS)) {
 }
 
 rows.sort((x, y) => (x.started_utc || '').localeCompare(y.started_utc || ''));
-const cols = ['version', 'launch', 'decoded', 'ticker', 'name', 'still_trading', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'token_decimals', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'];
+const cols = ['version', 'launch', 'decoded', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'token_decimals', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'];
 const esc = s => { s = s === undefined || s === null ? '' : String(s); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
 mkdirSync('data', { recursive: true });
 writeFileSync('data/raises.csv', [cols.join(',')].concat(rows.map(r => cols.map(c => esc(r[c])).join(','))).join('\n') + '\n');
@@ -129,8 +116,7 @@ const report = [
   '## Launch accounts per program', ...Object.entries(counts).map(([v, n]) => `- ${v} (${PROGRAMS[v]}): ${n}${DECODABLE.has(v) ? '' : ' — not decoded (older layout)'}`), '',
   '## By track', trackStats('curated'), trackStats('permissionless'), trackStats('test'), '',
   '## Decoded raises by state', ...Object.entries(byState).map(([s, n]) => `- ${s}: ${n}`), '',
-  `## Not in MetaDAO's ticker list (likely failed, refunded or delisted): ${dec.filter(r => r.still_trading === 'no').length}`, '',
-  `## Rows failing a check: ${failedChecks.length}`, ...failedChecks.map(r => `- ${r.launch} ${r.ticker}: ${r.checks}`), '',
+  `## Rows failing a check: ${failedChecks.length}`, ...failedChecks.map(r => `- ${r.launch} ${r.metadata_symbol || r.base_mint.slice(0, 8)}: ${r.checks}`), '',
   `## Decode errors: ${problems.length}`, ...problems.map(p => `- ${p}`), '',
 ];
 writeFileSync('data/scan-report.md', report.join('\n'));

@@ -76,7 +76,7 @@ export function nameOf(r: Raise, names: ReadonlyMap<string, PressName>): Name {
 export function identifiersOf(site: Site): Set<string> {
   const out = new Set<string>();
   for (const r of site.decoded) {
-    for (const s of [r.metadataName, r.metadataSymbol, r.ticker, r.apiName]) if (s) out.add(s);
+    for (const s of [r.metadataName, r.metadataSymbol]) if (s) out.add(s);
     out.add(`${r.mint.slice(0, 8)}…`);
   }
   for (const c of site.companies) {
@@ -120,7 +120,7 @@ export function buildSite(inputs: Inputs): Site {
         const totalOut = -sum(flows.filter((f) => f.usdc < 0n).map((f) => f.usdc));
         treasury = { row, flows, byClass, totalIn, totalOut, net: totalIn - totalOut };
       }
-      return { raise: r, name, displayName, treasury, problem: row ? null : problemFor(r.ticker ?? r.mint.slice(0, 8)) };
+      return { raise: r, name, displayName, treasury, problem: row ? null : problemFor(r.metadataSymbol ?? r.mint.slice(0, 8)) ?? problemFor(r.mint.slice(0, 8)) };
     })
     .sort((a, b) => Number((b.raise.raised ?? 0n) - (a.raise.raised ?? 0n)) || a.raise.mint.localeCompare(b.raise.mint));
 
