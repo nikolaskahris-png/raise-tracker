@@ -1,0 +1,5 @@
+# Every text file is stored and checked out with LF, on every OS.
+# The site's parsers also accept CRLF (site/test/crlf.test.ts), but the data files stay byte-identical everywhere.
+* text=auto eol=lf
+*.gz binary
+*.png binary

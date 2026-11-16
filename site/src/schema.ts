@@ -267,7 +267,11 @@ export type ScanReport = {
   readonly tracks: Readonly<Record<Track, { raises: number; complete: number; refunding: number; other: number }>>;
 };
 
-export function parseScanReport(md: string): ScanReport {
+/** Reports may be checked out with CRLF (Windows); read them exactly like LF. */
+const lf = (s: string): string => s.replace(/\r\n?/g, '\n');
+
+export function parseScanReport(raw: string): ScanReport {
+  const md = lf(raw);
   const at = /^# Scan report — (\S+)$/m.exec(md)?.[1];
   const failing = /^## Rows failing a check: (\d+)$/m.exec(md)?.[1];
   const errors = /^## Decode errors: (\d+)$/m.exec(md)?.[1];
@@ -283,7 +287,8 @@ export function parseScanReport(md: string): ScanReport {
 
 export type TreasuryReport = { readonly at: Date; readonly problems: readonly string[] };
 
-export function parseTreasuryReport(md: string): TreasuryReport {
+export function parseTreasuryReport(raw: string): TreasuryReport {
+  const md = lf(raw);
   const at = /^# Treasury report — (\S+)$/m.exec(md)?.[1];
   const lines = md.split('\n');
   const head = lines.findIndex((l) => /^## Problems: \d+$/.test(l));
