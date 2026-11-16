@@ -330,7 +330,7 @@ export function companyPage(ctx: Ctx, _site: Site, c: Company): string {
     title: `${c.displayName}: raise and treasury · raise-tracker`,
     description: `${c.displayName} raised onchain on MetaDAO. Every movement of its treasury, linked to Solana transactions.`,
     active: 'companies',
-    banner: t ? 'History of this treasury adds up exactly to today\'s balance.' : 'Raise figures are read from the launch account.',
+    banner: t ? 'The history of this treasury adds up exactly to its balance at the scan.' : 'Raise figures are read from the launch account.',
     body,
   });
 }
