@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { addrUrl, chip, esc, fig } from '../fig.ts';
 import { fmtInt } from '../money.ts';
 import { startedSentence } from '../tracks.ts';
@@ -21,7 +22,18 @@ export const PROGRAMS: readonly { code: string; v: string; id: string; decoded: 
   { code: 'v05', v: 'v0.5', id: 'mooNhciQJi1LqHDmse2JPic2NqG2PXCanbE3ZYzP3qA', decoded: false },
   { code: 'v041', v: 'v0.4.1', id: 'AfJJJ5UqxhBKoE3grkKAZZsoXDE9kncbMKvqSHGsCNrE', decoded: false },
 ];
-const SRC = 'https://github.com/metaDAOproject/programs/blob/main/programs';
+// The launch account layouts, pinned to a commit: field names and lines only (scripts/layouts/launch.json), shared with
+// the decoder's test so the page and the code cannot drift apart.
+type LayoutField = { name: string; line: number };
+type Layouts = { commit: string; versions: Record<string, { path: string; struct_line: number; fields: LayoutField[] }> };
+export const LAYOUTS: Layouts = JSON.parse(readFileSync(new URL('../../../scripts/layouts/launch.json', import.meta.url), 'utf8')) as Layouts;
+const layoutUrl = (v: string, line: number): string => { const l = LAYOUTS.versions[v]; return l ? `https://github.com/metaDAOproject/programs/blob/${LAYOUTS.commit}/${l.path}#L${line}` : ''; };
+const fieldLink = (v: string, field: string): string => {
+  const l = LAYOUTS.versions[v]; const f = l?.fields.find((x) => x.name === field);
+  if (!l || !f) throw new Error(`no field ${field} in ${v}`);
+  return `<a class="chip" href="${layoutUrl(v, f.line)}" rel="noopener">${l.path.split('/').slice(-1)[0]}#L${f.line}</a>`;
+};
+const SRC = `https://github.com/metaDAOproject/programs/tree/${LAYOUTS.commit}/programs`;
 // Every claim about MetaDAO's or Squads' code links the exact line at a fixed commit.
 export const MD_COMMIT = '74aec758b5c8b5363b94ecce0a45bcd426c9746e';
 export const SQUADS_COMMIT = '3a39735d0c56249bf2ce4b16b3229d7be87ad55f';
@@ -63,7 +75,8 @@ export function methodologyPage(ctx: Ctx, site: Site): string {
 <div class="card tblbox" style="margin:8px 0 18px"><table class="tbl" style="min-width:560px"><thead><tr><th scope="col">Version</th><th scope="col">Program</th><th scope="col">Decoded</th></tr></thead><tbody>
 ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id, 'address')}</td><td>${p.decoded ? '<span class="badge b-v">Yes</span>' : '<span class="badge b-p">Counted only: its code is not in the current version of the repository</span>'}</td></tr>`).join('')}
 </tbody></table></div>
-<p><b>Raised.</b> Version ${programChip('v06')} stores the final amount directly. Versions ${programChip('v07')} and later store the approved amount, which is the amount raised once the raise is complete. <b>Oversubscription</b> is committed divided by raised.</p>
+<p>Each layout is the <code>Launch</code> struct at commit ${chip(LAYOUTS.commit, 'address', LAYOUTS.commit.slice(0, 7))} of the published code: ${(['v06', 'v07', 'v08'] as const).map((v) => `${programChip(v)} <a class="chip" href="${layoutUrl(v, LAYOUTS.versions[v]?.struct_line ?? 0)}" rel="noopener">${v}_launchpad/src/state/launch.rs#L${LAYOUTS.versions[v]?.struct_line}</a>`).join(', ')}. The decoder reads exactly these fields in this order, and a test checks it against the list.</p>
+<p><b>Raised.</b> Version ${programChip('v06')} stores the final amount directly (${fieldLink('v06', 'final_raise_amount')}). Versions ${programChip('v07')} and later store the approved amount (${fieldLink('v07', 'total_approved_amount')}), which is the amount raised once the raise is complete. <b>Oversubscription</b> is committed divided by raised.</p>
 
 <h2 id="tracks">Raises by launch authority</h2>
 <p>Each launch account records the <b>launch authority</b>, the key that started the raise. It is the only split of raises the chain gives us. One authority, ${chip(PERMISSIONLESS_AUTHORITY, 'address')}, started its first raise on ${day(permFirst)}, the platform's own FUTARDIO token among them. It started ${startedSentence(site, 'permissionless')} We identify it as MetaDAO's permissionless platform, launched as Futardio and renamed Backable. That identification is ours, from the chain; it is not declared onchain.</p>
