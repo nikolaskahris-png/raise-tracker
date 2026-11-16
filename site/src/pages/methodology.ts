@@ -1,5 +1,6 @@
 import { addrUrl, chip, fig, label } from '../fig.ts';
 import { fmtInt } from '../money.ts';
+import { CONFIDENCE, pct1 } from '../stats.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import type { Site } from '../model.ts';
 
@@ -25,7 +26,7 @@ export function methodologyPage(ctx: Ctx, site: Site): string {
   const csv = (f: string) => url(ctx, `data/${f}`);
   const permCount = site.decoded.filter((r) => r.launchAuthority === PERMISSIONLESS_AUTHORITY).length;
   const permFirst = site.decoded.filter((r) => r.launchAuthority === PERMISSIONLESS_AUTHORITY && r.started).map((r) => r.started as Date).sort((a, b) => a.getTime() - b.getTime())[0];
-  const curatedAuthorities = new Set(site.real.filter((r) => r.track === 'curated').map((r) => r.launchAuthority)).size;
+  const otherAuthorities = new Set(site.real.filter((r) => r.track === 'curated').map((r) => r.launchAuthority)).size;
   const n = (v: number, what: string, file = 'raises.csv') => fig(fmtInt(v), { kind: 'sum', href: csv(file), what });
   const L = (t: string) => label(t, 'Fixed rule of the method');
   const day = (d: Date | undefined) => (d ? `<time datetime="${d.toISOString()}">${d.getUTCDate()} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getUTCMonth()]} ${d.getUTCFullYear()}</time>` : '');
@@ -56,10 +57,11 @@ ${PROGRAMS.map((p) => `<tr><td>${label(p.v, 'Launchpad version')}</td><td>${chip
 </tbody></table></div>
 <p><b>Raised.</b> Version ${L('v0.6')} stores the final amount directly. Versions ${L('v0.7')} and later store the approved amount, which is the amount raised once the raise is complete. <b>Oversubscription</b> is committed divided by raised.</p>
 
-<h2 id="tracks">Curated and permissionless raises</h2>
-<p>Each launch account records the <b>launch authority</b>, the key that started the raise. One authority, ${chip(PERMISSIONLESS_AUTHORITY, 'address')}, started ${n(permCount, 'raises started by the permissionless authority')} raises from ${day(permFirst)} onward, including the platform's own FUTARDIO token. We identify it as MetaDAO's permissionless platform, launched as Futardio and renamed Backable. That identification is ours, from the chain; it is not declared onchain. Every other authority (${n(curatedAuthorities, 'distinct launch authorities of curated raises')} of them among real raises) counts as <b>curated</b>.</p>
+<h2 id="tracks">Raises by launch authority</h2>
+<p>Each launch account records the <b>launch authority</b>, the key that started the raise. It is the only split of raises the chain gives us. One authority, ${chip(PERMISSIONLESS_AUTHORITY, 'address')}, started ${n(permCount, 'raises started by the permissionless authority')} raises from ${day(permFirst)} onward, including the platform's own FUTARDIO token. We identify it as MetaDAO's permissionless platform, launched as Futardio and renamed Backable. That identification is ours, from the chain; it is not declared onchain.</p>
+<p>Every other authority (${n(otherAuthorities, 'distinct launch authorities other than the permissionless one, among real raises')} of them among real raises) is grouped as <b>other launch authorities</b>. We do not know who controls those keys or how their raises were chosen, so the site does not call them curated or selected. The home page lists every authority with its own counts.</p>
 <p>A raise with a minimum under ${L('$10,000')} is treated as a <b>test launch</b> and left out of every rate and total. The <b>completion rate</b> is completed raises divided by finished raises, where finished means Complete or Refunding.</p>
-
+<p><b>Uncertainty.</b> Each rate is shown with its ${L(pct1(CONFIDENCE).replace('.0%', '%'))} <b>Wilson score interval</b> and the number of finished raises it rests on (n). With few raises the interval is wide. The home page's title names a direction only when the two groups' intervals do not overlap, and it never states a ratio between the rates: with these sample sizes a ratio is far too uncertain.</p>
 <h2 id="categories">What a treasury is, and how each movement is classified</h2>
 <p>When a raise completes, the launchpad sends most of the USDC to the DAO's treasury: a Squads multisig vault controlled by the DAO's futarchy program. We read the vault's USDC account and every transaction that ever changed its balance. Each movement goes into exactly one category:</p>
 <ul>
