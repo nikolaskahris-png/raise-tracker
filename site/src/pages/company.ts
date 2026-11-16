@@ -1,4 +1,4 @@
-import { addrUrl, chip, date, esc, fig, label, txUrl } from '../fig.ts';
+import { addrUrl, chip, date, duration, esc, fig, label, txUrl } from '../fig.ts';
 import { fmtInt, fmtUsd, microToDecimal, pct, ratio, sum, type Micro } from '../money.ts';
 import { addr, page, url, type Ctx } from '../layout.ts';
 import type { Company, Site, Treasury } from '../model.ts';
@@ -30,8 +30,7 @@ const CLASS_BADGE: Record<FlowClass, string> = {
 
 /** A proposal number is read from the proposal account onchain, so it is a figure that opens that account. */
 const proposalLink = (n: number, address: string) => fig(`#${n}`, { kind: 'account', address });
-const DAY_MS = 86_400_000;
-const daysBetween = (a: Date, b: Date) => (Math.abs(b.getTime() - a.getTime()) / DAY_MS).toFixed(1);
+const gapOf = (a: Date, b: Date) => duration(Math.abs(b.getTime() - a.getTime()));
 
 function tokens(x: Micro): string {
   const whole = x / 1_000_000n, frac = x % 1_000_000n;
@@ -177,9 +176,9 @@ function decisions(ctx: Ctx, t: Treasury): string {
       const keys = f.adminKeys.length ? ` · signed by ${f.adminKeys.map((k) => chip(k, 'address', ADMIN_KEYS[k] ? `${k.slice(0, 6)}… (MetaDAO admin)` : undefined)).join(' ')}` : '';
       const p = f.prior;
       const passedTx = p?.finalizeSignature ? ` (${chip(p.finalizeSignature, 'tx', 'FinalizeProposal')})` : '';
-      const gap = p?.finalizedAt ? fig(daysBetween(p.finalizedAt, f.time), { kind: 'formula', href: url(ctx, 'methodology/#admin-key'), formula: 'days between the proposal\x27s FinalizeProposal transaction and this movement' }) : '';
-      if (f.cls === 'admin_after_vote' && p) text = `Approved with MetaDAO's admin key. Proposal ${proposalLink(p.number, p.address)} on this DAO passed ${gap} days before this movement${passedTx}. The chain does not say whether that proposal covers this payment: read it.${keys}`;
-      else if (f.cls === 'admin_vote_passed_after' && p) text = `Approved with MetaDAO's admin key <b>before</b> any proposal on this DAO had passed. Proposal ${proposalLink(p.number, p.address)}, already open, passed ${gap} days after this movement${passedTx}.${keys}`;
+      const gap = p?.finalizedAt ? fig(gapOf(p.finalizedAt, f.time), { kind: 'formula', href: url(ctx, 'methodology/#admin-key'), formula: 'days between the proposal\x27s FinalizeProposal transaction and this movement' }) : '';
+      if (f.cls === 'admin_after_vote' && p) text = `Approved with MetaDAO's admin key. Proposal ${proposalLink(p.number, p.address)} on this DAO passed ${gap} before this movement${passedTx}. The chain does not say whether that proposal covers this payment: read it.${keys}`;
+      else if (f.cls === 'admin_vote_passed_after' && p) text = `Approved with MetaDAO's admin key <b>before</b> any proposal on this DAO had passed. Proposal ${proposalLink(p.number, p.address)}, already open, passed ${gap} after this movement${passedTx}.${keys}`;
       else if (f.cls === 'admin_vote_no_finalize' && p) text = `Approved with MetaDAO's admin key. Proposal ${proposalLink(p.number, p.address)} on this DAO is marked Passed, but we did not find its FinalizeProposal transaction, so we cannot say when it passed.${keys}`;
       else if (f.cls === 'admin_no_vote_found') text = `Approved with MetaDAO's admin key, with no proposal on this DAO that passed in the ${label('60', 'Window in days')} days before it.${keys}`;
       else text = `Approved with MetaDAO's admin key although its own proposal did not pass.${keys}`;

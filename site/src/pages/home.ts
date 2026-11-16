@@ -1,4 +1,4 @@
-import { fig, label, esc, txUrl } from '../fig.ts';
+import { duration, fig, label, esc, txUrl } from '../fig.ts';
 import { fmtInt, fmtUsd, pct, sum, type Micro } from '../money.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import { displayName } from './company.ts';
@@ -100,15 +100,15 @@ export function homePage(ctx: Ctx, site: Site): string {
   const notAfter = adminFlows.length - afterVote.length;
   const nAdmin = fig(fmtInt(adminFlows.length), { kind: 'sum', href: meth('admin-key'), what: 'movements approved with an admin key' });
   const nAfter = fig(fmtInt(afterVote.length), { kind: 'sum', href: meth('admin-key'), what: 'admin-key movements that came after a proposal on the same DAO had passed' });
-  const gaps = afterVote.flatMap((f) => (f.prior?.finalizedAt && f.prior.finalizeSignature ? [{ days: (f.time.getTime() - f.prior.finalizedAt.getTime()) / 86_400_000, sig: f.prior.finalizeSignature }] : [])).sort((x, y) => x.days - y.days);
-  const gapFig = (g: { days: number; sig: string } | undefined) => (g ? fig(g.days.toFixed(1), { kind: 'formula', href: txUrl(g.sig), formula: 'days from the proposal\x27s FinalizeProposal transaction (opens it) to the movement' }) : '');
+  const gaps = afterVote.flatMap((f) => (f.prior?.finalizedAt && f.prior.finalizeSignature ? [{ ms: f.time.getTime() - f.prior.finalizedAt.getTime(), sig: f.prior.finalizeSignature }] : [])).sort((x, y) => x.ms - y.ms);
+  const gapFig = (g: { ms: number; sig: string } | undefined) => (g ? fig(duration(g.ms), { kind: 'formula', href: txUrl(g.sig), formula: 'days from the proposal\x27s FinalizeProposal transaction (opens it) to the movement' }) : '');
   const others = ([['admin_vote_passed_after', 'came before the proposal passed'], ['admin_vote_no_finalize', 'follow a proposal whose passing time we did not find'], ['admin_no_vote_found', 'had no passed proposal on the DAO in the window'], ['admin_against_market', 'went against their own proposal']] as const)
     .filter(([c]) => by(c).length > 0)
     .map(([c, words]) => `${fig(fmtInt(by(c).length), { kind: 'sum', href: meth('admin-key'), what: `admin-key movements that ${words}` })} ${words}`);
   const adminTitle = adminFlows.length === 0 ? '' : notAfter === 0
     ? `Every admin-key movement came after a proposal on the same DAO had passed.`
     : `Not every admin-key movement came after a vote.`;
-  const adminNote = adminFlows.length === 0 ? '' : `<div class="note ${notAfter === 0 ? 'note-v' : 'note-p'}" style="flex:1 1 360px"><span class="mk ${notAfter === 0 ? 'mk-v' : 'mk-p'}" style="width:22px;height:22px;background:#fff;margin-top:1px" aria-hidden="true">${notAfter === 0 ? CHECK : CLOCK}</span><div><b>${adminTitle}</b> Of ${nAdmin} movements approved with MetaDAO's admin key, ${nAfter} came after a proposal on the same DAO had passed${gaps.length ? `, ${gapFig(gaps[0])} to ${gapFig(gaps.at(-1))} days after its FinalizeProposal transaction` : ''}${others.length ? `; ${others.join('; ')}` : ''}. This is timing only: the chain does not tell us whether a proposal covers a payment. Each movement links its proposal.</div></div>`;
+  const adminNote = adminFlows.length === 0 ? '' : `<div class="note ${notAfter === 0 ? 'note-v' : 'note-p'}" style="flex:1 1 360px"><span class="mk ${notAfter === 0 ? 'mk-v' : 'mk-p'}" style="width:22px;height:22px;background:#fff;margin-top:1px" aria-hidden="true">${notAfter === 0 ? CHECK : CLOCK}</span><div><b>${adminTitle}</b> Of ${nAdmin} movements approved with MetaDAO's admin key, ${nAfter} came after a proposal on the same DAO had passed${gaps.length ? `, between ${gapFig(gaps[0])} and ${gapFig(gaps.at(-1))} after the proposal's FinalizeProposal transaction` : ''}${others.length ? `; ${others.join('; ')}` : ''}. This is timing only: the chain does not tell us whether a proposal covers a payment. Each movement links its proposal.</div></div>`;
   const pending = T.inflowOther > 0n || T.otherOut > 0n
     ? `<div class="note note-p" style="flex:1 1 360px"><span class="mk mk-p" style="width:22px;height:22px;background:#fff;margin-top:1px" aria-hidden="true">${CLOCK}</span><div><b>Pending verification:</b> ${fig(fmtUsd(T.inflowOther, { decimals: 2 }), { kind: 'sum', href: csv('treasury-flows.csv'), what: 'inflows that did not come from a launch' })} came into treasuries after their raise, in ${fig(fmtInt(site.allFlows.filter((f) => f.cls === 'inflow_other').length), { kind: 'sum', href: csv('treasury-flows.csv'), what: 'inflow transactions' })} transactions. The amounts and senders are onchain; what each payment was for is not identified yet.${T.otherOut > 0n ? ` Also ${fig(fmtUsd(T.otherOut, { decimals: 2 }), { kind: 'sum', href: csv('treasury-flows.csv'), what: 'unclassified outflows' })} of outflows we have not classified.` : ''}</div></div>`
     : '';
