@@ -1,7 +1,7 @@
 // The publication gate. Every check here must pass or nothing is published.
 // The same function runs in the build and in the tests (including the tamper tests).
 import { fmtUsd, matchesCents, ratio, toCents } from './money.ts';
-import { FLOW_CLASSES, TRACKS } from './schema.ts';
+import { FLOW_CLASSES, TRACKS, isAdmin } from './schema.ts';
 import { ADMIN_VOTE_WINDOW_MS, C } from './constants.ts';
 import type { Site } from './model.ts';
 
@@ -65,8 +65,12 @@ export function checkInvariants(site: Site): string[] {
 
   // 5. Movements: unique signatures per treasury, and every movement belongs to a treasury row.
   //    An admin-key movement's class must agree with the order of the two transactions it compares.
+  //    A "market vote" movement was approved by its own proposal's FinalizeProposal, never by an admin key;
+  //    an admin-key movement was approved by an admin key.
   const sigs = new Set<string>();
   for (const f of inputs.flows) {
+    if (f.cls === 'market_approved' && (f.approvalHow !== 'market_approved' || f.adminKeys.length > 0)) fail.push(`treasury-flows.csv: ${f.signature} is a market vote but was approved by an admin key or by no proposal (${f.approvalHow || 'none'})`);
+    if (isAdmin(f.cls) && f.approvalHow !== 'admin_approved') fail.push(`treasury-flows.csv: ${f.signature} is an admin-key movement but its approval is ${f.approvalHow || 'none'}`);
     const passed = f.prior?.finalizedAt ?? null;
     if (f.cls === 'admin_after_vote' && passed && (passed.getTime() > f.time.getTime() || f.time.getTime() - passed.getTime() > ADMIN_VOTE_WINDOW_MS)) fail.push(`treasury-flows.csv: ${f.signature} is "after a vote" but proposal #${f.prior?.number} finalized at ${passed.toISOString()}`);
     if (f.cls === 'admin_vote_passed_after' && passed && passed.getTime() <= f.time.getTime()) fail.push(`treasury-flows.csv: ${f.signature} is "vote passed after" but proposal #${f.prior?.number} finalized before it`);

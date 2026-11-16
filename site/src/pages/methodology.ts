@@ -89,7 +89,7 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 <li><b>Launch deposit</b>: the launchpad's deposit when the raise completed. The same transaction also sends part of the raise elsewhere; each company page shows how much went where (see below).</li>
 <li><b>Other inflow</b>: any later payment into the treasury. The amount and sender are onchain; what it was for is not identified yet, so these are marked pending.</li>
 <li><b>Team budget</b>: a draw through the monthly spending limit set at launch (a Squads <code>SpendingLimitUse</code>).</li>
-<li><b>Market vote</b>: a vault transaction that was itself the subject of a futarchy proposal that passed.</li>
+<li><b>Market vote</b>: a vault transaction that was itself the subject of a futarchy proposal that passed, and that the proposal's own FinalizeProposal approved. If an admin key approved it, it is an admin-key movement even when its proposal passed, and the publication gate refuses any market-vote movement with an admin approval.</li>
 <li><b>Admin key</b>: a vault transaction approved through MetaDAO's admin path, not by a vote on that transaction. Described below, with the code it rests on.</li>
 <li><b>Unclassified</b>: anything else. Shown, with its instructions, until it can be classified.</li>
 </ul>
