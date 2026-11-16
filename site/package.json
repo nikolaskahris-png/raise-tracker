@@ -6,7 +6,7 @@
   "engines": { "node": ">=22.18" },
   "scripts": {
     "typecheck": "tsc -p .",
-    "test": "node --test \"test/*.test.ts\"",
+    "test": "node --test \"test/*.test.ts\" \"../scripts/test/*.test.mjs\"",
     "build": "node src/build.ts",
     "check-html": "node src/check-html.ts",
     "spot-check": "node src/spot-check.ts"

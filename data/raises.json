@@ -1,5 +1,5 @@
 {
- "scanned_at": "2026-11-16T13:36:20.299Z",
+ "scanned_at": "2026-11-16T12:57:21.092Z",
  "programs": {
   "v08": "moonDJUoHteKkGATejA5bdJVwJ6V6Dg74gyqyJTx73n",
   "v07": "moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM",
@@ -43,7 +43,10 @@
    "dao_vault": "",
    "team_address": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "7fc8WRhnuxDV6s3YH3zQLviUd2T5mHa74yZW7LsMfH77",
+   "metadata_name": "GodItShouldWork",
+   "metadata_symbol": "GITSW"
   },
   {
    "version": "v07",
@@ -73,7 +76,10 @@
    "dao_vault": "",
    "team_address": "BPWJfTx73WJkJGCZp6FKAGoVPPmmY27fiWv9f9U1RVpP",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2qrq73croTLjE6BdmGwHWFo93M17hjA5mXYXh2FLycDr",
+   "metadata_name": "Koturo",
+   "metadata_symbol": "KOTU"
   },
   {
    "version": "v07",
@@ -103,7 +109,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "UQsQe36VNya4gEFoVjQe8wNg6VX3yEgzpTMeE9cZnd7",
+   "metadata_name": "Test Token",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -133,7 +142,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CsdGi4HebkX8J3fQ1rQPMobvEoiWp1vTJjUpoKwCjKkM",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -163,7 +175,10 @@
    "dao_vault": "",
    "team_address": "CHQXGzhweUQ4wrWCta6koL4iQGZNdWQuJmGHxHpRzjBq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "BcZYbTu6kj6RXsaYtqUqoMJarHbrjXitynwSnTpKcUjG",
+   "metadata_name": "Ranger",
+   "metadata_symbol": "RNGR"
   },
   {
    "version": "v07",
@@ -193,7 +208,10 @@
    "dao_vault": "",
    "team_address": "5t2PVjpJ3yGy38SHB3X7KDXDGrfXSwAyXMgnFYkMfvEc",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4Zm24q17UEwTpV5JUtZ2k63mg5c9FVgNthmR9DSRSoC6",
+   "metadata_name": "Nex ID",
+   "metadata_symbol": "NEX"
   },
   {
    "version": "v07",
@@ -223,7 +241,10 @@
    "dao_vault": "",
    "team_address": "HmxPDo5m6woVgG3wCJtG14CgXjbfrQmkfXkGbte91Ama",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "ALHLaGwcozW97VWsPfKnB92LxSvZF1ov9zcBAP9CMEBY",
+   "metadata_name": "Percolator",
+   "metadata_symbol": "PERC"
   },
   {
    "version": "v07",
@@ -253,7 +274,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9y3bDjvYMDRfRrVNiLGzJrEEwyK8nRQq9YjEA1ZDvFjB",
+   "metadata_name": "Sniper Sandbox",
+   "metadata_symbol": "SNPX"
   },
   {
    "version": "v06",
@@ -283,7 +307,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "C6VVaWDQrgScHZBZ63yd9hhzwUFEPsyQqiRnHzwmwoC1",
+   "metadata_name": "SolomonTEST",
+   "metadata_symbol": "SOLOTEST"
   },
   {
    "version": "v06",
@@ -313,7 +340,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "BgXc13HftXJyVD1ZjSnvKv55r6uL2ECgdU8yWBHdzB2p",
+   "metadata_name": "ZKFG",
+   "metadata_symbol": "ZKFG"
   },
   {
    "version": "v05",
@@ -421,7 +451,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "FhDmGT9AXMNNyJGpZAPXd5ZG2XoFbYjYJbRXW822KHwf",
+   "metadata_name": "Example",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v06",
@@ -451,7 +484,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "GTxJrbSxFuXFaNdS8QQQi6qD275CABoxXcGSx5zGzidc",
+   "metadata_name": "Example",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v06",
@@ -481,7 +517,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CSDijY78Ys1XotLFhxW1C7oEByEGhzuuzZdyvvSNFFAm",
+   "metadata_name": "Example",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v06",
@@ -511,7 +550,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "C376PuBdUMGBv64DLpqWSzx7xkB2cECstSVWEaNc5goY",
+   "metadata_name": "Example",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v06",
@@ -541,7 +583,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "AHmbhkG9VmfksL4s5rZfXivJyBjRWGSZaA132n1pP9TF",
+   "metadata_name": "Example",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v06",
@@ -571,7 +616,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "28p5Gob73EjTxAQfNZ6xBQTRAAUMVvYMqccXtJRckHW9",
+   "metadata_name": "Example",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v06",
@@ -601,7 +649,10 @@
    "dao_vault": "EEak3tBHawF92EbiCLFqzAeWkRvhoq5aDzsZNLpMBtsD",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "Hzyz8Z9JGYEq1nznSXMk6x2Ccqy8vhWJtEGhMPYazW9T",
+   "metadata_name": "Example",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v06",
@@ -631,7 +682,10 @@
    "dao_vault": "85pCdkCcWSjyrmtqnZywERaZQhq5NTQo7Hssm8W7gLC1",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2bhchQdHEYNKM9md2tYVP8YuhpvmyE1J6F6HdhrtZaZP",
+   "metadata_name": "Crimera",
+   "metadata_symbol": "CRIME"
   },
   {
    "version": "v06",
@@ -661,7 +715,10 @@
    "dao_vault": "7z4xFDoYd7rGb5WiuAiTwrb67AdSWSLQz3pUDYtkiBwS",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3BMronqyWLMXSCd4kT45bQatE2cmKU1H8ocCVAVPiHx5",
+   "metadata_name": "Crimera",
+   "metadata_symbol": "CRIME"
   },
   {
    "version": "v06",
@@ -691,7 +748,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "Gy816TvJS7PV9LMDFTHyAV6LZzXwbHoicxrFKgBdTPiy",
+   "metadata_name": "Crimera",
+   "metadata_symbol": "CRIME"
   },
   {
    "version": "v06",
@@ -721,7 +781,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "5GAP3gtNu5wSDFMqnEx6bRTn5Wak5u2ZMy4GfnGpsVeF",
+   "metadata_name": "Crimera",
+   "metadata_symbol": "CRIME"
   },
   {
    "version": "v06",
@@ -751,7 +814,10 @@
    "dao_vault": "952BJrg8VeyRgB9zRj3uK831GmTLqkPgw5qnJt48DGyL",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2u7uZ35aw526qbJ2m97Xa7STePsar5CNWjPun8m5eReg",
+   "metadata_name": "PreProd",
+   "metadata_symbol": "PPRD"
   },
   {
    "version": "v06",
@@ -781,7 +847,10 @@
    "dao_vault": "DjChEAtiLNnx4L8hBpdt3aDs88ufQ1KBo35K5YP2DM6V",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8qYhsPnt9sV9LditK798LsGAHDtKSAAJQZ1dQNn4Bddf",
+   "metadata_name": "FTD",
+   "metadata_symbol": "FTD"
   },
   {
    "version": "v06",
@@ -811,7 +880,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "6XC9WoWkLH1Cc49RBUkQVqYMsCVSAhdZ3MKuU3PoXn6z",
+   "metadata_name": "TSTUMB",
+   "metadata_symbol": "TSTUMB"
   },
   {
    "version": "v06",
@@ -841,7 +913,10 @@
    "dao_vault": "6VsC8PuKkXm5xo54c2vbrAaSfQipkpGHqNuKTxXFySx6",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "ERS31LnQCveaxdUb5worLSiQyw6cfycUssJEyCiYAFg7",
+   "metadata_name": "Umbra",
+   "metadata_symbol": "UMBRA"
   },
   {
    "version": "v06",
@@ -871,7 +946,10 @@
    "dao_vault": "97U5nZnJewd9pkGr9T14vQFMx4XomtA6gEgRE9qjDKPa",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "BeinmE7mBWKejtWMppuvGwtJGJ3KNFpeNe7WPMgmwRbh",
+   "metadata_name": "TSTAVI",
+   "metadata_symbol": "TSTAVI"
   },
   {
    "version": "v06",
@@ -901,7 +979,10 @@
    "dao_vault": "DupjZbDFb6SUfm5t976bMSH376jaz6S4jPJLkMZ6MRXD",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "FrvPCd7nER1aZ21gSgJsyMFPFfDbQEXr1ezJS4T9EiT6",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v06",
@@ -931,7 +1012,10 @@
    "dao_vault": "DGgYoUcu1aDZt4GEL5NQiducwHRGbkMWsUzsXh2j622G",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CJUEu9txg7f3qVNgqzcPhANJZ8HZnyuDb3ujPJpVNwCC",
+   "metadata_name": "Avici",
+   "metadata_symbol": "AVICI"
   },
   {
    "version": "v06",
@@ -961,7 +1045,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2HtS8RbZN9Wmj8hu67AWPWK1TkLmJKy2LBRi5Wfq8Y4d",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v06",
@@ -991,7 +1078,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8rnkhe6DmJLmr1G51coLvWRDDXHtDbvP4Vur5pPR2sok",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v06",
@@ -1021,7 +1111,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "B9uoh35UUrBr16skcbJbHCF8GrgNdpqDuGRYUPxPkV3i",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v06",
@@ -1051,7 +1144,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "83cfQNDtDkjfmQJWVaR2TUM86Y3VNexX21rm7Yf8jgWo",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v06",
@@ -1081,7 +1177,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3PMtCv5rWdCUQpTpQFCwfnbffKVi7HTe7K1kV4fDHkLN",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v06",
@@ -1111,7 +1210,10 @@
    "dao_vault": "41vxoAGF7XU3JhxJBNihtiWn4xPX2mXPXZjpHSfbP8Ct",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9vxg4W19oqTFGUwbKEhurs5HSusVZSVaDqvWGuFFY9u6",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v06",
@@ -1141,7 +1243,10 @@
    "dao_vault": "91DnCr9T1v1QvcuYxmXh7uB2e3wcgsFKLyKqiWvoDgHH",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CPwr4DDEzGNyd4R6EcPphSdtRAYKz5qozKx9f2UAmWZA",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v06",
@@ -1171,7 +1276,10 @@
    "dao_vault": "8qFXMdjWtqwSmZAp1ZFcR9xyGBRq4fDQ9ekKHt47Uvcd",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "Doyxiopry7163gM2JsgdoejTe51S7GSZzYd6VuHHuDAX",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v06",
@@ -1201,7 +1309,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9WusTyRcdNFK3vEN3CcC8moePvP52uWR96ZdsN6L7eJU",
+   "metadata_name": "Test Hour",
+   "metadata_symbol": "TSTHRS"
   },
   {
    "version": "v06",
@@ -1231,7 +1342,10 @@
    "dao_vault": "Dp4vBGNvFamZyXnPXyzBXzn3ksjjvtqkt8D7aq4itH6C",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "EZGRgk64khCgQkG7YsEe3M1hJ9oqJzRX3AowBXn9jokJ",
+   "metadata_name": "Test half hour",
+   "metadata_symbol": "TST30"
   },
   {
    "version": "v06",
@@ -1261,7 +1375,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "7zmcaUw5TYDRi3HNnzMoLWgbL8TVhW3aBPxXr8XfK39m",
+   "metadata_name": "Test30",
+   "metadata_symbol": "TST30M"
   },
   {
    "version": "v06",
@@ -1291,7 +1408,10 @@
    "dao_vault": "Dema3hip2KHCwcimPhqrU7kBgmFho7nRBXYPTFkV3iRA",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8CzMBQhyTgiTkeNw4QEEdMSCooVkC8JbukcwWxoAZf5M",
+   "metadata_name": "Test30",
+   "metadata_symbol": "TST30M"
   },
   {
    "version": "v06",
@@ -1321,7 +1441,10 @@
    "dao_vault": "HYxxFY3BgPe3CG6gpuisct572stCJ93gxaJ1ZzXxsWSo",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2rUygDBEVfdZfY2pgnNjc4nvgGP25Cvzif1QPBcYZ6p3",
+   "metadata_name": "TestJUP",
+   "metadata_symbol": "TSTJUP"
   },
   {
    "version": "v06",
@@ -1351,7 +1474,10 @@
    "dao_vault": "AQyyTwCKemeeMu8ZPZFxrXMbVwAYTSbBhi1w4PBrhvYE",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8BLY22ye4so8hMXdw8uUBzPSvJ3ppQ9DEqNx27RyxUVe",
+   "metadata_name": "Loyal",
+   "metadata_symbol": "LOYAL"
   },
   {
    "version": "v06",
@@ -1381,7 +1507,10 @@
    "dao_vault": "BNvDfXYG2FAyBDYD71Xr9GhKE18MbmhtjsLKsCuXho6z",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "J1qFvzEm8Ai2QMypmwVUYHKgNq7LQ7QrfbzLDEmEgcnZ",
+   "metadata_name": "ZKFG",
+   "metadata_symbol": "ZKFG"
   },
   {
    "version": "v06",
@@ -1411,7 +1540,10 @@
    "dao_vault": "BpXtB2ASf2Tft97ewTd8PayXCqFQ6Wqod33qrwwfK9Vz",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "EFvTZAvQbdYGwUZ4qeZ9TkYZ2o5yFzR8u4rSHQPZg6ax",
+   "metadata_name": "Paystream",
+   "metadata_symbol": "PAYS"
   },
   {
    "version": "v06",
@@ -1441,7 +1573,10 @@
    "dao_vault": "98SPcyUZ2rqM2dgjCqqSXS4gJrNTLSNUAAVCF38xYj9u",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "A5EwTJPRvyiDkcZNVyaES1H5wnphFGBkWhYQCYajjWVN",
+   "metadata_name": "Solomon",
+   "metadata_symbol": "SOLO"
   },
   {
    "version": "v06",
@@ -1471,7 +1606,10 @@
    "dao_vault": "4XAuBSuNc46tG2gpDQEVNaqKmeJv23842QMSg7wT7waF",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4wT7TzMYDYGdGCCEEhfFDsgEjDt1QSai3ySd3siqReZk",
+   "metadata_name": "Example Token",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v06",
@@ -1501,7 +1639,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DtqjKZa7ckAf2Zf6FaXFa1hbXzjGKhHaKsXmicCQfSmS",
+   "metadata_name": "Example Token",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v06",
@@ -1531,7 +1672,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "WTV2unDHFeJy93zFH73TMGifmJAsANJhZDH5U4EtVxA",
+   "metadata_name": "Example Token",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v06",
@@ -1561,7 +1705,10 @@
    "dao_vault": "9shhvukHrhJ9iDbvNRp6QuJwcVqeokA1yV9pmpBjbRKh",
    "team_address": "11111111111111111111111111111111",
    "bytes": 697,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8Cej5SkRgNHtwGTUKkJHo6xCb4JVPrUBvkDFQP78duVw",
+   "metadata_name": "Example Token",
+   "metadata_symbol": "EXMPL"
   },
   {
    "version": "v07",
@@ -1591,7 +1738,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "C3FQSjT6Zciv9PPKhoHtgurLSMCEPJcjAziJhnhAaFFM",
+   "metadata_name": "Test Token",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -1621,7 +1771,10 @@
    "dao_vault": "2SqRBXYEkKNPd1YcDscpavDesSh4XaKgFFme1PMYgHns",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "EwqvnUXRuYXTmzAgpP1gpyXyrFqr18fPQyzSTMaREsQc",
+   "metadata_name": "Test Token",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -1651,7 +1804,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CkDL7VikuhptDSGTmGgcsDAgxeWPJk7ngRQHzgYxHftH",
+   "metadata_name": "Test Token",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -1681,7 +1837,10 @@
    "dao_vault": "8CW3BMkeGn5TgWgnxuUAHzTrNJiTGkn6b3H56oGBMZQC",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CZZePLxhszDxFhqAQZyYtdMDYbLUvtS5MNsc9xBQcRmy",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -1711,7 +1870,10 @@
    "dao_vault": "",
    "team_address": "CHQXGzhweUQ4wrWCta6koL4iQGZNdWQuJmGHxHpRzjBq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4XmL6cAHwaQ7zYjpxfYWqCHcmgFnK36ig9SwtkQb6z4P",
+   "metadata_name": "Ranger",
+   "metadata_symbol": "RNGR"
   },
   {
    "version": "v07",
@@ -1741,7 +1903,10 @@
    "dao_vault": "CPA6qivxRHJDzsmXCb5aMfF9qKbUDRn3kTb4KUAoDgno",
    "team_address": "tSTp6B6kE9o6ZaTmHm2ZwnJBBtgd3x112tapxFhmBEQ",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9JXefSfZZuaJXLBdJjvaEuMhemgJ9Vp3ZQupMNavXPjk",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -1771,7 +1936,10 @@
    "dao_vault": "D1o8nr7YyvVibzp2Vn6sE2gV6dYRFqshLiW99rZh8AZQ",
    "team_address": "ELT1uRmtFvYP6WSrc4mCZaW7VVbcdkcKAj39aHSVCmwH",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "AfNTrtu5xH5oZpTVc2yHAqDK7NDRVg8H3mJFsiYk764b",
+   "metadata_name": "Test",
+   "metadata_symbol": "TST"
   },
   {
    "version": "v07",
@@ -1801,7 +1969,10 @@
    "dao_vault": "",
    "team_address": "ELT1uRmtFvYP6WSrc4mCZaW7VVbcdkcKAj39aHSVCmwH",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2jfcBHudY5EwUKoTqKefuxLefukMui9iHFGWxwkSLhuv",
+   "metadata_name": "Test",
+   "metadata_symbol": "TST"
   },
   {
    "version": "v07",
@@ -1831,7 +2002,10 @@
    "dao_vault": "8RTyg1fowiqQD39Kw2p8R7uSWtcUMRXpu6PzEHcAhM9b",
    "team_address": "ELT1uRmtFvYP6WSrc4mCZaW7VVbcdkcKAj39aHSVCmwH",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8Ky8erVv49qvMU4FmHZwRNiZJgsyuKQWRh4WhuCdEFtx",
+   "metadata_name": "Test",
+   "metadata_symbol": "TST"
   },
   {
    "version": "v07",
@@ -1861,7 +2035,10 @@
    "dao_vault": "55H1Q1YrHJQ93uhG4jqrBBHx3a8H7TCM8kvf2UM2g5q3",
    "team_address": "CHQXGzhweUQ4wrWCta6koL4iQGZNdWQuJmGHxHpRzjBq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "5XPeWZTY7pkjLjmuRP3XehDuJTaWM6y9KA1mH12cxvN8",
+   "metadata_name": "Ranger",
+   "metadata_symbol": "RNGR"
   },
   {
    "version": "v07",
@@ -1891,7 +2068,10 @@
    "dao_vault": "6h9rdq4knvNGgdoNeskgsxPJ9ENAP8u4JHSqvnDFNQ4o",
    "team_address": "77ApiTr24fkYHKdjQsGLoxE6xupAJjGDKgGx1xYsADBL",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "7qhdDz2diC6osd3Jz8CauV9xFXNYW7LnddQdkt4EB64T",
+   "metadata_name": "MyToken",
+   "metadata_symbol": "MTKN"
   },
   {
    "version": "v07",
@@ -1921,7 +2101,10 @@
    "dao_vault": "2RF9kygCEifFxwfyKW1qi472qTZPabSfZbD6oF5iLkRe",
    "team_address": "HcUZxTvL8FQu42NU3Mk1sS7Tz3dp8DKGsXyvTR6ihX1Z",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "EeR8sdwhXpeYhN44cqxcttRafdTZueXrsr4sTEcVyhvq",
+   "metadata_name": "MyToken",
+   "metadata_symbol": "MTKN"
   },
   {
    "version": "v07",
@@ -1951,7 +2134,10 @@
    "dao_vault": "4Weis5on9BYSiHbJkKN1GnsfYinmnAKqUZBwDcJtABN1",
    "team_address": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2w9ZsGovdfcMoshvoctKdeKWZ3j9TmdNeBg4iZLH5xem",
+   "metadata_name": "MyToken",
+   "metadata_symbol": "MTKN"
   },
   {
    "version": "v07",
@@ -1981,7 +2167,10 @@
    "dao_vault": "ED9U7dvjnGv6McQyFXGUKBQ2BacPWZkV6tBbfEbL7skS",
    "team_address": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "H6MrGdEUne2xAmu1Myu8qaDzhGgSoJeoypURFaSurDPj",
+   "metadata_name": "MyToken",
+   "metadata_symbol": "MTKN"
   },
   {
    "version": "v07",
@@ -2011,7 +2200,10 @@
    "dao_vault": "5xfEgp7zmDBL8nsQYniM7yeansw6kTmncmU3PVdBGXWb",
    "team_address": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "28SgeSuUzoLfNZMwiruBPzLroqjvhcK2BMuL2oLhy12P",
+   "metadata_name": "MyToken",
+   "metadata_symbol": "MTKN"
   },
   {
    "version": "v07",
@@ -2041,7 +2233,10 @@
    "dao_vault": "DvGFXu2kpbbg1k17S6UHsw2M97iAiUVq9nXcZVgQxQCi",
    "team_address": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "81DhJ38BjfodqKHpgbTszcEgsPScDvgm3BaN6Eovasf1",
+   "metadata_name": "MyToken",
+   "metadata_symbol": "MTKN"
   },
   {
    "version": "v07",
@@ -2071,7 +2266,10 @@
    "dao_vault": "HbgrYRi6rF4pq6Zbj7dDVHnRWutYbMNs58fWeVhTJFFs",
    "team_address": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9EfHiQdbZktZ2fw69mSYvKuJvBv6LRxxV6pdYjc5bNQZ",
+   "metadata_name": "NewTOKEN",
+   "metadata_symbol": "NTKN"
   },
   {
    "version": "v07",
@@ -2101,7 +2299,10 @@
    "dao_vault": "4NcpUhBo2Zz6Wdc9Nq972ug5X2v93VUHumjwHBVREcYf",
    "team_address": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CNGa4ihetBZrQfXPhvwutUJVySuu61f2xqcnzhtBTAc7",
+   "metadata_name": "HappyBD",
+   "metadata_symbol": "HBD"
   },
   {
    "version": "v07",
@@ -2131,7 +2332,10 @@
    "dao_vault": "7daVyZgUtBBMzWxrxzWNcuByxPDuo98ZvH9RQfNqWp9P",
    "team_address": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "5ToJ3qK5ENZJMsE5episnTtymBD9o2NAa3uo5MT1Wip9",
+   "metadata_name": "HpBD",
+   "metadata_symbol": "HPBD"
   },
   {
    "version": "v07",
@@ -2161,7 +2365,10 @@
    "dao_vault": "3pDVWvFFVUHeWL7wRPvEEb1UEnY3kzTw6Z7wybH9qBgD",
    "team_address": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "6dFLVv1buo3iXAWYiJaALRpeCXkitXcpTsPCbFdtW75Y",
+   "metadata_name": "db73",
+   "metadata_symbol": "DB73"
   },
   {
    "version": "v07",
@@ -2191,7 +2398,10 @@
    "dao_vault": "Smp8r5BN1SVDcjP6yggnKEL2KYUeZ8L3VK4gkg7YGHZ",
    "team_address": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "5CVQe5y7RiCkdViS9KrXw5jdbj2SehQe27Z1Ewz9HjN3",
+   "metadata_name": "MyToken",
+   "metadata_symbol": "MTKN"
   },
   {
    "version": "v07",
@@ -2221,7 +2431,10 @@
    "dao_vault": "",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2ErhRzcE4aEpqpj9CHyEtSzKWrhwyAQ3YPKujTeaon87",
+   "metadata_name": "Test Token",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -2251,7 +2464,10 @@
    "dao_vault": "",
    "team_address": "5ZGh1VosZepRpTamvCNLVsRx9xPy8gykFTfRS27Du4H1",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "HCuYd9HZz9TkeR1XewjaUShT9tkxJXuwjQiVqXKJwqDA",
+   "metadata_name": "Hurupay",
+   "metadata_symbol": "HURU"
   },
   {
    "version": "v07",
@@ -2281,7 +2497,10 @@
    "dao_vault": "",
    "team_address": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "FH9NxCeQh3ZRCpuhgifNTLJit9SpBXJhRtdjXoqZwh5h",
+   "metadata_name": "Epic Finance",
+   "metadata_symbol": "EPIC"
   },
   {
    "version": "v07",
@@ -2311,7 +2530,10 @@
    "dao_vault": "8C5GVSNPt7YjbFDo5EmpQRAQB33AkeQfTpbBMq8aQE1L",
    "team_address": "DEVNdjuDZHw7r9uAKzDqmEG56qZBpHVMAoEohKHuN16d",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "Fbt7Kq1zJ6CdyLi2Bv33Y1fFSC9WQ4a7CcPbTqyi1Prk",
+   "metadata_name": "Reid Is cool",
+   "metadata_symbol": "R2D2"
   },
   {
    "version": "v07",
@@ -2341,7 +2563,10 @@
    "dao_vault": "",
    "team_address": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "F5gWf87S56feDR1QebJ7NDCRJqLgyNCMXZ37LNcXJ2vC",
+   "metadata_name": "ForeverNow",
+   "metadata_symbol": "FRVN"
   },
   {
    "version": "v07",
@@ -2371,7 +2596,10 @@
    "dao_vault": "",
    "team_address": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "G9WcGpSSwN4BjomnjTdxJAzzSoDodgbnWVCPc58H9b7w",
+   "metadata_name": "MAxxing",
+   "metadata_symbol": "MAXX"
   },
   {
    "version": "v07",
@@ -2401,7 +2629,10 @@
    "dao_vault": "5D3gv2A57WDdam1uxLgQBYR6Bfg51TD9cyC5ie6Nab3N",
    "team_address": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "7cawQ25a7AV6S3GBKm3FHd6pVbdZ9Yd7YacA6b1dHfzu",
+   "metadata_name": "Rabid Racers",
+   "metadata_symbol": "RABD"
   },
   {
    "version": "v07",
@@ -2431,7 +2662,10 @@
    "dao_vault": "",
    "team_address": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "Ekn7CGnBxDHKGo4xRBPCKy9GX4L8xtaciFEuUBu6ZFF2",
+   "metadata_name": "Fancy Cats",
+   "metadata_symbol": "FANC"
   },
   {
    "version": "v07",
@@ -2461,7 +2695,10 @@
    "dao_vault": "",
    "team_address": "oRcZuYcaAafNdoJMkDyLd85veoAuRbZ1HCZkbHQ661Z",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "AehuFhcR9Ea2ib4PMgBbQXVtHKWrqMSKhgcujU3PC98t",
+   "metadata_name": "Turtle Cove",
+   "metadata_symbol": "SHELL"
   },
   {
    "version": "v07",
@@ -2491,7 +2728,10 @@
    "dao_vault": "G2K3KmHPgwK9S3YQqH3ToF98Z7CVpyN9E99VCGWmJFpL",
    "team_address": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "E7NDnuoBiY9ZRJRKePFQxtST7F6fuSrK8qNhz29D2XuR",
+   "metadata_name": "Rock Game",
+   "metadata_symbol": "ROCK"
   },
   {
    "version": "v07",
@@ -2521,7 +2761,10 @@
    "dao_vault": "",
    "team_address": "1PkPBZzGnSs83KromAqjNnGXKk6Y56wWGXhxJk3KArW",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9Ujx8GmJXa1onDKV5seDyw2Ms4TDVJnG87A3CHdgWiMp",
+   "metadata_name": "donuts",
+   "metadata_symbol": "DNTS"
   },
   {
    "version": "v07",
@@ -2551,7 +2794,10 @@
    "dao_vault": "",
    "team_address": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "Eg5KRK62vV1LHQ2PMJW7v6fitXZDMSASDV3oE9LSrXpH",
+   "metadata_name": "FitByte",
+   "metadata_symbol": "BYTE"
   },
   {
    "version": "v07",
@@ -2581,7 +2827,10 @@
    "dao_vault": "",
    "team_address": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DbWLPBaEW6WPX74YR2J2EprxN6BDaMVuqSdZ6dbFgGhX",
+   "metadata_name": "Delay Test",
+   "metadata_symbol": "DLLY"
   },
   {
    "version": "v07",
@@ -2611,7 +2860,10 @@
    "dao_vault": "",
    "team_address": "77g1TstoN7azM2c8ttXzLFfypYqGhrMzFG27EiBfE7g9",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "J6YqMrCrpaeRtsBJR5nemQhAT2JhHAaB6DsfXRRYd65Y",
+   "metadata_name": "Salmon Wallet",
+   "metadata_symbol": "SAL"
   },
   {
    "version": "v07",
@@ -2641,7 +2893,10 @@
    "dao_vault": "",
    "team_address": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "6U5bgm9AjMJW91Qpsy33YFCJa83bHf5zUnoCVhYkEcY2",
+   "metadata_name": "Reddit",
+   "metadata_symbol": "RDDT"
   },
   {
    "version": "v07",
@@ -2671,7 +2926,10 @@
    "dao_vault": "",
    "team_address": "3u72GmiCh5ZouGVY16Xm7SakFXgMMkZGk1gir3coSWP8",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "5H3ApBzQikHy8C4jgtXCfU6TVGujr51366kfNmUpu8vP",
+   "metadata_name": "Real Real",
+   "metadata_symbol": "REAL"
   },
   {
    "version": "v07",
@@ -2701,7 +2959,10 @@
    "dao_vault": "",
    "team_address": "77g1TstoN7azM2c8ttXzLFfypYqGhrMzFG27EiBfE7g9",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4oqGA6LCLDU9fC8w5Es5wTviZwmdcvtPV99BzLSk4s2P",
+   "metadata_name": "Salmon Wallet",
+   "metadata_symbol": "SALMON"
   },
   {
    "version": "v07",
@@ -2731,7 +2992,10 @@
    "dao_vault": "",
    "team_address": "mycoZboxWPqHxHodskeurXQWRLiKLkERQgA9HhoFufX",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "FJFDE9P42UyRUiYpBmYWEQEKoHZA41fE6pJQ9Tb44tDd",
+   "metadata_name": "Mycorealms",
+   "metadata_symbol": "MYCO"
   },
   {
    "version": "v07",
@@ -2761,7 +3025,10 @@
    "dao_vault": "FeMyhpB3LJuuuA1oLzXFDuZ48EJz46gyyk3w2xuQA8uw",
    "team_address": "65U66fcYuNfqN12vzateJhZ4bgDuxFWN9gMwraeQKByg",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3WQWXU8wbhdYQtrAXPZdkyWsHuBc9pXsvMZinTkL3dgM",
+   "metadata_name": "Futardio cult",
+   "metadata_symbol": "FUTARDIO"
   },
   {
    "version": "v07",
@@ -2791,7 +3058,10 @@
    "dao_vault": "",
    "team_address": "ArrhqNoMb8SfygVxAVTb1sdogwkgCypDVMCmNxALP5Zi",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "H5jWtKYdnPNmhScta6XXqT2RNjBrqZ7Ftpg36BR48fnA",
+   "metadata_name": "MILO",
+   "metadata_symbol": "MILO"
   },
   {
    "version": "v07",
@@ -2821,7 +3091,10 @@
    "dao_vault": "",
    "team_address": "54b6csxzpruK8JVsyb5yz4n1JuUtb8zL9f1JakQMw8fd",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "E4MNrbFGoU6FRkQeRWsoZTv51kBhUdCnyYfQieyqsXQo",
+   "metadata_name": "Open Music",
+   "metadata_symbol": "OM"
   },
   {
    "version": "v07",
@@ -2851,7 +3124,10 @@
    "dao_vault": "",
    "team_address": "4grp7QqGsZYfih4JWNeBR17E3ntAwovoZo2KxzR2TMNz",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8X8JNm91ydBH3gKCmdgEMBoSpwjhuiY73NYfnyszEAo7",
+   "metadata_name": "Manna Finance",
+   "metadata_symbol": "MANNA"
   },
   {
    "version": "v07",
@@ -2881,7 +3157,10 @@
    "dao_vault": "",
    "team_address": "2poPMupBhcfRW1SURgizDc1VduEmtXKhSN51CdZ1kNvA",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "BGhf7f3NEwEXA6VBjADVtdAsfvkdc3GoyeNBZVR4jiNS",
+   "metadata_name": "VERSUS",
+   "metadata_symbol": "VS"
   },
   {
    "version": "v07",
@@ -2911,7 +3190,10 @@
    "dao_vault": "",
    "team_address": "6zhK957MYvi2MDTNh1UQpVAiSfrTh6UQ41ZbbbPdJZ5Y",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CuuU2jDGxBUnyBzntqPshdgjn26QCi4bJZGKs3fYPERm",
+   "metadata_name": "Cloak",
+   "metadata_symbol": "CLOAK"
   },
   {
    "version": "v07",
@@ -2941,7 +3223,10 @@
    "dao_vault": "",
    "team_address": "EDMkVfBDoYvmU17knv5AJh7oLNL74p6BUvrjKZjoticc",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "EM6FnpfJVMqnasr3zhSjzoH8v9rYeMwraQywYMw6CHoF",
+   "metadata_name": "DigiFrens",
+   "metadata_symbol": "FREN"
   },
   {
    "version": "v07",
@@ -2971,7 +3256,10 @@
    "dao_vault": "",
    "team_address": "HLYR2NvgR2EBhsEwk6YedX6JqGzCvYgTmncgvjFVmmVF",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "G4tMbHS7971VkWKBLn1agVZjD7rQFRVDokZwMLQapnKb",
+   "metadata_name": "Vervepay",
+   "metadata_symbol": "VPAY"
   },
   {
    "version": "v07",
@@ -3001,7 +3289,10 @@
    "dao_vault": "",
    "team_address": "DJD4XGq2k8J8zc4XqBbfkyoiK5y27yDGxuFpuueA4Jii",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "RjxJSH5j6gQ2uHwRVZR8ppSozdwhkE6g6YpHzesnyPB",
+   "metadata_name": "Futarchy Arena",
+   "metadata_symbol": "FUTAR"
   },
   {
    "version": "v07",
@@ -3031,7 +3322,10 @@
    "dao_vault": "",
    "team_address": "EjtJhK8bPEf7dNr2facsQzh1FHPnoMp1HpReboB7EfbC",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9oDqxWuVcrZi1SfYFp3bAxBtRbss3aLWncknZnkCRY47",
+   "metadata_name": "XorraBet",
+   "metadata_symbol": "XORRA"
   },
   {
    "version": "v07",
@@ -3061,7 +3355,10 @@
    "dao_vault": "",
    "team_address": "cwqMLZdSvAqk7YNARsbeHkzcZBYsXQpKs5YjXoMbW8v",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8bWXH5rqf8w23e9oHbNttvPhpDYarL1RbcumxoTYzgvg",
+   "metadata_name": "SizeMatters",
+   "metadata_symbol": "SZM"
   },
   {
    "version": "v07",
@@ -3091,7 +3388,10 @@
    "dao_vault": "",
    "team_address": "CbYoxk85sBC8B3rfyBMzggVht7HFkGci5wGMGQz5ZVKs",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "HatgXdEdFzVctqb96tyMzZMgyfg571W6eKJNq78cY9nS",
+   "metadata_name": "lososdao",
+   "metadata_symbol": "LOSOS"
   },
   {
    "version": "v07",
@@ -3121,7 +3421,10 @@
    "dao_vault": "5ZPnwQDU7dEKdMGqaY5oCQkiuQpwjtYSJNMNpiStTNvU",
    "team_address": "BFLU4jh7enEWWPiuBfPafhVn2PuKLgXeNbnwXhScUiYW",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "29TDjRVxE5ZJ8ceeFV6PRLoSA6JJg38VPLWwKVWUs8dD",
+   "metadata_name": "Superclaw",
+   "metadata_symbol": "SUPER"
   },
   {
    "version": "v07",
@@ -3151,7 +3454,10 @@
    "dao_vault": "",
    "team_address": "DgP3geRn83U3MeSX6VybhYjuu9SodjXpQQ8kitSZcpeu",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "27jm1Ux5mra7jpnZmQbyR5TB4SXBEiuL8iG4ugV2Djjw",
+   "metadata_name": "TEST",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -3181,7 +3487,10 @@
    "dao_vault": "",
    "team_address": "CctmTCUeebHk7aP4p7EgjXxRhkPUmLx3mMqTPpDqLKVK",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "47AUrMQuCqer96qXSuQfh6EwQntyPmJ7a8KYux8ok61D",
+   "metadata_name": "FUTARA",
+   "metadata_symbol": "FUTARA"
   },
   {
    "version": "v07",
@@ -3211,7 +3520,10 @@
    "dao_vault": "",
    "team_address": "AJun4dWk6a6gno8z3R1jZDwSLyqKppqi7URK2UEm6LJZ",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "GUXDsMAoNzp3y48NhgipEVBHr6G95rSfZxyaH4Dp4umX",
+   "metadata_name": "MONEY FOR STEAK",
+   "metadata_symbol": "STEAK"
   },
   {
    "version": "v07",
@@ -3241,7 +3553,10 @@
    "dao_vault": "",
    "team_address": "7RMCXQpedL3nNj2tb59SnqTid7d83rtUgxS5iVkFD5mx",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "BKQgM6pj9BEMayavfnnYkeM67BxbVb9CWH8LwiTwFwtJ",
+   "metadata_name": "SeekerVault",
+   "metadata_symbol": "SKV"
   },
   {
    "version": "v07",
@@ -3271,7 +3586,10 @@
    "dao_vault": "",
    "team_address": "6U3o4mwJrYvTeuL41Z6p8aoRf2uA1398nm6hS8tq9CJx",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2fBvxo8ufUPkA3Mmaior4vLnjic6cyau7oTd59128hWU",
+   "metadata_name": "sick token",
+   "metadata_symbol": "SICK"
   },
   {
    "version": "v07",
@@ -3301,7 +3619,10 @@
    "dao_vault": "",
    "team_address": "EucbFuqWxRuF4nVv2qdgxe6hypAWC18U3qSfE5HbPXyz",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "BR5cQnKB67WtEU1F2RKCVy1KxHc6TeBFkqFWktjL5QsD",
+   "metadata_name": "Proph3T",
+   "metadata_symbol": "P3T"
   },
   {
    "version": "v07",
@@ -3331,7 +3652,10 @@
    "dao_vault": "",
    "team_address": "HG5UKfcwic2TbwqEaemoQrY6fbWMRvjqVRimXPxnSciY",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CsBQ7wV2NKpmZti74z2ApwrCiebsx1WRUtN7jsNdEGKv",
+   "metadata_name": "Pli",
+   "metadata_symbol": "PLI"
   },
   {
    "version": "v07",
@@ -3361,7 +3685,10 @@
    "dao_vault": "",
    "team_address": "HFVxJyZDFUs9ZqkZQciahG8JY1Yc73ULTiVnirGbc29F",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "GCNt14Uxkd9zS1TX1aTGFRHSS3D5TFuUKN3ES3T8NUx2",
+   "metadata_name": "i.rich",
+   "metadata_symbol": "IRICH"
   },
   {
    "version": "v07",
@@ -3391,7 +3718,10 @@
    "dao_vault": "",
    "team_address": "CktcAftt5hgxRyztXiwPViC23jaMaTHHg6iDoxiZH2XN",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "A8fvozuEVFfSiuLRiCEQiKZG486UGoSBF2U4zB21zKSe",
+   "metadata_name": "Island",
+   "metadata_symbol": "ISLAND"
   },
   {
    "version": "v07",
@@ -3421,7 +3751,10 @@
    "dao_vault": "",
    "team_address": "DSJaudTujebWMhCwDVfGRQwTfCfZjbNZfBKAMmtZjQs7",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "HnMXskTmdNJF8vUVbaqo6tS4gdcE8HeprWHRmetVG32f",
+   "metadata_name": "Arcade",
+   "metadata_symbol": "ARCADE"
   },
   {
    "version": "v07",
@@ -3451,7 +3784,10 @@
    "dao_vault": "",
    "team_address": "EjtJhK8bPEf7dNr2facsQzh1FHPnoMp1HpReboB7EfbC",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "GiUBQoY8Mhw9htzsRTokuHYXNUSq5Li63FdDBDJ9xZGH",
+   "metadata_name": "BitFuTard",
+   "metadata_symbol": "BFT"
   },
   {
    "version": "v07",
@@ -3481,7 +3817,10 @@
    "dao_vault": "",
    "team_address": "3SxCmne8jXhMp5BLpsg9gX4yX5N8eYEXxyQwiCCgbWgm",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2hVazHjPojumm8i5RKATNKFDqhUkUaHheP8SXCJdmhqX",
+   "metadata_name": "Git3",
+   "metadata_symbol": "GIT3"
   },
   {
    "version": "v07",
@@ -3511,7 +3850,10 @@
    "dao_vault": "",
    "team_address": "BMZXXZt8DqK6P8HJZTVoX2SyckumMsNsmDz5AwKQFLNm",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "H8N1n3ramXK3coGYjendZyjYhQjUBaWFMmtRpzcsNLrH",
+   "metadata_name": "TriDash",
+   "metadata_symbol": "TRI"
   },
   {
    "version": "v07",
@@ -3541,7 +3883,10 @@
    "dao_vault": "",
    "team_address": "6a4Ghcbeh69vcAGKugLMqTk6dFEPwnVhX4D8TNFEL7Zx",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CQAhAqMDRoN3Xg6YJcLrWZLJgQTwhbCwgDPff8eyifGL",
+   "metadata_name": "Torch Market",
+   "metadata_symbol": "TORCH"
   },
   {
    "version": "v07",
@@ -3571,7 +3916,10 @@
    "dao_vault": "",
    "team_address": "B4cknFKArvkoKXsyUjEiBK7HpfNx7tqqWjEdhx3qX2A5",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "AkHsWdq5PEJV4XSaCyAQzCaFPDbejZUJD8rrXWiZhWR",
+   "metadata_name": "Seyf",
+   "metadata_symbol": "SEYF"
   },
   {
    "version": "v07",
@@ -3601,7 +3949,10 @@
    "dao_vault": "",
    "team_address": "BUdoguhyHQNwtnMMapn26UiQnQ9fq9g7Eyt2D3EsZZwM",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "GtTvuC1ZgLQ7ULGyyRxCToAfoJYzr3M2mnrmVRr7Ghfx",
+   "metadata_name": "INSERT",
+   "metadata_symbol": "INSRT"
   },
   {
    "version": "v07",
@@ -3631,7 +3982,10 @@
    "dao_vault": "",
    "team_address": "9LSVMjmAaxhJu9wdbwrL2gkfwsRb8Nswyiu3DpQVoy4U",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "FBosrpoo94qg9Ajsgjr1T77D4U3XjDfbNovQfBvHcTm9",
+   "metadata_name": "RunBookAI",
+   "metadata_symbol": "RBAI"
   },
   {
    "version": "v07",
@@ -3661,7 +4015,10 @@
    "dao_vault": "",
    "team_address": "2DM64ZjbeAizdMaRxKnjfcPbDBoXJkzRNp45pNjbWS1v",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8uNC3yMtdHiduWZQUSEQQ37jhhtMfgTQjSdCS8DadCAx",
+   "metadata_name": "Areal",
+   "metadata_symbol": "ARL"
   },
   {
    "version": "v07",
@@ -3691,7 +4048,10 @@
    "dao_vault": "",
    "team_address": "Cb1jWt6wLRU98ET1LqMkDrpBJMBSdumBhXSrmXexNMzj",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "F4wCL66sxZJubRGgA1QQN86QJHzbHVi4sxJmLktTbTjY",
+   "metadata_name": "PHONON",
+   "metadata_symbol": "PHON"
   },
   {
    "version": "v07",
@@ -3721,7 +4081,10 @@
    "dao_vault": "",
    "team_address": "FoFsKLsck4z5HiLzdtThLYonM6ieAKsuAPvSB6HSZZ2k",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8wKF32iXGpigrHCXRGDXdfpo5eTCjiEoqQq6W6HCUfhC",
+   "metadata_name": "BlockRock",
+   "metadata_symbol": "BROCK"
   },
   {
    "version": "v07",
@@ -3751,7 +4114,10 @@
    "dao_vault": "",
    "team_address": "FuAWziPjVwgibAWeUiFuwod8mdUsur4rfsA88YX3peUt",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8oGzHMHvriNqV59B5c6yg38YKQDn7rta2okN4pmKAjjs",
+   "metadata_name": "Launchpet",
+   "metadata_symbol": "PETS"
   },
   {
    "version": "v07",
@@ -3781,7 +4147,10 @@
    "dao_vault": "",
    "team_address": "CKasbgmSjCUbW4EioncMRmt4SBzTT78VcUx5zh8Qt3bH",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "FvMgwCAiZN5hgJREkrM2J1fFY5xyyo2M8tTxeTupXnjW",
+   "metadata_name": "FUTARDIO Boat",
+   "metadata_symbol": "FBOAT"
   },
   {
    "version": "v07",
@@ -3811,7 +4180,10 @@
    "dao_vault": "",
    "team_address": "EcViUD9tuM1VwNWMHSHa9dncVLknFRk1n8hEeEqxPT2f",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "6yUw2sSTyjYRWcGzkHvzQQHptgjuWdPq88S87CpLTr3H",
+   "metadata_name": "NOTHING",
+   "metadata_symbol": "ZEROTHINGS"
   },
   {
    "version": "v07",
@@ -3841,7 +4213,10 @@
    "dao_vault": "",
    "team_address": "E25LDrd1NTyf7AztUUJudjTMC4unE1TzsQZEmEvjBJJx",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "AZWqky55ZMLhh2m4pULzYw1qkyKjFaaxJyUw98MEfuXh",
+   "metadata_name": "Ludex AI",
+   "metadata_symbol": "LDX"
   },
   {
    "version": "v07",
@@ -3871,7 +4246,10 @@
    "dao_vault": "",
    "team_address": "3dwYKSEE2Uo5aPZnYKJNRqhHDczUPouSKVe19E2xvMRK",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "H3SK6QVfRXT3xS2vpwjHFJG3FUckvKmr5q98iALWWkzx",
+   "metadata_name": "LobsterFutarchy",
+   "metadata_symbol": "LOFU"
   },
   {
    "version": "v07",
@@ -3901,7 +4279,10 @@
    "dao_vault": "",
    "team_address": "2DM64ZjbeAizdMaRxKnjfcPbDBoXJkzRNp45pNjbWS1v",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "EBZT2oRmR7EkBJ9dfwLSj7sWPpwTVroZnF3h8U43htDy",
+   "metadata_name": "Areal",
+   "metadata_symbol": "ARL"
   },
   {
    "version": "v07",
@@ -3931,7 +4312,10 @@
    "dao_vault": "",
    "team_address": "5t2PVjpJ3yGy38SHB3X7KDXDGrfXSwAyXMgnFYkMfvEc",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "5D7uRMq1DP8Qoa5ZbsX6WQqUEvYttGMMgSztZaS3xznL",
+   "metadata_name": "NexID",
+   "metadata_symbol": "NEX"
   },
   {
    "version": "v07",
@@ -3961,7 +4345,10 @@
    "dao_vault": "",
    "team_address": "HGWmNTP77EpKm5ZAAteyak2ZaQptt5VR8CF1zwJiAJXy",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "HchhsJ4zfMFuicrXUSDxvRyk53mnZJt6czCLFuR7f5Hw",
+   "metadata_name": "Seeker Vault",
+   "metadata_symbol": "SKV"
   },
   {
    "version": "v07",
@@ -3991,7 +4378,10 @@
    "dao_vault": "",
    "team_address": "78iSVQt7A8cSnV3iftsHYZ4VGAVigFpwYondvbbbq1CV",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3he6V1B71ir5i7cSikRcSCLLBdzuwATCSsoLmyVzH9gZ",
+   "metadata_name": "Etnl.io",
+   "metadata_symbol": "ETNL"
   },
   {
    "version": "v07",
@@ -4021,7 +4411,10 @@
    "dao_vault": "",
    "team_address": "mycoZboxWPqHxHodskeurXQWRLiKLkERQgA9HhoFufX",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DbH684mKM1jDBfxNeNpNnhK5HYTefPKm9Lv17HtiUK5G",
+   "metadata_name": "Mycorealms",
+   "metadata_symbol": "MYCO"
   },
   {
    "version": "v07",
@@ -4051,7 +4444,10 @@
    "dao_vault": "",
    "team_address": "HumhZar1Q5q62GZa9xyWorEguLhVZ6KHzgJGXJxjmdnb",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "7oi6EP5j2p3P9AQC9oUSxkMUkvVViZkFALBNXbYjJF11",
+   "metadata_name": "Git3",
+   "metadata_symbol": "GIT3"
   },
   {
    "version": "v07",
@@ -4081,7 +4477,10 @@
    "dao_vault": "",
    "team_address": "EYXoKYet1Q5kA5q7Dsf77wzp9fJZ8vu6171NZfZax37i",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "7RjZPrbtwmYRR2bryQiALGemVsGSkRfizfCbdTUuL2Am",
+   "metadata_name": "Agent Commerce",
+   "metadata_symbol": "AGC"
   },
   {
    "version": "v07",
@@ -4111,7 +4510,10 @@
    "dao_vault": "",
    "team_address": "F5ZLh1SbN89PH3ub8v1Yt6BMmtq4Vk9SUaE6VkZtQp7f",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DMK2JXEnEd6AdPt2BAbdC7kpF84W8VSF7h4TxyeV4iAD",
+   "metadata_name": "PocToken",
+   "metadata_symbol": "POC"
   },
   {
    "version": "v07",
@@ -4141,7 +4543,10 @@
    "dao_vault": "",
    "team_address": "EECY4ZPPD48sQg8kTiRuHoyi1LCmfQ629Eq3JCpQUpvz",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9VzJfbBmP2w1Qvmy9xEfBYyBuyxHjnFofW3aNxRJEqo5",
+   "metadata_name": "Valgrid",
+   "metadata_symbol": "GRID"
   },
   {
    "version": "v07",
@@ -4171,7 +4576,10 @@
    "dao_vault": "",
    "team_address": "8wXefcrEVstjD7rw6yUU3GrFvutDSkJafRsbasvCmnMy",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "ufWXMeDy1mzF5qNvfqhvAUourxwvei274KJF7AcQCWL",
+   "metadata_name": "NFA",
+   "metadata_symbol": "NFA"
   },
   {
    "version": "v07",
@@ -4201,7 +4609,10 @@
    "dao_vault": "",
    "team_address": "GkmNuQWpFbVSHhM5uGEZzcjuuiNAmDoQECUw4LoTu3W8",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DQUa6cAaGtvHCMHxdjp9ZRDR8XmQvj62XVfhHoAwwKWB",
+   "metadata_name": "URS",
+   "metadata_symbol": "URS"
   },
   {
    "version": "v07",
@@ -4231,7 +4642,10 @@
    "dao_vault": "",
    "team_address": "GYArz991euurZbRr7G3TE6L145YJ1oHsegiMRUbkKi4t",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3qzjj1Bap6EoLqTnpSoxuAeg1w1fMsU2mP6MzhKtXBoy",
+   "metadata_name": "Nvision",
+   "metadata_symbol": "NVISION"
   },
   {
    "version": "v07",
@@ -4261,7 +4675,10 @@
    "dao_vault": "",
    "team_address": "D2vay1cNFWQmiDGUY4m5c6JmpzjmHxHwXiCypqZL8eZk",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DYaEdzDYQz56MPRyAtTBjRaSu8pRfjEVpfbqTY8Yk7J6",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -4291,7 +4708,10 @@
    "dao_vault": "",
    "team_address": "D2vay1cNFWQmiDGUY4m5c6JmpzjmHxHwXiCypqZL8eZk",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9adEpKG6vHwGMF5X4hecxB8xfgBGucHwrSUxKVQLmUUj",
+   "metadata_name": "Test",
+   "metadata_symbol": "TEST"
   },
   {
    "version": "v07",
@@ -4321,7 +4741,10 @@
    "dao_vault": "9Rykf7i9fxUaXD8iD6GSGpRaoWQQP51Uiq1oxSE9oDzx",
    "team_address": "63miwxnMci7L76tWBGFfmHjbm199MKiteiWrNY1ShQhV",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "1XAb8q5hTmRF9bHffT23EnW1xCYqsvmYUbenSoqTPzW",
+   "metadata_name": "P2P Protocol",
+   "metadata_symbol": "P2P"
   },
   {
    "version": "v07",
@@ -4351,7 +4774,10 @@
    "dao_vault": "",
    "team_address": "FW8tU1x6rpNcakxmS5Y9pVu6P6aYySurJu8ooFBKuoLq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "D9FSFsUcRjGs78Xeu2yaBMvfkkkTEKM5PBAD2e1twJjN",
+   "metadata_name": "Quantum Waffle",
+   "metadata_symbol": "QW"
   },
   {
    "version": "v07",
@@ -4381,7 +4807,10 @@
    "dao_vault": "",
    "team_address": "2pV9nxJaPjv6umYaiSNh2NtGpZ1sMcLpryAg6BHnhe9C",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "Hxmb51KpfyncpRbd9YQMY2W74fuJ5feea3yjcR5Ehe6r",
+   "metadata_name": "Solar",
+   "metadata_symbol": "SLR"
   },
   {
    "version": "v07",
@@ -4411,7 +4840,10 @@
    "dao_vault": "",
    "team_address": "9p53UzL18fPQrjPvgohMqirqcVcsGjAPNV3NXTf99Jeg",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4wMJX7gLGS5YYu95a2LzjCpeeLXiJRJiKekY4FTZ1ED4",
+   "metadata_name": "Bynomo",
+   "metadata_symbol": "BYNOMO"
   },
   {
    "version": "v07",
@@ -4441,7 +4873,10 @@
    "dao_vault": "",
    "team_address": "5ZpMcQGYAKWuJXzABXrQyoQLfpq5QM68Hi1P5t5LAPKj",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4bWJ4CHJvXZSNBtuYwyDs9fm4trTiQpZtPkHobHtcmeF",
+   "metadata_name": "Diverg",
+   "metadata_symbol": "DIVERG"
   },
   {
    "version": "v07",
@@ -4471,7 +4906,10 @@
    "dao_vault": "",
    "team_address": "ApDQBVjwy47EAffSehF8k18orUbJaLSURVEdx95bV8oA",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4WTfTRVCWodLtFk3cbMYja4ySbPkGkfWxyPVmQS4PbKh",
+   "metadata_name": "Areal Finance",
+   "metadata_symbol": "ARL"
   },
   {
    "version": "v07",
@@ -4501,7 +4939,10 @@
    "dao_vault": "Dv5axGVuk3qcoEBNofNLerFFEE3VemmuH8VsmNWUTSR5",
    "team_address": "6Dw1xBGXChPeS69hovvYMF2nmRxgdoA711TKuuAbN5rV",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DTj7aAhJqUBxWPQWkfVAb41P13WbKTiAANxxa27UD6Ae",
+   "metadata_name": "Jurassic",
+   "metadata_symbol": "RAWR"
   },
   {
    "version": "v07",
@@ -4531,7 +4972,10 @@
    "dao_vault": "",
    "team_address": "CGaWt7scZdohH6LJBdsxDUTo1jyyeHWT4rYQvXT2neg3",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "46iKSFvFwg5MQW7rdGNByYCSoVa5cdnaXTXz5QE5D7nN",
+   "metadata_name": "Boltick",
+   "metadata_symbol": "BOLTICK"
   },
   {
    "version": "v07",
@@ -4561,7 +5005,10 @@
    "dao_vault": "",
    "team_address": "Bq4KMaVvzemx4tyfoyhZ7Kooo494GEv1xq9MLgRkfF6j",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "7UXoY8tAyWsyLW7AfVABFaJYG6ATpqiANNCv6hwdKZs9",
+   "metadata_name": "stacc's sanctum",
+   "metadata_symbol": "NOTSANCTUM"
   },
   {
    "version": "v07",
@@ -4591,7 +5038,10 @@
    "dao_vault": "",
    "team_address": "8NU2313J4MtANzEWeNnTUMy1Mf5Agavucf9oX4AagSaB",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "FE4AEcZymbVXLRPBuQn5QxysysyYF7NG9oQPxtVDtVXg",
+   "metadata_name": "Tributary",
+   "metadata_symbol": "TRY"
   },
   {
    "version": "v07",
@@ -4621,7 +5071,10 @@
    "dao_vault": "",
    "team_address": "ApDQBVjwy47EAffSehF8k18orUbJaLSURVEdx95bV8oA",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4MDYjPuihAqRXyWsBJL3Am7trdLYPw3rwYsKX2EErgRq",
+   "metadata_name": "Areal Finance",
+   "metadata_symbol": "ARL"
   },
   {
    "version": "v07",
@@ -4651,7 +5104,10 @@
    "dao_vault": "",
    "team_address": "8tmuyqmmLNLv1Cne9HKWzwQ83Xaj2F7fGHcFroV5dHUA",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "47LoEPWR2iP2ENQDCFa42pQ5ZE4MRzAFjuTbRc8eyN38",
+   "metadata_name": "Kavex",
+   "metadata_symbol": "KVX"
   },
   {
    "version": "v07",
@@ -4681,7 +5137,10 @@
    "dao_vault": "",
    "team_address": "A4xmDMnG2CULQL7M1ZmsJjk7X8ced5uf7Z6FeUVe5ePN",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DyWMbH7x52uCDMLdU3YenDCsczfod4AAsMA121mVaEJ5",
+   "metadata_name": "Rugpull Club",
+   "metadata_symbol": "RUGCLUB"
   },
   {
    "version": "v07",
@@ -4711,7 +5170,10 @@
    "dao_vault": "",
    "team_address": "A4xmDMnG2CULQL7M1ZmsJjk7X8ced5uf7Z6FeUVe5ePN",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "7S1BhSiEQLZtrdMiaBHgGXWjf7T4kcPVgKuunRJD7vgM",
+   "metadata_name": "Rugpull Club",
+   "metadata_symbol": "RUGCLUB"
   },
   {
    "version": "v07",
@@ -4741,7 +5203,10 @@
    "dao_vault": "",
    "team_address": "BkNcuvQZr6392aZCwcGnB6SQptV6vhWa7syJs5fgLz6",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3SdTeokLuT3D6AX5hGEhsG87ffEcDcQijtAnzME3hcA7",
+   "metadata_name": "PrivateDAO",
+   "metadata_symbol": "PDAO"
   },
   {
    "version": "v07",
@@ -4771,7 +5236,10 @@
    "dao_vault": "",
    "team_address": "8cU8FaRSqzrzDDHKB5yTyaWHBDKXneKww7ypGNU1KsGu",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "EHJ9MTWXdzR1LJAwWrXxGuLqyWzhCcdZ8DWBvgkpjTR2",
+   "metadata_name": "Arcade Cafe",
+   "metadata_symbol": "ACAFE"
   },
   {
    "version": "v07",
@@ -4801,7 +5269,10 @@
    "dao_vault": "",
    "team_address": "dcW5uy7wKdKFxkhyBfPv3MyvrCkDcv1rWucoat13KH4",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "D1A31vPaJBe3x4mjyw3VHhew5QktB9khSxif1sQRA6FX",
+   "metadata_name": "Talaria",
+   "metadata_symbol": "TALARIA"
   },
   {
    "version": "v07",
@@ -4831,7 +5302,10 @@
    "dao_vault": "",
    "team_address": "jobnShrtLLyqtzsVfAuouAfdswBGWrHgXuCz1SXJTTb",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3uhCeZxcLbv7WkwwX2CabD88sKUV6kBpk3ELZKihV7oT",
+   "metadata_name": "PRISM Protocol",
+   "metadata_symbol": "PRISM"
   },
   {
    "version": "v07",
@@ -4861,7 +5335,10 @@
    "dao_vault": "5wXRQTVdrWJLcZvNq2Wo98FELJrDftbk7kUhCxcphtUM",
    "team_address": "AjUDxr6ZmkjYJtYCApuMQNFJkJpK3ucstSpjdvAjnSJK",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4gJkXbdZyoBaQGkP63zS9b3i52WB8JLgPjZNqnQzUUhB",
+   "metadata_name": "GeSIM",
+   "metadata_symbol": "GSIM"
   },
   {
    "version": "v07",
@@ -4891,7 +5368,10 @@
    "dao_vault": "E45yD8h2ZsJdHFMPdowKvrC6gS9BgrcansUwHDEDokiF",
    "team_address": "ApDQBVjwy47EAffSehF8k18orUbJaLSURVEdx95bV8oA",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "97cizhZF2t6ydgXeB2ecaQrGqUqC4367cruv5WeLPjL3",
+   "metadata_name": "Areal Finance",
+   "metadata_symbol": "ARL"
   },
   {
    "version": "v07",
@@ -4921,7 +5401,10 @@
    "dao_vault": "",
    "team_address": "4GSodrJFL4qZxzcra84pTxUzrLwNfZuMHZF22YpDY5Us",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3DRuHYM8rB5V2p19hLZDqRiw4DA1U6hGxJ9ac1E9SUZ6",
+   "metadata_name": "GardenDAO",
+   "metadata_symbol": "GARDEN"
   },
   {
    "version": "v07",
@@ -4951,7 +5434,10 @@
    "dao_vault": "DsrBwJXCtMAdPJVuFR4rAdxKp5M6M3FDvxsGwoLAF2QZ",
    "team_address": "82MdwSmh7JEK9cywZusE27m8zwbhmkR9Bs38jQoAwwCc",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9c3h16QeTiCftPgLcc9iKPw4pAQDknSVhqRNGPaRvb85",
+   "metadata_name": "Laso Finance",
+   "metadata_symbol": "LASO"
   },
   {
    "version": "v07",
@@ -4981,7 +5467,10 @@
    "dao_vault": "BBvAVg5fXcso1Xk4ubj72zqkqNMEKqmZFJMLx1Cvscz8",
    "team_address": "65Ax1suqGCxaiczsUpMgGPtP6z8R5xtomBTZv1UNdsaA",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "5ZFPaw2pwETYcaYNwX6BnygF2oCw6LkidR1rnwDia652",
+   "metadata_name": "Kiduna_copy",
+   "metadata_symbol": "KIDUNA_COP"
   },
   {
    "version": "v07",
@@ -5011,7 +5500,10 @@
    "dao_vault": "2XXnA1B49XdpD8HqfwqrvLDUD2VoBbz1Gvw4gRSHw7h8",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9qMomEX9enS9qrWbyaDU8YvQX3XBnXGeZxBMnvH8eqLQ",
+   "metadata_name": "Sniper Sandbox",
+   "metadata_symbol": "SNPX"
   },
   {
    "version": "v07",
@@ -5041,7 +5533,10 @@
    "dao_vault": "5Buoytc9iF7VY9cs4RwAc1MMoAVLjkaenoU95SN4BbRi",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3VHLnnetZY3nzpxXSSMA8LtfP4cniyc383RPFYK2fCWu",
+   "metadata_name": "Sandbox ICO",
+   "metadata_symbol": "SBX"
   },
   {
    "version": "v07",
@@ -5071,7 +5566,10 @@
    "dao_vault": "Hkh6EqwYBGhrNoSx6WhQwJLhF2HdRXKmq1uDigSFRepn",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4hLicbBvMjYDnPtT37dWJkKAXcyi1ayTsfAL2hoMJXtU",
+   "metadata_name": "Sandbox ICO",
+   "metadata_symbol": "SBX"
   },
   {
    "version": "v07",
@@ -5101,7 +5599,10 @@
    "dao_vault": "iao35eFZipTD6V79fc6ztAerUCHp5RFz5Ez3at2fpoo",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "FRMKV4odHQ268L3wJiMWGUx8hWGBGSm9xCKFgDTHX1U3",
+   "metadata_name": "Sandbox ICO",
+   "metadata_symbol": "SBX"
   },
   {
    "version": "v07",
@@ -5131,7 +5632,10 @@
    "dao_vault": "8x2zXTeo4n8v2FciiSFs6qECPCxXCpRVfo75JjZCixck",
    "team_address": "11111111111111111111111111111111",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "86sHQWLpxyL6MkzKQ1f5Va5dVgr2YWFcPXLHXfzCtqB7",
+   "metadata_name": "Sandbox ICO",
+   "metadata_symbol": "SBX"
   },
   {
    "version": "v07",
@@ -5161,7 +5665,10 @@
    "dao_vault": "",
    "team_address": "7e6QLMZv6Ac2yjMGKnfpZAB3WYgMHvoLh9mmwc1DAWL7",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "BXtsNxEddPGdRF8e3pmKULQQZdiw9fCP8ydLuEwoT5ZF",
+   "metadata_name": "Bountive",
+   "metadata_symbol": "BTV"
   },
   {
    "version": "v07",
@@ -5191,7 +5698,10 @@
    "dao_vault": "ATESfxbwt3SRhSHc4nbk8BG6P8Nm8TAjsHfQCbgC2er4",
    "team_address": "44dNkVJsWPZfh3tvRyqpnwgkoL5RYqi3cWsE1d8wfviV",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "21RLEDqjC4ffQRDgvorDiPPrbuJzwGw8Y76wfCda9TLq",
+   "metadata_name": "Credible Finance",
+   "metadata_symbol": "CRED"
   },
   {
    "version": "v07",
@@ -5221,7 +5731,10 @@
    "dao_vault": "5n1kEkZ68h2Wb6TPB88GPgvjv5tAoLyGGPSJCwoTWkLm",
    "team_address": "CnTDWPAEsN5RAgNapTJerDAc45TWavRQ1m3ACMpukYPd",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "A8DFCacFGgMgrqj1uaQnSEciWryFq6zoQ5f4UxS22s2p",
+   "metadata_name": "Rip Cars",
+   "metadata_symbol": "CARS"
   },
   {
    "version": "v07",
@@ -5251,7 +5764,10 @@
    "dao_vault": "",
    "team_address": "FZZxSi6CNQJ6Tak1Ly3skAiZgKgMHxYkpy4vV242iibE",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "AWopCkyJtb82aMZvXtmKfMnHbwSdKUV6UPZQ8PTqGs1s",
+   "metadata_name": "Bountive",
+   "metadata_symbol": "BTV"
   },
   {
    "version": "v07",
@@ -5281,7 +5797,10 @@
    "dao_vault": "6C8SUhNgaJz3UPUn7rXAxLeApWVLu3nfE7kYJs2eCX19",
    "team_address": "CuRiHtJHhSTUoe5rRpUe98N4bYumDCxonhz33sPopYex",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4eLRUwWt4c4JxLJxnRWUg3VP5G9nGRKy71QGYQyXSHp2",
+   "metadata_name": "ORDR",
+   "metadata_symbol": "ORDR"
   },
   {
    "version": "v07",
@@ -5311,7 +5830,10 @@
    "dao_vault": "",
    "team_address": "GxDnieZRziSrUaxajfrVPV7v1ZgUznYWCcZcMTcrug8W",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "dw8vUmxm7LTbyzgVKXJr5aEfA249J3Xt86APXXGrvXh",
+   "metadata_name": "Hardware AI",
+   "metadata_symbol": "HIIE"
   },
   {
    "version": "v07",
@@ -5341,7 +5863,10 @@
    "dao_vault": "ASBU3bH5EhBjC17CLWfMG8txwQSoSgrooz9CFQJzUEAB",
    "team_address": "CzfhbbnK32Ug2fTpbkcdJPCE2kvuF96MpRaemyhKThXB",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8VAKs9TxojTjrt9G1LPDrRLc89ACJbPsQPbqBa39KEsu",
+   "metadata_name": "Basket",
+   "metadata_symbol": "BASKET"
   },
   {
    "version": "v07",
@@ -5371,7 +5896,10 @@
    "dao_vault": "",
    "team_address": "DxiBqRULX2UMvuAggbC33mf3AdYPX8BHM6ajweVGrk9J",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3ifYbJ7GiGWDcYPWUEbkoKt5ivdEnJwnfBhRbKQMA6qP",
+   "metadata_name": "Collector Suite",
+   "metadata_symbol": "TCS"
   },
   {
    "version": "v07",
@@ -5401,7 +5929,10 @@
    "dao_vault": "DJAv7DiAYVW9fiewdJw4m5EitjsThMvjtaZofWE1Sm6e",
    "team_address": "BwVaPvqyFArwY6MRfAHebYFJbdwvHyc3ufNpGHmXcJjE",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3k9mVeG87PmoDwK86YEybxekXEZBTHkV7r2uCQiWr9UE",
+   "metadata_name": "Kimia",
+   "metadata_symbol": "KIMIA"
   },
   {
    "version": "v07",
@@ -5431,7 +5962,10 @@
    "dao_vault": "",
    "team_address": "ABFFMp4RpqVS2Be198yWS7Abatf5KjC6ERQ9bRYqCqCd",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4EPiatGa5WEWNr7horYiEcWBfzMj6Ad49SKAgTUqjeiy",
+   "metadata_name": "CarryLend",
+   "metadata_symbol": "CARRY"
   },
   {
    "version": "v07",
@@ -5461,7 +5995,10 @@
    "dao_vault": "",
    "team_address": "AZD7UFHhga7L1zmzvdkAkuQ3kCdUJnDUTgEMZwQhw7CP",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "58Bg7NzyzAvLtQo1a7jvWC9VAiGshnAL4bgsDdUFuN2K",
+   "metadata_name": "Coinflip",
+   "metadata_symbol": "CASINO"
   },
   {
    "version": "v07",
@@ -5491,7 +6028,10 @@
    "dao_vault": "",
    "team_address": "2WQVvjF4BHA1ZmRQj2fQhdQivfphjSw487vAfhCw32dV",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "HU3WGzhnueuaRPv7vYQ3cuTkEwui51HJzKi7SekzC1Wh",
+   "metadata_name": "Ryvo Network",
+   "metadata_symbol": "RYVO"
   },
   {
    "version": "v07",
@@ -5521,7 +6061,10 @@
    "dao_vault": "",
    "team_address": "CPsrbTwLtJu3LHFnm4vgDkpw5pDxSnAMRAzGJMmTQcej",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "W4f96i1Ho1gnFfc5RxRUm1Xw7ra6pwXb8goBvdiUe5x",
+   "metadata_name": "SuperPumped",
+   "metadata_symbol": "SP"
   },
   {
    "version": "v07",
@@ -5551,7 +6094,10 @@
    "dao_vault": "",
    "team_address": "EwfdHgCJcnbFhBBpjWgajHQF5oC6rGEaf1Uie5c1g34h",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "4rmtisfHa6p7FHBj9623KoReoMK7VbHZfvwERNw6BRWn",
+   "metadata_name": "Mycorealms",
+   "metadata_symbol": "MYCO"
   },
   {
    "version": "v07",
@@ -5581,7 +6127,10 @@
    "dao_vault": "",
    "team_address": "h4YVgJUB3Dy7f7vq7gfA3AQjJZ5JyHAK56fCZt6D3xF",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8mkUePvB46xWxrSBuJGEwzMXv8TVnCzYg7TQn9g9S8k7",
+   "metadata_name": "Clytheriq Chain",
+   "metadata_symbol": "CLYQ"
   },
   {
    "version": "v07",
@@ -5611,7 +6160,10 @@
    "dao_vault": "",
    "team_address": "5tRFoVXHykiao1HaSHD5gDNx6emk72MEBfrbWLFU28BG",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "AJz3h3TL56shFC944YCvkgeazfTytmGkuQ4K7Gu4796H",
+   "metadata_name": "Markov",
+   "metadata_symbol": "MRKV"
   },
   {
    "version": "v07",
@@ -5641,7 +6193,10 @@
    "dao_vault": "",
    "team_address": "2TLE4afjbCvSUubkLDuyHv9Rez1wY3h14VVmdNLZV54z",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "8XaD83g9GGKaAHSqWPjEWP3fwPv52Nt1xwry4QqjZWaV",
+   "metadata_name": "Aeonian",
+   "metadata_symbol": "AEONN"
   },
   {
    "version": "v07",
@@ -5671,7 +6226,10 @@
    "dao_vault": "",
    "team_address": "7Zvyu9UW1oFnCJFhQR9uaQK2gFoUZLf2EDvvMzofgeKz",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "E58xP1XUvQemd4KeJ3vP2hFqXgUAHgMup6eQiw5aEMAH",
+   "metadata_name": "GameByts",
+   "metadata_symbol": "GBS"
   },
   {
    "version": "v07",
@@ -5701,7 +6259,10 @@
    "dao_vault": "",
    "team_address": "EZWGEpjuwJtoEPwAHQ8qyNqBbf88RUVQtoxVEXJphPb3",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2yL7L49kj8ESF58RU81Vpe6fraXDsGEM729zuAsgLZc8",
+   "metadata_name": "Degen Terminal",
+   "metadata_symbol": "DGNT"
   },
   {
    "version": "v07",
@@ -5731,7 +6292,10 @@
    "dao_vault": "A1XGC7uJtLcBb7oa7Q6DJtkBFriPrBGLDtSMiD2gNUHm",
    "team_address": "7L6mFrodZrAoXg7YZtmGirrdLgQGq5XPdSkMN3zKjcDZ",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "BZLZcc8AsFwa33c9FrP7SGCkX983ZK8rs3j8dNntHwhj",
+   "metadata_name": "LFOWN",
+   "metadata_symbol": "LFOWN"
   },
   {
    "version": "v07",
@@ -5761,7 +6325,10 @@
    "dao_vault": "",
    "team_address": "4kMfvv2jAgSVmkqNVAdApJboaSDjpxqtYMHpcsmowM6c",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "732GGu5odqniveMePnVEhtsKPiZbZgePrdiaCzgd5SpR",
+   "metadata_name": "SPARK",
+   "metadata_symbol": "SPARK"
   },
   {
    "version": "v07",
@@ -5791,7 +6358,10 @@
    "dao_vault": "5cceWhYfcZAH1q9PBaKL1MnNRUU7UVvJNwWbjx75cmhE",
    "team_address": "HCXta39Nx9zEPv7xRCxdVRzqArnP45GuCiGm3FrSFCZi",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "FTWWf4gHzLutf32nXoaomqbNRweSvibB8GDUgAADZzPN",
+   "metadata_name": "HiveBits",
+   "metadata_symbol": "NECTAR"
   },
   {
    "version": "v07",
@@ -5821,7 +6391,10 @@
    "dao_vault": "",
    "team_address": "9fXxdHUTdpX2Fq6n6cuntjV47tCPiRM5DReungbG7b5u",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "F6taK1UnR52B6pQhxD9eJtSmFPi5pQFcwV87TbZ9ZiRz",
+   "metadata_name": "DIGG",
+   "metadata_symbol": "DIG"
   },
   {
    "version": "v07",
@@ -5851,7 +6424,10 @@
    "dao_vault": "996mzJRgFbpHxnfYTPdDttv2vMEBarnQdCSn7xDcFMeT",
    "team_address": "CVBoMe2SaDKmojmn3yWTthEccHhrLZ3E6Z97bUaSFCS5",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "6kMyUStiBUgbGYJBRuPh8UndEt3en91d3XqUsDMQqSEH",
+   "metadata_name": "ACCRUE",
+   "metadata_symbol": "ACCRUE"
   },
   {
    "version": "v07",
@@ -5881,7 +6457,10 @@
    "dao_vault": "7BH8pLSuqUXcup6XR3MXL7dYsQZbBxxG1sy7u8L67x3T",
    "team_address": "BXxeKPBN8BRWqGmXaRQKrkvJe4geL654vEeGrGCUmq2D",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DgYjLQ2H8V2M4AkJRZXtrzWeGjV14zRZmM4MLznGNxJS",
+   "metadata_name": "Tset",
+   "metadata_symbol": "TSET"
   },
   {
    "version": "v07",
@@ -5911,7 +6490,10 @@
    "dao_vault": "4qXyczAr5DuBVaHUwmZT5Xt6hgQ6RwqBYcFGtrv8QEph",
    "team_address": "Ci3xC1BKx36MgCze1c2UcyeCndhB7PsBGp5RSNEA7xRD",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9Nra2TiSfRdwSDWFvioSUa1LTfq5iqoE2zyirrPxGLX6",
+   "metadata_name": "PREDICT",
+   "metadata_symbol": "PREDICT"
   },
   {
    "version": "v07",
@@ -5941,7 +6523,10 @@
    "dao_vault": "59Km6UTvKMNmww5iwiVQ7iTKUy6Eoug1ytsMPhd36e8z",
    "team_address": "66kDYpYtuGkaZF2ho64VgEQuAgBPGjY17HtcTtANtNR8",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "HnBWmfpdQckEWXZZj2V7dN6Vr5wcPDiWjwo3RKcJVUGR",
+   "metadata_name": "The Syndicate",
+   "metadata_symbol": "GANG"
   },
   {
    "version": "v07",
@@ -5971,7 +6556,10 @@
    "dao_vault": "",
    "team_address": "331nEBz4i3XjyaUHVyHnpw9xBoW7D6P1qMPnUPd76Mth",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "5okgmCjDVRYeRhwRcJ5EV52LhgR6MUgmzGSMhAnET3ZS",
+   "metadata_name": "STACCIndex",
+   "metadata_symbol": "STACCS"
   },
   {
    "version": "v07",
@@ -6001,7 +6589,10 @@
    "dao_vault": "",
    "team_address": "331nEBz4i3XjyaUHVyHnpw9xBoW7D6P1qMPnUPd76Mth",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "HLDr9zaQm67vMqqe3Dngj2EtVhWh27VGou9QcB31Pgd9",
+   "metadata_name": "STACCIndex",
+   "metadata_symbol": "STACCS"
   },
   {
    "version": "v07",
@@ -6031,7 +6622,10 @@
    "dao_vault": "",
    "team_address": "EtZv99LQTWNJx2ypkLvxQy7YWxBhKFGXuBCBeLPdGHj3",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3oipGZESoXHDSCpwBmhv9DEfhuc2ut5tjz4UWLT2vpjW",
+   "metadata_name": "Kaboom",
+   "metadata_symbol": "KABOOM"
   },
   {
    "version": "v07",
@@ -6061,7 +6655,10 @@
    "dao_vault": "GvtRLSxYXpx5e6ZVAeyQN6Vvnu6fUA2tpsbHGVr9AzGE",
    "team_address": "EvedFwdXbcrtM1QVAVrpvLpBhoHmvnvd92M2dBeXRZog",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "EFMwrxEyv9Nx61rhQG3PoRypMuaw5XJHGCk1jtyWFZUG",
+   "metadata_name": "MimiKrew",
+   "metadata_symbol": "KREW"
   },
   {
    "version": "v07",
@@ -6091,7 +6688,10 @@
    "dao_vault": "",
    "team_address": "BU3HNLGtXDr6YG1aicJ7Q9v5yHLBBZ6SMTd6hvEHjN4e",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DWvy7tZepNBrhkYE8oCjF88GTHhQ3vzZX6BS1BsmzyWo",
+   "metadata_name": "Polybaskets",
+   "metadata_symbol": "INDEX"
   },
   {
    "version": "v07",
@@ -6121,7 +6721,10 @@
    "dao_vault": "",
    "team_address": "GNi6SSJuEy1jdGEtdZAeEtMYzGMjBJs5VtXkhigWxZfx",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "6HngNpoq7QVqGw824XU8goGJuJKQVaXu5s5jH6ghAubx",
+   "metadata_name": "Soldex",
+   "metadata_symbol": "SOLDEX"
   },
   {
    "version": "v07",
@@ -6151,7 +6754,10 @@
    "dao_vault": "GY7rMYDM4V83Wy18gJHTJy8TPA4NE4vTogUADh738id",
    "team_address": "5ydn9x8pKVHBUgJa7Z3qd3X3QWeaQqrxWDMKhbtR9Csq",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "F9MziXHLcDTrGRVniJMtv4Mp4qj9TgYGKtV4DZM5M7Dt",
+   "metadata_name": "Orendal",
+   "metadata_symbol": "ORENDAL"
   },
   {
    "version": "v07",
@@ -6181,7 +6787,10 @@
    "dao_vault": "CYGR9GgTnFf2jZbZiNUCXHhQeqrx9bf7tS8MK4tmN9NV",
    "team_address": "2K8NDgFUC1fAcVii3p5KuhBYxf8AZcqNa4T7dxA6Pr9o",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "6wvo7QVZ99cXk4DNrxFmX7EN78qn8rAQtd83dp7X3Rqd",
+   "metadata_name": "DRAWUP",
+   "metadata_symbol": "DRAWUP"
   },
   {
    "version": "v07",
@@ -6211,7 +6820,10 @@
    "dao_vault": "5iKuHbKzW5EfJX924BEsfLzRXdeRK9MnhobPRAfXTtZ8",
    "team_address": "6w8B24FfKMLdhVejyDJuo3c1kUwrLxgVVQi4ZvhPnytp",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "FkBub6USJ2s9H4gapc1Xzm83k1sQ6FsgesU41W9TsEQL",
+   "metadata_name": "The Inner Table",
+   "metadata_symbol": "POKER"
   },
   {
    "version": "v07",
@@ -6241,7 +6853,10 @@
    "dao_vault": "",
    "team_address": "7X6GKarx4PkWXbexVcsWhNnNB1fp2Z29zLJCBfp1rSZb",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2qxq6ZFv6ayA2JmnEPXevtybUozGcad3bTs3xbeypiu9",
+   "metadata_name": "WaldBier Brazil",
+   "metadata_symbol": "WBBR"
   },
   {
    "version": "v07",
@@ -6271,7 +6886,10 @@
    "dao_vault": "",
    "team_address": "4FjTfsTBKe58XW7zLPQzmL3oEbBzA1n9f2mkXFVWggn2",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "CTdY5VqCrASsmSXHMppemZkEtBzTpwQ3eGZyQy9c2XU",
+   "metadata_name": "Lithosphere",
+   "metadata_symbol": "LITHO"
   },
   {
    "version": "v07",
@@ -6301,7 +6919,10 @@
    "dao_vault": "",
    "team_address": "J33T5tQfqGkPfTixwM6VoB1Wcvws1Ze2yPafJgpMhcqZ",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3XzinZJ72RzjXiheDFP6TYJcWCpjKhFkQPxW3FsqNRXn",
+   "metadata_name": "Hexncoin",
+   "metadata_symbol": "HEXN"
   },
   {
    "version": "v07",
@@ -6331,7 +6952,10 @@
    "dao_vault": "64BizHvsBLJR13cZgoYdwEzNDC4aw3NxWUiTuJE5qHE3",
    "team_address": "FSmmDsnzstS29qVkk463eHdE4GXP7RpiZKQ84n98HoLm",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2KPrHqVVfNhPmjzPcLNrTTDD2JRwAYwHtZSMoojNctm6",
+   "metadata_name": "Cope",
+   "metadata_symbol": "COPE"
   },
   {
    "version": "v07",
@@ -6361,7 +6985,10 @@
    "dao_vault": "",
    "team_address": "FftHnc6DsnWsr7amM7N7SUwVAjjWWAZSMLggv2EgPk7K",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "DEgCB6av3Uc4LqyPg44tG9sGo4uxJCCP74S536HYoSyz",
+   "metadata_name": "Stook Street",
+   "metadata_symbol": "STOOK"
   },
   {
    "version": "v07",
@@ -6391,7 +7018,10 @@
    "dao_vault": "",
    "team_address": "BGjetGasaRKT4i15BPjr42E4LUXo3e8xHpqVZjduouGL",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "3QfURaUz3BBg7QGSXgSRDcynjkqPBJqB2nsC1pTWXvh4",
+   "metadata_name": "Sendr",
+   "metadata_symbol": "SENDR"
   },
   {
    "version": "v07",
@@ -6421,7 +7051,10 @@
    "dao_vault": "Eddn5AEXvuuTh53MguLveepNjgyQbaam4rGC6nQ3vaYJ",
    "team_address": "Fc7j38jCXajnwu7yPDKmWKab1p1rnKQf5xqry43BtARj",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "2SJ32k2vxBGhKfzRnDVenxCLadySwA15g2S7VsUUKbWZ",
+   "metadata_name": "SAT",
+   "metadata_symbol": "SAT"
   },
   {
    "version": "v07",
@@ -6451,7 +7084,10 @@
    "dao_vault": "NeUdokZBF3yLWf2T9BeNCKZ26WgcX6GCqU9ahCoJPTn",
    "team_address": "B5GYd32cfgzXSkJ3ZQSRJvWxthXJH2wibjy4PDUNV6yV",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "6a2fGsAR2ce6FcSfKd6xyAXVQkHkanBdzWCjWswt4qM9",
+   "metadata_name": "Final",
+   "metadata_symbol": "FINAL"
   },
   {
    "version": "v07",
@@ -6481,7 +7117,10 @@
    "dao_vault": "4CKgXcAgv5y6CLMAEAFTR2otqtrqL5ReJtMFdTyLWBMw",
    "team_address": "6mKZ3tA58Q4QCXLebHR5udjrbkLLQFqtYLHkQ5jcdyHM",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "HihvSvRCckQMqKMq36sXDUgzBBMrPFW7gJtrQxGfKrrd",
+   "metadata_name": "Mori Finance",
+   "metadata_symbol": "MORI"
   },
   {
    "version": "v07",
@@ -6511,7 +7150,10 @@
    "dao_vault": "",
    "team_address": "BPWJfTx73WJkJGCZp6FKAGoVPPmmY27fiWv9f9U1RVpP",
    "bytes": 785,
-   "checks": "OK"
+   "checks": "OK",
+   "metadata_account": "9ySNsw7uuFe6z3Chxfhs4YzzsMeiLReTqmxA9YvRb1HH",
+   "metadata_name": "Koturo",
+   "metadata_symbol": "KOTU"
   }
  ]
 }

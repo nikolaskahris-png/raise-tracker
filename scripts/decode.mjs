@@ -1,11 +1,33 @@
 // Decoders for MetaDAO launchpad `Launch` accounts.
 // Layouts copied field-by-field from github.com/MetaDAOProject/programs:
 //   programs/v06_launchpad/src/state/launch.rs, v07_..., v08_...
+import { createHash } from 'node:crypto';
 const A = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 export function b58e(b) { let n = 0n; for (const x of b) n = n * 256n + BigInt(x); let s = ''; while (n > 0n) { s = A[Number(n % 58n)] + s; n /= 58n; } for (const x of b) { if (x === 0) s = '1' + s; else break; } return s; }
 export function b58d(s) { let n = 0n; for (const c of s) { const i = A.indexOf(c); if (i < 0) throw new Error('bad base58'); n = n * 58n + BigInt(i); } const out = []; while (n > 0n) { out.unshift(Number(n % 256n)); n /= 256n; } for (const c of s) { if (c === '1') out.unshift(0); else break; } return Uint8Array.from(out); }
 
 export const USDC = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
+
+// Program-derived address (same algorithm as Solana's findProgramAddress). Seeds are byte arrays.
+const P = 2n ** 255n - 19n;
+const mp = (b, e) => { let r = 1n; b %= P; while (e > 0n) { if (e & 1n) r = r * b % P; b = b * b % P; e >>= 1n; } return r; };
+const D = ((-121665n * mp(121666n, P - 2n)) % P + P) % P;
+function onCurve(h) { let y = 0n; for (let i = 31; i >= 0; i--) y = y * 256n + BigInt(h[i]); const s = y >> 255n; y &= (1n << 255n) - 1n; if (y >= P) return false; const u = (y * y - 1n + P) % P, v = (D * y % P * y + 1n) % P; const x2 = u * mp(v, P - 2n) % P; if (x2 === 0n) return s === 0n; return mp(x2, (P - 1n) / 2n) === 1n; }
+export function pda(seeds, prog) { const pid = b58d(prog); for (let bump = 255; bump >= 0; bump--) { const h = createHash('sha256').update(Buffer.concat([...seeds.map(s => Buffer.from(s)), Buffer.from([bump]), Buffer.from(pid), Buffer.from('ProgramDerivedAddress')])).digest(); if (!onCurve(h)) return b58e(h); } throw new Error('no pda'); }
+
+// Metaplex Token Metadata: the onchain name and symbol of a token, set by whoever controls its metadata.
+// Layout (mpl-token-metadata, state/metadata.rs): key u8 (4 = MetadataV1), update_authority, mint, name, symbol, uri (Borsh strings).
+export const TOKEN_METADATA_PROGRAM = 'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s';
+export const metadataAddress = mint => pda([Buffer.from('metadata'), b58d(TOKEN_METADATA_PROGRAM), b58d(mint)], TOKEN_METADATA_PROGRAM);
+export function decodeMetadata(data) {
+  const buf = Buffer.from(data);
+  if (buf[0] !== 4) throw new Error(`not a MetadataV1 account (key ${buf[0]})`);
+  let o = 1;
+  const pk = () => { const x = b58e(buf.subarray(o, o + 32)); o += 32; return x; };
+  const str = (max) => { const n = buf.readUInt32LE(o); o += 4; if (n > max) throw new Error(`string longer than ${max}`); const s = buf.subarray(o, o + n).toString('utf8').replace(/\0+$/, '').trim(); o += n; return s; };
+  const update_authority = pk(), mint = pk();
+  return { update_authority, mint, name: str(64), symbol: str(32), uri: str(400) };
+}
 export const PROGRAMS = {
   v08: 'moonDJUoHteKkGATejA5bdJVwJ6V6Dg74gyqyJTx73n',
   v07: 'moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM',

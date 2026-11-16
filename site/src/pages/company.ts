@@ -53,22 +53,29 @@ export function budgetPeriods(t: Treasury, start: Date): Period[] {
 
 /** The company's name, or its mint prefix (an identifier, labelled as such) when it has none. */
 export function displayName(c: Company): string {
-  const title = c.name.kind === 'none' ? `Token mint ${c.raise.mint}` : c.name.kind === 'api' ? "Name from MetaDAO's market API" : `Name declared by ${c.name.source}`;
+  const title = c.name.kind === 'none' ? `Token mint ${c.raise.mint}` : c.name.press ? `Project name quoted from ${c.name.press.publisher}; symbol from the token's onchain metadata` : "Name from the token's onchain metadata";
   return label(c.displayName, title);
 }
 
 function nameBadge(c: Company): string {
-  switch (c.name.kind) {
-    case 'api': return `<span class="badge b-d" title="Name and ticker from MetaDAO's market API"><span class="mk mk-d" aria-hidden="true"></span>Name from MetaDAO's market API</span>`;
-    case 'declared': return `<a class="badge b-d" href="${esc(c.name.source)}" rel="noopener" title="${esc(c.name.basis)}"><span class="mk mk-d" aria-hidden="true"></span>Name declared by press ↗</a>`;
-    case 'none': return '<span class="badge b-p">Name pending</span>';
-  }
+  if (c.name.kind === 'none') return '<span class="badge b-p">Name pending</span>';
+  return `<a class="badge b-d" href="${addrUrl(c.name.account)}" rel="noopener" title="The name and symbol this token declares in its Metaplex metadata account"><span class="mk mk-d" aria-hidden="true"></span>Name from the token's onchain metadata ↗</a>`;
+}
+
+/** Where the name comes from: the onchain metadata, and, when present, the verbatim press quote that adds the project name. */
+function nameSource(c: Company): string {
+  if (c.name.kind !== 'onchain') return '';
+  const onchain = `The token's onchain metadata (${chip(c.name.account, 'address', 'metadata account')}) declares the name ${label(c.name.name, 'Name in the onchain metadata')} and the symbol ${label(c.name.symbol, 'Symbol in the onchain metadata')}. Whoever controls the metadata sets it.`;
+  const p = c.name.press;
+  if (!p) return `<p class="soft" style="font-size:14px;line-height:1.55;margin-top:14px;max-width:760px">${onchain}</p>`;
+  const day = (s: string) => date(new Date(`${s}T00:00:00Z`));
+  return `<div class="soft" style="font-size:14px;line-height:1.55;margin-top:14px;max-width:760px"><p>${onchain}</p>
+<p style="margin-top:8px"><b>Project name.</b> ${esc(p.publisher)} (published ${day(p.published)}, read by us ${day(p.read)}) names the project: <q data-quote cite="${esc(p.source)}">${esc(p.quote)}</q> <a href="${esc(p.source)}" rel="noopener">Source ↗</a></p>
+<p style="margin-top:8px">We use the article only for the name ${label(p.project, 'Project name from the article')}, matched to this token because the quote names its onchain symbol. Every figure on this page comes from the chain.</p></div>`;
 }
 
 function header(ctx: Ctx, c: Company, movementsCount: number | null): string {
   const r = c.raise;
-  const declaredNote = c.name.kind === 'declared'
-    ? `<p class="soft" style="font-size:14px;line-height:1.55;margin-top:14px;max-width:760px"><b>How the name was matched.</b> ${label(c.name.basis, `Declared, from ${c.name.source}`)} <a href="${esc(c.name.source)}" rel="noopener">Source ↗</a></p>` : '';
   return `<section class="wrap" style="padding-top:40px">
 <nav aria-label="Breadcrumb" class="muted" style="font-size:13px;display:flex;gap:8px"><a href="${url(ctx, '#companies')}" class="muted">Companies</a><span aria-hidden="true">/</span><span style="color:#0A0B0F">${displayName(c)}</span></nav>
 <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-top:20px">
@@ -82,10 +89,10 @@ ${nameBadge(c)}
 <span class="badge b-n">${r.track === 'curated' ? 'Curated' : 'Permissionless'}</span>
 <span class="badge b-v">Raise complete</span>
 <span class="badge b-n">Launchpad ${label(r.version.replace(/^v0?(\d)(\d)?(\d)?$/, (_m, a: string, b?: string, d?: string) => `v0.${a}${b ? `.${b}` : ''}${d ? `.${d}` : ''}`), 'Launchpad program version')}</span>
-${chip(r.mint, 'address', `${r.ticker ? r.ticker + ' · ' : ''}${r.mint.slice(0, 6)}…`)}
+${chip(r.mint, 'address', `${c.name.kind === 'onchain' ? c.name.symbol + ' · ' : ''}${r.mint.slice(0, 6)}…`)}
 ${r.dao ? chip(r.dao, 'address', `DAO ${r.dao.slice(0, 6)}…`) : ''}
 </div>
-${declaredNote}
+${nameSource(c)}
 </div>
 ${movementsCount !== null ? `<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span class="soft" style="font-size:14px">${fig(fmtInt(movementsCount), { kind: 'sum', href: 'movements.csv', what: 'movements of this treasury' })} movements</span><a href="movements.csv" class="btn btn-light">Download CSV</a></div>` : ''}
 </div>`;
@@ -264,7 +271,7 @@ function terms(ctx: Ctx, c: Company): string {
 <div class="kv"><span class="soft">Open</span><span>${r.started ? date(r.started) : '—'} to ${r.closed ? date(r.closed) : '—'}</span></div>
 <div class="kv"><span class="soft">Monthly team budget at launch</span>${fig(fmtUsd(r.monthlyBudget), { kind: 'account', address: r.launch })}</div>
 <div class="kv"><span class="soft">Insider tokens locked for</span>${fig(`${r.insiderLockMonths} months`, { kind: 'account', address: r.launch })}</div>
-<div class="kv"><span class="soft">Performance package</span>${fig(`${tokens(r.performanceTokens)} ${r.ticker ?? 'tokens'}`, { kind: 'account', address: r.launch })}</div>
+<div class="kv"><span class="soft">Performance package</span>${fig(`${tokens(r.performanceTokens)} ${c.name.kind === 'onchain' ? c.name.symbol : 'tokens'}`, { kind: 'account', address: r.launch })}</div>
 </div>
 <div class="card" style="flex:1 1 420px;padding:24px;display:flex;flex-direction:column;gap:14px">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:18px">Founders and GitHub</div><span class="badge b-d"><span class="mk mk-d" aria-hidden="true"></span>Not claimed yet</span></div>

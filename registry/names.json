@@ -1,18 +1,19 @@
 {
-  "_about": "Names for tokens that are not in MetaDAO's market API. Each name is declared, not onchain: it comes from the source given, and the basis says how the source was matched to this mint. The site shows these with the 'declared' mark and a link to the source.",
+  "_about": "Project names quoted from published articles, only where the token's onchain metadata does not give the project's name. Every company's name comes first from its token's onchain metadata (Metaplex). An entry here adds a project name: 'quote' is copied verbatim from the source, 'published' is the article's date, 'read' is the day we read it. The quote must name the token's onchain symbol; the build checks it. Nothing else from the article is used as a fact. Sources are listed in DECISIONS.md and erevna/02-piges.md.",
   "RNGRtJMbCveqCp7AC6U95KmrdKecFckaJZiWbPGmeta": {
-    "name": "Ranger Finance",
+    "project": "Ranger Finance",
+    "quote": "In March 2026, $RNGR token holders voted to liquidate Ranger Finance’s treasury via MetaDAO’s futarchy-based governance system.",
     "source": "https://solanafloor.com/news/ranger-finance-winds-down",
-    "basis": "Press reports 5,047,250 USDC returned to RNGR holders after a March 2026 liquidation vote. This treasury sent 5,047,249.68 USDC on 5 Mar 2026, and the mint begins with RNGR."
+    "publisher": "SolanaFloor",
+    "published": "2026-05-15",
+    "read": "2026-11-16"
   },
   "ZKFHiLAfAFMTcDAuCtjNW54VzpERvoe7PBF9mYgmeta": {
-    "name": "ZKFG",
+    "project": "Zinc",
+    "quote": "Turbine Cash DAO LLC (the legal entity behind Zinc's original ZKFG token)",
     "source": "https://solanacompass.com/news/metadaos-futarchy-just-executed-its-first-onchain-take-private-as-zkfg-008-passes",
-    "basis": "Press reports proposal ZKFG 008 passing and authorising MetaDAO to execute the redemption. The admin-key movement on this DAO followed its proposal #8."
-  },
-  "PAYZP1W3UmdEsNLJwmH61TNqACYJTvhXy8SCN4Tmeta": {
-    "name": "Paystream",
-    "source": "https://defi-kai.github.io/kai-site/data/metadao-launchpad-query-notes/",
-    "basis": "Published launchpad query notes list this mint as Paystream's token, with the same launch account."
+    "publisher": "Solana Compass",
+    "published": "2026-06-20",
+    "read": "2026-11-16"
   }
 }
