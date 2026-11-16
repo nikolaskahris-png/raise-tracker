@@ -169,11 +169,20 @@ export type TreasuryRow = {
   readonly spendingLimitAccount: string | null;
 };
 
-export const FLOW_CLASSES = ['launch_funding', 'inflow_other', 'team_budget', 'market_approved', 'admin_after_vote', 'admin_no_vote_found', 'admin_against_market', 'liquidation', 'other_out'] as const;
+export const FLOW_CLASSES = ['launch_funding', 'inflow_other', 'team_budget', 'market_approved', 'admin_after_vote', 'admin_vote_passed_after', 'admin_vote_no_finalize', 'admin_no_vote_found', 'admin_against_market', 'liquidation', 'other_out'] as const;
 export type FlowClass = (typeof FLOW_CLASSES)[number];
+/**
+ * Movements approved through MetaDAO's admin path. How each relates in time to a passed proposal on the same DAO:
+ * after_vote: a proposal's FinalizeProposal came before the movement · vote_passed_after: it came after the movement ·
+ * vote_no_finalize: a Passed proposal whose FinalizeProposal was not found · no_vote_found: no Passed proposal in the window ·
+ * against_market: the movement's own proposal did not pass.
+ */
+export const ADMIN_CLASSES = ['admin_after_vote', 'admin_vote_passed_after', 'admin_vote_no_finalize', 'admin_no_vote_found', 'admin_against_market'] as const satisfies readonly FlowClass[];
+export const isAdmin = (c: FlowClass): boolean => (ADMIN_CLASSES as readonly FlowClass[]).includes(c);
 const CLASS_COLUMN: Record<FlowClass, string> = {
   launch_funding: 'launch_funding_usd', inflow_other: 'inflow_other_usd', team_budget: 'team_budget_usd',
-  market_approved: 'market_approved_usd', admin_after_vote: 'admin_after_vote_usd', admin_no_vote_found: 'admin_no_vote_found_usd',
+  market_approved: 'market_approved_usd', admin_after_vote: 'admin_after_vote_usd', admin_vote_passed_after: 'admin_vote_passed_after_usd',
+  admin_vote_no_finalize: 'admin_vote_no_finalize_usd', admin_no_vote_found: 'admin_no_vote_found_usd',
   admin_against_market: 'admin_against_market_usd', liquidation: 'liquidation_usd', other_out: 'other_out_usd',
 };
 
@@ -216,21 +225,19 @@ export type Flow = {
   readonly cls: FlowClass;
   readonly decisionNumber: number | null; // linked proposal (market_approved)
   readonly decisionAddress: string | null;
-  readonly priorVoteNumber: number | null; // most recent passed proposal before an admin-key movement
-  readonly priorVoteAddress: string | null;
-  readonly priorVoteDays: string | null;
+  /** For an admin-key movement: the proposal on the same DAO shown with it, and when it passed (its FinalizeProposal). */
+  readonly prior: { readonly number: number; readonly address: string; readonly finalizeSignature: string | null; readonly finalizedAt: Date | null } | null;
   readonly adminKeys: readonly string[];
   readonly counterparty: readonly string[];
   readonly signature: string;
 };
 
 const REF = /^#(\d+) ([1-9A-HJ-NP-Za-km-z]{32,44})$/;
-const PRIOR = /^#(\d+) ([1-9A-HJ-NP-Za-km-z]{32,44}), enqueued (\d+\.\d) days earlier$/;
 
 export function parseFlows(text: string): Flow[] {
   const F = 'treasury-flows.csv';
   const { header, rows } = parseCsv(text, F);
-  requireColumns(F, header, ['ticker', 'base_mint', 'time_utc', 'usdc', 'class', 'approval', 'decision_ref', 'prior_passed_vote', 'counterparty', 'signature']);
+  requireColumns(F, header, ['ticker', 'base_mint', 'time_utc', 'usdc', 'class', 'approval', 'decision_ref', 'prior_vote_number', 'prior_vote_address', 'prior_vote_finalize_signature', 'prior_vote_finalized_utc', 'counterparty', 'signature']);
   return rows.map((r) => {
     const cls = oneOf(F, r, 'class', FLOW_CLASSES);
     const usdc = money(F, r, 'usdc');
@@ -244,14 +251,18 @@ export function parseFlows(text: string): Flow[] {
       if (!m) throw at(F, r, 'decision_ref', 'unexpected format');
       decisionNumber = Number(m[1]); decisionAddress = m[2] ?? null;
     }
-    let priorVoteNumber: number | null = null, priorVoteAddress: string | null = null, priorVoteDays: string | null = null;
-    if (r.get('prior_passed_vote') !== '') {
-      const m = PRIOR.exec(r.get('prior_passed_vote'));
-      if (!m) throw at(F, r, 'prior_passed_vote', 'unexpected format');
-      priorVoteNumber = Number(m[1]); priorVoteAddress = m[2] ?? null; priorVoteDays = m[3] ?? null;
+    let prior: Flow['prior'] = null;
+    if (r.get('prior_vote_number') !== '') {
+      const finalizeSignature = r.get('prior_vote_finalize_signature') || null;
+      if (finalizeSignature !== null && !SIGNATURE.test(finalizeSignature)) throw at(F, r, 'prior_vote_finalize_signature', 'not a base58 signature');
+      const finalizedAt = optTime(F, r, 'prior_vote_finalized_utc');
+      if ((finalizeSignature === null) !== (finalizedAt === null)) throw at(F, r, 'prior_vote_finalized_utc', 'a finalize time needs its signature, and the reverse');
+      prior = { number: int(F, r, 'prior_vote_number'), address: addr(F, r, 'prior_vote_address'), finalizeSignature, finalizedAt };
     }
     if (cls === 'market_approved' && decisionAddress === null) throw at(F, r, 'decision_ref', 'a market-approved movement needs its proposal');
-    if (cls === 'admin_after_vote' && priorVoteAddress === null) throw at(F, r, 'prior_passed_vote', 'an admin-after-vote movement needs the vote');
+    if ((cls === 'admin_after_vote' || cls === 'admin_vote_passed_after') && !prior?.finalizedAt) throw at(F, r, 'prior_vote_finalized_utc', `a ${cls} movement needs the proposal and when it passed`);
+    if (cls === 'admin_vote_no_finalize' && (prior === null || prior.finalizedAt !== null)) throw at(F, r, 'prior_vote_number', 'an admin_vote_no_finalize movement needs a proposal without a finalize');
+    if ((cls === 'admin_no_vote_found' || !isAdmin(cls)) && prior !== null) throw at(F, r, 'prior_vote_number', `a ${cls} movement has no prior vote`);
     const approval = r.get('approval');
     const by = /admin_approved by ([1-9A-HJ-NP-Za-km-z ]+?)(?: \(| proposal=)/.exec(approval);
     const adminKeys = by?.[1] ? by[1].split(' ').filter((k) => BASE58.test(k)) : [];
@@ -259,7 +270,7 @@ export function parseFlows(text: string): Flow[] {
     counterparty.forEach((c) => { if (!BASE58.test(c)) throw at(F, r, 'counterparty', `bad address ${c}`); });
     return {
       mint: addr(F, r, 'base_mint'), label: req(F, r, 'ticker'), time: time(F, r, 'time_utc'), usdc, cls,
-      decisionNumber, decisionAddress, priorVoteNumber, priorVoteAddress, priorVoteDays, adminKeys, counterparty, signature: sig,
+      decisionNumber, decisionAddress, prior, adminKeys, counterparty, signature: sig,
     };
   });
 }

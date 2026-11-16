@@ -71,6 +71,16 @@ export function chip(full: string, kind: 'address' | 'tx', label?: string): stri
 /** A fixed rule of the method (for example the $10,000 threshold), not a measured figure. */
 export const label = (text: string, title: string): string => `<span data-label title="${esc(title)}">${esc(text)}</span>`;
 
+/** A time span in the largest unit that keeps it readable: minutes under 90 minutes, hours under 48 hours, else days. */
+export function duration(ms: number): string {
+  if (!(ms >= 0)) throw new Error(`duration: ${ms}`);
+  const min = ms / 60_000;
+  if (min < 90) return `${Math.round(min)} minute${Math.round(min) === 1 ? '' : 's'}`;
+  const h = ms / 3_600_000;
+  if (h < 48) return `${h.toFixed(1)} hours`;
+  return `${(ms / 86_400_000).toFixed(1)} days`;
+}
+
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 export function date(d: Date, style: 'day' | 'month' | 'minute' = 'day'): string {
   const day = d.getUTCDate(), mon = MONTHS[d.getUTCMonth()] ?? '', y = d.getUTCFullYear();

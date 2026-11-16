@@ -7,6 +7,7 @@ import type { Site } from './model.ts';
 /** Problems the treasury script reports that the site knows how to show ("not read"). Anything else stops the build. */
 export const KNOWN_PROBLEMS = [/^\S+: treasury USDC account mismatch$/];
 export const MAX_REPORT_GAP_MS = 2 * 60 * 60 * 1000;
+export const ADMIN_VOTE_WINDOW_MS = 60 * 86_400_000; // same window as scripts/treasury.mjs (moves to constants.json in section 6)
 
 export function checkInvariants(site: Site): string[] {
   const fail: string[] = [];
@@ -59,8 +60,12 @@ export function checkInvariants(site: Site): string[] {
   }
 
   // 5. Movements: unique signatures per treasury, and every movement belongs to a treasury row.
+  //    An admin-key movement's class must agree with the order of the two transactions it compares.
   const sigs = new Set<string>();
   for (const f of inputs.flows) {
+    const passed = f.prior?.finalizedAt ?? null;
+    if (f.cls === 'admin_after_vote' && passed && (passed.getTime() > f.time.getTime() || f.time.getTime() - passed.getTime() > ADMIN_VOTE_WINDOW_MS)) fail.push(`treasury-flows.csv: ${f.signature} is "after a vote" but proposal #${f.prior?.number} finalized at ${passed.toISOString()}`);
+    if (f.cls === 'admin_vote_passed_after' && passed && passed.getTime() <= f.time.getTime()) fail.push(`treasury-flows.csv: ${f.signature} is "vote passed after" but proposal #${f.prior?.number} finalized before it`);
     const key = `${f.mint}:${f.signature}`;
     if (sigs.has(key)) fail.push(`treasury-flows.csv: ${f.signature} listed twice for ${f.label}`);
     sigs.add(key);

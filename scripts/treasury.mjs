@@ -131,6 +131,22 @@ async function approvalOf(proposal) {
   approvalCache.set(proposal, res); return res;
 }
 
+// When a futarchy proposal passed: the block time of the FinalizeProposal transaction in the proposal account's history.
+// Its "enqueued" time is when trading started, not when it passed, so it is never used as the time of a decision.
+const finalizeCache = new Map();
+async function finalizeOf(address) {
+  if (finalizeCache.has(address)) return finalizeCache.get(address);
+  let found = null;
+  for (const s of await allSignatures(address)) {
+    if (s.err) continue;
+    const tx = await getTx(s.signature);
+    if (tx && ixNames(tx.meta.logMessages).includes('futarchy:FinalizeProposal')) { found = { time: tx.blockTime, signature: s.signature }; break; }
+  }
+  finalizeCache.set(address, found); return found;
+}
+const ADMIN_VOTE_WINDOW_S = 60 * 86400; // a proposal that passed up to 60 days before an admin-key movement is shown with it
+const iso = t => new Date(t * 1000).toISOString();
+
 const raises = JSON.parse(readFileSync('data/raises.json', 'utf8')).rows
   .filter(r => r.decoded === 'yes' && r.state === 'Complete' && Number(r.minimum_raise_usd) >= 10000 && r.dao_vault && r.dao);
 const summary = [], flows = [], seen = {}, problems = [];
@@ -144,7 +160,7 @@ for (const r of raises) {
     const info = acct.value?.data?.parsed?.info;
     if (!info || info.mint !== USDC || info.owner !== r.dao_vault) { problems.push(`${label}: treasury USDC account mismatch`); continue; }
     const balanceNow = Number(info.tokenAmount.amount) / 1e6;
-    const sums = { launch_funding: 0, inflow_other: 0, team_budget: 0, market_approved: 0, admin_after_vote: 0, admin_no_vote_found: 0, admin_against_market: 0, liquidation: 0, other_out: 0 };
+    const sums = { launch_funding: 0, inflow_other: 0, team_budget: 0, market_approved: 0, admin_after_vote: 0, admin_vote_passed_after: 0, admin_vote_no_finalize: 0, admin_no_vote_found: 0, admin_against_market: 0, liquidation: 0, other_out: 0 };
     const teamUses = [];
     let net = 0;
     for (const s of await allSignatures(ata)) {
@@ -157,7 +173,7 @@ for (const r of raises) {
       net += delta;
       const names = ixNames(tx.meta.logMessages);
       for (const n of names) seen[n] = (seen[n] || 0) + 1;
-      let cls, approval = '', decision = '', decisionRef = '', priorVote = '';
+      let cls, approval = '', decision = '', decisionRef = '', prior = null;
       if (delta > 0) cls = names.some(n => n.startsWith('launchpad')) ? 'launch_funding' : 'inflow_other';
       else if (names.includes('squads:SpendingLimitUse')) cls = 'team_budget';
       else if (names.some(n => n.startsWith('liquidation:'))) cls = 'liquidation';
@@ -169,12 +185,27 @@ for (const r of raises) {
         // whichever key approved it in the end. Otherwise the admin path is reported separately.
         if (a.decision === 'Passed') cls = 'market_approved';
         else if (a.how === 'admin_approved') {
-          // MetaDAO's key often executes the outcome of a broader vote (for example a liquidation) as a separate
-          // transaction. Report the most recent Passed proposal on the same DAO in the 60 days before the movement.
-          const before = (proposalsByDao[r.dao] || []).filter(p => p.state === 'Passed' && p.enqueued <= tx.blockTime && tx.blockTime - p.enqueued <= 60 * 86400).sort((x, y) => y.enqueued - x.enqueued)[0];
+          // MetaDAO's key often carries out a broader vote (for example a liquidation) as a separate transaction.
+          // Find the proposals on the same DAO that are Passed and were enqueued before the movement, and when each one
+          // passed (its FinalizeProposal). Three outcomes, never merged:
+          //   admin_after_vote        a proposal passed before the movement, within the window (the most recent one is shown)
+          //   admin_vote_passed_after none had passed yet; a proposal enqueued before the movement passed after it
+          //   admin_vote_no_finalize  a proposal is marked Passed but its FinalizeProposal transaction was not found
           if (a.decision !== 'none') cls = 'admin_against_market';
-          else if (before) { cls = 'admin_after_vote'; priorVote = `#${before.number} ${before.address}, enqueued ${((tx.blockTime - before.enqueued) / 86400).toFixed(1)} days earlier`; }
-          else cls = 'admin_no_vote_found';
+          else {
+            const cands = (proposalsByDao[r.dao] || []).filter(p => p.state === 'Passed' && p.enqueued <= tx.blockTime && tx.blockTime - p.enqueued <= ADMIN_VOTE_WINDOW_S + 30 * 86400);
+            const withF = []; for (const p of cands) withF.push({ p, f: await finalizeOf(p.address) });
+            const before = withF.filter(x => x.f && x.f.time <= tx.blockTime && tx.blockTime - x.f.time <= ADMIN_VOTE_WINDOW_S).sort((x, y) => y.f.time - x.f.time)[0];
+            const after = withF.filter(x => x.f && x.f.time > tx.blockTime).sort((x, y) => x.f.time - y.f.time)[0];
+            const noF = withF.filter(x => !x.f).sort((x, y) => y.p.enqueued - x.p.enqueued)[0];
+            const pick = before ? ['admin_after_vote', before] : after ? ['admin_vote_passed_after', after] : noF ? ['admin_vote_no_finalize', noF] : null;
+            if (!pick) cls = 'admin_no_vote_found';
+            else {
+              cls = pick[0];
+              const x = pick[1];
+              prior = { number: x.p.number, address: x.p.address, finalize_signature: x.f ? x.f.signature : '', finalized_utc: x.f ? iso(x.f.time) : '' };
+            }
+          }
         }
         else cls = 'other_out';
         if (proposal && proposalBySquads.has(proposal) && proposalBySquads.get(proposal).dao !== r.dao) problems.push(`${label}: linked proposal belongs to another DAO (${proposal})`);
@@ -188,7 +219,8 @@ for (const r of raises) {
         const pre = (tx.meta.preTokenBalances || []).find(x => x.accountIndex === b.accountIndex);
         return { owner: b.owner, d: Number(b.uiTokenAmount.amount) / 1e6 - (pre ? Number(pre.uiTokenAmount.amount) / 1e6 : 0) };
       }).filter(o => Math.sign(o.d) === -Math.sign(delta));
-      flows.push({ ticker: label, base_mint: r.base_mint, track: r.track || '', time_utc: new Date(tx.blockTime * 1000).toISOString(), usdc: delta.toFixed(6), class: cls, approval, market_decision: decision, decision_ref: decisionRef, prior_passed_vote: priorVote,
+      flows.push({ ticker: label, base_mint: r.base_mint, track: r.track || '', time_utc: new Date(tx.blockTime * 1000).toISOString(), usdc: delta.toFixed(6), class: cls, approval, market_decision: decision, decision_ref: decisionRef,
+        prior_vote_number: prior ? prior.number : '', prior_vote_address: prior ? prior.address : '', prior_vote_finalize_signature: prior ? prior.finalize_signature : '', prior_vote_finalized_utc: prior ? prior.finalized_utc : '',
         counterparty: others.map(o => o.owner).join(' '), signature: s.signature, instructions: [...new Set(names)].join(' ') });
     }
     // Starting treasury = the USDC the launchpad actually deposited (CompleteLaunch), read from the chain.
@@ -212,7 +244,7 @@ for (const r of raises) {
     summary.push({ ticker: label, base_mint: r.base_mint, launch: r.launch, dao: r.dao, dao_vault: r.dao_vault, track: r.track || '', raised_usd: r.raised_usd, start_treasury_usd: start.toFixed(2), balance_now_usd: balanceNow.toFixed(2),
       launch_funding_usd: sums.launch_funding.toFixed(2), inflow_other_usd: sums.inflow_other.toFixed(2),
       team_budget_usd: sums.team_budget.toFixed(2), market_approved_usd: sums.market_approved.toFixed(2),
-      admin_after_vote_usd: sums.admin_after_vote.toFixed(2), admin_no_vote_found_usd: sums.admin_no_vote_found.toFixed(2), admin_against_market_usd: sums.admin_against_market.toFixed(2),
+      admin_after_vote_usd: sums.admin_after_vote.toFixed(2), admin_vote_passed_after_usd: sums.admin_vote_passed_after.toFixed(2), admin_vote_no_finalize_usd: sums.admin_vote_no_finalize.toFixed(2), admin_no_vote_found_usd: sums.admin_no_vote_found.toFixed(2), admin_against_market_usd: sums.admin_against_market.toFixed(2),
       liquidation_usd: sums.liquidation.toFixed(2), other_out_usd: sums.other_out.toFixed(2),
       months_since_raise: months.toFixed(2), periods_started: periods, monthly_budget_usd: r.monthly_budget_usd, budget_allowed_usd: allowed.toFixed(2),
       spending_limit_now_usd: slNow ? slNow.amount.toFixed(2) : '', spending_limit_period: slNow ? slNow.period : '', limit_changed: slNow ? (Math.abs(slNow.amount - Number(r.monthly_budget_usd)) > 0.005 ? 'yes' : 'no') : 'unknown',
@@ -229,8 +261,8 @@ const report = [
   `# Treasury report — ${new Date().toISOString()}`, '', `Treasuries: ${summary.length} of ${raises.length}. RPC calls: ${calls}.`,
   `Reconciled (history sums exactly to today's balance): ${summary.filter(s => s.reconciles === 'yes').length}/${summary.length}`, '',
   `Futarchy proposals indexed: ${proposalBySquads.size} (decode errors: ${proposalDecodeErrors})`, '',
-  '## Outflows, all treasuries (USD)', `- team_budget: ${tot('team_budget_usd')}`, `- market_approved (linked proposal Passed): ${tot('market_approved_usd')}`, `- admin_after_vote (admin key; a proposal on this DAO passed in the 60 days before): ${tot('admin_after_vote_usd')}`, `- admin_no_vote_found (admin key; no passed proposal on this DAO in the 60 days before): ${tot('admin_no_vote_found_usd')}`, `- admin_against_market (admin key, linked proposal not Passed): ${tot('admin_against_market_usd')}`, `- liquidation: ${tot('liquidation_usd')}`, `- other_out: ${tot('other_out_usd')}`, '',
-  '## Every movement approved through an admin key', ...flows.filter(f => /admin_approved/.test(f.approval)).map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC to ${f.counterparty || '?'} — class ${f.class}${f.prior_passed_vote ? ', prior passed vote ' + f.prior_passed_vote : ''} — ${f.approval}`), '',
+  '## Outflows, all treasuries (USD)', `- team_budget: ${tot('team_budget_usd')}`, `- market_approved (linked proposal Passed): ${tot('market_approved_usd')}`, `- admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): ${tot('admin_after_vote_usd')}`, `- admin_vote_passed_after (admin key; a proposal enqueued before the movement finalized as Passed after it): ${tot('admin_vote_passed_after_usd')}`, `- admin_vote_no_finalize (admin key; a Passed proposal whose FinalizeProposal was not found): ${tot('admin_vote_no_finalize_usd')}`,`- admin_no_vote_found (admin key; no passed proposal on this DAO in the 60 days before): ${tot('admin_no_vote_found_usd')}`, `- admin_against_market (admin key, linked proposal not Passed): ${tot('admin_against_market_usd')}`, `- liquidation: ${tot('liquidation_usd')}`, `- other_out: ${tot('other_out_usd')}`, '',
+  '## Every movement approved through an admin key', ...flows.filter(f => /admin_approved/.test(f.approval)).map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC to ${f.counterparty || '?'} — class ${f.class}${f.prior_vote_number !== '' ? `, proposal #${f.prior_vote_number} ${f.prior_vote_address}${f.prior_vote_finalized_utc ? ` finalized ${f.prior_vote_finalized_utc} (${f.prior_vote_finalize_signature})` : ' (FinalizeProposal not found)'}` : ''} — ${f.approval}`), '',
   '## Team budget', ...summary.map(x => `- ${x.ticker}: drew ${Number(x.team_budget_usd).toFixed(0)} over ${x.periods_started} period(s) of ${x.monthly_budget_usd}/month at launch (allowed ${Number(x.budget_allowed_usd).toFixed(0)}); limit now ${x.spending_limit_now_usd || '?'} ${x.spending_limit_period}; changed: ${x.limit_changed}; largest 30-day draw ${Number(x.max_30day_team_draw_usd).toFixed(0)}`), '',
   '## Unclassified outflows', ...flows.filter(f => f.class === 'other_out').map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC to ${f.counterparty || '?'} — ${f.approval || f.instructions}`), '',
   '## Instruction names seen on treasury movements (for review)', ...Object.entries(seen).sort((a, b) => b[1] - a[1]).map(([n, c]) => `- ${n}: ${c}`), '',

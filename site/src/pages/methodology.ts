@@ -2,7 +2,6 @@ import { addrUrl, chip, fig, label } from '../fig.ts';
 import { fmtInt } from '../money.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import type { Site } from '../model.ts';
-import { ADMIN_KEYS } from './company.ts';
 
 export const PERMISSIONLESS_AUTHORITY = 'LRrTQLqFzAPxjschuAKQAqH1XHBuBgHqwhybENStARt';
 export const PROGRAMS: readonly { v: string; id: string; decoded: boolean }[] = [
@@ -13,6 +12,14 @@ export const PROGRAMS: readonly { v: string; id: string; decoded: boolean }[] = 
   { v: 'v0.4.1', id: 'AfJJJ5UqxhBKoE3grkKAZZsoXDE9kncbMKvqSHGsCNrE', decoded: false },
 ];
 const SRC = 'https://github.com/metaDAOproject/programs/blob/main/programs';
+// Every claim about MetaDAO's or Squads' code links the exact line at a fixed commit.
+export const MD_COMMIT = '74aec758b5c8b5363b94ecce0a45bcd426c9746e';
+export const SQUADS_COMMIT = '3a39735d0c56249bf2ce4b16b3229d7be87ad55f';
+const ADMIN_ENQUEUE = '6awyHMshBGVjJ3ozdSJdyyDE1CTAXUwrpNMaRGMsb4sf';
+const ADMIN_EXECUTE = 'CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2';
+export const codeUrl = (file: string, line: number): string => `https://github.com/metaDAOproject/programs/blob/${MD_COMMIT}/programs/futarchy/src/instructions/${file}#L${line}`;
+const code = (file: string, line: number): string => `<a class="chip" href="${codeUrl(file, line)}" rel="noopener">${file}#L${line}</a>`;
+const squadsCode = (line: number): string => `<a class="chip" href="https://github.com/Squads-Protocol/v4/blob/${SQUADS_COMMIT}/programs/squads_multisig_program/src/state/spending_limit.rs#L${line}" rel="noopener">squads spending_limit.rs#L${line}</a>`;
 
 export function methodologyPage(ctx: Ctx, site: Site): string {
   const csv = (f: string) => url(ctx, `data/${f}`);
@@ -60,19 +67,28 @@ ${PROGRAMS.map((p) => `<tr><td>${label(p.v, 'Launchpad version')}</td><td>${chip
 <li><b>Other inflow</b>: any later payment into the treasury. The amount and sender are onchain; what it was for is not identified yet, so these are marked pending.</li>
 <li><b>Team budget</b>: a draw through the monthly spending limit set at launch (a Squads <code>SpendingLimitUse</code>).</li>
 <li><b>Market vote</b>: a vault transaction that was itself the subject of a futarchy proposal that passed.</li>
-<li><b>Admin key</b>: a vault transaction approved through MetaDAO's admin path, described below.</li>
+<li><b>Admin key</b>: a vault transaction approved through MetaDAO's admin path, not by a vote on that transaction. Described below, with the code it rests on.</li>
 <li><b>Unclassified</b>: anything else. Shown, with its instructions, until it can be classified.</li>
 </ul>
 
 <h2 id="admin-key">The admin key</h2>
-<p>MetaDAO's futarchy program has an admin path. A MetaDAO-controlled key can approve a vault transaction of any DAO without a market vote, and the vault applies no time lock. The keys are written in the program's code:</p>
+<p>MetaDAO's futarchy program has an admin path next to the market vote. What follows is what the published source says at commit ${chip(MD_COMMIT, 'address', MD_COMMIT.slice(0, 7))} of <a href="https://github.com/metaDAOproject/programs" rel="noopener">metaDAOproject/programs</a>. DAOs created by earlier versions of the program may differ, and we have not checked each version.</p>
 <ul>
-${Object.entries(ADMIN_KEYS).map(([k, v]) => `<li>${chip(k, 'address')} ${v}</li>`).join('')}
+<li>A key fixed in the code, ${chip(ADMIN_ENQUEUE, 'address')}, can queue the approval of a pending vault transaction of a DAO (${code('admin_enqueue_multisig_proposal_approval.rs', 6)}, checked at ${code('admin_enqueue_multisig_proposal_approval.rs', 82)}). On a DAO that has been liquidated, the liquidator's key takes its place (${code('admin_enqueue_multisig_proposal_approval.rs', 73)}). Nothing in this path checks a market vote.</li>
+<li>Anyone can then carry out the queued approval, which approves the vault transaction as the DAO (${code('execute_multisig_proposal_approval.rs', 85)}).</li>
+<li>A second fixed key, ${chip(ADMIN_EXECUTE, 'address')}, can execute an approved vault transaction (${code('admin_execute_multisig_proposal.rs', 7)}, checked at ${code('admin_execute_multisig_proposal.rs', 64)}, executed at ${code('admin_execute_multisig_proposal.rs', 89)}).</li>
+<li>The DAO's multisig is created with no time lock (${code('initialize_dao.rs', 143)}), so an approved transaction can execute at once.</li>
 </ul>
-<p>For every movement approved this way we show the most recent proposal that passed on the same DAO in the ${L('60')} days before it, and how many days earlier it was enqueued. <b>This is context, not proof.</b> It tells you which decision to read; it does not prove that the proposal approved that exact amount. A movement with no passed proposal in that window, or whose own proposal did not pass, is labelled as such and listed first.</p>
-
+<p>For each movement approved this way we take the proposals on the same DAO that are marked Passed and find when each one passed: the block time of its <b>FinalizeProposal</b> transaction. We never use the time a proposal was opened. Each movement then falls into exactly one case, and its page links the proposal and its FinalizeProposal transaction:</p>
+<ul>
+<li><b>After a vote passed</b>: a proposal on the DAO passed before the movement, at most ${L('60')} days earlier. The nearest one is shown.</li>
+<li><b>Before the vote passed</b>: no proposal had passed yet; one that was already open passed after the movement.</li>
+<li><b>Vote time not found</b>: a proposal is marked Passed, but we did not find its FinalizeProposal transaction.</li>
+<li><b>No recent vote</b>: no proposal on the DAO passed in that window. <b>Against a vote</b>: the movement's own proposal did not pass.</li>
+</ul>
+<p><b>This is timing, not proof.</b> The chain shows which proposal passed and when. It does not tell us whether that proposal covers the exact payment; for that, read the proposal.</p>
 <h2 id="budget">Team budget</h2>
-<p>The team's monthly allowance is a Squads spending limit with a ${L('30-day')} period. <b>Allowed at the launch limit</b> is the number of periods started since the raise times the monthly limit set at launch. A DAO can change its limit by proposal, so we also read the current limit. When it differs from the launch limit, the page says so and marks the change as pending until the transaction that changed it is linked. Draws above the launch limit are not judged while that is pending.</p>
+<p>The team's monthly allowance is a Squads spending limit that the DAO creates at launch with the period <code>Month</code> (${code('initialize_dao.rs', 169)}), which Squads defines as ${L('30')} days (${squadsCode(104)}). <b>Allowed at the launch limit</b> is the number of periods started since the raise times the monthly limit set at launch. A DAO can change its limit by proposal, so we also read the current limit. When it differs from the launch limit, the page says so and marks the change as pending until the transaction that changed it is linked. Draws above the launch limit are not judged while that is pending.</p>
 
 <h2 id="reconcile">Reconciliation</h2>
 <p>For each treasury we add up every movement, positive in and negative out, and compare the total with the balance read in the same scan. A treasury is shown only if they agree. Amounts are added as whole numbers of micro-USDC (USDC has six decimals), never as floating-point numbers, so no amount is lost to rounding.</p>
