@@ -1,6 +1,6 @@
-# Treasury report — 2026-11-16T01:38:10.046Z
+# Treasury report — 2026-11-16T13:01:50.217Z
 
-Treasuries: 31 of 33. RPC calls: 1376.
+Treasuries: 31 of 33. RPC calls: 1395.
 Reconciled (history sums exactly to today's balance): 31/31
 
 Futarchy proposals indexed: 183 (decode errors: 0)
