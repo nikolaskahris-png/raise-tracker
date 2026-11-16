@@ -1,14 +1,14 @@
-# Treasury report — 2026-11-16T18:23:38.748Z
+# Treasury report — 2026-11-16T18:47:09.568Z
 
-Treasuries: 30 of 33. RPC calls: 4891.
-Reconciled (history sums exactly to today's balance): 30/30
+Treasuries: 31 of 33. RPC calls: 6207.
+Reconciled (history sums exactly to today's balance): 31/31
 
 Futarchy proposals indexed: 183 (decode errors: 0)
 
 ## Outflows, all treasuries (USD)
-- team_budget: 7911587
-- market_approved (linked proposal Passed): 11767500
-- admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): 5681596
+- team_budget: 8311587
+- market_approved (linked proposal Passed): 12267500
+- admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): 6038457
 - admin_vote_passed_after (admin key; a proposal enqueued before the movement finalized as Passed after it): 0
 - admin_vote_no_finalize (admin key; a Passed proposal whose FinalizeProposal was not found): 0
 - admin_no_vote_found (admin key; no passed proposal on this DAO in the 60 days before): 0
@@ -19,6 +19,7 @@ Futarchy proposals indexed: 183 (decode errors: 0)
 ## Every movement approved through an admin key
 - 2026-05-04T20:27:15.000Z UMBRA -250000.000000 USDC to 5AeN744ZH5qeeszMqQREMRCYeTwA2yKYJFv2VWe2u4LS — class admin_after_vote, proposal #4 2a5qE2E8pSv2EqHAfDvAuKHqMpMubBVjGPZr7bChiZKy finalized 2026-05-04T20:17:01.000Z (4HNQP2nQ2wh3rD2R1Aws8d9HLCHjVxJVpHNypQFp5u6E7BegSXTR2zGJkMfPWG6jMNhVVDab9FPzsAKwz9t7jP8F) — admin_approved by CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 proposal=E8DedCK1CArsruzbJkjc8CdPaDW2oK1AW5K2XRbAhoxw
 - 2026-08-01T02:10:44.000Z LOYAL -176688.000000 USDC to F7zuL14omw4JJfS1cvsWXVb3wh48dvsonMJgoc9tYu3e — class admin_after_vote, proposal #4 98zXsz1RtvYw4zHrxaZDdGBU3BgqfsX9XJbXBLSJUBST finalized 2026-07-26T00:56:00.000Z (4b7r2S8ZGJqQ33Zi3HkxtPferD3hr4T7X31G71Fp3EXAcgLGdJA6xMCy6goUUxeNuU63h5aVwAa9s94w3iysSNNE) — admin_approved by FofGriQgNhD5jBXazF3t2CaM7VS2Y1Sj9qawGPRGYWe7 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw proposal=7FZjZWMZaMD9HUqbf3zdGDwsDSXe6C3n36qXwJ7YSQ96
+- 2026-06-25T22:51:36.000Z ZKFG -356860.112407 USDC to EJiABtACRvRTTtCRWBRYdZAnCnKNdYvVYVGmaW5ZWSb9 — class admin_after_vote, proposal #8 APk1tpQq75LyrMmE4ryhuEjV37qggVaqrJgYpzKJ975z finalized 2026-06-20T09:01:00.000Z (3BChSGzpg7tTjhV24e7kiWfzD3YZWJdHo17rkVm4mXiVGqhWTr2yU8NiQHviNGGT7p1nxVjtzA6FZvBYhm27bxur) — admin_approved by 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw A4THR6vJ6LWJ75681gfRrDhgRfxHbxhjdJV9Bz5v97GK CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 (executed via admin key) proposal=EBSF29RDGk6wi1Mvepeps5cNhmapFP8Fx87RsFnGJ7W2
 - 2026-05-30T01:26:21.000Z PAYS -166000.000000 USDC to EMw5QicuN3pgFq2XwdKXUPKvvQkDqZ3ToPvcRdWdbrLJ — class admin_after_vote, proposal #4 2VmEeSdSfwDBWUYHH61iJCz8TwdmEqhTSmXWBgpHrWzN finalized 2026-05-29T21:32:02.000Z (2beW6WNYPjEMGTHuDertucWeanUPs76DbFahzao1Wzv4XfPikXR1x3m2gdPtf6HHeNkkVHbY3Fs1aRBZQSrRzQuz) — admin_approved by B3tDgrBf1CXt7gWwzT1Sw8X7SVqkAWFyPZahCKrhU3ZK 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw proposal=8DZvBgeUeVBKBk8NHCNCxeV5pEQFQr7DoUrFQNiXR2Kk
 - 2026-09-11T23:40:22.000Z PAYS -39108.759249 USDC to BbdKwPwDxRdc3oc34sd8TVp4JHYSjW71wWbfVNyXqHjH — class admin_after_vote, proposal #5 7dDZKPT7RG8W8pm2sejwzDBbSP8iR7jHq4Kh1ch4TVJS finalized 2026-09-08T11:01:01.000Z (4QDS5mZ47LGYEAeVBKpFE4Swgh1wuRNwdBfbK1NXermsT9LA4EVVUiy7yZkj6TzMKHvLCcbYekY6vLZWzd2o2NgL) — admin_approved by FofGriQgNhD5jBXazF3t2CaM7VS2Y1Sj9qawGPRGYWe7 4LpE9Lxqb4jYYh8jA8oDhsGDKPNBNkcoXobbAJTa3pWw proposal=7MDhkFStgYzzLN1sbT95S6Rc2FsgnUSUyoh1cj2sYMiz
 - 2026-03-05T23:55:04.000Z RNGR -5047249.684578 USDC to 7mZMudt1SQzmxiNyV3oQ68ot8aSs2uGMw8YwNLSE3rQg — class admin_after_vote, proposal #4 DPATwR2HLcGZCBZCTffzagV4r7dp5FF2C9aJmiuCDUpS finalized 2026-03-05T23:47:03.000Z (45tXcja73GF51c3FeduG2dWyedF6oMmq2vCB9SJy439cewZUPVNLzbdZhgRUh95WN5m2f92zeHgZc1baUA1bFKBs) — admin_approved by CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 proposal=5927AmmV4wL5h2VVRei9tWYg3LLF2ZsedvTNkMmquTnZ
@@ -30,6 +31,7 @@ Futarchy proposals indexed: 183 (decode errors: 0)
 - UMBRA: drew 1163631 over 14 period(s) of 34091/month at launch (allowed 477274); limit now 150000.00 Month; changed: yes; largest 30-day draw 200000
 - AVICI: drew 1200000 over 14 period(s) of 100000/month at launch (allowed 1400000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
 - LOYAL: drew 640000 over 13 period(s) of 60000/month at launch (allowed 780000); limit now 60000.00 Month; changed: no; largest 30-day draw 120000
+- ZKFG: drew 400000 over 13 period(s) of 50000/month at launch (allowed 650000); limit now ? ; changed: unknown; largest 30-day draw 100000
 - PAYS: drew 279500 over 13 period(s) of 33500/month at launch (allowed 435500); limit now ? ; changed: unknown; largest 30-day draw 67000
 - SOLO: drew 1200000 over 13 period(s) of 100000/month at launch (allowed 1300000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
 - RNGR: drew 500000 over 11 period(s) of 250000/month at launch (allowed 2750000); limit now 250000.00 Month; changed: no; largest 30-day draw 250000
@@ -126,7 +128,6 @@ Futarchy proposals indexed: 183 (decode errors: 0)
 - LBUZKhRx:AddLiquidityOneSidePrecise2: 1
 - TokenzQd:TransferChecked: 1
 
-## Problems: 3
-- ZKFG: fetch failed
+## Problems: 2
 - ACCRUE: treasury USDC account mismatch
 - TSET: treasury USDC account mismatch
