@@ -30,3 +30,9 @@ test('the methodology names both marks', () => {
   assert.match(m, /Declared onchain/);
   assert.match(m, /Declared offchain/);
 });
+
+test('the onchain-name badge fits a phone: short text, and it may wrap', () => {
+  const umbra = read(dist, `company/${MINT.UMBRA}/index.html`);
+  assert.match(umbra, /<span class="mk mk-o"[^>]*><\/span>Declared onchain · token metadata ↗<\/a>/);
+  assert.match(read(dist, 'site.css'), /\.b-od\{[^}]*white-space:normal/);
+});
