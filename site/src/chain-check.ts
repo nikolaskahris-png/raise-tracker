@@ -6,10 +6,11 @@
 //
 // Movements. Transactions never change, so each sampled movement must match the chain to the micro-USDC.
 import type { Micro } from './money.ts';
+import { C } from './constants.ts';
 
-/** How many treasuries and movements are re-read from the chain before each publication. */
-export const SAMPLE_TREASURIES = 3;
-export const SAMPLE_MOVEMENTS = 10;
+/** How many treasuries and movements are re-read from the chain before each publication (constants.json). */
+export const SAMPLE_TREASURIES = C.sample_treasuries;
+export const SAMPLE_MOVEMENTS = C.sample_movements;
 
 export type TokenBalance = { accountIndex: number; mint: string; owner?: string; uiTokenAmount: { amount: string } };
 export type Tx = {

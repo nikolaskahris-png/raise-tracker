@@ -5,7 +5,9 @@ import type { Company, Site, Treasury } from '../model.ts';
 import { TRACK_SHORT } from '../tracks.ts';
 import { ADMIN_CLASSES, isAdmin, type Flow, type FlowClass } from '../schema.ts';
 
-export const PERIOD_MS = 30 * 86_400_000; // Squads monthly spending limit period
+export { PERIOD_MS } from '../constants.ts';
+import { AVERAGE_MONTH_MS, CONSTANT_TEXT, LEDGER_MIN, PERIOD_MS, constant } from '../constants.ts';
+import { programChip } from './methodology.ts';
 export const ADMIN_KEYS: Readonly<Record<string, string>> = {
   CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2: 'futarchy admin (execute)',
   '6awyHMshBGVjJ3ozdSJdyyDE1CTAXUwrpNMaRGMsb4sf': 'futarchy admin (enqueue approval)',
@@ -33,9 +35,10 @@ const CLASS_BADGE: Record<FlowClass, string> = {
 const proposalLink = (n: number, address: string) => fig(`#${n}`, { kind: 'account', address });
 const gapOf = (a: Date, b: Date) => duration(Math.abs(b.getTime() - a.getTime()));
 
-function tokens(x: Micro): string {
-  const whole = x / 1_000_000n, frac = x % 1_000_000n;
-  return frac === 0n ? fmtInt(whole) : `${fmtInt(whole)}.${frac.toString().padStart(6, '0').replace(/0+$/, '')}`;
+/** An exact decimal token amount with thousands separators, as read (decimals from the mint). */
+function tokens(x: string): string {
+  const [whole = '0', frac = ''] = x.split('.');
+  return frac ? `${fmtInt(BigInt(whole))}.${frac}` : fmtInt(BigInt(whole));
 }
 
 function shortDate(d: Date): string {
@@ -94,13 +97,13 @@ ${nameBadge(c)}
 <span class="badge b-n">${r.track === 'permissionless' ? TRACK_SHORT.permissionless : TRACK_SHORT.curated}</span>
 ${chip(r.launchAuthority, 'address', `authority ${r.launchAuthority.slice(0, 6)}…`)}
 <span class="badge b-v">Raise complete</span>
-<span class="badge b-n">Launchpad ${label(r.version.replace(/^v0?(\d)(\d)?(\d)?$/, (_m, a: string, b?: string, d?: string) => `v0.${a}${b ? `.${b}` : ''}${d ? `.${d}` : ''}`), 'Launchpad program version')}</span>
+<span class="badge b-n">Launchpad</span> ${programChip(r.version)}
 ${chip(r.mint, 'address', `${c.name.kind === 'onchain' ? c.name.symbol + ' · ' : ''}${r.mint.slice(0, 6)}…`)}
 ${r.dao ? chip(r.dao, 'address', `DAO ${r.dao.slice(0, 6)}…`) : ''}
 </div>
 ${nameSource(c)}
 </div>
-${movementsCount !== null ? `<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span class="soft" style="font-size:14px">${fig(fmtInt(movementsCount), { kind: 'sum', href: 'movements.csv', what: 'movements of this treasury' })} movements</span><a href="movements.csv" class="btn btn-light">Download CSV</a></div>` : ''}
+${movementsCount !== null ? `<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span class="soft" style="font-size:14px">${fig(fmtInt(movementsCount), { kind: 'sum', what: `${c.displayName}: every movement of the treasury`, rows: { flows: c.treasury?.flows ?? [] } })} movements</span><a href="movements.csv" class="btn btn-light">Download CSV</a></div>` : ''}
 </div>`;
 }
 
@@ -109,19 +112,50 @@ function stats(ctx: Ctx, c: Company): string {
   const t = c.treasury;
   const meth = (a: string) => url(ctx, `methodology/#${a}`);
   const raisedAt = r.completed ?? r.closed;
-  const months = t && raisedAt ? ((ctx.scanAt.getTime() - raisedAt.getTime()) / (30.4375 * 86_400_000)).toFixed(1) : null;
+  const months = t && raisedAt ? ((ctx.scanAt.getTime() - raisedAt.getTime()) / AVERAGE_MONTH_MS).toFixed(1) : null;
   const cell = (l: string, v: string, n: string) => `<div class="stat"><div class="stat-l">${l}</div><div class="stat-v" style="font-size:30px">${v}</div><div class="stat-n">${n}</div></div>`;
   const big = (text: string, src: Parameters<typeof fig>[1]) => fig(text, src);
   return `<div class="stats" style="margin-top:36px">
 ${cell('Raised', r.raised === null ? '—' : big(fmtUsd(r.raised), { kind: 'account', address: r.launch }), r.closed ? `closed ${date(r.closed)} after ${fig(String(r.durationDays % 1 === 0 ? r.durationDays : r.durationDays.toFixed(2)), { kind: 'account', address: r.launch })} days` : '')}
 ${cell('Committed by investors', big(fmtUsd(r.committed), { kind: 'account', address: r.launch }), r.raised ? `${fig(`${ratio(r.committed, r.raised, 2)}×`, { kind: 'formula', href: meth('raise'), formula: 'committed / raised' })} oversubscribed · minimum ${fig(fmtUsd(r.minimum), { kind: 'account', address: r.launch })}` : '')}
-${t ? cell('In the treasury now', big(fmtUsd(t.net, { decimals: 2 }), { kind: 'account', address: t.row.usdcAccount }), `USDC in the DAO vault${months ? ` · ${fig(months, { kind: 'formula', href: meth('budget'), formula: 'days since the raise completed / 30.4375' })} months after the raise` : ''}`) : cell('In the treasury now', '<span class="muted">not read</span>', '<span class="badge b-p">Pending verification</span>')}
+${t ? cell('In the treasury at the scan', big(fmtUsd(t.net, { decimals: 2 }), { kind: 'account', address: t.row.usdcAccount }), `USDC in the DAO vault at slot ${fig(fmtInt(t.row.balanceSlot), { kind: 'block', slot: t.row.balanceSlot })}, ${date(ctx.scanAt)}${months ? ` · ${fig(months, { kind: 'formula', href: meth('budget'), formula: 'time since the raise completed / average month length (constants.json)' })} months after the raise` : ''}`) : cell('In the treasury at the scan', '<span class="muted">not read</span>', '<span class="badge b-p">Pending verification</span>')}
 ${t && t.row.spendingLimitNow !== null && t.row.spendingLimitAccount ? cell('Team budget limit now', big(fmtUsd(t.row.spendingLimitNow), { kind: 'account', address: t.row.spendingLimitAccount }), `per month · was ${fig(fmtUsd(r.monthlyBudget), { kind: 'account', address: r.launch })} at launch`) : cell('Team budget at launch', big(fmtUsd(r.monthlyBudget), { kind: 'account', address: r.launch }), 'per month, set in the launch account')}
 </div>
 </section>`;
 }
 
-function whereItWent(ctx: Ctx, t: Treasury): string {
+/**
+ * From the amount raised to the treasury: every USDC the launch transaction moved, read from its balance changes.
+ * "Liquidity" is said only when that transaction itself runs futarchy ProvideLiquidity; any other recipient is shown as not identified.
+ */
+function raiseToTreasury(ctx: Ctx, c: Company, t: Treasury): string {
+  const r = c.raise;
+  if (r.raised === null) return '';
+  const sig = t.row.launchSignature;
+  const tx = (v: Micro) => fig(fmtUsd(v, { decimals: 2 }), { kind: 'tx', signature: sig }, { style: 'font-weight:600' });
+  const launchFlow = t.flows.find((f) => f.cls === 'launch_funding');
+  const liquidity = launchFlow?.instructions.includes('futarchy:ProvideLiquidity') ?? false;
+  const toDao = t.row.launchRecipients.filter((x) => x.owner === r.dao);
+  const others = t.row.launchRecipients.filter((x) => x.owner !== r.dao);
+  const daoSum = sum(toDao.map((x) => x.amount));
+  const rest = r.raised - t.byClass.launch_funding - t.row.launchOther;
+  const row = (label: string, value: string, note = '') => `<div class="kv" style="align-items:flex-start"><span class="soft">${label}${note ? `<br><span class="muted" style="font-size:12px">${note}</span>` : ''}</span>${value}</div>`;
+  return `<section class="wrap" style="padding-top:56px">
+<div class="eyebrow" style="margin-bottom:12px">From the raise to the treasury</div>
+<h2 style="font-size:clamp(26px,3vw,34px);font-weight:600;margin-bottom:8px">Where the raised USDC went at launch</h2>
+<p class="soft" style="font-size:15px;margin:0 0 20px;max-width:720px;line-height:1.55">Read from the launch transaction ${chip(sig, 'tx')}. This site follows only the USDC in the treasury vault. What left to other accounts in that transaction is shown here, and followed no further.</p>
+<div class="card" style="padding:8px 24px;max-width:760px">
+${row('Raised', fig(fmtUsd(r.raised, { decimals: 2 }), { kind: 'account', address: r.launch }, { style: 'font-weight:600' }), 'read from the launch account')}
+${row('To this treasury', tx(t.byClass.launch_funding), "the DAO vault's USDC account")}
+${daoSum > 0n ? row(liquidity ? "To the DAO's own market, as liquidity" : 'To an account owned by the DAO itself', tx(daoSum), `${toDao.map((x) => chip(x.account, 'address')).join(' ')} ${liquidity ? '· the same transaction runs futarchy ProvideLiquidity' : '· not its treasury vault'}`) : ''}
+${others.map((x) => row(`To an account owned by ${chip(x.owner, 'address')}`, tx(x.amount), `${chip(x.account, 'address')} · not identified yet <span class="badge b-p" style="height:20px;font-size:11px">Pending verification</span>`)).join('\n')}
+${rest !== 0n ? row('Not traced in this transaction', fig(fmtUsd(rest, { decimals: 2 }), { kind: 'formula', href: url(ctx, 'methodology/#categories'), formula: 'raised minus every amount above' }, { style: 'font-weight:600' }), 'the difference between the amount raised and what the transaction moved') : ''}
+</div>
+</section>`;
+}
+
+function whereItWent(ctx: Ctx, t: Treasury, nm: string): string {
+  const of = (pred: (f: Flow) => boolean) => ({ flows: t.flows.filter(pred) });
   const meth = (a: string) => url(ctx, `methodology/#${a}`);
   const b = t.byClass;
   const admin = sum(ADMIN_CLASSES.map((k) => b[k]));
@@ -133,8 +167,10 @@ function whereItWent(ctx: Ctx, t: Treasury): string {
     `<div><div style="display:flex;align-items:center;gap:8px;font-size:13px" class="soft"><span class="sw" style="background:${color}"></span>${name}${v > 0n && name !== 'Launch deposit' && name !== 'Other inflows' ? ` · ${fig(share(v), { kind: 'formula', href: meth('categories'), formula: `${name.toLowerCase()} / total in` })}` : ''}</div>${fig(fmtUsd(v, { decimals: 2 }), src, { style: "font-family:'Inter Tight',sans-serif;font-size:22px;font-weight:600;margin-top:6px" })}<div style="font-size:13px;margin-top:4px;${pending ? 'color:#8A4200;display:flex;align-items:center;gap:6px' : 'color:#5B6170'}">${pending ? `<span class="mk mk-p" aria-hidden="true">${CLOCK}</span>` : ''}${note}</div></div>`;
   const launchFlow = t.flows.find((f) => f.cls === 'launch_funding');
   const decisionsNote = (() => {
-    const props = [...new Set(t.flows.filter((f) => f.cls === 'market_approved').map((f) => f.decisionNumber))].filter((x): x is number => x !== null).sort((a, z) => a - z);
-    return props.length ? `proposals ${props.map((p) => label(`#${p}`, 'Futarchy proposal number on this DAO')).join(', ')} passed` : 'none';
+    const props = new Map<number, string>();
+    for (const f of t.flows) if (f.cls === 'market_approved' && f.decisionNumber !== null && f.decisionAddress) props.set(f.decisionNumber, f.decisionAddress);
+    const list = [...props.entries()].sort((a, z) => a[0] - z[0]);
+    return list.length ? `proposals ${list.map(([n, a]) => proposalLink(n, a)).join(', ')} passed` : 'none';
   })();
   return `<section class="wrap" style="padding-top:56px">
 <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px">
@@ -149,18 +185,18 @@ ${t.row.reconciles ? `<a class="badge b-v" href="${meth('reconcile')}">${CHECK}H
 <div style="display:flex;height:40px;border-radius:10px;overflow:hidden;gap:2px" role="img" aria-label="Team budget ${share(b.team_budget)}, market vote ${share(b.market_approved)}, admin key ${share(admin)}, still in treasury ${share(t.net)}">${seg(b.team_budget, COLORS.team)}${seg(b.market_approved, COLORS.market)}${seg(admin, COLORS.admin)}${seg(other, COLORS.other)}${seg(t.net, COLORS.left)}</div>
 </div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;margin-top:32px;padding-top:28px;border-top:1px solid #EEF0F3">
-<div><div class="eyebrow" style="margin-bottom:14px">In · ${fig(fmtUsd(t.totalIn, { decimals: 2 }), { kind: 'sum', href: 'movements.csv', what: 'inflows' }, { bare: true, style: 'border:0' })}</div><div style="display:flex;flex-direction:column;gap:16px">
-${item(COLORS.launch, 'Launch deposit', b.launch_funding, launchFlow ? { kind: 'tx', signature: launchFlow.signature } : { kind: 'sum', href: 'movements.csv', what: 'launch deposits' }, launchFlow ? `the launchpad's deposit, ${date(launchFlow.time)}` : '')}
-${b.inflow_other > 0n ? item('#F7C58A', 'Other inflows', b.inflow_other, { kind: 'sum', href: '#inflows', what: 'inflows after the raise' }, `${fig(fmtInt(count('inflow_other')), { kind: 'sum', href: '#inflows', what: 'inflow transactions' })} transactions · purpose pending verification`, true) : ''}
+<div><div class="eyebrow" style="margin-bottom:14px">In · ${fig(fmtUsd(t.totalIn, { decimals: 2 }), { kind: 'sum', what: `${nm}: every movement into the treasury`, rows: of((f) => f.usdc > 0n) }, { bare: true, style: 'border:0' })}</div><div style="display:flex;flex-direction:column;gap:16px">
+${item(COLORS.launch, 'Launch deposit', b.launch_funding, launchFlow ? { kind: 'tx', signature: launchFlow.signature } : { kind: 'sum', what: `${nm}: launch deposits`, rows: of((f) => f.cls === 'launch_funding') }, launchFlow ? `the launchpad's deposit, ${date(launchFlow.time)}` : '')}
+${b.inflow_other > 0n ? item('#F7C58A', 'Other inflows', b.inflow_other, { kind: 'sum', what: `${nm}: inflows after the raise`, rows: of((f) => f.cls === 'inflow_other') }, `${fig(fmtInt(count('inflow_other')), { kind: 'sum', what: `${nm}: inflows after the raise`, rows: of((f) => f.cls === 'inflow_other') })} transactions · purpose pending verification`, true) : ''}
 </div></div>
-<div><div class="eyebrow" style="margin-bottom:14px">Out · ${fig(fmtUsd(t.totalOut, { decimals: 2 }), { kind: 'sum', href: 'movements.csv', what: 'outflows' }, { bare: true, style: 'border:0' })}</div><div style="display:flex;flex-direction:column;gap:16px">
-${item(COLORS.team, 'Team budget', b.team_budget, { kind: 'sum', href: '#budget', what: 'team budget draws' }, `${fig(fmtInt(count('team_budget')), { kind: 'sum', href: '#budget', what: 'team budget draws' })} draws through the monthly spending limit`)}
-${b.market_approved > 0n ? item(COLORS.market, 'Approved by market vote', b.market_approved, { kind: 'sum', href: '#decisions', what: 'market-approved movements' }, `${fig(fmtInt(count('market_approved')), { kind: 'sum', href: '#decisions', what: 'market-approved movements' })} transactions · ${decisionsNote}`) : ''}
+<div><div class="eyebrow" style="margin-bottom:14px">Out · ${fig(fmtUsd(t.totalOut, { decimals: 2 }), { kind: 'sum', what: `${nm}: every movement out of the treasury`, rows: of((f) => f.usdc < 0n) }, { bare: true, style: 'border:0' })}</div><div style="display:flex;flex-direction:column;gap:16px">
+${item(COLORS.team, 'Team budget', b.team_budget, { kind: 'sum', what: `${nm}: team budget draws`, rows: of((f) => f.cls === 'team_budget') }, `${fig(fmtInt(count('team_budget')), { kind: 'sum', what: `${nm}: team budget draws`, rows: of((f) => f.cls === 'team_budget') })} draws through the monthly spending limit`)}
+${b.market_approved > 0n ? item(COLORS.market, 'Approved by market vote', b.market_approved, { kind: 'sum', what: `${nm}: movements approved by market vote`, rows: of((f) => f.cls === 'market_approved') }, `${fig(fmtInt(count('market_approved')), { kind: 'sum', what: `${nm}: movements approved by market vote`, rows: of((f) => f.cls === 'market_approved') })} transactions · ${decisionsNote}`) : ''}
 </div></div>
 <div><div class="eyebrow" style="margin-bottom:14px" aria-hidden="true">&#160;</div><div style="display:flex;flex-direction:column;gap:16px">
-${admin > 0n ? item(COLORS.admin, 'Approved with the admin key', admin, { kind: 'sum', href: '#decisions', what: 'admin-key movements' }, `${fig(fmtInt(t.flows.filter((f) => isAdmin(f.cls)).length), { kind: 'sum', href: '#decisions', what: 'admin-key movements' })} transactions · each listed below with the nearest passed proposal`) : ''}
-${other > 0n ? item(COLORS.other, 'Other outflows', other, { kind: 'sum', href: '#decisions', what: 'other outflows' }, 'not classified yet', true) : ''}
-${item(COLORS.left, 'Still in the treasury', t.net, { kind: 'account', address: t.row.usdcAccount }, "balance of the vault's USDC account")}
+${admin > 0n ? item(COLORS.admin, 'Approved with the admin key', admin, { kind: 'sum', what: `${nm}: movements approved with the admin key`, rows: of((f) => isAdmin(f.cls)) }, `${fig(fmtInt(t.flows.filter((f) => isAdmin(f.cls)).length), { kind: 'sum', what: `${nm}: movements approved with the admin key`, rows: of((f) => isAdmin(f.cls)) })} transactions · each listed below with the nearest passed proposal`) : ''}
+${other > 0n ? item(COLORS.other, 'Other outflows', other, { kind: 'sum', what: `${nm}: outflows not classified yet`, rows: of((f) => f.cls === 'liquidation' || f.cls === 'other_out') }, 'not classified yet', true) : ''}
+${item(COLORS.left, 'Still in the treasury', t.net, { kind: 'account', address: t.row.usdcAccount }, "balance of the vault's USDC account at the scan")}
 </div></div>
 </div>
 </div>
@@ -182,7 +218,7 @@ function decisions(ctx: Ctx, t: Treasury): string {
       if (f.cls === 'admin_after_vote' && p) text = `Approved with MetaDAO's admin key. Proposal ${proposalLink(p.number, p.address)} on this DAO passed ${gap} before this movement${passedTx}. The chain does not say whether that proposal covers this payment: read it.${keys}`;
       else if (f.cls === 'admin_vote_passed_after' && p) text = `Approved with MetaDAO's admin key <b>before</b> any proposal on this DAO had passed. Proposal ${proposalLink(p.number, p.address)}, already open, passed ${gap} after this movement${passedTx}.${keys}`;
       else if (f.cls === 'admin_vote_no_finalize' && p) text = `Approved with MetaDAO's admin key. Proposal ${proposalLink(p.number, p.address)} on this DAO is marked Passed, but we did not find its FinalizeProposal transaction, so we cannot say when it passed.${keys}`;
-      else if (f.cls === 'admin_no_vote_found') text = `Approved with MetaDAO's admin key, with no proposal on this DAO that passed in the ${label('60', 'Window in days')} days before it.${keys}`;
+      else if (f.cls === 'admin_no_vote_found') text = `Approved with MetaDAO's admin key, with no proposal on this DAO that passed in the ${constant('admin_vote_window_days')} days before it.${keys}`;
       else text = `Approved with MetaDAO's admin key although its own proposal did not pass.${keys}`;
     } else {
       text = 'Not classified yet';
@@ -221,7 +257,7 @@ function budget(ctx: Ctx, c: Company, t: Treasury): string {
   const changed = limitNow !== null && limitNow !== launchLimit;
   return `<section id="budget" class="wrap" style="padding-top:56px">
 <div class="eyebrow" style="margin-bottom:12px">Team budget</div>
-<h2 style="font-size:clamp(26px,3vw,34px);font-weight:600;margin-bottom:20px">What the team drew in each ${label('30-day', 'Length of the spending limit period')} period</h2>
+<h2 style="font-size:clamp(26px,3vw,34px);font-weight:600;margin-bottom:20px">What the team drew in each ${constant('spending_limit_period_days')}-day period</h2>
 <div style="display:flex;flex-wrap:wrap;gap:16px">
 <div class="card" style="flex:999 1 560px;min-width:0;padding:24px">
 <div style="display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12px;margin-bottom:18px" class="soft">
@@ -235,13 +271,13 @@ ${changed && limitNow !== null ? `<div class="line" style="bottom:${h(limitNow)}
 ${bars}
 </div>
 <div class="chart-x">${periods.map((p) => `<span>${shortDate(p.start)}</span>`).join('')}</div></div>
-<div class="muted" style="font-size:12px;margin-top:10px;line-height:1.5">Each bar is a ${label('30-day', 'Length of the spending limit period')} period counted from the end of the raise, the same length as the limit's period. The program resets the limit on its own clock, so one period's bar can include a draw from the next period's allowance. Hover a bar for its total.</div>
+<div class="muted" style="font-size:12px;margin-top:10px;line-height:1.5">Each bar is a ${constant('spending_limit_period_days')}-day period counted from the end of the raise, the same length as the limit's period. The program resets the limit on its own clock, so one period's bar can include a draw from the next period's allowance. Hover a bar for its total.</div>
 </div>
 <div class="card" style="flex:1 1 300px;padding:8px 24px">
-<div class="kv"><span class="soft">Drawn so far</span>${fig(fmtUsd(drawn, { decimals: 2 }), { kind: 'sum', href: 'movements.csv', what: 'team budget draws' }, { style: 'font-weight:600' })}</div>
+<div class="kv"><span class="soft">Drawn so far</span>${fig(fmtUsd(drawn, { decimals: 2 }), { kind: 'sum', what: `${c.displayName}: team budget draws`, rows: { flows: t.flows.filter((f) => f.cls === 'team_budget') } }, { style: 'font-weight:600' })}</div>
 <div class="kv"><span class="soft">Allowed at the launch limit</span>${fig(fmtUsd(allowed, { decimals: 2 }), { kind: 'formula', href: meth('budget'), formula: 'periods started × monthly limit at launch' }, { style: 'font-weight:600' })}</div>
 <div class="muted" style="font-size:12px;margin:-4px 0 8px">= ${fig(fmtInt(t.row.periodsStarted), { kind: 'formula', href: meth('budget'), formula: '30-day periods started since the raise' })} periods × ${fig(fmtUsd(launchLimit), { kind: 'account', address: r.launch })}</div>
-<div class="kv"><span class="soft">Largest ${label('30-day', 'Length of the spending limit period')} period</span>${fig(fmtUsd(maxDraw, { decimals: 2 }), { kind: 'sum', href: 'movements.csv', what: 'team draws in the largest period' }, { style: 'font-weight:600' })}</div>
+<div class="kv"><span class="soft">Largest ${constant('spending_limit_period_days')}-day period</span>${fig(fmtUsd(maxDraw, { decimals: 2 }), { kind: 'sum', what: `${c.displayName}: team draws in the largest period`, rows: { flows: periods.find((p) => p.drawn === maxDraw)?.flows ?? [] } }, { style: 'font-weight:600' })}</div>
 <div class="kv"><span class="soft">Wallets that can draw</span>${fig(fmtInt(r.budgetWallets.length), { kind: 'account', address: r.launch }, { style: 'font-weight:600' })}</div>
 <div style="display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 12px">${r.budgetWallets.map((w) => addr(w)).join('')}</div>
 ${changed && limitNow !== null ? `<div class="note note-p" style="margin:8px 0 14px;padding:12px 14px;font-size:13px;line-height:1.5"><span class="mk mk-p" style="margin-top:2px;background:#fff" aria-hidden="true">${CLOCK}</span><span><b>Pending verification.</b> The limit went from ${fig(fmtUsd(launchLimit), { kind: 'account', address: r.launch })} to ${fig(fmtUsd(limitNow), { kind: 'account', address: t.row.spendingLimitAccount ?? t.row.multisig })} a month. Both amounts are onchain. The transaction that changed it is not linked yet, so draws above the launch limit are not judged here.</span></div>` : ''}
@@ -250,10 +286,10 @@ ${changed && limitNow !== null ? `<div class="note note-p" style="margin:8px 0 1
 </section>`;
 }
 
-function inflows(t: Treasury): string {
+function inflows(t: Treasury, nm: string): string {
   const all = t.flows.filter((f) => f.cls === 'inflow_other');
   if (!all.length) return '';
-  const big = all.filter((f) => f.usdc >= 1_000_000_000n).slice(0, 12);
+  const big = all.filter((f) => f.usdc >= LEDGER_MIN).slice(0, 12);
   const rest = all.filter((f) => !big.includes(f));
   const restSum = sum(rest.map((f) => f.usdc));
   const row = (f: Flow) => `<tr><td>${date(f.time)}</td><td class="r">${fig(fmtUsd(f.usdc, { decimals: 2, sign: 'always' }), { kind: 'tx', signature: f.signature }, { style: 'font-weight:600' })}</td><td>${f.counterparty.map((a) => chip(a, 'address')).join(' ') || '<span class="muted">—</span>'}</td><td><span class="badge b-p">Pending verification</span></td><td>${chip(f.signature, 'tx')}</td></tr>`;
@@ -263,7 +299,7 @@ function inflows(t: Treasury): string {
 <p class="soft" style="font-size:15px;margin:0 0 20px;max-width:680px;line-height:1.55">The amounts and senders are onchain. What each payment was for is not identified yet, so these are marked as pending, not hidden.</p>
 <div class="card tblbox"><table class="tbl"><thead><tr><th scope="col">Date</th><th scope="col" class="r">Amount</th><th scope="col">From</th><th scope="col">Purpose</th><th scope="col">Transaction</th></tr></thead><tbody>
 ${big.map(row).join('')}
-${rest.length ? `<tr><td class="muted">Earlier and smaller</td><td class="r">${fig(fmtUsd(restSum, { decimals: 2, sign: 'always' }), { kind: 'sum', href: 'movements.csv', what: 'the remaining inflows' }, { style: 'font-weight:600' })}</td><td class="muted">${fig(fmtInt(rest.length), { kind: 'sum', href: 'movements.csv', what: 'the remaining inflows' })} transfers</td><td><span class="badge b-p">Pending verification</span></td><td class="muted"><a href="movements.csv">see the full list</a></td></tr>` : ''}
+${rest.length ? `<tr><td class="muted">Earlier and smaller</td><td class="r">${fig(fmtUsd(restSum, { decimals: 2, sign: 'always' }), { kind: 'sum', what: `${nm}: inflows under ${CONSTANT_TEXT['ledger_min_usd']}`, rows: { flows: rest } }, { style: 'font-weight:600' })}</td><td class="muted">${fig(fmtInt(rest.length), { kind: 'sum', what: `${nm}: inflows under ${CONSTANT_TEXT['ledger_min_usd']}`, rows: { flows: rest } })} transfers</td><td><span class="badge b-p">Pending verification</span></td><td class="muted"><a href="movements.csv">see the full list</a></td></tr>` : ''}
 </tbody></table></div>
 </section>`;
 }
@@ -296,13 +332,13 @@ function terms(ctx: Ctx, c: Company): string {
 </section>`;
 }
 
-function ledger(t: Treasury): string {
-  const rows = t.flows.filter((f) => (f.usdc < 0n ? -f.usdc : f.usdc) >= 1_000_000_000n).slice(0, 20);
-  const badge = (f: Flow) => (f.cls === 'market_approved' && f.decisionNumber !== null ? `<span class="badge b-k">Market vote ${label(`#${f.decisionNumber}`, 'Proposal number')}</span>` : CLASS_BADGE[f.cls]);
+function ledger(t: Treasury, nm: string): string {
+  const rows = t.flows.filter((f) => (f.usdc < 0n ? -f.usdc : f.usdc) >= LEDGER_MIN).slice(0, 20);
+  const badge = (f: Flow) => (f.cls === 'market_approved' && f.decisionNumber !== null ? `<span class="badge b-k">Market vote ${f.decisionAddress ? fig(`#${f.decisionNumber}`, { kind: 'account', address: f.decisionAddress }, { bare: true }) : ''}</span>` : CLASS_BADGE[f.cls]);
   return `<section class="wrap" style="padding-top:56px">
 <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px">
-<div><div class="eyebrow" style="margin-bottom:12px">Ledger</div><h2 style="font-size:clamp(26px,3vw,34px);font-weight:600">Recent movements of ${label('$1,000', 'Display threshold')} or more</h2></div>
-<span style="font-size:14px" class="soft">${fig(fmtInt(t.flows.length), { kind: 'sum', href: 'movements.csv', what: 'movements' })} movements in all · <a href="movements.csv" style="font-weight:500">Download CSV →</a></span>
+<div><div class="eyebrow" style="margin-bottom:12px">Ledger</div><h2 style="font-size:clamp(26px,3vw,34px);font-weight:600">Recent movements of ${constant('ledger_min_usd')} or more</h2></div>
+<span style="font-size:14px" class="soft">${fig(fmtInt(t.flows.length), { kind: 'sum', what: `${nm}: every movement of the treasury`, rows: { flows: t.flows } })} movements in all · <a href="movements.csv" style="font-weight:500">Download CSV →</a></span>
 </div>
 <div class="card tblbox"><table class="tbl"><thead><tr><th scope="col">Date</th><th scope="col">Type</th><th scope="col" class="r">USDC</th><th scope="col">Counterparty</th><th scope="col">Transaction</th></tr></thead><tbody>
 ${rows.map((f) => `<tr><td>${date(f.time)}</td><td>${badge(f)}</td><td class="r">${fig(fmtUsd(f.usdc, { decimals: 2, sign: 'always' }).replace('$', ''), { kind: 'tx', signature: f.signature })}</td><td>${f.counterparty.slice(0, 2).map((a) => chip(a, 'address')).join(' ') || '<span class="muted">—</span>'}</td><td>${chip(f.signature, 'tx')}</td></tr>`).join('')}
@@ -319,12 +355,13 @@ export function companyPage(ctx: Ctx, _site: Site, c: Company): string {
   const body = [
     header(ctx, c, t ? t.flows.length : null),
     stats(ctx, c),
-    t ? whereItWent(ctx, t) : notRead(),
+    t ? raiseToTreasury(ctx, c, t) : '',
+    t ? whereItWent(ctx, t, c.displayName) : notRead(),
     t ? decisions(ctx, t) : '',
     t ? budget(ctx, c, t) : '',
-    t ? inflows(t) : '',
+    t ? inflows(t, c.displayName) : '',
     terms(ctx, c),
-    t ? ledger(t) : '',
+    t ? ledger(t, c.displayName) : '',
   ].join('\n');
   return page(ctx, {
     title: `${c.displayName}: raise and treasury · raise-tracker`,

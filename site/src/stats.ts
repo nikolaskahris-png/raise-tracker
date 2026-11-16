@@ -1,3 +1,5 @@
+import { C } from './constants.ts';
+
 // Rates over counts, with their uncertainty. Counts are exact integers; only the interval uses floating point.
 
 /** 95% two-sided normal quantile. */
@@ -25,4 +27,4 @@ export const pct1 = (x: number): string => `${(Math.round(x * 1000) / 10).toFixe
 export const separated = (a: Interval, b: Interval): boolean => a.low > b.high || b.low > a.high;
 
 /** The confidence level used for every interval on the site. */
-export const CONFIDENCE = 0.95;
+export const CONFIDENCE = C.confidence;

@@ -1,5 +1,6 @@
 // Page shell and stylesheet, ported from the design canvas (raise-tracker design, 16 Nov 2026).
-import { chip, date, esc, fig, label } from './fig.ts';
+import { chip, date, esc, fig } from './fig.ts';
+import { C, constant } from './constants.ts';
 import { fmtInt } from './money.ts';
 
 export type Ctx = {
@@ -17,7 +18,7 @@ export type Ctx = {
 export const url = (ctx: Ctx, path: string): string => `${ctx.base}${path.replace(/^\//, '')}`;
 
 /** Data older than this counts as stale and the banner says so (at build time, and again in the browser). */
-export const STALE_HOURS = 36;
+export const STALE_HOURS = C.stale_hours;
 export const isStale = (ctx: Ctx): boolean => ctx.builtAt.getTime() - ctx.scanAt.getTime() > STALE_HOURS * 3_600_000;
 
 /** Says the site rebuilt itself only when this very build was started by a scheduled scan; otherwise it claims nothing. */
@@ -63,7 +64,7 @@ ${nav(url(ctx, 'methodology/'), 'Methodology', o.active === 'methodology')}
 <span class="banner-lead"><span class="dot" aria-hidden="true"></span>Data from the scan of ${date(ctx.scanAt, 'minute')}, slot ${fig(fmtInt(ctx.scanSlot), { kind: 'block', slot: ctx.scanSlot }, { dark: true, style: 'color:#FFFFFF' })}</span>
 <span>${o.banner ? `${o.banner} ` : ''}${buildNote(ctx)}If a check fails, nothing is published and the previous version stays up.</span>
 ${commit}
-<span class="stale" data-scan="${ctx.scanAt.toISOString()}" data-hours="${STALE_HOURS}"${isStale(ctx) ? '' : ' hidden'}>This data is more than ${label(fmtInt(STALE_HOURS), 'Hours after which the data counts as stale')} hours old. The latest scan may have failed or not run yet.</span>
+<span class="stale" data-scan="${ctx.scanAt.toISOString()}" data-hours="${STALE_HOURS}"${isStale(ctx) ? '' : ' hidden'}>This data is more than ${constant('stale_hours')} hours old. The latest scan may have failed or not run yet.</span>
 <script>(function(){var s=document.querySelector('.stale');if(!s)return;var h=(Date.now()-Date.parse(s.getAttribute('data-scan')))/36e5;if(h>Number(s.getAttribute('data-hours')))s.hidden=false;})();</script>
 </div></div>
 <main id="main">

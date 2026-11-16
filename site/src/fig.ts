@@ -2,11 +2,13 @@
 // The post-build check (check-html.ts) fails the build if any digit in <main> is outside a figure,
 // a <time>, an address chip or a labelled constant.
 
+import { listHref, type ListRows } from './lists.ts';
+
 export type Source =
   | { readonly kind: 'tx'; readonly signature: string }
   | { readonly kind: 'account'; readonly address: string }
   | { readonly kind: 'block'; readonly slot: number }
-  | { readonly kind: 'sum'; readonly href: string; readonly what: string }
+  | { readonly kind: 'sum'; readonly what: string; readonly rows: ListRows } // opens a page listing exactly these rows
   | { readonly kind: 'formula'; readonly href: string; readonly formula: string }
   | { readonly kind: 'declared'; readonly href: string; readonly by: string };
 
@@ -42,7 +44,7 @@ function hrefOf(src: Source): string {
     case 'tx': return txUrl(src.signature);
     case 'account': return addrUrl(src.address);
     case 'block': return blockUrl(src.slot);
-    case 'sum':
+    case 'sum': return listHref(src.what, src.rows);
     case 'formula':
     case 'declared': return src.href;
   }
@@ -53,7 +55,7 @@ function titleOf(src: Source): string {
     case 'tx': return 'Verified onchain: opens the transaction';
     case 'account': return 'Verified onchain: opens the account it is read from';
     case 'block': return 'Verified onchain: opens the block at this slot';
-    case 'sum': return `Sum of ${src.what}`;
+    case 'sum': return `Opens the list: ${src.what}`;
     case 'formula': return `Computed: ${src.formula}`;
     case 'declared': return `Declared by ${src.by}, not onchain`;
   }
