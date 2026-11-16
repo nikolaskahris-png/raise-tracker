@@ -67,7 +67,7 @@ export function displayName(c: Company): string {
 
 function nameBadge(c: Company): string {
   if (c.name.kind === 'none') return '<span class="badge b-p">Name pending</span>';
-  return `<a class="badge b-od" href="${addrUrl(c.name.account)}" rel="noopener" title="The name and symbol this token declares in its Metaplex metadata account: onchain, but chosen by whoever controls it"><span class="mk mk-o" aria-hidden="true"></span>Declared onchain · Name from the token's onchain metadata ↗</a>`;
+  return `<a class="badge b-od" href="${addrUrl(c.name.account)}" rel="noopener" title="The name and symbol this token declares in its Metaplex metadata account: onchain, but chosen by whoever controls it"><span class="mk mk-o" aria-hidden="true"></span>Declared onchain · token metadata ↗</a>`;
 }
 
 /** Where the name comes from: the onchain metadata, and, when present, the verbatim press quote that adds the project name. */
