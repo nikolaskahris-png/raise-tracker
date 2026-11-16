@@ -1,6 +1,6 @@
 {
- "scanned_at": "2026-11-16T13:51:41.161Z",
- "scanned_slot": 470154796,
+ "scanned_at": "2026-11-16T14:13:51.586Z",
+ "scanned_slot": 470160981,
  "programs": {
   "v08": "moonDJUoHteKkGATejA5bdJVwJ6V6Dg74gyqyJTx73n",
   "v07": "moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM",
@@ -38,7 +38,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -47,7 +47,9 @@
    "checks": "OK",
    "metadata_account": "7fc8WRhnuxDV6s3YH3zQLviUd2T5mHa74yZW7LsMfH77",
    "metadata_name": "GodItShouldWork",
-   "metadata_symbol": "GITSW"
+   "metadata_symbol": "GITSW",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -71,7 +73,7 @@
    "monthly_budget_usd": "22500",
    "budget_wallets": 1,
    "budget_wallet_list": "8T1L43p9ASvewvgmk5beFY26nVgyrMa4HWaGM9ApPgGc",
-   "performance_package_tokens": "12000000",
+   "performance_package_raw": "12000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -80,7 +82,9 @@
    "checks": "OK",
    "metadata_account": "2qrq73croTLjE6BdmGwHWFo93M17hjA5mXYXh2FLycDr",
    "metadata_name": "Koturo",
-   "metadata_symbol": "KOTU"
+   "metadata_symbol": "KOTU",
+   "token_decimals": 6,
+   "performance_package_tokens": "12000000"
   },
   {
    "version": "v07",
@@ -104,7 +108,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "11111111111111111111111111111111",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -113,7 +117,9 @@
    "checks": "OK",
    "metadata_account": "UQsQe36VNya4gEFoVjQe8wNg6VX3yEgzpTMeE9cZnd7",
    "metadata_name": "Test Token",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -137,7 +143,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "11111111111111111111111111111111",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -146,7 +152,9 @@
    "checks": "OK",
    "metadata_account": "CsdGi4HebkX8J3fQ1rQPMobvEoiWp1vTJjUpoKwCjKkM",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v07",
@@ -170,7 +178,7 @@
    "monthly_budget_usd": "250000",
    "budget_wallets": 2,
    "budget_wallet_list": "BXDKN7Bb9s5TPUJksT1HfGgDpYvEGnPwagostU79hAM5 5aaFjteWwEeDPZ69j8BmqsGS1KviqzG4V8CMedCkbkhe",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -179,7 +187,9 @@
    "checks": "OK",
    "metadata_account": "BcZYbTu6kj6RXsaYtqUqoMJarHbrjXitynwSnTpKcUjG",
    "metadata_name": "Ranger",
-   "metadata_symbol": "RNGR"
+   "metadata_symbol": "RNGR",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -203,7 +213,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 3,
    "budget_wallet_list": "ZQUaZHxAq4FU5DqD9dofKFtyP5SnCW3PTqNYi76Y5H9 DW1wjA8wFnM5t3maGj5MxFq9MyFk4fT1qRFZnJwyAhG8 64DzHTugxRgvEcmXhBAzHREg9j9jTTLJjkBdAot1wW22",
-   "performance_package_tokens": "2000000",
+   "performance_package_raw": "2000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -212,7 +222,9 @@
    "checks": "OK",
    "metadata_account": "4Zm24q17UEwTpV5JUtZ2k63mg5c9FVgNthmR9DSRSoC6",
    "metadata_name": "Nex ID",
-   "metadata_symbol": "NEX"
+   "metadata_symbol": "NEX",
+   "token_decimals": 6,
+   "performance_package_tokens": "2000000"
   },
   {
    "version": "v07",
@@ -236,7 +248,7 @@
    "monthly_budget_usd": "22000",
    "budget_wallets": 2,
    "budget_wallet_list": "HmxPDo5m6woVgG3wCJtG14CgXjbfrQmkfXkGbte91Ama GvK6tMmKu8LuoyV6a515pteSoT8wApQ5vMdkQ8ckXkcg",
-   "performance_package_tokens": "10000000",
+   "performance_package_raw": "10000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -245,7 +257,9 @@
    "checks": "OK",
    "metadata_account": "ALHLaGwcozW97VWsPfKnB92LxSvZF1ov9zcBAP9CMEBY",
    "metadata_name": "Percolator",
-   "metadata_symbol": "PERC"
+   "metadata_symbol": "PERC",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000000"
   },
   {
    "version": "v07",
@@ -269,7 +283,7 @@
    "monthly_budget_usd": "0.000001",
    "budget_wallets": 1,
    "budget_wallet_list": "88NkeJUDsm1sbYp3TazR85XEBV6sDbnKd5Bkfvah88yj",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -278,7 +292,9 @@
    "checks": "OK",
    "metadata_account": "9y3bDjvYMDRfRrVNiLGzJrEEwyK8nRQq9YjEA1ZDvFjB",
    "metadata_name": "Sniper Sandbox",
-   "metadata_symbol": "SNPX"
+   "metadata_symbol": "SNPX",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v06",
@@ -302,7 +318,7 @@
    "monthly_budget_usd": "100000",
    "budget_wallets": 3,
    "budget_wallet_list": "5wXBWMea5KWQHUjtcK5Np5zubMqYuicCLnvFZYbYt2ik BCNsaGbVu4KdwWu2uS59628Un8uFWv9KG15JFkqYQtLT CNbdt6wVxpRdDJ5Tu179wVMEyoLeokdMchBgx5Lkat22",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -311,7 +327,9 @@
    "checks": "OK",
    "metadata_account": "C6VVaWDQrgScHZBZ63yd9hhzwUFEPsyQqiRnHzwmwoC1",
    "metadata_name": "SolomonTEST",
-   "metadata_symbol": "SOLOTEST"
+   "metadata_symbol": "SOLOTEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v06",
@@ -335,7 +353,7 @@
    "monthly_budget_usd": "50000",
    "budget_wallets": 2,
    "budget_wallet_list": "DjMcCdkhWk93zQ1v2uGd6QwMjTUQtcfd5oFkdPgZPD6y 2bq1JFjhuAjTStD8NwjdQNFTSXGroofQbBejwubNXGhj",
-   "performance_package_tokens": "15000000",
+   "performance_package_raw": "15000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -344,7 +362,9 @@
    "checks": "OK",
    "metadata_account": "BgXc13HftXJyVD1ZjSnvKv55r6uL2ECgdU8yWBHdzB2p",
    "metadata_name": "ZKFG",
-   "metadata_symbol": "ZKFG"
+   "metadata_symbol": "ZKFG",
+   "token_decimals": 6,
+   "performance_package_tokens": "15000000"
   },
   {
    "version": "v05",
@@ -446,7 +466,7 @@
    "monthly_budget_usd": "0.01",
    "budget_wallets": 1,
    "budget_wallet_list": "613BRiXuAEn7vibs2oAYzpGW9fXgjzDNuFMM4wPzLdY",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -455,7 +475,9 @@
    "checks": "OK",
    "metadata_account": "FhDmGT9AXMNNyJGpZAPXd5ZG2XoFbYjYJbRXW822KHwf",
    "metadata_name": "Example",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -479,7 +501,7 @@
    "monthly_budget_usd": "0.01",
    "budget_wallets": 1,
    "budget_wallet_list": "613BRiXuAEn7vibs2oAYzpGW9fXgjzDNuFMM4wPzLdY",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -488,7 +510,9 @@
    "checks": "OK",
    "metadata_account": "GTxJrbSxFuXFaNdS8QQQi6qD275CABoxXcGSx5zGzidc",
    "metadata_name": "Example",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -512,7 +536,7 @@
    "monthly_budget_usd": "0.01",
    "budget_wallets": 1,
    "budget_wallet_list": "613BRiXuAEn7vibs2oAYzpGW9fXgjzDNuFMM4wPzLdY",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -521,7 +545,9 @@
    "checks": "OK",
    "metadata_account": "CSDijY78Ys1XotLFhxW1C7oEByEGhzuuzZdyvvSNFFAm",
    "metadata_name": "Example",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -545,7 +571,7 @@
    "monthly_budget_usd": "0.01",
    "budget_wallets": 1,
    "budget_wallet_list": "613BRiXuAEn7vibs2oAYzpGW9fXgjzDNuFMM4wPzLdY",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -554,7 +580,9 @@
    "checks": "OK",
    "metadata_account": "C376PuBdUMGBv64DLpqWSzx7xkB2cECstSVWEaNc5goY",
    "metadata_name": "Example",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -578,7 +606,7 @@
    "monthly_budget_usd": "0.01",
    "budget_wallets": 1,
    "budget_wallet_list": "613BRiXuAEn7vibs2oAYzpGW9fXgjzDNuFMM4wPzLdY",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -587,7 +615,9 @@
    "checks": "OK",
    "metadata_account": "AHmbhkG9VmfksL4s5rZfXivJyBjRWGSZaA132n1pP9TF",
    "metadata_name": "Example",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -611,7 +641,7 @@
    "monthly_budget_usd": "0.01",
    "budget_wallets": 1,
    "budget_wallet_list": "613BRiXuAEn7vibs2oAYzpGW9fXgjzDNuFMM4wPzLdY",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -620,7 +650,9 @@
    "checks": "OK",
    "metadata_account": "28p5Gob73EjTxAQfNZ6xBQTRAAUMVvYMqccXtJRckHW9",
    "metadata_name": "Example",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -644,7 +676,7 @@
    "monthly_budget_usd": "0.01",
    "budget_wallets": 1,
    "budget_wallet_list": "613BRiXuAEn7vibs2oAYzpGW9fXgjzDNuFMM4wPzLdY",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "4rW6iVKUq1RWYQ1VBTrjvP9FL4G3Sn7mBj7Yg12kuckv",
    "dao_vault": "EEak3tBHawF92EbiCLFqzAeWkRvhoq5aDzsZNLpMBtsD",
@@ -653,7 +685,9 @@
    "checks": "OK",
    "metadata_account": "Hzyz8Z9JGYEq1nznSXMk6x2Ccqy8vhWJtEGhMPYazW9T",
    "metadata_name": "Example",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -677,7 +711,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "EbcsPbXZa81xUunDSmzYrcAWGURxcZB6BTkgzqvNJBZH",
    "dao_vault": "85pCdkCcWSjyrmtqnZywERaZQhq5NTQo7Hssm8W7gLC1",
@@ -686,7 +720,9 @@
    "checks": "OK",
    "metadata_account": "2bhchQdHEYNKM9md2tYVP8YuhpvmyE1J6F6HdhrtZaZP",
    "metadata_name": "Crimera",
-   "metadata_symbol": "CRIME"
+   "metadata_symbol": "CRIME",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -710,7 +746,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "DMB74TZgN7Rqfwtqqm3VQBgKBb2WYPdBqVtHbvB4LLeV",
    "dao_vault": "7z4xFDoYd7rGb5WiuAiTwrb67AdSWSLQz3pUDYtkiBwS",
@@ -719,7 +755,9 @@
    "checks": "OK",
    "metadata_account": "3BMronqyWLMXSCd4kT45bQatE2cmKU1H8ocCVAVPiHx5",
    "metadata_name": "Crimera",
-   "metadata_symbol": "CRIME"
+   "metadata_symbol": "CRIME",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -743,7 +781,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "",
    "dao_vault": "",
@@ -752,7 +790,9 @@
    "checks": "OK",
    "metadata_account": "Gy816TvJS7PV9LMDFTHyAV6LZzXwbHoicxrFKgBdTPiy",
    "metadata_name": "Crimera",
-   "metadata_symbol": "CRIME"
+   "metadata_symbol": "CRIME",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -776,7 +816,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "",
    "dao_vault": "",
@@ -785,7 +825,9 @@
    "checks": "OK",
    "metadata_account": "5GAP3gtNu5wSDFMqnEx6bRTn5Wak5u2ZMy4GfnGpsVeF",
    "metadata_name": "Crimera",
-   "metadata_symbol": "CRIME"
+   "metadata_symbol": "CRIME",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -809,7 +851,7 @@
    "monthly_budget_usd": "7.142857",
    "budget_wallets": 2,
    "budget_wallet_list": "613BRiXuAEn7vibs2oAYzpGW9fXgjzDNuFMM4wPzLdY tSTp6B6kE9o6ZaTmHm2ZwnJBBtgd3x112tapxFhmBEQ",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "AE7jPb9jYzbUE5GYJToKvXaRkJL2Q7Mm3Ek6KqyBGuxe",
    "dao_vault": "952BJrg8VeyRgB9zRj3uK831GmTLqkPgw5qnJt48DGyL",
@@ -818,7 +860,9 @@
    "checks": "OK",
    "metadata_account": "2u7uZ35aw526qbJ2m97Xa7STePsar5CNWjPun8m5eReg",
    "metadata_name": "PreProd",
-   "metadata_symbol": "PPRD"
+   "metadata_symbol": "PPRD",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -842,7 +886,7 @@
    "monthly_budget_usd": "0.071428",
    "budget_wallets": 2,
    "budget_wallet_list": "613BRiXuAEn7vibs2oAYzpGW9fXgjzDNuFMM4wPzLdY tSTp6B6kE9o6ZaTmHm2ZwnJBBtgd3x112tapxFhmBEQ",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "CTYxPujxrXiiqwG3gSBVNKuBk8u7mPG9qVMUc4aT1L8u",
    "dao_vault": "DjChEAtiLNnx4L8hBpdt3aDs88ufQ1KBo35K5YP2DM6V",
@@ -851,7 +895,9 @@
    "checks": "OK",
    "metadata_account": "8qYhsPnt9sV9LditK798LsGAHDtKSAAJQZ1dQNn4Bddf",
    "metadata_name": "FTD",
-   "metadata_symbol": "FTD"
+   "metadata_symbol": "FTD",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -875,7 +921,7 @@
    "monthly_budget_usd": "34091",
    "budget_wallets": 2,
    "budget_wallet_list": "613BRiXuAEn7vibs2oAYzpGW9fXgjzDNuFMM4wPzLdY tSTp6B6kE9o6ZaTmHm2ZwnJBBtgd3x112tapxFhmBEQ",
-   "performance_package_tokens": "13500000",
+   "performance_package_raw": "13500000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -884,7 +930,9 @@
    "checks": "OK",
    "metadata_account": "6XC9WoWkLH1Cc49RBUkQVqYMsCVSAhdZ3MKuU3PoXn6z",
    "metadata_name": "TSTUMB",
-   "metadata_symbol": "TSTUMB"
+   "metadata_symbol": "TSTUMB",
+   "token_decimals": 6,
+   "performance_package_tokens": "13500000"
   },
   {
    "version": "v06",
@@ -908,7 +956,7 @@
    "monthly_budget_usd": "34091",
    "budget_wallets": 2,
    "budget_wallet_list": "BLW4ysCGkAz9sVXPUj7qGrJGiiKjEWKiajbr5HUqHPaw 8rZUCSCUpZc1vSizC6wKrbM2d5pGqpykiUdsJQywRhaE",
-   "performance_package_tokens": "13500000",
+   "performance_package_raw": "13500000000000",
    "insider_lock_months": 18,
    "dao": "BLkBSE96kQys7SrMioKxeMiVbeo4Ckk2Y4n1JphKxYnv",
    "dao_vault": "6VsC8PuKkXm5xo54c2vbrAaSfQipkpGHqNuKTxXFySx6",
@@ -917,7 +965,9 @@
    "checks": "OK",
    "metadata_account": "ERS31LnQCveaxdUb5worLSiQyw6cfycUssJEyCiYAFg7",
    "metadata_name": "Umbra",
-   "metadata_symbol": "UMBRA"
+   "metadata_symbol": "UMBRA",
+   "token_decimals": 6,
+   "performance_package_tokens": "13500000"
   },
   {
    "version": "v06",
@@ -941,7 +991,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 2,
    "budget_wallet_list": "5XmgUdxfKBfyH8RjYdxYSegdQHLqWqU2NG1SZznv9D7g G7qs9MUFquwnSFtrDU6261KtovKRg8GS4s6bFbmLiBiQ",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "j6Hx7bdAzcj1NsoRBqdafFuRkgEU48QeZ1i5NVXz9fF",
    "dao_vault": "97U5nZnJewd9pkGr9T14vQFMx4XomtA6gEgRE9qjDKPa",
@@ -950,7 +1000,9 @@
    "checks": "OK",
    "metadata_account": "BeinmE7mBWKejtWMppuvGwtJGJ3KNFpeNe7WPMgmwRbh",
    "metadata_name": "TSTAVI",
-   "metadata_symbol": "TSTAVI"
+   "metadata_symbol": "TSTAVI",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v06",
@@ -974,7 +1026,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "DHjQLd6LCM4yzZ9e8eabyGofDJLjbouqpuX8wh1rQuBs",
    "dao_vault": "DupjZbDFb6SUfm5t976bMSH376jaz6S4jPJLkMZ6MRXD",
@@ -983,7 +1035,9 @@
    "checks": "OK",
    "metadata_account": "FrvPCd7nER1aZ21gSgJsyMFPFfDbQEXr1ezJS4T9EiT6",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -1007,7 +1061,7 @@
    "monthly_budget_usd": "100000",
    "budget_wallets": 2,
    "budget_wallet_list": "5XmgUdxfKBfyH8RjYdxYSegdQHLqWqU2NG1SZznv9D7g G7qs9MUFquwnSFtrDU6261KtovKRg8GS4s6bFbmLiBiQ",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "3D854kknnQhu9xVaRNV154oZ9oN2WF3tXsq3LDu7fFMn",
    "dao_vault": "DGgYoUcu1aDZt4GEL5NQiducwHRGbkMWsUzsXh2j622G",
@@ -1016,7 +1070,9 @@
    "checks": "OK",
    "metadata_account": "CJUEu9txg7f3qVNgqzcPhANJZ8HZnyuDb3ujPJpVNwCC",
    "metadata_name": "Avici",
-   "metadata_symbol": "AVICI"
+   "metadata_symbol": "AVICI",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v06",
@@ -1040,7 +1096,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "",
    "dao_vault": "",
@@ -1049,7 +1105,9 @@
    "checks": "OK",
    "metadata_account": "2HtS8RbZN9Wmj8hu67AWPWK1TkLmJKy2LBRi5Wfq8Y4d",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -1073,7 +1131,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "",
    "dao_vault": "",
@@ -1082,7 +1140,9 @@
    "checks": "OK",
    "metadata_account": "8rnkhe6DmJLmr1G51coLvWRDDXHtDbvP4Vur5pPR2sok",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -1106,7 +1166,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "",
    "dao_vault": "",
@@ -1115,7 +1175,9 @@
    "checks": "OK",
    "metadata_account": "B9uoh35UUrBr16skcbJbHCF8GrgNdpqDuGRYUPxPkV3i",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -1139,7 +1201,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "",
    "dao_vault": "",
@@ -1148,7 +1210,9 @@
    "checks": "OK",
    "metadata_account": "83cfQNDtDkjfmQJWVaR2TUM86Y3VNexX21rm7Yf8jgWo",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -1172,7 +1236,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "",
    "dao_vault": "",
@@ -1181,7 +1245,9 @@
    "checks": "OK",
    "metadata_account": "3PMtCv5rWdCUQpTpQFCwfnbffKVi7HTe7K1kV4fDHkLN",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -1205,7 +1271,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "CLoqV77NtkbrsvtCRDP1vdYxgPZua3nnh7gCNPLzDQQ8",
    "dao_vault": "41vxoAGF7XU3JhxJBNihtiWn4xPX2mXPXZjpHSfbP8Ct",
@@ -1214,7 +1280,9 @@
    "checks": "OK",
    "metadata_account": "9vxg4W19oqTFGUwbKEhurs5HSusVZSVaDqvWGuFFY9u6",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -1238,7 +1306,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "CnUUCGbSrAoaJniPifRU8zHRZ6e5uGRVSpCEj2WMeeSv",
    "dao_vault": "91DnCr9T1v1QvcuYxmXh7uB2e3wcgsFKLyKqiWvoDgHH",
@@ -1247,7 +1315,9 @@
    "checks": "OK",
    "metadata_account": "CPwr4DDEzGNyd4R6EcPphSdtRAYKz5qozKx9f2UAmWZA",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -1271,7 +1341,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 20,
    "dao": "CJCgDqiDtkQvwXT2iiyY7QVajKLH3VRVbcsNQgtttrHn",
    "dao_vault": "8qFXMdjWtqwSmZAp1ZFcR9xyGBRq4fDQ9ekKHt47Uvcd",
@@ -1280,7 +1350,9 @@
    "checks": "OK",
    "metadata_account": "Doyxiopry7163gM2JsgdoejTe51S7GSZzYd6VuHHuDAX",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v06",
@@ -1304,7 +1376,7 @@
    "monthly_budget_usd": "60000",
    "budget_wallets": 2,
    "budget_wallet_list": "11111111111111111111111111111111 Vote111111111111111111111111111111111111111",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -1313,7 +1385,9 @@
    "checks": "OK",
    "metadata_account": "9WusTyRcdNFK3vEN3CcC8moePvP52uWR96ZdsN6L7eJU",
    "metadata_name": "Test Hour",
-   "metadata_symbol": "TSTHRS"
+   "metadata_symbol": "TSTHRS",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v06",
@@ -1337,7 +1411,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 2,
    "budget_wallet_list": "tSTp6B6kE9o6ZaTmHm2ZwnJBBtgd3x112tapxFhmBEQ Vote111111111111111111111111111111111111111",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "651uV1hcd7SprwwkumFfkWtx5WrnD53awpjduGtGsHzS",
    "dao_vault": "Dp4vBGNvFamZyXnPXyzBXzn3ksjjvtqkt8D7aq4itH6C",
@@ -1346,7 +1420,9 @@
    "checks": "OK",
    "metadata_account": "EZGRgk64khCgQkG7YsEe3M1hJ9oqJzRX3AowBXn9jokJ",
    "metadata_name": "Test half hour",
-   "metadata_symbol": "TST30"
+   "metadata_symbol": "TST30",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v06",
@@ -1370,7 +1446,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "tSTp6B6kE9o6ZaTmHm2ZwnJBBtgd3x112tapxFhmBEQ",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -1379,7 +1455,9 @@
    "checks": "OK",
    "metadata_account": "7zmcaUw5TYDRi3HNnzMoLWgbL8TVhW3aBPxXr8XfK39m",
    "metadata_name": "Test30",
-   "metadata_symbol": "TST30M"
+   "metadata_symbol": "TST30M",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v06",
@@ -1403,7 +1481,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "tSTp6B6kE9o6ZaTmHm2ZwnJBBtgd3x112tapxFhmBEQ",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "BQjNtXjZB7b9WrqgJZQWfR52T1MqZoqMELAoombywDi8",
    "dao_vault": "Dema3hip2KHCwcimPhqrU7kBgmFho7nRBXYPTFkV3iRA",
@@ -1412,7 +1490,9 @@
    "checks": "OK",
    "metadata_account": "8CzMBQhyTgiTkeNw4QEEdMSCooVkC8JbukcwWxoAZf5M",
    "metadata_name": "Test30",
-   "metadata_symbol": "TST30M"
+   "metadata_symbol": "TST30M",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v06",
@@ -1436,7 +1516,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "tSTp6B6kE9o6ZaTmHm2ZwnJBBtgd3x112tapxFhmBEQ",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "Eo1BLMVRLJspjP5dDnwzK1m6FxMUcQDG6kDA8CjWPzRW",
    "dao_vault": "HYxxFY3BgPe3CG6gpuisct572stCJ93gxaJ1ZzXxsWSo",
@@ -1445,7 +1525,9 @@
    "checks": "OK",
    "metadata_account": "2rUygDBEVfdZfY2pgnNjc4nvgGP25Cvzif1QPBcYZ6p3",
    "metadata_name": "TestJUP",
-   "metadata_symbol": "TSTJUP"
+   "metadata_symbol": "TSTJUP",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v06",
@@ -1469,7 +1551,7 @@
    "monthly_budget_usd": "60000",
    "budget_wallets": 2,
    "budget_wallet_list": "92yGiPxBVG3E6voo1XyaKXaBR4Uvd7cntMsj3pL1fAYa daAbUotXHpvH8jcZvNM9LexLD1rxx1vGHWFof8rcKmn",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "GxpJkPEsPmuRCCTNnfZaDKg4X3gf4ZPgmqgFqtibaPtK",
    "dao_vault": "AQyyTwCKemeeMu8ZPZFxrXMbVwAYTSbBhi1w4PBrhvYE",
@@ -1478,7 +1560,9 @@
    "checks": "OK",
    "metadata_account": "8BLY22ye4so8hMXdw8uUBzPSvJ3ppQ9DEqNx27RyxUVe",
    "metadata_name": "Loyal",
-   "metadata_symbol": "LOYAL"
+   "metadata_symbol": "LOYAL",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v06",
@@ -1502,7 +1586,7 @@
    "monthly_budget_usd": "50000",
    "budget_wallets": 2,
    "budget_wallet_list": "DjMcCdkhWk93zQ1v2uGd6QwMjTUQtcfd5oFkdPgZPD6y 2bq1JFjhuAjTStD8NwjdQNFTSXGroofQbBejwubNXGhj",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "5FPGRzY9ArJFwY2Hp2y2eqMzVewyWCBox7esmpuZfCvE",
    "dao_vault": "BNvDfXYG2FAyBDYD71Xr9GhKE18MbmhtjsLKsCuXho6z",
@@ -1511,7 +1595,9 @@
    "checks": "OK",
    "metadata_account": "J1qFvzEm8Ai2QMypmwVUYHKgNq7LQ7QrfbzLDEmEgcnZ",
    "metadata_name": "ZKFG",
-   "metadata_symbol": "ZKFG"
+   "metadata_symbol": "ZKFG",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v06",
@@ -1535,7 +1621,7 @@
    "monthly_budget_usd": "33500",
    "budget_wallets": 3,
    "budget_wallet_list": "DqT9J9y9TnVopTDyyKntNnuTGxkMjQ4FHu5Er3NBJE19 5SzDe5dedYkdYT4oDkaZUnG6px7qfdnyHyoSfvLrK8U2 D9BsNuSy8AdVEMJ1UoUyFctMWsdFMuo7B26wquSi5xkU",
-   "performance_package_tokens": "11850000",
+   "performance_package_raw": "11850000000000",
    "insider_lock_months": 18,
    "dao": "6FRXzTe3HajL8Fwmmkupp8g3y3wn3g3QEjj8sABndre3",
    "dao_vault": "BpXtB2ASf2Tft97ewTd8PayXCqFQ6Wqod33qrwwfK9Vz",
@@ -1544,7 +1630,9 @@
    "checks": "OK",
    "metadata_account": "EFvTZAvQbdYGwUZ4qeZ9TkYZ2o5yFzR8u4rSHQPZg6ax",
    "metadata_name": "Paystream",
-   "metadata_symbol": "PAYS"
+   "metadata_symbol": "PAYS",
+   "token_decimals": 6,
+   "performance_package_tokens": "11850000"
   },
   {
    "version": "v06",
@@ -1568,7 +1656,7 @@
    "monthly_budget_usd": "100000",
    "budget_wallets": 3,
    "budget_wallet_list": "5wXBWMea5KWQHUjtcK5Np5zubMqYuicCLnvFZYbYt2ik BCNsaGbVu4KdwWu2uS59628Un8uFWv9KG15JFkqYQtLT CNbdt6wVxpRdDJ5Tu179wVMEyoLeokdMchBgx5Lkat22",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "DzYtzoNvPbyFCzwZA6cSm9eDEEmxEB9f8AGkJXUXgnSA",
    "dao_vault": "98SPcyUZ2rqM2dgjCqqSXS4gJrNTLSNUAAVCF38xYj9u",
@@ -1577,7 +1665,9 @@
    "checks": "OK",
    "metadata_account": "A5EwTJPRvyiDkcZNVyaES1H5wnphFGBkWhYQCYajjWVN",
    "metadata_name": "Solomon",
-   "metadata_symbol": "SOLO"
+   "metadata_symbol": "SOLO",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v06",
@@ -1601,7 +1691,7 @@
    "monthly_budget_usd": "2",
    "budget_wallets": 2,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1 C2qbG1j7WW28NYKum1JGnhL3RziNwaeP8DT7Q1WAVvdP",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "BgNq2V6vea2C7Z3cZhDUJTbmN4Y9bKG6dfEPhH19J7Fb",
    "dao_vault": "4XAuBSuNc46tG2gpDQEVNaqKmeJv23842QMSg7wT7waF",
@@ -1610,7 +1700,9 @@
    "checks": "OK",
    "metadata_account": "4wT7TzMYDYGdGCCEEhfFDsgEjDt1QSai3ySd3siqReZk",
    "metadata_name": "Example Token",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -1634,7 +1726,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 2,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1 C2qbG1j7WW28NYKum1JGnhL3RziNwaeP8DT7Q1WAVvdP",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -1643,7 +1735,9 @@
    "checks": "OK",
    "metadata_account": "DtqjKZa7ckAf2Zf6FaXFa1hbXzjGKhHaKsXmicCQfSmS",
    "metadata_name": "Example Token",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -1667,7 +1761,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 2,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1 C2qbG1j7WW28NYKum1JGnhL3RziNwaeP8DT7Q1WAVvdP",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -1676,7 +1770,9 @@
    "checks": "OK",
    "metadata_account": "WTV2unDHFeJy93zFH73TMGifmJAsANJhZDH5U4EtVxA",
    "metadata_name": "Example Token",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v06",
@@ -1700,7 +1796,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 2,
    "budget_wallet_list": "BF8hxzzR4KuVxfsyAUFyy26E6y2GhsSZgBoUQrygwof1 C2qbG1j7WW28NYKum1JGnhL3RziNwaeP8DT7Q1WAVvdP",
-   "performance_package_tokens": "0.1",
+   "performance_package_raw": "100000",
    "insider_lock_months": 18,
    "dao": "9NEgXTunQVxfz9SgADwaBERc9umRREQuYkvRGQxFNP49",
    "dao_vault": "9shhvukHrhJ9iDbvNRp6QuJwcVqeokA1yV9pmpBjbRKh",
@@ -1709,7 +1805,9 @@
    "checks": "OK",
    "metadata_account": "8Cej5SkRgNHtwGTUKkJHo6xCb4JVPrUBvkDFQP78duVw",
    "metadata_name": "Example Token",
-   "metadata_symbol": "EXMPL"
+   "metadata_symbol": "EXMPL",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.1"
   },
   {
    "version": "v07",
@@ -1733,7 +1831,7 @@
    "monthly_budget_usd": "60000",
    "budget_wallets": 1,
    "budget_wallet_list": "11111111111111111111111111111111",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -1742,7 +1840,9 @@
    "checks": "OK",
    "metadata_account": "C3FQSjT6Zciv9PPKhoHtgurLSMCEPJcjAziJhnhAaFFM",
    "metadata_name": "Test Token",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v07",
@@ -1766,7 +1866,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "11111111111111111111111111111111",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "3CQ6wE1eSqmYT3SpkrNqj9FSzzMDU33GeBiF7imAt33S",
    "dao_vault": "2SqRBXYEkKNPd1YcDscpavDesSh4XaKgFFme1PMYgHns",
@@ -1775,7 +1875,9 @@
    "checks": "OK",
    "metadata_account": "EwqvnUXRuYXTmzAgpP1gpyXyrFqr18fPQyzSTMaREsQc",
    "metadata_name": "Test Token",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v07",
@@ -1799,7 +1901,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "11111111111111111111111111111111",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -1808,7 +1910,9 @@
    "checks": "OK",
    "metadata_account": "CkDL7VikuhptDSGTmGgcsDAgxeWPJk7ngRQHzgYxHftH",
    "metadata_name": "Test Token",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v07",
@@ -1832,7 +1936,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "11111111111111111111111111111111",
-   "performance_package_tokens": "8076923",
+   "performance_package_raw": "8076923000000",
    "insider_lock_months": 18,
    "dao": "CnPz48JYS2x5XLRXdPFLip84GGbrrLeF2D2mPojZb6fz",
    "dao_vault": "8CW3BMkeGn5TgWgnxuUAHzTrNJiTGkn6b3H56oGBMZQC",
@@ -1841,7 +1945,9 @@
    "checks": "OK",
    "metadata_account": "CZZePLxhszDxFhqAQZyYtdMDYbLUvtS5MNsc9xBQcRmy",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "8076923"
   },
   {
    "version": "v07",
@@ -1865,7 +1971,7 @@
    "monthly_budget_usd": "250000",
    "budget_wallets": 2,
    "budget_wallet_list": "BXDKN7Bb9s5TPUJksT1HfGgDpYvEGnPwagostU79hAM5 5aaFjteWwEeDPZ69j8BmqsGS1KviqzG4V8CMedCkbkhe",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -1874,7 +1980,9 @@
    "checks": "OK",
    "metadata_account": "4XmL6cAHwaQ7zYjpxfYWqCHcmgFnK36ig9SwtkQb6z4P",
    "metadata_name": "Ranger",
-   "metadata_symbol": "RNGR"
+   "metadata_symbol": "RNGR",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -1898,7 +2006,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "tSTp6B6kE9o6ZaTmHm2ZwnJBBtgd3x112tapxFhmBEQ",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "7WnY1TZLfpxxTEbi1LN5JwKohuu49mE2sJpgZTSdmneH",
    "dao_vault": "CPA6qivxRHJDzsmXCb5aMfF9qKbUDRn3kTb4KUAoDgno",
@@ -1907,7 +2015,9 @@
    "checks": "OK",
    "metadata_account": "9JXefSfZZuaJXLBdJjvaEuMhemgJ9Vp3ZQupMNavXPjk",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -1931,7 +2041,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "ELT1uRmtFvYP6WSrc4mCZaW7VVbcdkcKAj39aHSVCmwH",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "GZiuCnc4fXG9hB4oYCtTe5VjPXc46vNaZHTdw9cLrqzo",
    "dao_vault": "D1o8nr7YyvVibzp2Vn6sE2gV6dYRFqshLiW99rZh8AZQ",
@@ -1940,7 +2050,9 @@
    "checks": "OK",
    "metadata_account": "AfNTrtu5xH5oZpTVc2yHAqDK7NDRVg8H3mJFsiYk764b",
    "metadata_name": "Test",
-   "metadata_symbol": "TST"
+   "metadata_symbol": "TST",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -1964,7 +2076,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "ELT1uRmtFvYP6WSrc4mCZaW7VVbcdkcKAj39aHSVCmwH",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -1973,7 +2085,9 @@
    "checks": "OK",
    "metadata_account": "2jfcBHudY5EwUKoTqKefuxLefukMui9iHFGWxwkSLhuv",
    "metadata_name": "Test",
-   "metadata_symbol": "TST"
+   "metadata_symbol": "TST",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -1997,7 +2111,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "ELT1uRmtFvYP6WSrc4mCZaW7VVbcdkcKAj39aHSVCmwH",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "BK1eLdYQuvMNf1F66yDhWXeacysSRMwJVZvi1NTk2TYA",
    "dao_vault": "8RTyg1fowiqQD39Kw2p8R7uSWtcUMRXpu6PzEHcAhM9b",
@@ -2006,7 +2120,9 @@
    "checks": "OK",
    "metadata_account": "8Ky8erVv49qvMU4FmHZwRNiZJgsyuKQWRh4WhuCdEFtx",
    "metadata_name": "Test",
-   "metadata_symbol": "TST"
+   "metadata_symbol": "TST",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -2030,7 +2146,7 @@
    "monthly_budget_usd": "250000",
    "budget_wallets": 2,
    "budget_wallet_list": "BXDKN7Bb9s5TPUJksT1HfGgDpYvEGnPwagostU79hAM5 5aaFjteWwEeDPZ69j8BmqsGS1KviqzG4V8CMedCkbkhe",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "1PAwyDkWNFCcR96GhEReXHJBv3YEFVazCaQgNicVuKv",
    "dao_vault": "55H1Q1YrHJQ93uhG4jqrBBHx3a8H7TCM8kvf2UM2g5q3",
@@ -2039,7 +2155,9 @@
    "checks": "OK",
    "metadata_account": "5XPeWZTY7pkjLjmuRP3XehDuJTaWM6y9KA1mH12cxvN8",
    "metadata_name": "Ranger",
-   "metadata_symbol": "RNGR"
+   "metadata_symbol": "RNGR",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -2063,7 +2181,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "77ApiTr24fkYHKdjQsGLoxE6xupAJjGDKgGx1xYsADBL",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "AmtT5VcGW36QvU8w68TauvRNz6NuW8mHfz9LUPjEjxFq",
    "dao_vault": "6h9rdq4knvNGgdoNeskgsxPJ9ENAP8u4JHSqvnDFNQ4o",
@@ -2072,7 +2190,9 @@
    "checks": "OK",
    "metadata_account": "7qhdDz2diC6osd3Jz8CauV9xFXNYW7LnddQdkt4EB64T",
    "metadata_name": "MyToken",
-   "metadata_symbol": "MTKN"
+   "metadata_symbol": "MTKN",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2096,7 +2216,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "HcUZxTvL8FQu42NU3Mk1sS7Tz3dp8DKGsXyvTR6ihX1Z",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "BoH5panDWJYNnPfW3RMymKWV5LL944mHar15XnPmmyrS",
    "dao_vault": "2RF9kygCEifFxwfyKW1qi472qTZPabSfZbD6oF5iLkRe",
@@ -2105,7 +2225,9 @@
    "checks": "OK",
    "metadata_account": "EeR8sdwhXpeYhN44cqxcttRafdTZueXrsr4sTEcVyhvq",
    "metadata_name": "MyToken",
-   "metadata_symbol": "MTKN"
+   "metadata_symbol": "MTKN",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2129,7 +2251,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "J9LT5TJ32BfLKWGBn3zSpfuFgmeWz7Cgvo8GYUWj7wos",
    "dao_vault": "4Weis5on9BYSiHbJkKN1GnsfYinmnAKqUZBwDcJtABN1",
@@ -2138,7 +2260,9 @@
    "checks": "OK",
    "metadata_account": "2w9ZsGovdfcMoshvoctKdeKWZ3j9TmdNeBg4iZLH5xem",
    "metadata_name": "MyToken",
-   "metadata_symbol": "MTKN"
+   "metadata_symbol": "MTKN",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2162,7 +2286,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "AXkQJCX18pQQXaC5g25s5wZvU1socDYg3cfGAuBfZkqb",
    "dao_vault": "ED9U7dvjnGv6McQyFXGUKBQ2BacPWZkV6tBbfEbL7skS",
@@ -2171,7 +2295,9 @@
    "checks": "OK",
    "metadata_account": "H6MrGdEUne2xAmu1Myu8qaDzhGgSoJeoypURFaSurDPj",
    "metadata_name": "MyToken",
-   "metadata_symbol": "MTKN"
+   "metadata_symbol": "MTKN",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2195,7 +2321,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "9ikE7Yrwy5Q6hfr7LdiPyNnenmcN9BzgrdjZyjLoiTQV",
    "dao_vault": "5xfEgp7zmDBL8nsQYniM7yeansw6kTmncmU3PVdBGXWb",
@@ -2204,7 +2330,9 @@
    "checks": "OK",
    "metadata_account": "28SgeSuUzoLfNZMwiruBPzLroqjvhcK2BMuL2oLhy12P",
    "metadata_name": "MyToken",
-   "metadata_symbol": "MTKN"
+   "metadata_symbol": "MTKN",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2228,7 +2356,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "DphmxxkVRiNRnezDjVQUHokzgiZUgHNViCxuYxZBqspa",
    "dao_vault": "DvGFXu2kpbbg1k17S6UHsw2M97iAiUVq9nXcZVgQxQCi",
@@ -2237,7 +2365,9 @@
    "checks": "OK",
    "metadata_account": "81DhJ38BjfodqKHpgbTszcEgsPScDvgm3BaN6Eovasf1",
    "metadata_name": "MyToken",
-   "metadata_symbol": "MTKN"
+   "metadata_symbol": "MTKN",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2261,7 +2391,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "UHThZd3AeVpS2mKREGyVWmCLRyk6qmgWwJFAwjenwYW",
    "dao_vault": "HbgrYRi6rF4pq6Zbj7dDVHnRWutYbMNs58fWeVhTJFFs",
@@ -2270,7 +2400,9 @@
    "checks": "OK",
    "metadata_account": "9EfHiQdbZktZ2fw69mSYvKuJvBv6LRxxV6pdYjc5bNQZ",
    "metadata_name": "NewTOKEN",
-   "metadata_symbol": "NTKN"
+   "metadata_symbol": "NTKN",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2294,7 +2426,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "A9HAiPRsBdXXM66o99PTuHHmgSqgzfvwgKqRdEBt8W4G",
    "dao_vault": "4NcpUhBo2Zz6Wdc9Nq972ug5X2v93VUHumjwHBVREcYf",
@@ -2303,7 +2435,9 @@
    "checks": "OK",
    "metadata_account": "CNGa4ihetBZrQfXPhvwutUJVySuu61f2xqcnzhtBTAc7",
    "metadata_name": "HappyBD",
-   "metadata_symbol": "HBD"
+   "metadata_symbol": "HBD",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2327,7 +2461,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "HPL5gw1Yoc9d2QGJydrij9Gh7dibnPRHvZJ1R4t82iCY",
    "dao_vault": "7daVyZgUtBBMzWxrxzWNcuByxPDuo98ZvH9RQfNqWp9P",
@@ -2336,7 +2470,9 @@
    "checks": "OK",
    "metadata_account": "5ToJ3qK5ENZJMsE5episnTtymBD9o2NAa3uo5MT1Wip9",
    "metadata_name": "HpBD",
-   "metadata_symbol": "HPBD"
+   "metadata_symbol": "HPBD",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2360,7 +2496,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "39nV4Yz76XQrduyyhFoFnLbtqzsQNVSQMnZMbjKZW19A",
    "dao_vault": "3pDVWvFFVUHeWL7wRPvEEb1UEnY3kzTw6Z7wybH9qBgD",
@@ -2369,7 +2505,9 @@
    "checks": "OK",
    "metadata_account": "6dFLVv1buo3iXAWYiJaALRpeCXkitXcpTsPCbFdtW75Y",
    "metadata_name": "db73",
-   "metadata_symbol": "DB73"
+   "metadata_symbol": "DB73",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2393,7 +2531,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "BfHi359P8tYytEXTGfRDdrF66WbsknAq7NaiqhwFKb3V",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "GdhFuiDBmwaEAYcEhKVZyZP7ELKsSYzmtsTpsDUBmzyw",
    "dao_vault": "Smp8r5BN1SVDcjP6yggnKEL2KYUeZ8L3VK4gkg7YGHZ",
@@ -2402,7 +2540,9 @@
    "checks": "OK",
    "metadata_account": "5CVQe5y7RiCkdViS9KrXw5jdbj2SehQe27Z1Ewz9HjN3",
    "metadata_name": "MyToken",
-   "metadata_symbol": "MTKN"
+   "metadata_symbol": "MTKN",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -2426,7 +2566,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "11111111111111111111111111111111",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2435,7 +2575,9 @@
    "checks": "OK",
    "metadata_account": "2ErhRzcE4aEpqpj9CHyEtSzKWrhwyAQ3YPKujTeaon87",
    "metadata_name": "Test Token",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -2459,7 +2601,7 @@
    "monthly_budget_usd": "250000",
    "budget_wallets": 3,
    "budget_wallet_list": "7BPZaiS2LMhQHF7Yt8Pj16YmnCpsdiwRPSatkYjtbJVp Fa6CuD8JCy9wSkoqAVmY7LVNPvVo9fPGVoYtBSF5qQhg CANWSTstBGBnQEhYQ7d1Tzg1wFWJoZnLBosVnF4GtMob",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 36,
    "dao": "",
    "dao_vault": "",
@@ -2468,7 +2610,9 @@
    "checks": "OK",
    "metadata_account": "HCuYd9HZz9TkeR1XewjaUShT9tkxJXuwjQiVqXKJwqDA",
    "metadata_name": "Hurupay",
-   "metadata_symbol": "HURU"
+   "metadata_symbol": "HURU",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -2492,7 +2636,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2501,7 +2645,9 @@
    "checks": "OK",
    "metadata_account": "FH9NxCeQh3ZRCpuhgifNTLJit9SpBXJhRtdjXoqZwh5h",
    "metadata_name": "Epic Finance",
-   "metadata_symbol": "EPIC"
+   "metadata_symbol": "EPIC",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -2525,7 +2671,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "DEVNdjuDZHw7r9uAKzDqmEG56qZBpHVMAoEohKHuN16d",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "82XqLX4wEuiCcCWMx6mzhrkLuCEPVqaHKdUGqBWaWS7z",
    "dao_vault": "8C5GVSNPt7YjbFDo5EmpQRAQB33AkeQfTpbBMq8aQE1L",
@@ -2534,7 +2680,9 @@
    "checks": "OK",
    "metadata_account": "Fbt7Kq1zJ6CdyLi2Bv33Y1fFSC9WQ4a7CcPbTqyi1Prk",
    "metadata_name": "Reid Is cool",
-   "metadata_symbol": "R2D2"
+   "metadata_symbol": "R2D2",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -2558,7 +2706,7 @@
    "monthly_budget_usd": "6000",
    "budget_wallets": 1,
    "budget_wallet_list": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
-   "performance_package_tokens": "10000",
+   "performance_package_raw": "10000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -2567,7 +2715,9 @@
    "checks": "OK",
    "metadata_account": "F5gWf87S56feDR1QebJ7NDCRJqLgyNCMXZ37LNcXJ2vC",
    "metadata_name": "ForeverNow",
-   "metadata_symbol": "FRVN"
+   "metadata_symbol": "FRVN",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000"
   },
   {
    "version": "v07",
@@ -2591,7 +2741,7 @@
    "monthly_budget_usd": "25000",
    "budget_wallets": 1,
    "budget_wallet_list": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2600,7 +2750,9 @@
    "checks": "OK",
    "metadata_account": "G9WcGpSSwN4BjomnjTdxJAzzSoDodgbnWVCPc58H9b7w",
    "metadata_name": "MAxxing",
-   "metadata_symbol": "MAXX"
+   "metadata_symbol": "MAXX",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -2624,7 +2776,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "FU7mKs4cyAV9pCha1map4K5xTtkWN7uAjeM2dsGVBnGy",
    "dao_vault": "5D3gv2A57WDdam1uxLgQBYR6Bfg51TD9cyC5ie6Nab3N",
@@ -2633,7 +2785,9 @@
    "checks": "OK",
    "metadata_account": "7cawQ25a7AV6S3GBKm3FHd6pVbdZ9Yd7YacA6b1dHfzu",
    "metadata_name": "Rabid Racers",
-   "metadata_symbol": "RABD"
+   "metadata_symbol": "RABD",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -2657,7 +2811,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2666,7 +2820,9 @@
    "checks": "OK",
    "metadata_account": "Ekn7CGnBxDHKGo4xRBPCKy9GX4L8xtaciFEuUBu6ZFF2",
    "metadata_name": "Fancy Cats",
-   "metadata_symbol": "FANC"
+   "metadata_symbol": "FANC",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -2690,7 +2846,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 1,
    "budget_wallet_list": "oRcZuYcaAafNdoJMkDyLd85veoAuRbZ1HCZkbHQ661Z",
-   "performance_package_tokens": "6900420",
+   "performance_package_raw": "6900420000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2699,7 +2855,9 @@
    "checks": "OK",
    "metadata_account": "AehuFhcR9Ea2ib4PMgBbQXVtHKWrqMSKhgcujU3PC98t",
    "metadata_name": "Turtle Cove",
-   "metadata_symbol": "SHELL"
+   "metadata_symbol": "SHELL",
+   "token_decimals": 6,
+   "performance_package_tokens": "6900420"
   },
   {
    "version": "v07",
@@ -2723,7 +2881,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "8uKoo9UATno8xsrjfQqi5aBYE12AS5QoWNyD2x85GauA",
    "dao_vault": "G2K3KmHPgwK9S3YQqH3ToF98Z7CVpyN9E99VCGWmJFpL",
@@ -2732,7 +2890,9 @@
    "checks": "OK",
    "metadata_account": "E7NDnuoBiY9ZRJRKePFQxtST7F6fuSrK8qNhz29D2XuR",
    "metadata_name": "Rock Game",
-   "metadata_symbol": "ROCK"
+   "metadata_symbol": "ROCK",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -2756,7 +2916,7 @@
    "monthly_budget_usd": "50000",
    "budget_wallets": 1,
    "budget_wallet_list": "1PkPBZzGnSs83KromAqjNnGXKk6Y56wWGXhxJk3KArW",
-   "performance_package_tokens": "10000000",
+   "performance_package_raw": "10000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2765,7 +2925,9 @@
    "checks": "OK",
    "metadata_account": "9Ujx8GmJXa1onDKV5seDyw2Ms4TDVJnG87A3CHdgWiMp",
    "metadata_name": "donuts",
-   "metadata_symbol": "DNTS"
+   "metadata_symbol": "DNTS",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000000"
   },
   {
    "version": "v07",
@@ -2789,7 +2951,7 @@
    "monthly_budget_usd": "25000",
    "budget_wallets": 2,
    "budget_wallet_list": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq EP3SoC2SvR3d4c2eXVBvhEMWSr2j3YtoCY3UMiQV7BPD",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -2798,7 +2960,9 @@
    "checks": "OK",
    "metadata_account": "Eg5KRK62vV1LHQ2PMJW7v6fitXZDMSASDV3oE9LSrXpH",
    "metadata_name": "FitByte",
-   "metadata_symbol": "BYTE"
+   "metadata_symbol": "BYTE",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -2822,7 +2986,7 @@
    "monthly_budget_usd": "1000",
    "budget_wallets": 1,
    "budget_wallet_list": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2831,7 +2995,9 @@
    "checks": "OK",
    "metadata_account": "DbWLPBaEW6WPX74YR2J2EprxN6BDaMVuqSdZ6dbFgGhX",
    "metadata_name": "Delay Test",
-   "metadata_symbol": "DLLY"
+   "metadata_symbol": "DLLY",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -2855,7 +3021,7 @@
    "monthly_budget_usd": "25000",
    "budget_wallets": 3,
    "budget_wallet_list": "D5sAsuAjGdfAKoqR6zwrvnKDM36E1WD9Y9Nbv9prKVaD Gk7Wi76GhdfegXgqYDhmDFphY8QhPrCg5J1i1CDfy63g 5g6bij6abV9xups1H1rw6iGNLZum4Fj4LahtjLKvmpoa",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2864,7 +3030,9 @@
    "checks": "OK",
    "metadata_account": "J6YqMrCrpaeRtsBJR5nemQhAT2JhHAaB6DsfXRRYd65Y",
    "metadata_name": "Salmon Wallet",
-   "metadata_symbol": "SAL"
+   "metadata_symbol": "SAL",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -2888,7 +3056,7 @@
    "monthly_budget_usd": "100",
    "budget_wallets": 1,
    "budget_wallet_list": "8Cwx4yR2sFAC5Pdx2NgGHxCk1gJrtSTxJoyqVonqndhq",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2897,7 +3065,9 @@
    "checks": "OK",
    "metadata_account": "6U5bgm9AjMJW91Qpsy33YFCJa83bHf5zUnoCVhYkEcY2",
    "metadata_name": "Reddit",
-   "metadata_symbol": "RDDT"
+   "metadata_symbol": "RDDT",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -2921,7 +3091,7 @@
    "monthly_budget_usd": "1000",
    "budget_wallets": 1,
    "budget_wallet_list": "3u72GmiCh5ZouGVY16Xm7SakFXgMMkZGk1gir3coSWP8",
-   "performance_package_tokens": "1200000",
+   "performance_package_raw": "1200000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2930,7 +3100,9 @@
    "checks": "OK",
    "metadata_account": "5H3ApBzQikHy8C4jgtXCfU6TVGujr51366kfNmUpu8vP",
    "metadata_name": "Real Real",
-   "metadata_symbol": "REAL"
+   "metadata_symbol": "REAL",
+   "token_decimals": 6,
+   "performance_package_tokens": "1200000"
   },
   {
    "version": "v07",
@@ -2954,7 +3126,7 @@
    "monthly_budget_usd": "25000",
    "budget_wallets": 3,
    "budget_wallet_list": "D5sAsuAjGdfAKoqR6zwrvnKDM36E1WD9Y9Nbv9prKVaD Gk7Wi76GhdfegXgqYDhmDFphY8QhPrCg5J1i1CDfy63g 5g6bij6abV9xups1H1rw6iGNLZum4Fj4LahtjLKvmpoa",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2963,7 +3135,9 @@
    "checks": "OK",
    "metadata_account": "4oqGA6LCLDU9fC8w5Es5wTviZwmdcvtPV99BzLSk4s2P",
    "metadata_name": "Salmon Wallet",
-   "metadata_symbol": "SALMON"
+   "metadata_symbol": "SALMON",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -2987,7 +3161,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 2,
    "budget_wallet_list": "mycoZboxWPqHxHodskeurXQWRLiKLkERQgA9HhoFufX adMiNksKBgAqkQ5A14rEPHB2dwYRXbozTrBDwahwayJ",
-   "performance_package_tokens": "3000000",
+   "performance_package_raw": "3000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -2996,7 +3170,9 @@
    "checks": "OK",
    "metadata_account": "FJFDE9P42UyRUiYpBmYWEQEKoHZA41fE6pJQ9Tb44tDd",
    "metadata_name": "Mycorealms",
-   "metadata_symbol": "MYCO"
+   "metadata_symbol": "MYCO",
+   "token_decimals": 6,
+   "performance_package_tokens": "3000000"
   },
   {
    "version": "v07",
@@ -3020,7 +3196,7 @@
    "monthly_budget_usd": "2500",
    "budget_wallets": 2,
    "budget_wallet_list": "FRhn3rKF4GgsXdLHLV66wxeEV6bvkQguTb6Utzrpt1NJ 65U66fcYuNfqN12vzateJhZ4bgDuxFWN9gMwraeQKByg",
-   "performance_package_tokens": "5000000",
+   "performance_package_raw": "5000000000000",
    "insider_lock_months": 18,
    "dao": "CkEUCAooQi64UFhPFS5MWpZw6LQqjsDQBj3Z5uiXS1eN",
    "dao_vault": "FeMyhpB3LJuuuA1oLzXFDuZ48EJz46gyyk3w2xuQA8uw",
@@ -3029,7 +3205,9 @@
    "checks": "OK",
    "metadata_account": "3WQWXU8wbhdYQtrAXPZdkyWsHuBc9pXsvMZinTkL3dgM",
    "metadata_name": "Futardio cult",
-   "metadata_symbol": "FUTARDIO"
+   "metadata_symbol": "FUTARDIO",
+   "token_decimals": 6,
+   "performance_package_tokens": "5000000"
   },
   {
    "version": "v07",
@@ -3053,7 +3231,7 @@
    "monthly_budget_usd": "20000",
    "budget_wallets": 1,
    "budget_wallet_list": "4i3DMxrmNjuTauM4swjhryJRy28wJ4L9Wb9PfKmf92v4",
-   "performance_package_tokens": "10000000",
+   "performance_package_raw": "10000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3062,7 +3240,9 @@
    "checks": "OK",
    "metadata_account": "H5jWtKYdnPNmhScta6XXqT2RNjBrqZ7Ftpg36BR48fnA",
    "metadata_name": "MILO",
-   "metadata_symbol": "MILO"
+   "metadata_symbol": "MILO",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000000"
   },
   {
    "version": "v07",
@@ -3086,7 +3266,7 @@
    "monthly_budget_usd": "25000",
    "budget_wallets": 2,
    "budget_wallet_list": "54b6csxzpruK8JVsyb5yz4n1JuUtb8zL9f1JakQMw8fd EWgaWtVbNPXfRy4Cu5UK1c9uKsFHdPPRzY2zvY9np1QU",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3095,7 +3275,9 @@
    "checks": "OK",
    "metadata_account": "E4MNrbFGoU6FRkQeRWsoZTv51kBhUdCnyYfQieyqsXQo",
    "metadata_name": "Open Music",
-   "metadata_symbol": "OM"
+   "metadata_symbol": "OM",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -3119,7 +3301,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 3,
    "budget_wallet_list": "AQubJoVJrqzKHpQf9fBehumHajkqtBJnRTyxuwoProCX EtEpGgT19yADT6LfAxDJvRWsL6bMcTSNXc5tFVwWZ16h 6NsQ1wvmbKbwh6U4kWWsmhxrr2kAiouf936atmWp4NUD",
-   "performance_package_tokens": "10000000",
+   "performance_package_raw": "10000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3128,7 +3310,9 @@
    "checks": "OK",
    "metadata_account": "8X8JNm91ydBH3gKCmdgEMBoSpwjhuiY73NYfnyszEAo7",
    "metadata_name": "Manna Finance",
-   "metadata_symbol": "MANNA"
+   "metadata_symbol": "MANNA",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000000"
   },
   {
    "version": "v07",
@@ -3152,7 +3336,7 @@
    "monthly_budget_usd": "40000",
    "budget_wallets": 1,
    "budget_wallet_list": "2poPMupBhcfRW1SURgizDc1VduEmtXKhSN51CdZ1kNvA",
-   "performance_package_tokens": "500000",
+   "performance_package_raw": "500000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3161,7 +3345,9 @@
    "checks": "OK",
    "metadata_account": "BGhf7f3NEwEXA6VBjADVtdAsfvkdc3GoyeNBZVR4jiNS",
    "metadata_name": "VERSUS",
-   "metadata_symbol": "VS"
+   "metadata_symbol": "VS",
+   "token_decimals": 6,
+   "performance_package_tokens": "500000"
   },
   {
    "version": "v07",
@@ -3185,7 +3371,7 @@
    "monthly_budget_usd": "11500",
    "budget_wallets": 3,
    "budget_wallet_list": "2aacscEiyr9famSXtAyN1LiP5PwZ2Da1xdzbY1UtGtKP DZSQ2gBecP1qoC1xH24i6M1sJZDkTcyPRUHMJR29kgVv ETQDHoVPZNEYFJX2MaXKvbTAtJ71QgniCXxM3j3Gnp7W",
-   "performance_package_tokens": "3000000",
+   "performance_package_raw": "3000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3194,7 +3380,9 @@
    "checks": "OK",
    "metadata_account": "CuuU2jDGxBUnyBzntqPshdgjn26QCi4bJZGKs3fYPERm",
    "metadata_name": "Cloak",
-   "metadata_symbol": "CLOAK"
+   "metadata_symbol": "CLOAK",
+   "token_decimals": 6,
+   "performance_package_tokens": "3000000"
   },
   {
    "version": "v07",
@@ -3218,7 +3406,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 2,
    "budget_wallet_list": "2p3gfAALz2KmJphtsVac3BPZaCYXdEgXy2Nqv6zFm6rQ FdqnigoaDtUkjiWCkYgHBP5GdRHKyW8mCntMEHvn1gci",
-   "performance_package_tokens": "3000000",
+   "performance_package_raw": "3000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3227,7 +3415,9 @@
    "checks": "OK",
    "metadata_account": "EM6FnpfJVMqnasr3zhSjzoH8v9rYeMwraQywYMw6CHoF",
    "metadata_name": "DigiFrens",
-   "metadata_symbol": "FREN"
+   "metadata_symbol": "FREN",
+   "token_decimals": 6,
+   "performance_package_tokens": "3000000"
   },
   {
    "version": "v07",
@@ -3251,7 +3441,7 @@
    "monthly_budget_usd": "30000",
    "budget_wallets": 2,
    "budget_wallet_list": "EucbFuqWxRuF4nVv2qdgxe6hypAWC18U3qSfE5HbPXyz 8T84je7yowVDmAkXk16QVmGLt7fS3RvvBf138SKBhRq7",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3260,7 +3450,9 @@
    "checks": "OK",
    "metadata_account": "G4tMbHS7971VkWKBLn1agVZjD7rQFRVDokZwMLQapnKb",
    "metadata_name": "Vervepay",
-   "metadata_symbol": "VPAY"
+   "metadata_symbol": "VPAY",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -3284,7 +3476,7 @@
    "monthly_budget_usd": "3000",
    "budget_wallets": 1,
    "budget_wallet_list": "DJD4XGq2k8J8zc4XqBbfkyoiK5y27yDGxuFpuueA4Jii",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3293,7 +3485,9 @@
    "checks": "OK",
    "metadata_account": "RjxJSH5j6gQ2uHwRVZR8ppSozdwhkE6g6YpHzesnyPB",
    "metadata_name": "Futarchy Arena",
-   "metadata_symbol": "FUTAR"
+   "metadata_symbol": "FUTAR",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -3317,7 +3511,7 @@
    "monthly_budget_usd": "32000",
    "budget_wallets": 3,
    "budget_wallet_list": "CPKvQjVzRvbBJKq7G1Fpp4TXn3e2Tx4gCG8YT8ER3chB 6rpFw5RkeVHDMiRfhEFZSSiEuHpdmSroQjaJBzbq3e59 HgzXcmFqeXiMj6ayZavy9Hdx1gch8YXjcaarqcDBAaH8",
-   "performance_package_tokens": "4000000",
+   "performance_package_raw": "4000000000000",
    "insider_lock_months": 22,
    "dao": "",
    "dao_vault": "",
@@ -3326,7 +3520,9 @@
    "checks": "OK",
    "metadata_account": "9oDqxWuVcrZi1SfYFp3bAxBtRbss3aLWncknZnkCRY47",
    "metadata_name": "XorraBet",
-   "metadata_symbol": "XORRA"
+   "metadata_symbol": "XORRA",
+   "token_decimals": 6,
+   "performance_package_tokens": "4000000"
   },
   {
    "version": "v07",
@@ -3350,7 +3546,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 2,
    "budget_wallet_list": "cwqMLZdSvAqk7YNARsbeHkzcZBYsXQpKs5YjXoMbW8v DdHWQa8tDkrnKFy9hYA9sTbar4CczmjMZFGXZF6Qf23y",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3359,7 +3555,9 @@
    "checks": "OK",
    "metadata_account": "8bWXH5rqf8w23e9oHbNttvPhpDYarL1RbcumxoTYzgvg",
    "metadata_name": "SizeMatters",
-   "metadata_symbol": "SZM"
+   "metadata_symbol": "SZM",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -3383,7 +3581,7 @@
    "monthly_budget_usd": "3000",
    "budget_wallets": 2,
    "budget_wallet_list": "CbYoxk85sBC8B3rfyBMzggVht7HFkGci5wGMGQz5ZVKs FRhn3rKF4GgsXdLHLV66wxeEV6bvkQguTb6Utzrpt1NJ",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3392,7 +3590,9 @@
    "checks": "OK",
    "metadata_account": "HatgXdEdFzVctqb96tyMzZMgyfg571W6eKJNq78cY9nS",
    "metadata_name": "lososdao",
-   "metadata_symbol": "LOSOS"
+   "metadata_symbol": "LOSOS",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v07",
@@ -3416,7 +3616,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 3,
    "budget_wallet_list": "PwHHUbtxiqN88DQd8g6ZNUVFiEqnCDHZWTyQet4zT7W BFLU4jh7enEWWPiuBfPafhVn2PuKLgXeNbnwXhScUiYW DafA3DAUaYkwBt6hAjhurUUq77cgPYRuNYbagGbuMWma",
-   "performance_package_tokens": "2000000",
+   "performance_package_raw": "2000000000000",
    "insider_lock_months": 18,
    "dao": "6WSUiKmBSM2B7QSxFAxgD9wquekzpkoRvKteFLvWWryU",
    "dao_vault": "5ZPnwQDU7dEKdMGqaY5oCQkiuQpwjtYSJNMNpiStTNvU",
@@ -3425,7 +3625,9 @@
    "checks": "OK",
    "metadata_account": "29TDjRVxE5ZJ8ceeFV6PRLoSA6JJg38VPLWwKVWUs8dD",
    "metadata_name": "Superclaw",
-   "metadata_symbol": "SUPER"
+   "metadata_symbol": "SUPER",
+   "token_decimals": 6,
+   "performance_package_tokens": "2000000"
   },
   {
    "version": "v07",
@@ -3449,7 +3651,7 @@
    "monthly_budget_usd": "10",
    "budget_wallets": 1,
    "budget_wallet_list": "YPScurKvWK2dY4ak6iCCPKWUVhY6a7EmeZhM8Purz8M",
-   "performance_package_tokens": "1290000",
+   "performance_package_raw": "1290000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3458,7 +3660,9 @@
    "checks": "OK",
    "metadata_account": "27jm1Ux5mra7jpnZmQbyR5TB4SXBEiuL8iG4ugV2Djjw",
    "metadata_name": "TEST",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "1290000"
   },
   {
    "version": "v07",
@@ -3482,7 +3686,7 @@
    "monthly_budget_usd": "8333",
    "budget_wallets": 1,
    "budget_wallet_list": "CctmTCUeebHk7aP4p7EgjXxRhkPUmLx3mMqTPpDqLKVK",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3491,7 +3695,9 @@
    "checks": "OK",
    "metadata_account": "47AUrMQuCqer96qXSuQfh6EwQntyPmJ7a8KYux8ok61D",
    "metadata_name": "FUTARA",
-   "metadata_symbol": "FUTARA"
+   "metadata_symbol": "FUTARA",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -3515,7 +3721,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 1,
    "budget_wallet_list": "AJun4dWk6a6gno8z3R1jZDwSLyqKppqi7URK2UEm6LJZ",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3524,7 +3730,9 @@
    "checks": "OK",
    "metadata_account": "GUXDsMAoNzp3y48NhgipEVBHr6G95rSfZxyaH4Dp4umX",
    "metadata_name": "MONEY FOR STEAK",
-   "metadata_symbol": "STEAK"
+   "metadata_symbol": "STEAK",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -3548,7 +3756,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 2,
    "budget_wallet_list": "7RMCXQpedL3nNj2tb59SnqTid7d83rtUgxS5iVkFD5mx HGWmNTP77EpKm5ZAAteyak2ZaQptt5VR8CF1zwJiAJXy",
-   "performance_package_tokens": "9000000",
+   "performance_package_raw": "9000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3557,7 +3765,9 @@
    "checks": "OK",
    "metadata_account": "BKQgM6pj9BEMayavfnnYkeM67BxbVb9CWH8LwiTwFwtJ",
    "metadata_name": "SeekerVault",
-   "metadata_symbol": "SKV"
+   "metadata_symbol": "SKV",
+   "token_decimals": 6,
+   "performance_package_tokens": "9000000"
   },
   {
    "version": "v07",
@@ -3581,7 +3791,7 @@
    "monthly_budget_usd": "10",
    "budget_wallets": 1,
    "budget_wallet_list": "6U3o4mwJrYvTeuL41Z6p8aoRf2uA1398nm6hS8tq9CJx",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3590,7 +3800,9 @@
    "checks": "OK",
    "metadata_account": "2fBvxo8ufUPkA3Mmaior4vLnjic6cyau7oTd59128hWU",
    "metadata_name": "sick token",
-   "metadata_symbol": "SICK"
+   "metadata_symbol": "SICK",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -3614,7 +3826,7 @@
    "monthly_budget_usd": "8000",
    "budget_wallets": 1,
    "budget_wallet_list": "EucbFuqWxRuF4nVv2qdgxe6hypAWC18U3qSfE5HbPXyz",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3623,7 +3835,9 @@
    "checks": "OK",
    "metadata_account": "BR5cQnKB67WtEU1F2RKCVy1KxHc6TeBFkqFWktjL5QsD",
    "metadata_name": "Proph3T",
-   "metadata_symbol": "P3T"
+   "metadata_symbol": "P3T",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -3647,7 +3861,7 @@
    "monthly_budget_usd": "30000",
    "budget_wallets": 1,
    "budget_wallet_list": "HG5UKfcwic2TbwqEaemoQrY6fbWMRvjqVRimXPxnSciY",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3656,7 +3870,9 @@
    "checks": "OK",
    "metadata_account": "CsBQ7wV2NKpmZti74z2ApwrCiebsx1WRUtN7jsNdEGKv",
    "metadata_name": "Pli",
-   "metadata_symbol": "PLI"
+   "metadata_symbol": "PLI",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v07",
@@ -3680,7 +3896,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 3,
    "budget_wallet_list": "22L5vjSsM1htj3pzcWTfgeLmFDwzN7bWBHxgBEDdozfH DFdL71sjNoGTudewftrMiLdguUBApggtnr88h4wATQxr 2jZ5twM5ePnqkQc8pMmYDqQtaQrkVRvWPwBPv9jc81PB",
-   "performance_package_tokens": "10000000",
+   "performance_package_raw": "10000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3689,7 +3905,9 @@
    "checks": "OK",
    "metadata_account": "GCNt14Uxkd9zS1TX1aTGFRHSS3D5TFuUKN3ES3T8NUx2",
    "metadata_name": "i.rich",
-   "metadata_symbol": "IRICH"
+   "metadata_symbol": "IRICH",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000000"
   },
   {
    "version": "v07",
@@ -3713,7 +3931,7 @@
    "monthly_budget_usd": "3000",
    "budget_wallets": 1,
    "budget_wallet_list": "Fn2hXUZHHX1xRqna7wQRtrWP5eQ1QKmjjFgzqKCGBG3M",
-   "performance_package_tokens": "1290000",
+   "performance_package_raw": "1290000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3722,7 +3940,9 @@
    "checks": "OK",
    "metadata_account": "A8fvozuEVFfSiuLRiCEQiKZG486UGoSBF2U4zB21zKSe",
    "metadata_name": "Island",
-   "metadata_symbol": "ISLAND"
+   "metadata_symbol": "ISLAND",
+   "token_decimals": 6,
+   "performance_package_tokens": "1290000"
   },
   {
    "version": "v07",
@@ -3746,7 +3966,7 @@
    "monthly_budget_usd": "20000",
    "budget_wallets": 3,
    "budget_wallet_list": "DSJaudTujebWMhCwDVfGRQwTfCfZjbNZfBKAMmtZjQs7 5FLkrWWFpXoXDeqH2JENdB9TncE2f7T5fP5QUmYimT3w 2i26JLvGVPb3ZL4jufa6QpShq1H9FiaRVESksMwgHqyD",
-   "performance_package_tokens": "1290000",
+   "performance_package_raw": "1290000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3755,7 +3975,9 @@
    "checks": "OK",
    "metadata_account": "HnMXskTmdNJF8vUVbaqo6tS4gdcE8HeprWHRmetVG32f",
    "metadata_name": "Arcade",
-   "metadata_symbol": "ARCADE"
+   "metadata_symbol": "ARCADE",
+   "token_decimals": 6,
+   "performance_package_tokens": "1290000"
   },
   {
    "version": "v07",
@@ -3779,7 +4001,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 3,
    "budget_wallet_list": "CPKvQjVzRvbBJKq7G1Fpp4TXn3e2Tx4gCG8YT8ER3chB 6rpFw5RkeVHDMiRfhEFZSSiEuHpdmSroQjaJBzbq3e59 HgzXcmFqeXiMj6ayZavy9Hdx1gch8YXjcaarqcDBAaH8",
-   "performance_package_tokens": "2000000",
+   "performance_package_raw": "2000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3788,7 +4010,9 @@
    "checks": "OK",
    "metadata_account": "GiUBQoY8Mhw9htzsRTokuHYXNUSq5Li63FdDBDJ9xZGH",
    "metadata_name": "BitFuTard",
-   "metadata_symbol": "BFT"
+   "metadata_symbol": "BFT",
+   "token_decimals": 6,
+   "performance_package_tokens": "2000000"
   },
   {
    "version": "v07",
@@ -3812,7 +4036,7 @@
    "monthly_budget_usd": "8000",
    "budget_wallets": 3,
    "budget_wallet_list": "GfEKWcZzwS2g7odWrSjoGGMHHkxdiqSPhTz4fNNByYYy 74qArQG7T565mCM1EywUyh9CJEwgREdTDSgGVtq5hnA5 HAeHMns4Gw9b9Cv8QjxbgTnrQCchZqRSiaPCaqkUtdEk",
-   "performance_package_tokens": "1000000",
+   "performance_package_raw": "1000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3821,7 +4045,9 @@
    "checks": "OK",
    "metadata_account": "2hVazHjPojumm8i5RKATNKFDqhUkUaHheP8SXCJdmhqX",
    "metadata_name": "Git3",
-   "metadata_symbol": "GIT3"
+   "metadata_symbol": "GIT3",
+   "token_decimals": 6,
+   "performance_package_tokens": "1000000"
   },
   {
    "version": "v07",
@@ -3845,7 +4071,7 @@
    "monthly_budget_usd": "8000",
    "budget_wallets": 3,
    "budget_wallet_list": "FhqQ5ViqKrdiLq59SATSbt2cDGydfU3Qvo6YeKeSj7Dv G1yaX4Ywwmzip99hr1jekZAwKJ9uvp5bPnFLLeMc8Bo7 BMZXXZt8DqK6P8HJZTVoX2SyckumMsNsmDz5AwKQFLNm",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3854,7 +4080,9 @@
    "checks": "OK",
    "metadata_account": "H8N1n3ramXK3coGYjendZyjYhQjUBaWFMmtRpzcsNLrH",
    "metadata_name": "TriDash",
-   "metadata_symbol": "TRI"
+   "metadata_symbol": "TRI",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -3878,7 +4106,7 @@
    "monthly_budget_usd": "12500",
    "budget_wallets": 2,
    "budget_wallet_list": "6a4Ghcbeh69vcAGKugLMqTk6dFEPwnVhX4D8TNFEL7Zx JEET84Fuhz6YibvrgqLPNE2F6YCS41pANkcajG4p4qvA",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3887,7 +4115,9 @@
    "checks": "OK",
    "metadata_account": "CQAhAqMDRoN3Xg6YJcLrWZLJgQTwhbCwgDPff8eyifGL",
    "metadata_name": "Torch Market",
-   "metadata_symbol": "TORCH"
+   "metadata_symbol": "TORCH",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -3911,7 +4141,7 @@
    "monthly_budget_usd": "20000",
    "budget_wallets": 1,
    "budget_wallet_list": "B4cknFKArvkoKXsyUjEiBK7HpfNx7tqqWjEdhx3qX2A5",
-   "performance_package_tokens": "10000000",
+   "performance_package_raw": "10000000000000",
    "insider_lock_months": 36,
    "dao": "",
    "dao_vault": "",
@@ -3920,7 +4150,9 @@
    "checks": "OK",
    "metadata_account": "AkHsWdq5PEJV4XSaCyAQzCaFPDbejZUJD8rrXWiZhWR",
    "metadata_name": "Seyf",
-   "metadata_symbol": "SEYF"
+   "metadata_symbol": "SEYF",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000000"
   },
   {
    "version": "v07",
@@ -3944,7 +4176,7 @@
    "monthly_budget_usd": "4000",
    "budget_wallets": 1,
    "budget_wallet_list": "4sFe6e8X8975TtG7zWfriK2ag5fKUK4zmHW2DkZKKKiz",
-   "performance_package_tokens": "1290000",
+   "performance_package_raw": "1290000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -3953,7 +4185,9 @@
    "checks": "OK",
    "metadata_account": "GtTvuC1ZgLQ7ULGyyRxCToAfoJYzr3M2mnrmVRr7Ghfx",
    "metadata_name": "INSERT",
-   "metadata_symbol": "INSRT"
+   "metadata_symbol": "INSRT",
+   "token_decimals": 6,
+   "performance_package_tokens": "1290000"
   },
   {
    "version": "v07",
@@ -3977,7 +4211,7 @@
    "monthly_budget_usd": "25000",
    "budget_wallets": 1,
    "budget_wallet_list": "9LSVMjmAaxhJu9wdbwrL2gkfwsRb8Nswyiu3DpQVoy4U",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 20,
    "dao": "",
    "dao_vault": "",
@@ -3986,7 +4220,9 @@
    "checks": "OK",
    "metadata_account": "FBosrpoo94qg9Ajsgjr1T77D4U3XjDfbNovQfBvHcTm9",
    "metadata_name": "RunBookAI",
-   "metadata_symbol": "RBAI"
+   "metadata_symbol": "RBAI",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -4010,7 +4246,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 2,
    "budget_wallet_list": "EqxYPE56ufF8iZxsQYnKF8579YPXWGv8adS3FyrK9GRZ GZEQCWxLhtyRJ1f721exKTZMyogc1EJ9iPUizFhqjvL3",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4019,7 +4255,9 @@
    "checks": "OK",
    "metadata_account": "8uNC3yMtdHiduWZQUSEQQ37jhhtMfgTQjSdCS8DadCAx",
    "metadata_name": "Areal",
-   "metadata_symbol": "ARL"
+   "metadata_symbol": "ARL",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -4043,7 +4281,7 @@
    "monthly_budget_usd": "11777",
    "budget_wallets": 3,
    "budget_wallet_list": "PHNNjHsCLY1PiXjx1o4sVJdDm4PrkPTVHvU9BDgfezB ETK8xVcwuQ3e5xRcZc37VFDDgChmQky7My3B1ob4F2yJ Cb1jWt6wLRU98ET1LqMkDrpBJMBSdumBhXSrmXexNMzj",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4052,7 +4290,9 @@
    "checks": "OK",
    "metadata_account": "F4wCL66sxZJubRGgA1QQN86QJHzbHVi4sxJmLktTbTjY",
    "metadata_name": "PHONON",
-   "metadata_symbol": "PHON"
+   "metadata_symbol": "PHON",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -4076,7 +4316,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 1,
    "budget_wallet_list": "FoFsKLsck4z5HiLzdtThLYonM6ieAKsuAPvSB6HSZZ2k",
-   "performance_package_tokens": "675000",
+   "performance_package_raw": "675000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4085,7 +4325,9 @@
    "checks": "OK",
    "metadata_account": "8wKF32iXGpigrHCXRGDXdfpo5eTCjiEoqQq6W6HCUfhC",
    "metadata_name": "BlockRock",
-   "metadata_symbol": "BROCK"
+   "metadata_symbol": "BROCK",
+   "token_decimals": 6,
+   "performance_package_tokens": "675000"
   },
   {
    "version": "v07",
@@ -4109,7 +4351,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 1,
    "budget_wallet_list": "FuqUnmvrLDnEghsY14bxjSjMBZL2GJvbKPdE23DsYy63",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4118,7 +4360,9 @@
    "checks": "OK",
    "metadata_account": "8oGzHMHvriNqV59B5c6yg38YKQDn7rta2okN4pmKAjjs",
    "metadata_name": "Launchpet",
-   "metadata_symbol": "PETS"
+   "metadata_symbol": "PETS",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -4142,7 +4386,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 1,
    "budget_wallet_list": "6jxYRwgeMXofc7wnhbivoCixMpQgbeJYNYnr7u7w1cpY",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4151,7 +4395,9 @@
    "checks": "OK",
    "metadata_account": "FvMgwCAiZN5hgJREkrM2J1fFY5xyyo2M8tTxeTupXnjW",
    "metadata_name": "FUTARDIO Boat",
-   "metadata_symbol": "FBOAT"
+   "metadata_symbol": "FBOAT",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -4175,7 +4421,7 @@
    "monthly_budget_usd": "6969",
    "budget_wallets": 1,
    "budget_wallet_list": "EcViUD9tuM1VwNWMHSHa9dncVLknFRk1n8hEeEqxPT2f",
-   "performance_package_tokens": "12696969",
+   "performance_package_raw": "12696969000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4184,7 +4430,9 @@
    "checks": "OK",
    "metadata_account": "6yUw2sSTyjYRWcGzkHvzQQHptgjuWdPq88S87CpLTr3H",
    "metadata_name": "NOTHING",
-   "metadata_symbol": "ZEROTHINGS"
+   "metadata_symbol": "ZEROTHINGS",
+   "token_decimals": 6,
+   "performance_package_tokens": "12696969"
   },
   {
    "version": "v07",
@@ -4208,7 +4456,7 @@
    "monthly_budget_usd": "40000",
    "budget_wallets": 1,
    "budget_wallet_list": "E25LDrd1NTyf7AztUUJudjTMC4unE1TzsQZEmEvjBJJx",
-   "performance_package_tokens": "12000000",
+   "performance_package_raw": "12000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4217,7 +4465,9 @@
    "checks": "OK",
    "metadata_account": "AZWqky55ZMLhh2m4pULzYw1qkyKjFaaxJyUw98MEfuXh",
    "metadata_name": "Ludex AI",
-   "metadata_symbol": "LDX"
+   "metadata_symbol": "LDX",
+   "token_decimals": 6,
+   "performance_package_tokens": "12000000"
   },
   {
    "version": "v07",
@@ -4241,7 +4491,7 @@
    "monthly_budget_usd": "40000",
    "budget_wallets": 1,
    "budget_wallet_list": "3dwYKSEE2Uo5aPZnYKJNRqhHDczUPouSKVe19E2xvMRK",
-   "performance_package_tokens": "8888888",
+   "performance_package_raw": "8888888000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4250,7 +4500,9 @@
    "checks": "OK",
    "metadata_account": "H3SK6QVfRXT3xS2vpwjHFJG3FUckvKmr5q98iALWWkzx",
    "metadata_name": "LobsterFutarchy",
-   "metadata_symbol": "LOFU"
+   "metadata_symbol": "LOFU",
+   "token_decimals": 6,
+   "performance_package_tokens": "8888888"
   },
   {
    "version": "v07",
@@ -4274,7 +4526,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 4,
    "budget_wallet_list": "EqxYPE56ufF8iZxsQYnKF8579YPXWGv8adS3FyrK9GRZ GZEQCWxLhtyRJ1f721exKTZMyogc1EJ9iPUizFhqjvL3 9xK8BK84x19GLtMUNjTYwmAs2Sabh9nSsYTxTQzGx6FN 2DM64ZjbeAizdMaRxKnjfcPbDBoXJkzRNp45pNjbWS1v",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4283,7 +4535,9 @@
    "checks": "OK",
    "metadata_account": "EBZT2oRmR7EkBJ9dfwLSj7sWPpwTVroZnF3h8U43htDy",
    "metadata_name": "Areal",
-   "metadata_symbol": "ARL"
+   "metadata_symbol": "ARL",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -4307,7 +4561,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 3,
    "budget_wallet_list": "9UJZuZeeC65AdQrmBsbxMq14nm1JnZUPk7gkBDuYNG1J 64DzHTugxRgvEcmXhBAzHREg9j9jTTLJjkBdAot1wW22 DW1wjA8wFnM5t3maGj5MxFq9MyFk4fT1qRFZnJwyAhG8",
-   "performance_package_tokens": "2000000",
+   "performance_package_raw": "2000000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -4316,7 +4570,9 @@
    "checks": "OK",
    "metadata_account": "5D7uRMq1DP8Qoa5ZbsX6WQqUEvYttGMMgSztZaS3xznL",
    "metadata_name": "NexID",
-   "metadata_symbol": "NEX"
+   "metadata_symbol": "NEX",
+   "token_decimals": 6,
+   "performance_package_tokens": "2000000"
   },
   {
    "version": "v07",
@@ -4340,7 +4596,7 @@
    "monthly_budget_usd": "8000",
    "budget_wallets": 1,
    "budget_wallet_list": "HGWmNTP77EpKm5ZAAteyak2ZaQptt5VR8CF1zwJiAJXy",
-   "performance_package_tokens": "4000000",
+   "performance_package_raw": "4000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4349,7 +4605,9 @@
    "checks": "OK",
    "metadata_account": "HchhsJ4zfMFuicrXUSDxvRyk53mnZJt6czCLFuR7f5Hw",
    "metadata_name": "Seeker Vault",
-   "metadata_symbol": "SKV"
+   "metadata_symbol": "SKV",
+   "token_decimals": 6,
+   "performance_package_tokens": "4000000"
   },
   {
    "version": "v07",
@@ -4373,7 +4631,7 @@
    "monthly_budget_usd": "30000",
    "budget_wallets": 3,
    "budget_wallet_list": "7nUTz9CC9xc23ASzHKQERAdBD2YURe1pKoZEEWbA9MVk 7URCFwBnGAJihw1y3pNrgzB5muuccygQV4cEorKDBunj FmL5rSW7KQcdQWy9WTaR9nrVLhxt4QS97pg9nCw3623v",
-   "performance_package_tokens": "10000000",
+   "performance_package_raw": "10000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4382,7 +4640,9 @@
    "checks": "OK",
    "metadata_account": "3he6V1B71ir5i7cSikRcSCLLBdzuwATCSsoLmyVzH9gZ",
    "metadata_name": "Etnl.io",
-   "metadata_symbol": "ETNL"
+   "metadata_symbol": "ETNL",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000000"
   },
   {
    "version": "v07",
@@ -4406,7 +4666,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 3,
    "budget_wallet_list": "mycoZboxWPqHxHodskeurXQWRLiKLkERQgA9HhoFufX CmetAVrncZdLp38mo68VJXAxmXrL5eLwRXS3m6n5WwCm adMiNksKBgAqkQ5A14rEPHB2dwYRXbozTrBDwahwayJ",
-   "performance_package_tokens": "3000000",
+   "performance_package_raw": "3000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4415,7 +4675,9 @@
    "checks": "OK",
    "metadata_account": "DbH684mKM1jDBfxNeNpNnhK5HYTefPKm9Lv17HtiUK5G",
    "metadata_name": "Mycorealms",
-   "metadata_symbol": "MYCO"
+   "metadata_symbol": "MYCO",
+   "token_decimals": 6,
+   "performance_package_tokens": "3000000"
   },
   {
    "version": "v07",
@@ -4439,7 +4701,7 @@
    "monthly_budget_usd": "8000",
    "budget_wallets": 3,
    "budget_wallet_list": "GfEKWcZzwS2g7odWrSjoGGMHHkxdiqSPhTz4fNNByYYy UNMBnc3r5fdZmNJwqFnW5z1zt8KvYBzpSdDebvcjZJQ BiqQ5pgyUuv6qFZWUNVHiAChM2z9wxo5shSWoKXCurp6",
-   "performance_package_tokens": "2500000",
+   "performance_package_raw": "2500000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4448,7 +4710,9 @@
    "checks": "OK",
    "metadata_account": "7oi6EP5j2p3P9AQC9oUSxkMUkvVViZkFALBNXbYjJF11",
    "metadata_name": "Git3",
-   "metadata_symbol": "GIT3"
+   "metadata_symbol": "GIT3",
+   "token_decimals": 6,
+   "performance_package_tokens": "2500000"
   },
   {
    "version": "v07",
@@ -4472,7 +4736,7 @@
    "monthly_budget_usd": "28000",
    "budget_wallets": 2,
    "budget_wallet_list": "FmespG1XoPSoxhTuC51hg5xWm79e76rMq89KvAcGdEop DBDw5LmQEXAaN1fifVVcRjMZaJkoTc3nxZkxYG3WRCgw",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4481,7 +4745,9 @@
    "checks": "OK",
    "metadata_account": "7RjZPrbtwmYRR2bryQiALGemVsGSkRfizfCbdTUuL2Am",
    "metadata_name": "Agent Commerce",
-   "metadata_symbol": "AGC"
+   "metadata_symbol": "AGC",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -4505,7 +4771,7 @@
    "monthly_budget_usd": "0.1",
    "budget_wallets": 1,
    "budget_wallet_list": "F5ZLh1SbN89PH3ub8v1Yt6BMmtq4Vk9SUaE6VkZtQp7f",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4514,7 +4780,9 @@
    "checks": "OK",
    "metadata_account": "DMK2JXEnEd6AdPt2BAbdC7kpF84W8VSF7h4TxyeV4iAD",
    "metadata_name": "PocToken",
-   "metadata_symbol": "POC"
+   "metadata_symbol": "POC",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -4538,7 +4806,7 @@
    "monthly_budget_usd": "20000",
    "budget_wallets": 3,
    "budget_wallet_list": "EECY4ZPPD48sQg8kTiRuHoyi1LCmfQ629Eq3JCpQUpvz HdbYUgmyjHhQUv3bva4imp1ss2MVxHrRpNQKDJwHbi11 BcpSEGTn3svxdUH2gdTjdQtBSHrgvRQe6SuZNMvrBC4p",
-   "performance_package_tokens": "3000000",
+   "performance_package_raw": "3000000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -4547,7 +4815,9 @@
    "checks": "OK",
    "metadata_account": "9VzJfbBmP2w1Qvmy9xEfBYyBuyxHjnFofW3aNxRJEqo5",
    "metadata_name": "Valgrid",
-   "metadata_symbol": "GRID"
+   "metadata_symbol": "GRID",
+   "token_decimals": 6,
+   "performance_package_tokens": "3000000"
   },
   {
    "version": "v07",
@@ -4571,7 +4841,7 @@
    "monthly_budget_usd": "15625",
    "budget_wallets": 3,
    "budget_wallet_list": "9NEemmXQYR2ADey8uGjkkJAAVFoHStmQc4XwWcn5aPTZ 8wXefcrEVstjD7rw6yUU3GrFvutDSkJafRsbasvCmnMy ECaDoyTFXEk3jkBZ8WX46Adzz1SbqrFZMLsn9znV4uSo",
-   "performance_package_tokens": "2000000",
+   "performance_package_raw": "2000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4580,7 +4850,9 @@
    "checks": "OK",
    "metadata_account": "ufWXMeDy1mzF5qNvfqhvAUourxwvei274KJF7AcQCWL",
    "metadata_name": "NFA",
-   "metadata_symbol": "NFA"
+   "metadata_symbol": "NFA",
+   "token_decimals": 6,
+   "performance_package_tokens": "2000000"
   },
   {
    "version": "v07",
@@ -4604,7 +4876,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "GkmNuQWpFbVSHhM5uGEZzcjuuiNAmDoQECUw4LoTu3W8",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4613,7 +4885,9 @@
    "checks": "OK",
    "metadata_account": "DQUa6cAaGtvHCMHxdjp9ZRDR8XmQvj62XVfhHoAwwKWB",
    "metadata_name": "URS",
-   "metadata_symbol": "URS"
+   "metadata_symbol": "URS",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -4637,7 +4911,7 @@
    "monthly_budget_usd": "4500",
    "budget_wallets": 2,
    "budget_wallet_list": "HneNFSiYiY399sXVg1CF1haa31iTVYpovtrniXV37ic1 7BhH2tLkj6pMEPGnH2AauWMvGT3gsTvV7bgmteTMhEVZ",
-   "performance_package_tokens": "2000000",
+   "performance_package_raw": "2000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4646,7 +4920,9 @@
    "checks": "OK",
    "metadata_account": "3qzjj1Bap6EoLqTnpSoxuAeg1w1fMsU2mP6MzhKtXBoy",
    "metadata_name": "Nvision",
-   "metadata_symbol": "NVISION"
+   "metadata_symbol": "NVISION",
+   "token_decimals": 6,
+   "performance_package_tokens": "2000000"
   },
   {
    "version": "v07",
@@ -4670,7 +4946,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "D2vay1cNFWQmiDGUY4m5c6JmpzjmHxHwXiCypqZL8eZk",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4679,7 +4955,9 @@
    "checks": "OK",
    "metadata_account": "DYaEdzDYQz56MPRyAtTBjRaSu8pRfjEVpfbqTY8Yk7J6",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -4703,7 +4981,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "D2vay1cNFWQmiDGUY4m5c6JmpzjmHxHwXiCypqZL8eZk",
-   "performance_package_tokens": "7600000",
+   "performance_package_raw": "7600000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4712,7 +4990,9 @@
    "checks": "OK",
    "metadata_account": "9adEpKG6vHwGMF5X4hecxB8xfgBGucHwrSUxKVQLmUUj",
    "metadata_name": "Test",
-   "metadata_symbol": "TEST"
+   "metadata_symbol": "TEST",
+   "token_decimals": 6,
+   "performance_package_tokens": "7600000"
   },
   {
    "version": "v07",
@@ -4736,7 +5016,7 @@
    "monthly_budget_usd": "175000",
    "budget_wallets": 3,
    "budget_wallet_list": "G4vHnTW7PSgTtHAYwmrBvUydWGmz8Bd2px9XYAsBQWgu 6fwrmfLPCQJmF47LdoLTBBojtw8Qbq2wicRyDpzsQjBk CTDAar2UbkpVq21u8RRvzWT3rtjvoeV2PFZp7PdiMZWg",
-   "performance_package_tokens": "7740000",
+   "performance_package_raw": "7740000000000",
    "insider_lock_months": 18,
    "dao": "CFYmVUEYikV8DaKDNs6WSHC5uAxG6T7KqFBCsAebACFu",
    "dao_vault": "9Rykf7i9fxUaXD8iD6GSGpRaoWQQP51Uiq1oxSE9oDzx",
@@ -4745,7 +5025,9 @@
    "checks": "OK",
    "metadata_account": "1XAb8q5hTmRF9bHffT23EnW1xCYqsvmYUbenSoqTPzW",
    "metadata_name": "P2P Protocol",
-   "metadata_symbol": "P2P"
+   "metadata_symbol": "P2P",
+   "token_decimals": 6,
+   "performance_package_tokens": "7740000"
   },
   {
    "version": "v07",
@@ -4769,7 +5051,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 1,
    "budget_wallet_list": "FW8tU1x6rpNcakxmS5Y9pVu6P6aYySurJu8ooFBKuoLq",
-   "performance_package_tokens": "2000000",
+   "performance_package_raw": "2000000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -4778,7 +5060,9 @@
    "checks": "OK",
    "metadata_account": "D9FSFsUcRjGs78Xeu2yaBMvfkkkTEKM5PBAD2e1twJjN",
    "metadata_name": "Quantum Waffle",
-   "metadata_symbol": "QW"
+   "metadata_symbol": "QW",
+   "token_decimals": 6,
+   "performance_package_tokens": "2000000"
   },
   {
    "version": "v07",
@@ -4802,7 +5086,7 @@
    "monthly_budget_usd": "14000",
    "budget_wallets": 1,
    "budget_wallet_list": "2pV9nxJaPjv6umYaiSNh2NtGpZ1sMcLpryAg6BHnhe9C",
-   "performance_package_tokens": "10000000",
+   "performance_package_raw": "10000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4811,7 +5095,9 @@
    "checks": "OK",
    "metadata_account": "Hxmb51KpfyncpRbd9YQMY2W74fuJ5feea3yjcR5Ehe6r",
    "metadata_name": "Solar",
-   "metadata_symbol": "SLR"
+   "metadata_symbol": "SLR",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000000"
   },
   {
    "version": "v07",
@@ -4835,7 +5121,7 @@
    "monthly_budget_usd": "6000",
    "budget_wallets": 3,
    "budget_wallet_list": "9p53UzL18fPQrjPvgohMqirqcVcsGjAPNV3NXTf99Jeg J4dybTLsYzAhGDauhoYLVghAii7DENNS5ytGXKvwDhjb E8q1cScZVZiMGvHgZQjvazXMjLXu4ZJBPmNdce7PC7Pz",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4844,7 +5130,9 @@
    "checks": "OK",
    "metadata_account": "4wMJX7gLGS5YYu95a2LzjCpeeLXiJRJiKekY4FTZ1ED4",
    "metadata_name": "Bynomo",
-   "metadata_symbol": "BYNOMO"
+   "metadata_symbol": "BYNOMO",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -4868,7 +5156,7 @@
    "monthly_budget_usd": "4000",
    "budget_wallets": 1,
    "budget_wallet_list": "3ssffR9SAoA7r7iypC4JG5KWoCHfVTDcfVU3dh8rKMTZ",
-   "performance_package_tokens": "10000000",
+   "performance_package_raw": "10000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4877,7 +5165,9 @@
    "checks": "OK",
    "metadata_account": "4bWJ4CHJvXZSNBtuYwyDs9fm4trTiQpZtPkHobHtcmeF",
    "metadata_name": "Diverg",
-   "metadata_symbol": "DIVERG"
+   "metadata_symbol": "DIVERG",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000000"
   },
   {
    "version": "v07",
@@ -4901,7 +5191,7 @@
    "monthly_budget_usd": "1500",
    "budget_wallets": 4,
    "budget_wallet_list": "GZEQCWxLhtyRJ1f721exKTZMyogc1EJ9iPUizFhqjvL3 EqxYPE56ufF8iZxsQYnKF8579YPXWGv8adS3FyrK9GRZ 3uofSrEsqTYaFbuizkEtPCxe122VUifJRWEQLTgwTw3v ApDQBVjwy47EAffSehF8k18orUbJaLSURVEdx95bV8oA",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4910,7 +5200,9 @@
    "checks": "OK",
    "metadata_account": "4WTfTRVCWodLtFk3cbMYja4ySbPkGkfWxyPVmQS4PbKh",
    "metadata_name": "Areal Finance",
-   "metadata_symbol": "ARL"
+   "metadata_symbol": "ARL",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -4934,7 +5226,7 @@
    "monthly_budget_usd": "8000",
    "budget_wallets": 2,
    "budget_wallet_list": "6sw2PeeG3EYTZSiq7k34f8i1e1XSx9ALKxP4NKcxPZWj cbVkAwpX9pMEc6T3XqX2SUFbUmr8CLagVJc3CFsNgNW",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "6wmteHRgbJRSVPg8jaieZziKf7n1itADmWjJWQjCHcG1",
    "dao_vault": "Dv5axGVuk3qcoEBNofNLerFFEE3VemmuH8VsmNWUTSR5",
@@ -4943,7 +5235,9 @@
    "checks": "OK",
    "metadata_account": "DTj7aAhJqUBxWPQWkfVAb41P13WbKTiAANxxa27UD6Ae",
    "metadata_name": "Jurassic",
-   "metadata_symbol": "RAWR"
+   "metadata_symbol": "RAWR",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -4967,7 +5261,7 @@
    "monthly_budget_usd": "15000",
    "budget_wallets": 5,
    "budget_wallet_list": "4Dc67g9ShzaNeXQwu37oGj2z6CL2STNB5LoX3RdX2XxD 5EBy3cndTbfRzFUHiZQ8iTooMGPmU3hqwpXiYjyS6Kjk 7czvmqx3hFbrThwXe6VfgdtEKPTbmjn5eCf6DPPmTY5L Gmb19dD2PCxAtbMFAbCTmvMUbh9S6nwNqXtkeJ9vNvaw 2e9Vvkrr4fhsup63G6i8Cpt7pydjHkanL9nm5Dnw1k9W",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -4976,7 +5270,9 @@
    "checks": "OK",
    "metadata_account": "46iKSFvFwg5MQW7rdGNByYCSoVa5cdnaXTXz5QE5D7nN",
    "metadata_name": "Boltick",
-   "metadata_symbol": "BOLTICK"
+   "metadata_symbol": "BOLTICK",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5000,7 +5296,7 @@
    "monthly_budget_usd": "100000",
    "budget_wallets": 2,
    "budget_wallet_list": "Bq4KMaVvzemx4tyfoyhZ7Kooo494GEv1xq9MLgRkfF6j B2iZNUnLjHrtDU7ayVcJMvd7AumvWDdR5PZBanjnn98S",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 36,
    "dao": "",
    "dao_vault": "",
@@ -5009,7 +5305,9 @@
    "checks": "OK",
    "metadata_account": "7UXoY8tAyWsyLW7AfVABFaJYG6ATpqiANNCv6hwdKZs9",
    "metadata_name": "stacc's sanctum",
-   "metadata_symbol": "NOTSANCTUM"
+   "metadata_symbol": "NOTSANCTUM",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5033,7 +5331,7 @@
    "monthly_budget_usd": "11000",
    "budget_wallets": 3,
    "budget_wallet_list": "Hhq1T8AHj4PH4fbUVtkqVHF8MyF7xvBSbA87vLUydSTn 63J3uwrh1L2u7VT2U4pd7Y4Pf7Hv1bBmkJpMRzEfv3dF oTZFPpvaJk5gnCmh4JyjwjNfYbKAwfz3Qr832JZY5mU",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5042,7 +5340,9 @@
    "checks": "OK",
    "metadata_account": "FE4AEcZymbVXLRPBuQn5QxysysyYF7NG9oQPxtVDtVXg",
    "metadata_name": "Tributary",
-   "metadata_symbol": "TRY"
+   "metadata_symbol": "TRY",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5066,7 +5366,7 @@
    "monthly_budget_usd": "3000",
    "budget_wallets": 4,
    "budget_wallet_list": "3uofSrEsqTYaFbuizkEtPCxe122VUifJRWEQLTgwTw3v GZEQCWxLhtyRJ1f721exKTZMyogc1EJ9iPUizFhqjvL3 EqxYPE56ufF8iZxsQYnKF8579YPXWGv8adS3FyrK9GRZ ApDQBVjwy47EAffSehF8k18orUbJaLSURVEdx95bV8oA",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5075,7 +5375,9 @@
    "checks": "OK",
    "metadata_account": "4MDYjPuihAqRXyWsBJL3Am7trdLYPw3rwYsKX2EErgRq",
    "metadata_name": "Areal Finance",
-   "metadata_symbol": "ARL"
+   "metadata_symbol": "ARL",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5099,7 +5401,7 @@
    "monthly_budget_usd": "8000",
    "budget_wallets": 3,
    "budget_wallet_list": "AsAKvSSATifLG1pH2JURZt5sirWKNzXWmMoH24dYYRvx 5fXW3gkXSKrpDXzeU9iAm1j91Fjpa5gHu4kNKHJjagmv 2ikpJem62qtSkTVDHTDZVxZ8M7AF55GuVBQVMvAdbxB8",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5108,7 +5410,9 @@
    "checks": "OK",
    "metadata_account": "47LoEPWR2iP2ENQDCFa42pQ5ZE4MRzAFjuTbRc8eyN38",
    "metadata_name": "Kavex",
-   "metadata_symbol": "KVX"
+   "metadata_symbol": "KVX",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5132,7 +5436,7 @@
    "monthly_budget_usd": "1500",
    "budget_wallets": 3,
    "budget_wallet_list": "A4xmDMnG2CULQL7M1ZmsJjk7X8ced5uf7Z6FeUVe5ePN gYV1HKyF7KKwcGc6moenoWDTa1iM4wgikZS8Y271h4N FQwAfe6uu8EtdfrhgsLeTu3pQja7iT6NC96PHwmqhgU4",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5141,7 +5445,9 @@
    "checks": "OK",
    "metadata_account": "DyWMbH7x52uCDMLdU3YenDCsczfod4AAsMA121mVaEJ5",
    "metadata_name": "Rugpull Club",
-   "metadata_symbol": "RUGCLUB"
+   "metadata_symbol": "RUGCLUB",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5165,7 +5471,7 @@
    "monthly_budget_usd": "1500",
    "budget_wallets": 3,
    "budget_wallet_list": "A4xmDMnG2CULQL7M1ZmsJjk7X8ced5uf7Z6FeUVe5ePN gYV1HKyF7KKwcGc6moenoWDTa1iM4wgikZS8Y271h4N FQwAfe6uu8EtdfrhgsLeTu3pQja7iT6NC96PHwmqhgU4",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5174,7 +5480,9 @@
    "checks": "OK",
    "metadata_account": "7S1BhSiEQLZtrdMiaBHgGXWjf7T4kcPVgKuunRJD7vgM",
    "metadata_name": "Rugpull Club",
-   "metadata_symbol": "RUGCLUB"
+   "metadata_symbol": "RUGCLUB",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5198,7 +5506,7 @@
    "monthly_budget_usd": "6500",
    "budget_wallets": 2,
    "budget_wallet_list": "4gEqyhhdmLpgye8ubJzzD4zcNsY7JQoiLBBqnBHoYeUt 7ovu6R5NGRMwCsMBiVYqj3KAxMM6Z4LEybDPtVFcYEfK",
-   "performance_package_tokens": "2580000",
+   "performance_package_raw": "2580000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5207,7 +5515,9 @@
    "checks": "OK",
    "metadata_account": "3SdTeokLuT3D6AX5hGEhsG87ffEcDcQijtAnzME3hcA7",
    "metadata_name": "PrivateDAO",
-   "metadata_symbol": "PDAO"
+   "metadata_symbol": "PDAO",
+   "token_decimals": 6,
+   "performance_package_tokens": "2580000"
   },
   {
    "version": "v07",
@@ -5231,7 +5541,7 @@
    "monthly_budget_usd": "20000",
    "budget_wallets": 3,
    "budget_wallet_list": "FP919z7iWeyZTDwvZBDBbf22ZAGfkYuz3iLW3LhMVRUf 9HW1bN48hndXaXaLoTg7UiDeFVCGYtwzioukhPG2Mccb D5hQaFPhAE2sZPHJJjbgiyRksAyBXgge1vdrA7yXWCCy",
-   "performance_package_tokens": "6450000",
+   "performance_package_raw": "6450000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5240,7 +5550,9 @@
    "checks": "OK",
    "metadata_account": "EHJ9MTWXdzR1LJAwWrXxGuLqyWzhCcdZ8DWBvgkpjTR2",
    "metadata_name": "Arcade Cafe",
-   "metadata_symbol": "ACAFE"
+   "metadata_symbol": "ACAFE",
+   "token_decimals": 6,
+   "performance_package_tokens": "6450000"
   },
   {
    "version": "v07",
@@ -5264,7 +5576,7 @@
    "monthly_budget_usd": "6000",
    "budget_wallets": 2,
    "budget_wallet_list": "dcW5uy7wKdKFxkhyBfPv3MyvrCkDcv1rWucoat13KH4 cPZ3u8XFBrSU5sUVTi69TYQSNPwMEyfo1of5v4aXc19",
-   "performance_package_tokens": "7200000",
+   "performance_package_raw": "7200000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5273,7 +5585,9 @@
    "checks": "OK",
    "metadata_account": "D1A31vPaJBe3x4mjyw3VHhew5QktB9khSxif1sQRA6FX",
    "metadata_name": "Talaria",
-   "metadata_symbol": "TALARIA"
+   "metadata_symbol": "TALARIA",
+   "token_decimals": 6,
+   "performance_package_tokens": "7200000"
   },
   {
    "version": "v07",
@@ -5297,7 +5611,7 @@
    "monthly_budget_usd": "3000",
    "budget_wallets": 4,
    "budget_wallet_list": "9tP7fWQ3epn7vVfec88JKNYCaTCB6HTjd5aHigeZqsEX 4JYgfNG33cE2z326PxfCDp3GvcLedy8LKDqt59qo3dvS jobnShrtLLyqtzsVfAuouAfdswBGWrHgXuCz1SXJTTb A3Dx3dfiEUXYdUm2TbtMKswqzoJsn7nnmgtmX45Msk3Z",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5306,7 +5620,9 @@
    "checks": "OK",
    "metadata_account": "3uhCeZxcLbv7WkwwX2CabD88sKUV6kBpk3ELZKihV7oT",
    "metadata_name": "PRISM Protocol",
-   "metadata_symbol": "PRISM"
+   "metadata_symbol": "PRISM",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5330,7 +5646,7 @@
    "monthly_budget_usd": "4600",
    "budget_wallets": 3,
    "budget_wallet_list": "2oJj9rnriXAvmvMDnHEJTxErjrWTiCF2tySY4KFpsWrL 4eVfRdziQJWFHPCzT7PRhvnLXHQuxvjJ7qPDuhJvD51m AjUDxr6ZmkjYJtYCApuMQNFJkJpK3ucstSpjdvAjnSJK",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "CWxhqXkav3cum8nqjprZCr24qTacskDMRcSrFSQD6TeM",
    "dao_vault": "5wXRQTVdrWJLcZvNq2Wo98FELJrDftbk7kUhCxcphtUM",
@@ -5339,7 +5655,9 @@
    "checks": "OK",
    "metadata_account": "4gJkXbdZyoBaQGkP63zS9b3i52WB8JLgPjZNqnQzUUhB",
    "metadata_name": "GeSIM",
-   "metadata_symbol": "GSIM"
+   "metadata_symbol": "GSIM",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5363,7 +5681,7 @@
    "monthly_budget_usd": "1650",
    "budget_wallets": 4,
    "budget_wallet_list": "3uofSrEsqTYaFbuizkEtPCxe122VUifJRWEQLTgwTw3v 5CB4a6dNbmgqSF9FTyocoEbFMyCrM9qgJv4yRRc7pUg9 J6CBFpG2PXmMmDzD6s29rSV4B4TrR41FTSKfTzB5qM3m ApDQBVjwy47EAffSehF8k18orUbJaLSURVEdx95bV8oA",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "5BhKSFDV3mNzUxCaAyMZtbakhkbApwzLBD4gnQmNoz3Z",
    "dao_vault": "E45yD8h2ZsJdHFMPdowKvrC6gS9BgrcansUwHDEDokiF",
@@ -5372,7 +5690,9 @@
    "checks": "OK",
    "metadata_account": "97cizhZF2t6ydgXeB2ecaQrGqUqC4367cruv5WeLPjL3",
    "metadata_name": "Areal Finance",
-   "metadata_symbol": "ARL"
+   "metadata_symbol": "ARL",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5396,7 +5716,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 3,
    "budget_wallet_list": "9rst2xJeEgM96EBq7fK6e9JzKXSnW9xac3rCqjeKsF3b CBFsdZni5wCAXn2JY8MPAQRcH551EhVLQCyngnADULTp HZbmsDehP1PjTwUBgby5aJcdxohbya5rHjhQJ8T4nvvr",
-   "performance_package_tokens": "2",
+   "performance_package_raw": "2000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5405,7 +5725,9 @@
    "checks": "OK",
    "metadata_account": "3DRuHYM8rB5V2p19hLZDqRiw4DA1U6hGxJ9ac1E9SUZ6",
    "metadata_name": "GardenDAO",
-   "metadata_symbol": "GARDEN"
+   "metadata_symbol": "GARDEN",
+   "token_decimals": 6,
+   "performance_package_tokens": "2"
   },
   {
    "version": "v07",
@@ -5429,7 +5751,7 @@
    "monthly_budget_usd": "50000",
    "budget_wallets": 1,
    "budget_wallet_list": "4XMTsBivE5V73ScmuChGVLS6oF8MFb2P3fvR3gt9So9J",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 24,
    "dao": "Ffi7Ba7w2fhiCZ9H4ZRixuoi1peCVsL3YBc1Ay2JnD4A",
    "dao_vault": "DsrBwJXCtMAdPJVuFR4rAdxKp5M6M3FDvxsGwoLAF2QZ",
@@ -5438,7 +5760,9 @@
    "checks": "OK",
    "metadata_account": "9c3h16QeTiCftPgLcc9iKPw4pAQDknSVhqRNGPaRvb85",
    "metadata_name": "Laso Finance",
-   "metadata_symbol": "LASO"
+   "metadata_symbol": "LASO",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -5462,7 +5786,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "65Ax1suqGCxaiczsUpMgGPtP6z8R5xtomBTZv1UNdsaA",
-   "performance_package_tokens": "10",
+   "performance_package_raw": "10000000",
    "insider_lock_months": 12,
    "dao": "BsbxFCvLqKQkUjeb6QoHnS8Fqjkx2U8FsV5Pyoev6V1x",
    "dao_vault": "BBvAVg5fXcso1Xk4ubj72zqkqNMEKqmZFJMLx1Cvscz8",
@@ -5471,7 +5795,9 @@
    "checks": "OK",
    "metadata_account": "5ZFPaw2pwETYcaYNwX6BnygF2oCw6LkidR1rnwDia652",
    "metadata_name": "Kiduna_copy",
-   "metadata_symbol": "KIDUNA_COP"
+   "metadata_symbol": "KIDUNA_COP",
+   "token_decimals": 6,
+   "performance_package_tokens": "10"
   },
   {
    "version": "v07",
@@ -5495,7 +5821,7 @@
    "monthly_budget_usd": "0.000001",
    "budget_wallets": 1,
    "budget_wallet_list": "88NkeJUDsm1sbYp3TazR85XEBV6sDbnKd5Bkfvah88yj",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "7joQzWYN5Cm1sMBMRh3JufEdDEP1KHCWaa9vFwvdeYNJ",
    "dao_vault": "2XXnA1B49XdpD8HqfwqrvLDUD2VoBbz1Gvw4gRSHw7h8",
@@ -5504,7 +5830,9 @@
    "checks": "OK",
    "metadata_account": "9qMomEX9enS9qrWbyaDU8YvQX3XBnXGeZxBMnvH8eqLQ",
    "metadata_name": "Sniper Sandbox",
-   "metadata_symbol": "SNPX"
+   "metadata_symbol": "SNPX",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -5528,7 +5856,7 @@
    "monthly_budget_usd": "0.000001",
    "budget_wallets": 1,
    "budget_wallet_list": "88NkeJUDsm1sbYp3TazR85XEBV6sDbnKd5Bkfvah88yj",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "5ucxPJCqGVNmb4Fdpe9E3Mhop6DoaSuMvm2JEooVJB42",
    "dao_vault": "5Buoytc9iF7VY9cs4RwAc1MMoAVLjkaenoU95SN4BbRi",
@@ -5537,7 +5865,9 @@
    "checks": "OK",
    "metadata_account": "3VHLnnetZY3nzpxXSSMA8LtfP4cniyc383RPFYK2fCWu",
    "metadata_name": "Sandbox ICO",
-   "metadata_symbol": "SBX"
+   "metadata_symbol": "SBX",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -5561,7 +5891,7 @@
    "monthly_budget_usd": "0.000001",
    "budget_wallets": 1,
    "budget_wallet_list": "88NkeJUDsm1sbYp3TazR85XEBV6sDbnKd5Bkfvah88yj",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "BNrXs9dX2FrbrJwTY5ufktDZX58TSYSbgpp3CWwH2xD6",
    "dao_vault": "Hkh6EqwYBGhrNoSx6WhQwJLhF2HdRXKmq1uDigSFRepn",
@@ -5570,7 +5900,9 @@
    "checks": "OK",
    "metadata_account": "4hLicbBvMjYDnPtT37dWJkKAXcyi1ayTsfAL2hoMJXtU",
    "metadata_name": "Sandbox ICO",
-   "metadata_symbol": "SBX"
+   "metadata_symbol": "SBX",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -5594,7 +5926,7 @@
    "monthly_budget_usd": "0.000001",
    "budget_wallets": 1,
    "budget_wallet_list": "88NkeJUDsm1sbYp3TazR85XEBV6sDbnKd5Bkfvah88yj",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "7D54xFo5ZSdXzVW62qu8SS2EPy6Focz8nVt2ekppKCRx",
    "dao_vault": "iao35eFZipTD6V79fc6ztAerUCHp5RFz5Ez3at2fpoo",
@@ -5603,7 +5935,9 @@
    "checks": "OK",
    "metadata_account": "FRMKV4odHQ268L3wJiMWGUx8hWGBGSm9xCKFgDTHX1U3",
    "metadata_name": "Sandbox ICO",
-   "metadata_symbol": "SBX"
+   "metadata_symbol": "SBX",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -5627,7 +5961,7 @@
    "monthly_budget_usd": "0.000001",
    "budget_wallets": 1,
    "budget_wallet_list": "88NkeJUDsm1sbYp3TazR85XEBV6sDbnKd5Bkfvah88yj",
-   "performance_package_tokens": "0.00001",
+   "performance_package_raw": "10",
    "insider_lock_months": 18,
    "dao": "F3wydxpfqhcbKYGoFTcBmLuUrHR5ZR5RFiLyP1HA8G8",
    "dao_vault": "8x2zXTeo4n8v2FciiSFs6qECPCxXCpRVfo75JjZCixck",
@@ -5636,7 +5970,9 @@
    "checks": "OK",
    "metadata_account": "86sHQWLpxyL6MkzKQ1f5Va5dVgr2YWFcPXLHXfzCtqB7",
    "metadata_name": "Sandbox ICO",
-   "metadata_symbol": "SBX"
+   "metadata_symbol": "SBX",
+   "token_decimals": 6,
+   "performance_package_tokens": "0.00001"
   },
   {
    "version": "v07",
@@ -5660,7 +5996,7 @@
    "monthly_budget_usd": "1500",
    "budget_wallets": 3,
    "budget_wallet_list": "7e6QLMZv6Ac2yjMGKnfpZAB3WYgMHvoLh9mmwc1DAWL7 bzdq94edmitMX98FBL1sDUPJSbXXY3cgwYLSg4tmmHA FZZxSi6CNQJ6Tak1Ly3skAiZgKgMHxYkpy4vV242iibE",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5669,7 +6005,9 @@
    "checks": "OK",
    "metadata_account": "BXtsNxEddPGdRF8e3pmKULQQZdiw9fCP8ydLuEwoT5ZF",
    "metadata_name": "Bountive",
-   "metadata_symbol": "BTV"
+   "metadata_symbol": "BTV",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5693,7 +6031,7 @@
    "monthly_budget_usd": "250000",
    "budget_wallets": 3,
    "budget_wallet_list": "44dNkVJsWPZfh3tvRyqpnwgkoL5RYqi3cWsE1d8wfviV 4uhwwcipVRFczcCPCgZDkMgWaL8kGw7ht4k6HT3faw3g Fhz78PivwNKJ6JjCbNRj1QKEdgutecaQW8SqV54SkbgK",
-   "performance_package_tokens": "4532678",
+   "performance_package_raw": "4532678000000",
    "insider_lock_months": 18,
    "dao": "6yv1EcBitVUdf3YS4GTHdLmwrGGiPYT2jrh2xDjCxYQQ",
    "dao_vault": "ATESfxbwt3SRhSHc4nbk8BG6P8Nm8TAjsHfQCbgC2er4",
@@ -5702,7 +6040,9 @@
    "checks": "OK",
    "metadata_account": "21RLEDqjC4ffQRDgvorDiPPrbuJzwGw8Y76wfCda9TLq",
    "metadata_name": "Credible Finance",
-   "metadata_symbol": "CRED"
+   "metadata_symbol": "CRED",
+   "token_decimals": 6,
+   "performance_package_tokens": "4532678"
   },
   {
    "version": "v07",
@@ -5726,7 +6066,7 @@
    "monthly_budget_usd": "40000",
    "budget_wallets": 2,
    "budget_wallet_list": "CqK6aBSSycQU3igvptxvhf9YNC1v5EodCuCxuVLPPohh 4Huto5Lv8z59tW4EezrYNSvBJhCc9U5bgmR5yH5csFDc",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "3szfyfczcGxe6zpTQQBfnkF24SMakWChxp3aU68HNYij",
    "dao_vault": "5n1kEkZ68h2Wb6TPB88GPgvjv5tAoLyGGPSJCwoTWkLm",
@@ -5735,7 +6075,9 @@
    "checks": "OK",
    "metadata_account": "A8DFCacFGgMgrqj1uaQnSEciWryFq6zoQ5f4UxS22s2p",
    "metadata_name": "Rip Cars",
-   "metadata_symbol": "CARS"
+   "metadata_symbol": "CARS",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5759,7 +6101,7 @@
    "monthly_budget_usd": "1500",
    "budget_wallets": 1,
    "budget_wallet_list": "7e6QLMZv6Ac2yjMGKnfpZAB3WYgMHvoLh9mmwc1DAWL7",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5768,7 +6110,9 @@
    "checks": "OK",
    "metadata_account": "AWopCkyJtb82aMZvXtmKfMnHbwSdKUV6UPZQ8PTqGs1s",
    "metadata_name": "Bountive",
-   "metadata_symbol": "BTV"
+   "metadata_symbol": "BTV",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5792,7 +6136,7 @@
    "monthly_budget_usd": "15000",
    "budget_wallets": 4,
    "budget_wallet_list": "4uofM4PBjPydMPQokRgj61rbbeezhUphpQZMPcQdxBM5 G61GfVpD8wq7kYmcBG3wmCuwmbzrYUQvm5si1gfzAny6 5tfS23ncg15fzJbeP9kztB6hNUnisxheQ8sDBAc9c1CQ 2Fut44Sp7LR5RnLe3ki4wMoAq4MZAyE1Ac7FQDmCNz19",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "8MzXyimv29ivabhdzLN3Xa39jMrgteahWE3rNPKcEKpA",
    "dao_vault": "6C8SUhNgaJz3UPUn7rXAxLeApWVLu3nfE7kYJs2eCX19",
@@ -5801,7 +6145,9 @@
    "checks": "OK",
    "metadata_account": "4eLRUwWt4c4JxLJxnRWUg3VP5G9nGRKy71QGYQyXSHp2",
    "metadata_name": "ORDR",
-   "metadata_symbol": "ORDR"
+   "metadata_symbol": "ORDR",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5825,7 +6171,7 @@
    "monthly_budget_usd": "14500",
    "budget_wallets": 2,
    "budget_wallet_list": "GxDnieZRziSrUaxajfrVPV7v1ZgUznYWCcZcMTcrug8W CFn1rRSsEErL6odfyvdqpAMuJr5d2Bwk4whiAsMukJjK",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5834,7 +6180,9 @@
    "checks": "OK",
    "metadata_account": "dw8vUmxm7LTbyzgVKXJr5aEfA249J3Xt86APXXGrvXh",
    "metadata_name": "Hardware AI",
-   "metadata_symbol": "HIIE"
+   "metadata_symbol": "HIIE",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5858,7 +6206,7 @@
    "monthly_budget_usd": "1000",
    "budget_wallets": 1,
    "budget_wallet_list": "CzfhbbnK32Ug2fTpbkcdJPCE2kvuF96MpRaemyhKThXB",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "GEZF81Us2ZMD9cozjEra6NXxi1tC2AdjvZXxKWcdVEgm",
    "dao_vault": "ASBU3bH5EhBjC17CLWfMG8txwQSoSgrooz9CFQJzUEAB",
@@ -5867,7 +6215,9 @@
    "checks": "OK",
    "metadata_account": "8VAKs9TxojTjrt9G1LPDrRLc89ACJbPsQPbqBa39KEsu",
    "metadata_name": "Basket",
-   "metadata_symbol": "BASKET"
+   "metadata_symbol": "BASKET",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5891,7 +6241,7 @@
    "monthly_budget_usd": "7000",
    "budget_wallets": 1,
    "budget_wallet_list": "Hc5216DcA4e55pRsVW53dLJFLtaGsYUfBZLoDQdzMv8u",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5900,7 +6250,9 @@
    "checks": "OK",
    "metadata_account": "3ifYbJ7GiGWDcYPWUEbkoKt5ivdEnJwnfBhRbKQMA6qP",
    "metadata_name": "Collector Suite",
-   "metadata_symbol": "TCS"
+   "metadata_symbol": "TCS",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5924,7 +6276,7 @@
    "monthly_budget_usd": "9600",
    "budget_wallets": 3,
    "budget_wallet_list": "BwVaPvqyFArwY6MRfAHebYFJbdwvHyc3ufNpGHmXcJjE 2LpZyK2uKPerRVJ1b2B7qJmG4xNUCYA719o5JHLMQkEg 7cJWzQBrCZaYhhagYeX1Zqe8CH394giZ69xLsRg7rNLP",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "6sQHygsfhAYrkQiGnyFHQ6s1s8ycJoajnNaVVuS3duzv",
    "dao_vault": "DJAv7DiAYVW9fiewdJw4m5EitjsThMvjtaZofWE1Sm6e",
@@ -5933,7 +6285,9 @@
    "checks": "OK",
    "metadata_account": "3k9mVeG87PmoDwK86YEybxekXEZBTHkV7r2uCQiWr9UE",
    "metadata_name": "Kimia",
-   "metadata_symbol": "KIMIA"
+   "metadata_symbol": "KIMIA",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -5957,7 +6311,7 @@
    "monthly_budget_usd": "12000",
    "budget_wallets": 1,
    "budget_wallet_list": "ABFFMp4RpqVS2Be198yWS7Abatf5KjC6ERQ9bRYqCqCd",
-   "performance_package_tokens": "12500000",
+   "performance_package_raw": "12500000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5966,7 +6320,9 @@
    "checks": "OK",
    "metadata_account": "4EPiatGa5WEWNr7horYiEcWBfzMj6Ad49SKAgTUqjeiy",
    "metadata_name": "CarryLend",
-   "metadata_symbol": "CARRY"
+   "metadata_symbol": "CARRY",
+   "token_decimals": 6,
+   "performance_package_tokens": "12500000"
   },
   {
    "version": "v07",
@@ -5990,7 +6346,7 @@
    "monthly_budget_usd": "13333",
    "budget_wallets": 3,
    "budget_wallet_list": "AZD7UFHhga7L1zmzvdkAkuQ3kCdUJnDUTgEMZwQhw7CP 9sqqQxSTtUgNm6HNjAuPLKKHwk5VEHNU3E5vcyDxkWh2 Hsuc81Svpcx18Jqh7YuYJFE9Fn7eaNcUqFUzmGEHRyuq",
-   "performance_package_tokens": "3225000",
+   "performance_package_raw": "3225000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -5999,7 +6355,9 @@
    "checks": "OK",
    "metadata_account": "58Bg7NzyzAvLtQo1a7jvWC9VAiGshnAL4bgsDdUFuN2K",
    "metadata_name": "Coinflip",
-   "metadata_symbol": "CASINO"
+   "metadata_symbol": "CASINO",
+   "token_decimals": 6,
+   "performance_package_tokens": "3225000"
   },
   {
    "version": "v07",
@@ -6023,7 +6381,7 @@
    "monthly_budget_usd": "8000",
    "budget_wallets": 3,
    "budget_wallet_list": "A8fn9G1fJzexBwNwobFg5FJu1Q5Vx7cLbPJeGvpGae6J EMHY7nr67RYa4Bax8tN4n65yBq49P2dKTLztqvmP9Kg2 8kpQLFK5ddzJVAaUhE2VWHnx88TEcG75N4yefgiZT7t1",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6032,7 +6390,9 @@
    "checks": "OK",
    "metadata_account": "HU3WGzhnueuaRPv7vYQ3cuTkEwui51HJzKi7SekzC1Wh",
    "metadata_name": "Ryvo Network",
-   "metadata_symbol": "RYVO"
+   "metadata_symbol": "RYVO",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6056,7 +6416,7 @@
    "monthly_budget_usd": "20000",
    "budget_wallets": 3,
    "budget_wallet_list": "CPsrbTwLtJu3LHFnm4vgDkpw5pDxSnAMRAzGJMmTQcej 3PVWFEt1CTuC8ss8PzJJv9j72CmDXkUZsJY2Cn2vywyN 5Kzdky66eDD2KVgynr1pPyg2LknNhe3AA3WxCN9jWnYd",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6065,7 +6425,9 @@
    "checks": "OK",
    "metadata_account": "W4f96i1Ho1gnFfc5RxRUm1Xw7ra6pwXb8goBvdiUe5x",
    "metadata_name": "SuperPumped",
-   "metadata_symbol": "SP"
+   "metadata_symbol": "SP",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6089,7 +6451,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 3,
    "budget_wallet_list": "GZV5ma1y1KhxebgkzN5U4yMaT5GiP4Sun12PMPEc1rbv H6nKe1Am7JUfkrTcsvkRW5cmafURakhxvEHfNGfSdtcJ HK3ZWxEzqCAbAeUh23qiMcDtyLk6XV4q7zMdYWA8uUak",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6098,7 +6460,9 @@
    "checks": "OK",
    "metadata_account": "4rmtisfHa6p7FHBj9623KoReoMK7VbHZfvwERNw6BRWn",
    "metadata_name": "Mycorealms",
-   "metadata_symbol": "MYCO"
+   "metadata_symbol": "MYCO",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6122,7 +6486,7 @@
    "monthly_budget_usd": "80000",
    "budget_wallets": 3,
    "budget_wallet_list": "8gc1ZsQGnC7YhhCoi54EHgYKL7BbPTxF4qrfgB8ZgkBS FpjQg9RwTx2WSYeDFXYq5gwpaeb9DNXbMNYPRq7eghTy h4YVgJUB3Dy7f7vq7gfA3AQjJZ5JyHAK56fCZt6D3xF",
-   "performance_package_tokens": "3000000",
+   "performance_package_raw": "3000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6131,7 +6495,9 @@
    "checks": "OK",
    "metadata_account": "8mkUePvB46xWxrSBuJGEwzMXv8TVnCzYg7TQn9g9S8k7",
    "metadata_name": "Clytheriq Chain",
-   "metadata_symbol": "CLYQ"
+   "metadata_symbol": "CLYQ",
+   "token_decimals": 6,
+   "performance_package_tokens": "3000000"
   },
   {
    "version": "v07",
@@ -6155,7 +6521,7 @@
    "monthly_budget_usd": "4000",
    "budget_wallets": 2,
    "budget_wallet_list": "E5LBFsMoVQeujFdj8K2o8Mhs9GyWpdAixZreVm77F7z4 Fe9G5mGUPHB9AtJzD1ZURkTqDuBxNyEwaTPRQmHKmijQ",
-   "performance_package_tokens": "6000000",
+   "performance_package_raw": "6000000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -6164,7 +6530,9 @@
    "checks": "OK",
    "metadata_account": "AJz3h3TL56shFC944YCvkgeazfTytmGkuQ4K7Gu4796H",
    "metadata_name": "Markov",
-   "metadata_symbol": "MRKV"
+   "metadata_symbol": "MRKV",
+   "token_decimals": 6,
+   "performance_package_tokens": "6000000"
   },
   {
    "version": "v07",
@@ -6188,7 +6556,7 @@
    "monthly_budget_usd": "4000",
    "budget_wallets": 3,
    "budget_wallet_list": "JUNTzCkqNJoszrkYn7vJWEotUpaQ4CMgkDrtCr2Edta Asq5q4EkVqQkTWHGvDjkRm1tk3aCqognQaDfUtSZjuqp HcJLbugiHaZy66uVAwnyc7DdbdmhegxbfbKEvzojW89z",
-   "performance_package_tokens": "6000000",
+   "performance_package_raw": "6000000000000",
    "insider_lock_months": 20,
    "dao": "",
    "dao_vault": "",
@@ -6197,7 +6565,9 @@
    "checks": "OK",
    "metadata_account": "8XaD83g9GGKaAHSqWPjEWP3fwPv52Nt1xwry4QqjZWaV",
    "metadata_name": "Aeonian",
-   "metadata_symbol": "AEONN"
+   "metadata_symbol": "AEONN",
+   "token_decimals": 6,
+   "performance_package_tokens": "6000000"
   },
   {
    "version": "v07",
@@ -6221,7 +6591,7 @@
    "monthly_budget_usd": "14000",
    "budget_wallets": 3,
    "budget_wallet_list": "9tSk6ieWdJ926mMm8H8Wm1tk8ZzXjUSa4Lsc2t7V1BKr 7Cbwrhqdmwi2Cv4pMfVMEmjAbf2GyQYMBLEKsdycdXhC 2GjhHMzh7ch7MM1vbGpCtspcJhcWr9wUS9z9WYT3y4oj",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6230,7 +6600,9 @@
    "checks": "OK",
    "metadata_account": "E58xP1XUvQemd4KeJ3vP2hFqXgUAHgMup6eQiw5aEMAH",
    "metadata_name": "GameByts",
-   "metadata_symbol": "GBS"
+   "metadata_symbol": "GBS",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6254,7 +6626,7 @@
    "monthly_budget_usd": "2600",
    "budget_wallets": 2,
    "budget_wallet_list": "4ps5ntRHNKRAu1hD5LYhEebEcwgBAArMdCp9L5ufWxTv 5YFmupGDsA6kNM9babtkW2BHUpcKdYARSuQfhQSLK23v",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6263,7 +6635,9 @@
    "checks": "OK",
    "metadata_account": "2yL7L49kj8ESF58RU81Vpe6fraXDsGEM729zuAsgLZc8",
    "metadata_name": "Degen Terminal",
-   "metadata_symbol": "DGNT"
+   "metadata_symbol": "DGNT",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6287,7 +6661,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "7L6mFrodZrAoXg7YZtmGirrdLgQGq5XPdSkMN3zKjcDZ",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "5bRGZaeQoZaXziwaL9fwiybHCTAU8geYqd9sQf9RTTVR",
    "dao_vault": "A1XGC7uJtLcBb7oa7Q6DJtkBFriPrBGLDtSMiD2gNUHm",
@@ -6296,7 +6670,9 @@
    "checks": "OK",
    "metadata_account": "BZLZcc8AsFwa33c9FrP7SGCkX983ZK8rs3j8dNntHwhj",
    "metadata_name": "LFOWN",
-   "metadata_symbol": "LFOWN"
+   "metadata_symbol": "LFOWN",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -6320,7 +6696,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 2,
    "budget_wallet_list": "4kMfvv2jAgSVmkqNVAdApJboaSDjpxqtYMHpcsmowM6c CrvZYG3cAUTWtgAXhtvF9QdB22VrFp5VFhqFDWd7pdMQ",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6329,7 +6705,9 @@
    "checks": "OK",
    "metadata_account": "732GGu5odqniveMePnVEhtsKPiZbZgePrdiaCzgd5SpR",
    "metadata_name": "SPARK",
-   "metadata_symbol": "SPARK"
+   "metadata_symbol": "SPARK",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -6353,7 +6731,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 1,
    "budget_wallet_list": "HCXta39Nx9zEPv7xRCxdVRzqArnP45GuCiGm3FrSFCZi",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "3s6wbZfYT9zBh94uahMm17VJpKdNs1RNRhnw6hSta2y2",
    "dao_vault": "5cceWhYfcZAH1q9PBaKL1MnNRUU7UVvJNwWbjx75cmhE",
@@ -6362,7 +6740,9 @@
    "checks": "OK",
    "metadata_account": "FTWWf4gHzLutf32nXoaomqbNRweSvibB8GDUgAADZzPN",
    "metadata_name": "HiveBits",
-   "metadata_symbol": "NECTAR"
+   "metadata_symbol": "NECTAR",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -6386,7 +6766,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 2,
    "budget_wallet_list": "9fXxdHUTdpX2Fq6n6cuntjV47tCPiRM5DReungbG7b5u Hu2TBeMGA9dVtqpiVLxPuzPjihcfKSP1tf8PYz94QUnZ",
-   "performance_package_tokens": "2000000",
+   "performance_package_raw": "2000000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -6395,7 +6775,9 @@
    "checks": "OK",
    "metadata_account": "F6taK1UnR52B6pQhxD9eJtSmFPi5pQFcwV87TbZ9ZiRz",
    "metadata_name": "DIGG",
-   "metadata_symbol": "DIG"
+   "metadata_symbol": "DIG",
+   "token_decimals": 6,
+   "performance_package_tokens": "2000000"
   },
   {
    "version": "v07",
@@ -6419,7 +6801,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "CVBoMe2SaDKmojmn3yWTthEccHhrLZ3E6Z97bUaSFCS5",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "7zexEnEDcdo93nyXbcR6syLfFpnFpLRukQUuAW32XxC1",
    "dao_vault": "996mzJRgFbpHxnfYTPdDttv2vMEBarnQdCSn7xDcFMeT",
@@ -6428,7 +6810,9 @@
    "checks": "OK",
    "metadata_account": "6kMyUStiBUgbGYJBRuPh8UndEt3en91d3XqUsDMQqSEH",
    "metadata_name": "ACCRUE",
-   "metadata_symbol": "ACCRUE"
+   "metadata_symbol": "ACCRUE",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -6452,7 +6836,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "BXxeKPBN8BRWqGmXaRQKrkvJe4geL654vEeGrGCUmq2D",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "3kRM3ALGVZ6n2aNxzxUqZPpsuts5NRWRMN3FoXHcP2hy",
    "dao_vault": "7BH8pLSuqUXcup6XR3MXL7dYsQZbBxxG1sy7u8L67x3T",
@@ -6461,7 +6845,9 @@
    "checks": "OK",
    "metadata_account": "DgYjLQ2H8V2M4AkJRZXtrzWeGjV14zRZmM4MLznGNxJS",
    "metadata_name": "Tset",
-   "metadata_symbol": "TSET"
+   "metadata_symbol": "TSET",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -6485,7 +6871,7 @@
    "monthly_budget_usd": "1",
    "budget_wallets": 1,
    "budget_wallet_list": "Ci3xC1BKx36MgCze1c2UcyeCndhB7PsBGp5RSNEA7xRD",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "9TW2pRqcmLn5saiw2YnfUxYjhoynk8ryoTfnKM8Po3vh",
    "dao_vault": "4qXyczAr5DuBVaHUwmZT5Xt6hgQ6RwqBYcFGtrv8QEph",
@@ -6494,7 +6880,9 @@
    "checks": "OK",
    "metadata_account": "9Nra2TiSfRdwSDWFvioSUa1LTfq5iqoE2zyirrPxGLX6",
    "metadata_name": "PREDICT",
-   "metadata_symbol": "PREDICT"
+   "metadata_symbol": "PREDICT",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -6518,7 +6906,7 @@
    "monthly_budget_usd": "41666",
    "budget_wallets": 2,
    "budget_wallet_list": "66kDYpYtuGkaZF2ho64VgEQuAgBPGjY17HtcTtANtNR8 2zCu7Agd4nKGTfxnyH5qtaeViuf4CHcSUozSEzRx3cNe",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "7YktVLcciZ12HnsM2VektRZuxaPE9VRSyYhGBid47b2A",
    "dao_vault": "59Km6UTvKMNmww5iwiVQ7iTKUy6Eoug1ytsMPhd36e8z",
@@ -6527,7 +6915,9 @@
    "checks": "OK",
    "metadata_account": "HnBWmfpdQckEWXZZj2V7dN6Vr5wcPDiWjwo3RKcJVUGR",
    "metadata_name": "The Syndicate",
-   "metadata_symbol": "GANG"
+   "metadata_symbol": "GANG",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6551,7 +6941,7 @@
    "monthly_budget_usd": "20000",
    "budget_wallets": 1,
    "budget_wallet_list": "331nEBz4i3XjyaUHVyHnpw9xBoW7D6P1qMPnUPd76Mth",
-   "performance_package_tokens": "2100000",
+   "performance_package_raw": "2100000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -6560,7 +6950,9 @@
    "checks": "OK",
    "metadata_account": "5okgmCjDVRYeRhwRcJ5EV52LhgR6MUgmzGSMhAnET3ZS",
    "metadata_name": "STACCIndex",
-   "metadata_symbol": "STACCS"
+   "metadata_symbol": "STACCS",
+   "token_decimals": 6,
+   "performance_package_tokens": "2100000"
   },
   {
    "version": "v07",
@@ -6584,7 +6976,7 @@
    "monthly_budget_usd": "20000",
    "budget_wallets": 1,
    "budget_wallet_list": "331nEBz4i3XjyaUHVyHnpw9xBoW7D6P1qMPnUPd76Mth",
-   "performance_package_tokens": "2100000",
+   "performance_package_raw": "2100000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -6593,7 +6985,9 @@
    "checks": "OK",
    "metadata_account": "HLDr9zaQm67vMqqe3Dngj2EtVhWh27VGou9QcB31Pgd9",
    "metadata_name": "STACCIndex",
-   "metadata_symbol": "STACCS"
+   "metadata_symbol": "STACCS",
+   "token_decimals": 6,
+   "performance_package_tokens": "2100000"
   },
   {
    "version": "v07",
@@ -6617,7 +7011,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 1,
    "budget_wallet_list": "EtZv99LQTWNJx2ypkLvxQy7YWxBhKFGXuBCBeLPdGHj3",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6626,7 +7020,9 @@
    "checks": "OK",
    "metadata_account": "3oipGZESoXHDSCpwBmhv9DEfhuc2ut5tjz4UWLT2vpjW",
    "metadata_name": "Kaboom",
-   "metadata_symbol": "KABOOM"
+   "metadata_symbol": "KABOOM",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6650,7 +7046,7 @@
    "monthly_budget_usd": "2000",
    "budget_wallets": 2,
    "budget_wallet_list": "CJ7Vu2oBb9FvLntjZ2xCamaVprGRa7pccceyVNQn6mv EvedFwdXbcrtM1QVAVrpvLpBhoHmvnvd92M2dBeXRZog",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "HMKEdwzp7d3cg8hGz1sQ1mfgn828dyeEmMzXVCn1Hoob",
    "dao_vault": "GvtRLSxYXpx5e6ZVAeyQN6Vvnu6fUA2tpsbHGVr9AzGE",
@@ -6659,7 +7055,9 @@
    "checks": "OK",
    "metadata_account": "EFMwrxEyv9Nx61rhQG3PoRypMuaw5XJHGCk1jtyWFZUG",
    "metadata_name": "MimiKrew",
-   "metadata_symbol": "KREW"
+   "metadata_symbol": "KREW",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6683,7 +7081,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 2,
    "budget_wallet_list": "38hFXFYthLSFL2THJeQToimb3T6Z9dNP8gxt9aAhE7tg 3o6XkNwWEVLxPSF25z5zGkS6MnLMKyirpo3AwFY7qqPQ",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6692,7 +7090,9 @@
    "checks": "OK",
    "metadata_account": "DWvy7tZepNBrhkYE8oCjF88GTHhQ3vzZX6BS1BsmzyWo",
    "metadata_name": "Polybaskets",
-   "metadata_symbol": "INDEX"
+   "metadata_symbol": "INDEX",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6716,7 +7116,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 2,
    "budget_wallet_list": "GNi6SSJuEy1jdGEtdZAeEtMYzGMjBJs5VtXkhigWxZfx GNyRTsVC3gFS77RRp5XpmpxLRHsFhJZrGp368jPmQ5gG",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6725,7 +7125,9 @@
    "checks": "OK",
    "metadata_account": "6HngNpoq7QVqGw824XU8goGJuJKQVaXu5s5jH6ghAubx",
    "metadata_name": "Soldex",
-   "metadata_symbol": "SOLDEX"
+   "metadata_symbol": "SOLDEX",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6749,7 +7151,7 @@
    "monthly_budget_usd": "3000",
    "budget_wallets": 1,
    "budget_wallet_list": "5ydn9x8pKVHBUgJa7Z3qd3X3QWeaQqrxWDMKhbtR9Csq",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "4ZD49sMkvB1sh9nTcgHpVaA8BxGrm5b2hFcu1QDnL42r",
    "dao_vault": "GY7rMYDM4V83Wy18gJHTJy8TPA4NE4vTogUADh738id",
@@ -6758,7 +7160,9 @@
    "checks": "OK",
    "metadata_account": "F9MziXHLcDTrGRVniJMtv4Mp4qj9TgYGKtV4DZM5M7Dt",
    "metadata_name": "Orendal",
-   "metadata_symbol": "ORENDAL"
+   "metadata_symbol": "ORENDAL",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6782,7 +7186,7 @@
    "monthly_budget_usd": "2000",
    "budget_wallets": 2,
    "budget_wallet_list": "4QrmqSKBX3tADSjLn7goJh9uXRPq96RQi4fbBrrcTexz 2K8NDgFUC1fAcVii3p5KuhBYxf8AZcqNa4T7dxA6Pr9o",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "5hEhwsH6jf3U5mpRSEoLFC1LZkuMyUAV62raftzJcQHQ",
    "dao_vault": "CYGR9GgTnFf2jZbZiNUCXHhQeqrx9bf7tS8MK4tmN9NV",
@@ -6791,7 +7195,9 @@
    "checks": "OK",
    "metadata_account": "6wvo7QVZ99cXk4DNrxFmX7EN78qn8rAQtd83dp7X3Rqd",
    "metadata_name": "DRAWUP",
-   "metadata_symbol": "DRAWUP"
+   "metadata_symbol": "DRAWUP",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6815,7 +7221,7 @@
    "monthly_budget_usd": "25000",
    "budget_wallets": 1,
    "budget_wallet_list": "6w8B24FfKMLdhVejyDJuo3c1kUwrLxgVVQi4ZvhPnytp",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 24,
    "dao": "9UuMVqMdjtuUKxqmcUFmXD6t6nzLQrrgbZcnkg4WGyBm",
    "dao_vault": "5iKuHbKzW5EfJX924BEsfLzRXdeRK9MnhobPRAfXTtZ8",
@@ -6824,7 +7230,9 @@
    "checks": "OK",
    "metadata_account": "FkBub6USJ2s9H4gapc1Xzm83k1sQ6FsgesU41W9TsEQL",
    "metadata_name": "The Inner Table",
-   "metadata_symbol": "POKER"
+   "metadata_symbol": "POKER",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6848,7 +7256,7 @@
    "monthly_budget_usd": "10000",
    "budget_wallets": 1,
    "budget_wallet_list": "5bhoiDzDKQcjfJcCp4yaHop4nh3DPteQAiTau4XpAGkE",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -6857,7 +7265,9 @@
    "checks": "OK",
    "metadata_account": "2qxq6ZFv6ayA2JmnEPXevtybUozGcad3bTs3xbeypiu9",
    "metadata_name": "WaldBier Brazil",
-   "metadata_symbol": "WBBR"
+   "metadata_symbol": "WBBR",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6881,7 +7291,7 @@
    "monthly_budget_usd": "66667",
    "budget_wallets": 1,
    "budget_wallet_list": "4FjTfsTBKe58XW7zLPQzmL3oEbBzA1n9f2mkXFVWggn2",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -6890,7 +7300,9 @@
    "checks": "OK",
    "metadata_account": "CTdY5VqCrASsmSXHMppemZkEtBzTpwQ3eGZyQy9c2XU",
    "metadata_name": "Lithosphere",
-   "metadata_symbol": "LITHO"
+   "metadata_symbol": "LITHO",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6914,7 +7326,7 @@
    "monthly_budget_usd": "15000",
    "budget_wallets": 1,
    "budget_wallet_list": "J33T5tQfqGkPfTixwM6VoB1Wcvws1Ze2yPafJgpMhcqZ",
-   "performance_package_tokens": "10000000",
+   "performance_package_raw": "10000000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -6923,7 +7335,9 @@
    "checks": "OK",
    "metadata_account": "3XzinZJ72RzjXiheDFP6TYJcWCpjKhFkQPxW3FsqNRXn",
    "metadata_name": "Hexncoin",
-   "metadata_symbol": "HEXN"
+   "metadata_symbol": "HEXN",
+   "token_decimals": 6,
+   "performance_package_tokens": "10000000"
   },
   {
    "version": "v07",
@@ -6947,7 +7361,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 1,
    "budget_wallet_list": "FSmmDsnzstS29qVkk463eHdE4GXP7RpiZKQ84n98HoLm",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "CLXu6iccwqdoG36M7odca5X712vjEnJ2kJSGuDBnmBhy",
    "dao_vault": "64BizHvsBLJR13cZgoYdwEzNDC4aw3NxWUiTuJE5qHE3",
@@ -6956,7 +7370,9 @@
    "checks": "OK",
    "metadata_account": "2KPrHqVVfNhPmjzPcLNrTTDD2JRwAYwHtZSMoojNctm6",
    "metadata_name": "Cope",
-   "metadata_symbol": "COPE"
+   "metadata_symbol": "COPE",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -6980,7 +7396,7 @@
    "monthly_budget_usd": "5800",
    "budget_wallets": 1,
    "budget_wallet_list": "FftHnc6DsnWsr7amM7N7SUwVAjjWWAZSMLggv2EgPk7K",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 24,
    "dao": "",
    "dao_vault": "",
@@ -6989,7 +7405,9 @@
    "checks": "OK",
    "metadata_account": "DEgCB6av3Uc4LqyPg44tG9sGo4uxJCCP74S536HYoSyz",
    "metadata_name": "Stook Street",
-   "metadata_symbol": "STOOK"
+   "metadata_symbol": "STOOK",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -7013,7 +7431,7 @@
    "monthly_budget_usd": "16667",
    "budget_wallets": 1,
    "budget_wallet_list": "B6qhnQiwURPqDZbWLYSzK7czNjrphfEFXqqKLhDMANXC",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -7022,7 +7440,9 @@
    "checks": "OK",
    "metadata_account": "3QfURaUz3BBg7QGSXgSRDcynjkqPBJqB2nsC1pTWXvh4",
    "metadata_name": "Sendr",
-   "metadata_symbol": "SENDR"
+   "metadata_symbol": "SENDR",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -7046,7 +7466,7 @@
    "monthly_budget_usd": "16000",
    "budget_wallets": 1,
    "budget_wallet_list": "Fc7j38jCXajnwu7yPDKmWKab1p1rnKQf5xqry43BtARj",
-   "performance_package_tokens": "1",
+   "performance_package_raw": "1000000",
    "insider_lock_months": 18,
    "dao": "A9fveG4YW2ZGwqkq6tDdcJcJsPwTziY4V3zxSNimL2ve",
    "dao_vault": "Eddn5AEXvuuTh53MguLveepNjgyQbaam4rGC6nQ3vaYJ",
@@ -7055,7 +7475,9 @@
    "checks": "OK",
    "metadata_account": "2SJ32k2vxBGhKfzRnDVenxCLadySwA15g2S7VsUUKbWZ",
    "metadata_name": "SAT",
-   "metadata_symbol": "SAT"
+   "metadata_symbol": "SAT",
+   "token_decimals": 6,
+   "performance_package_tokens": "1"
   },
   {
    "version": "v07",
@@ -7079,7 +7501,7 @@
    "monthly_budget_usd": "5000",
    "budget_wallets": 1,
    "budget_wallet_list": "B5GYd32cfgzXSkJ3ZQSRJvWxthXJH2wibjy4PDUNV6yV",
-   "performance_package_tokens": "6942000",
+   "performance_package_raw": "6942000000000",
    "insider_lock_months": 18,
    "dao": "BbF5ibEVJAgDGvafhQGWqZX5TFJwDNX1AYXt6oxwdfQS",
    "dao_vault": "NeUdokZBF3yLWf2T9BeNCKZ26WgcX6GCqU9ahCoJPTn",
@@ -7088,7 +7510,9 @@
    "checks": "OK",
    "metadata_account": "6a2fGsAR2ce6FcSfKd6xyAXVQkHkanBdzWCjWswt4qM9",
    "metadata_name": "Final",
-   "metadata_symbol": "FINAL"
+   "metadata_symbol": "FINAL",
+   "token_decimals": 6,
+   "performance_package_tokens": "6942000"
   },
   {
    "version": "v07",
@@ -7112,7 +7536,7 @@
    "monthly_budget_usd": "40000",
    "budget_wallets": 1,
    "budget_wallet_list": "DQW87eVFE5cAsqnSRHUMmywneR5T411371ifcLehEDzV",
-   "performance_package_tokens": "12900000",
+   "performance_package_raw": "12900000000000",
    "insider_lock_months": 18,
    "dao": "HByWtFDYwGw45A69cg4jwZFt78kmnD9q4kvKACUSdwB8",
    "dao_vault": "4CKgXcAgv5y6CLMAEAFTR2otqtrqL5ReJtMFdTyLWBMw",
@@ -7121,7 +7545,9 @@
    "checks": "OK",
    "metadata_account": "HihvSvRCckQMqKMq36sXDUgzBBMrPFW7gJtrQxGfKrrd",
    "metadata_name": "Mori Finance",
-   "metadata_symbol": "MORI"
+   "metadata_symbol": "MORI",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
@@ -7145,7 +7571,7 @@
    "monthly_budget_usd": "22500",
    "budget_wallets": 1,
    "budget_wallet_list": "8T1L43p9ASvewvgmk5beFY26nVgyrMa4HWaGM9ApPgGc",
-   "performance_package_tokens": "12000000",
+   "performance_package_raw": "12000000000000",
    "insider_lock_months": 18,
    "dao": "",
    "dao_vault": "",
@@ -7154,7 +7580,9 @@
    "checks": "OK",
    "metadata_account": "9ySNsw7uuFe6z3Chxfhs4YzzsMeiLReTqmxA9YvRb1HH",
    "metadata_name": "Koturo",
-   "metadata_symbol": "KOTU"
+   "metadata_symbol": "KOTU",
+   "token_decimals": 6,
+   "performance_package_tokens": "12000000"
   }
  ]
 }
