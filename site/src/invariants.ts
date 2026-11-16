@@ -95,6 +95,8 @@ export function checkInvariants(site: Site): string[] {
     if (!new RegExp(`(^|[^A-Za-z0-9])\\$?${sym}([^A-Za-z0-9]|$)`).test(press.quote)) fail.push(`names.json: the quote for ${mint} does not name the onchain symbol ${c.name.symbol}`);
   }
 
+  for (const mint of inputs.readings.keys()) if (!site.companies.some((x) => x.raise.mint === mint)) fail.push(`names.json: reading for ${mint}, which is not a company on the site`);
+
   // 8. Totals are not empty (a silent empty file must never publish as zeros).
   if (site.companies.length === 0 || inputs.flows.length === 0) fail.push('no companies or no movements');
   if (toCents(site.companies.reduce((a, c) => a + (c.treasury?.totalIn ?? 0n), 0n)) <= 0n) fail.push('total inflow is zero');

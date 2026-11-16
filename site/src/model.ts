@@ -3,8 +3,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { sum, type Micro } from './money.ts';
 import {
-  FLOW_CLASSES, parseFlows, parseNames, parseRaises, parseScanReport, parseTreasury, parseTreasuryReport,
-  type PressName, type Flow, type FlowClass, type Raise, type ScanReport, type TreasuryReport, type TreasuryRow, type UndecodedLaunch,
+  FLOW_CLASSES, parseFlows, parseNames, parseReadings, parseRaises, parseScanReport, parseTreasury, parseTreasuryReport,
+  type PressName, type Reading, type Flow, type FlowClass, type Raise, type ScanReport, type TreasuryReport, type TreasuryRow, type UndecodedLaunch,
 } from './schema.ts';
 
 export { MIN_REAL_RAISE } from './constants.ts';
@@ -17,6 +17,7 @@ export type Inputs = {
   readonly scanReport: ScanReport;
   readonly treasuryReport: TreasuryReport;
   readonly names: ReadonlyMap<string, PressName>;
+  readonly readings: ReadonlyMap<string, Reading>;
 };
 
 export function readInputs(dataDir: string, registryDir: string): Inputs {
@@ -28,6 +29,7 @@ export function readInputs(dataDir: string, registryDir: string): Inputs {
     scanReport: parseScanReport(f('scan-report.md')),
     treasuryReport: parseTreasuryReport(f('treasury-report.md')),
     names: parseNames(readFileSync(join(registryDir, 'names.json'), 'utf8')),
+    readings: parseReadings(readFileSync(join(registryDir, 'names.json'), 'utf8')),
   };
 }
 
@@ -54,6 +56,8 @@ export type Company = {
   readonly displayName: string;
   readonly treasury: Treasury | null; // null: the treasury could not be read (see problems)
   readonly problem: string | null;
+  /** An article only linked for reading (names.json "reading"): never quoted, never used for the name. */
+  readonly reading: Reading | null;
 };
 
 export type Site = {
@@ -120,7 +124,7 @@ export function buildSite(inputs: Inputs): Site {
         const totalOut = -sum(flows.filter((f) => f.usdc < 0n).map((f) => f.usdc));
         treasury = { row, flows, byClass, totalIn, totalOut, net: totalIn - totalOut };
       }
-      return { raise: r, name, displayName, treasury, problem: row ? null : problemFor(r.metadataSymbol ?? r.mint.slice(0, 8)) ?? problemFor(r.mint.slice(0, 8)) };
+      return { raise: r, name, displayName, treasury, reading: inputs.readings.get(r.mint) ?? null, problem: row ? null : problemFor(r.metadataSymbol ?? r.mint.slice(0, 8)) ?? problemFor(r.mint.slice(0, 8)) };
     })
     .sort((a, b) => Number((b.raise.raised ?? 0n) - (a.raise.raised ?? 0n)) || a.raise.mint.localeCompare(b.raise.mint));
 

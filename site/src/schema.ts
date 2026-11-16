@@ -355,6 +355,26 @@ export type PressName = {
 
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
 
+/** An article only linked for reading: never quoted, never used for a name or a figure. */
+export type Reading = { readonly source: string; readonly publisher: string; readonly published: string; readonly read: string };
+
+export function parseReadings(json: string): ReadonlyMap<string, Reading> {
+  const raw = JSON.parse(json) as Record<string, unknown>;
+  const out = new Map<string, Reading>();
+  for (const [k, v] of Object.entries(raw)) {
+    if (k.startsWith('_')) continue;
+    const r = (v as Record<string, unknown> | null)?.['reading'] as Record<string, unknown> | undefined;
+    if (r === undefined) continue;
+    if (!BASE58.test(k)) throw new SchemaError(`names.json: key ${k} is not a mint`);
+    const s = (f: string): string => { const x = r[f]; if (typeof x !== 'string' || x.trim() === '') throw new SchemaError(`names.json: ${k} reading needs ${f}`); return x; };
+    const e: Reading = { source: s('source'), publisher: s('publisher'), published: s('published'), read: s('read') };
+    if (!/^https:\/\//.test(e.source)) throw new SchemaError(`names.json: ${k} reading source must be an https URL`);
+    for (const d of ['published', 'read'] as const) if (!DAY.test(e[d]) || Number.isNaN(Date.parse(e[d]))) throw new SchemaError(`names.json: ${k} reading ${d} must be YYYY-MM-DD`);
+    out.set(k, e);
+  }
+  return out;
+}
+
 export function parseNames(json: string): ReadonlyMap<string, PressName> {
   const raw = JSON.parse(json) as Record<string, unknown>;
   const out = new Map<string, PressName>();
@@ -362,6 +382,10 @@ export function parseNames(json: string): ReadonlyMap<string, PressName> {
     if (k.startsWith('_')) continue;
     if (!BASE58.test(k)) throw new SchemaError(`names.json: key ${k} is not a mint`);
     const o = (v ?? {}) as Record<string, unknown>;
+    if ('reading' in o) {
+      if (Object.keys(o).length !== 1) throw new SchemaError(`names.json: ${k} is a reading and cannot also quote or name anything`);
+      continue;
+    }
     const s = (f: string): string => {
       const x = o[f];
       if (typeof x !== 'string' || x.trim() === '') throw new SchemaError(`names.json: ${k} needs ${f}`);

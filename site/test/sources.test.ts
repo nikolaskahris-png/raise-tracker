@@ -39,9 +39,11 @@ test('MetaDAO\'s market API and the removed name source are no longer used', () 
   assert.match(decisions, /market-api\.metadao\.fi[^\n]*❌ \*\*removed 16 Nov 2026\*\*/);
 });
 
-test('every article quoted in names.json is in DECISIONS.md with its date', () => {
-  const names = JSON.parse(readFileSync(join(ROOT, 'registry', 'names.json'), 'utf8')) as Record<string, { source?: string; published?: string }>;
-  for (const [k, v] of Object.entries(names)) {
+test('every article in names.json, quoted or only linked, is in DECISIONS.md with its date', () => {
+  type Entry = { source?: string; published?: string; reading?: { source: string; published: string } };
+  const names = JSON.parse(readFileSync(join(ROOT, 'registry', 'names.json'), 'utf8')) as Record<string, Entry>;
+  for (const [k, e] of Object.entries(names)) {
+    const v = e.reading ?? e;
     if (k.startsWith('_') || !v.source) continue;
     const host = new URL(v.source).host;
     const row = decisions.split('\n').find((l) => l.includes(host));
@@ -50,4 +52,14 @@ test('every article quoted in names.json is in DECISIONS.md with its date', () =
     const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][(mo ?? 1) - 1];
     assert.ok(row.includes(`${d} ${month} ${y}`), `${host}: publication date not in DECISIONS.md`);
   }
+});
+
+test('an article whose terms do not allow quoting is only linked (Solana Compass: no terms page)', () => {
+  const names = JSON.parse(readFileSync(join(ROOT, 'registry', 'names.json'), 'utf8')) as Record<string, Record<string, unknown>>;
+  for (const [k, v] of Object.entries(names)) {
+    if (k.startsWith('_')) continue;
+    const src = String((v['reading'] as { source?: string } | undefined)?.source ?? v['source'] ?? '');
+    if (src.includes('solanacompass.com')) { assert.ok('reading' in v && !('quote' in v), 'Solana Compass must be a reading, not a quote'); }
+  }
+  assert.match(decisions, /solanacompass\.com[^\n]*\*\*Link only\*\*/);
 });
