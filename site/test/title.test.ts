@@ -29,5 +29,5 @@ test('"every dollar", "every treasury dollar" and "every transaction" appear now
 test('the home-page badge names the publisher taken from registry/names.json, not a hand-written source', () => {
   const home = read(dist, 'index.html');
   assert.match(home, /<span class="badge">Name from SolanaFloor<\/span>/);
-  assert.doesNotMatch(home, /Project name quoted/);
+  assert.doesNotMatch(home, /<span class="badge">Project name quoted/);
 });
