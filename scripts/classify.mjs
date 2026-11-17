@@ -29,6 +29,24 @@ export function ixNames(logs) {
   }
   return out;
 }
+// The instructions that called Squads ProposalApprove in a transaction, as program:Instruction of the caller
+// ('top-level' when a member signed it directly).
+export function approvedBy(logs) {
+  const stack = [], out = [];
+  for (const l of logs || []) {
+    let m;
+    if ((m = l.match(/^Program (\w+) invoke \[\d+\]/))) stack.push({ program: m[1], ix: '' });
+    else if ((m = l.match(/^Program (\w+) (success|failed)/))) stack.pop();
+    else if ((m = l.match(/^Program log: Instruction: (\w+)/)) && stack.length) {
+      const top = stack.at(-1); top.ix = m[1];
+      if (top.program === SQUADS && m[1] === 'ProposalApprove') {
+        const caller = stack.at(-2);
+        out.push(caller ? `${PROGRAM_NAMES[caller.program] || caller.program.slice(0, 8)}:${caller.ix}` : 'top-level');
+      }
+    }
+  }
+  return out;
+}
 export const keysOf = tx => tx.transaction.message.accountKeys.map(k => (typeof k === 'string' ? k : k.pubkey)).concat(tx.meta.loadedAddresses ? [...tx.meta.loadedAddresses.writable, ...tx.meta.loadedAddresses.readonly] : []);
 const signersOf = tx => tx.transaction.message.accountKeys.filter(k => k.signer).map(k => k.pubkey);
 const allIxs = tx => [...tx.transaction.message.instructions, ...(tx.meta.innerInstructions || []).flatMap(i => i.instructions)];
@@ -85,19 +103,26 @@ export function makeClassifier({ rpc, proposals, adminVoteWindowS }) {
   const approvalCache = new Map();
   async function approvalOf(proposal) {
     if (approvalCache.has(proposal)) return approvalCache.get(proposal);
-    // Read the whole history of the Squads proposal and decide how it was approved.
-    // Market path: futarchy FinalizeProposal (a passed decision market) approves it.
-    // Admin paths (names differ across futarchy versions): any futarchy instruction whose name starts with "Admin",
+    // Read the whole history of the Squads proposal and decide how it was approved: by the instruction that called
+    // Squads ProposalApprove. Executing an approved proposal (e.g. futarchy AdminExecuteMultisigProposal, which only
+    // runs vault_transaction_execute) is not an approval.
+    // Market path: futarchy FinalizeProposal (a passed decision market) calls ProposalApprove.
+    // Admin paths (names differ across futarchy versions): a futarchy instruction whose name starts with "Admin",
     // or ExecuteMultisigProposalApproval, which consumes an approval enqueued by the admin or a liquidator.
     let finalize = false, admin = false; const approvers = new Set(), names = new Set();
     for (const s of await allSignatures(proposal)) {
       if (s.err) continue;
       const tx = await getTx(s.signature); const n = ixNames(tx.meta.logMessages);
       n.filter(x => x.startsWith('futarchy:') || x.startsWith('squads:Proposal')).forEach(x => names.add(x));
-      if (n.includes('futarchy:FinalizeProposal')) finalize = true;
-      if (n.some(x => /^futarchy:Admin/.test(x)) || n.includes('futarchy:ExecuteMultisigProposalApproval')) { admin = true; if (n.some(x => /^futarchy:Admin/.test(x))) signersOf(tx).forEach(k => approvers.add(k)); }
+      for (const by of approvedBy(tx.meta.logMessages)) {
+        if (by === 'futarchy:FinalizeProposal') finalize = true;
+        else if (/^futarchy:Admin/.test(by) || by === 'futarchy:ExecuteMultisigProposalApproval') admin = true;
+      }
+      // the keys that signed an admin-path transaction in its history (shown as the admin keys involved)
+      if (n.some(x => /^futarchy:Admin/.test(x))) signersOf(tx).forEach(k => approvers.add(k));
     }
     const how = admin ? 'admin_approved' : finalize ? 'market_approved' : 'unknown';
+    if (how !== 'admin_approved') approvers.clear();
     const linked = proposalBySquads.get(proposal);
     const res = { how, approver: [...approvers].join(' '), names: [...names].join(' '), decision: linked ? linked.state : 'none', decision_number: linked ? linked.number : '', decision_address: linked ? linked.address : '' };
     approvalCache.set(proposal, res); return res;

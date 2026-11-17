@@ -4,7 +4,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { indexProposals, makeClassifier } from '../classify.mjs';
+import { approvedBy, indexProposals, makeClassifier } from '../classify.mjs';
 
 const C = JSON.parse(readFileSync(new URL('../../constants.json', import.meta.url), 'utf8'));
 const F = new URL('./fixtures/classify/', import.meta.url);
@@ -63,9 +63,39 @@ test('the launch deposit names where the rest of the raise went, in exact base u
   assert.equal(m.launchOthers.map((o) => `${o.owner}:${o.account}:${micro(o.amount)}`).join(' '), want);
 });
 
+// An admin instruction that calls Squads ProposalApprove, and one that only executes (as AdminExecuteMultisigProposal does).
+const ADMIN_APPROVES = ['Program FUTARELBfJfQ8RDGhg1wdhddq1odMAJUePHFuBYfUxKq invoke [1]', 'Program log: Instruction: AdminApproveMultisigProposal', 'Program SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf invoke [2]', 'Program log: Instruction: ProposalApprove', 'Program SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf success', 'Program FUTARELBfJfQ8RDGhg1wdhddq1odMAJUePHFuBYfUxKq success'];
+const ADMIN_EXECUTES = ['Program FUTARELBfJfQ8RDGhg1wdhddq1odMAJUePHFuBYfUxKq invoke [1]', 'Program log: Instruction: AdminExecuteMultisigProposal', 'Program SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf invoke [2]', 'Program log: Instruction: VaultTransactionExecute', 'Program SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf success', 'Program FUTARELBfJfQ8RDGhg1wdhddq1odMAJUePHFuBYfUxKq success'];
+
+test('a market vote that the admin key only executed is still a market vote', async () => {
+  // The real Umbra market-vote movement, with an admin execution added to its Squads proposal's history: executing
+  // an approved proposal is not approving it, so it stays a market vote with no admin key.
+  const c = cases.find((x) => x.expect === 'market_approved');
+  const own = publishedRow(c.signature).approval.match(/proposal=(\w+)/)[1];
+  const tampered = structuredClone(answers);
+  const sigKey = Object.keys(tampered).find((x) => x.startsWith(`getSignaturesForAddress ["${own}"`));
+  const lastSig = tampered[sigKey].find((s) => !s.err).signature; // newest first
+  const txKey = Object.keys(tampered).find((x) => x.startsWith(`getTransaction ["${lastSig}"`));
+  tampered[txKey].meta.logMessages = [...tampered[txKey].meta.logMessages, ...ADMIN_EXECUTES];
+  const k = makeClassifier({ rpc: async (m, p) => { const key = `${m} ${JSON.stringify(p)}`; if (!(key in tampered)) throw new Error(`not in fixtures: ${key.slice(0, 120)}`); return structuredClone(tampered[key]); }, proposals, adminVoteWindowS: C.admin_vote_window_days * 86400 });
+  const m = await k.classify({ tx: await k.getTx(c.signature), ata: c.ata, multisig: c.multisig, dao: c.dao });
+  // the newest transaction of that history is the movement itself, so it now also says it was executed via the admin key
+  assert.equal(m.cls, 'market_approved');
+  assert.equal(m.approval, publishedRow(c.signature).approval.replace('market_approved ', 'market_approved (executed via admin key) '));
+});
+
+test('the approval path is the instruction that called ProposalApprove', () => {
+  assert.deepEqual(approvedBy(ADMIN_APPROVES), ['futarchy:AdminApproveMultisigProposal']);
+  assert.deepEqual(approvedBy(ADMIN_EXECUTES), []);
+  const c = cases.find((x) => x.expect === 'market_approved');
+  const k = Object.keys(answers).find((x) => x.startsWith(`getTransaction ["${c.finalize.signature}"`));
+  assert.deepEqual(approvedBy(answers[k].meta.logMessages), ['futarchy:FinalizeProposal'], 'the real FinalizeProposal approved the market vote');
+});
+
 test('a market vote whose Squads proposal was approved by an admin key is not a market vote', async () => {
-  // The real Umbra market-vote movement, with one stored transaction of its Squads proposal changed to have run an
-  // admin approval: the classifier must then call it an admin-key movement, timed against its own proposal.
+  // The real Umbra market-vote movement, with one stored transaction of its Squads proposal changed so that an admin
+  // instruction also called Squads ProposalApprove: the classifier must then call it an admin-key movement, timed
+  // against its own proposal.
   const c = cases.find((x) => x.expect === 'market_approved');
   const k0 = classifier();
   const tx = await k0.getTx(c.signature);
@@ -74,7 +104,7 @@ test('a market vote whose Squads proposal was approved by an admin key is not a 
   const sigKey = Object.keys(tampered).find((x) => x.startsWith(`getSignaturesForAddress ["${own}"`));
   const firstSig = tampered[sigKey].find((s) => !s.err).signature;
   const txKey = Object.keys(tampered).find((x) => x.startsWith(`getTransaction ["${firstSig}"`));
-  tampered[txKey].meta.logMessages = [...tampered[txKey].meta.logMessages, 'Program FUTARELBfJfQ8RDGhg1wdhddq1odMAJUePHFuBYfUxKq invoke [1]', 'Program log: Instruction: AdminEnqueueMultisigProposalApproval', 'Program FUTARELBfJfQ8RDGhg1wdhddq1odMAJUePHFuBYfUxKq success'];
+  tampered[txKey].meta.logMessages = [...tampered[txKey].meta.logMessages, ...ADMIN_APPROVES];
   // The futarchy proposal's history has thousands of trades; the recorder stored only its FinalizeProposal
   // (a proposal is finalized once), so its history is served as that one real transaction.
   tampered[`getSignaturesForAddress ${JSON.stringify([c.finalize.proposal, { limit: 1000 }])}`] = [{ signature: c.finalize.signature, err: null }];
