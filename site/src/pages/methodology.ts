@@ -41,6 +41,7 @@ const ADMIN_ENQUEUE = '6awyHMshBGVjJ3ozdSJdyyDE1CTAXUwrpNMaRGMsb4sf';
 const ADMIN_EXECUTE = 'CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2';
 export const codeUrl = (file: string, line: number): string => `https://github.com/metaDAOproject/programs/blob/${MD_COMMIT}/programs/futarchy/src/instructions/${file}#L${line}`;
 const code = (file: string, line: number): string => `<a class="chip" href="${codeUrl(file, line)}" rel="noopener">${file}#L${line}</a>`;
+const squadsIx = (file: string, line: number): string => `<a class="chip" href="https://github.com/Squads-Protocol/v4/blob/${SQUADS_COMMIT}/programs/squads_multisig_program/src/instructions/${file}#L${line}" rel="noopener">squads ${file}#L${line}</a>`;
 const squadsCode = (line: number): string => `<a class="chip" href="https://github.com/Squads-Protocol/v4/blob/${SQUADS_COMMIT}/programs/squads_multisig_program/src/state/spending_limit.rs#L${line}" rel="noopener">squads spending_limit.rs#L${line}</a>`;
 
 export function methodologyPage(ctx: Ctx, site: Site): string {
@@ -112,7 +113,7 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 </ul>
 <p><b>This is timing, not proof.</b> The chain shows which proposal passed and when. It does not tell us whether that proposal covers the exact payment; for that, read the proposal.</p>
 <h2 id="budget">Team budget</h2>
-<p>The team's monthly allowance is a Squads spending limit that the DAO creates at launch with the period <code>Month</code> (${code('initialize_dao.rs', 169)}), which Squads defines as ${constant('spending_limit_period_days')} days (${squadsCode(104)}). <b>Allowed at the launch limit</b> is the number of periods started since the raise times the monthly limit set at launch. A DAO can change its limit by proposal, so we also read the current limit. When it differs from the launch limit, the page says so and marks the change as pending until the transaction that changed it is linked. Draws above the launch limit are not judged while that is pending.</p>
+<p>The team's monthly allowance is a Squads spending limit that the DAO creates at launch with the period <code>Month</code> (${code('initialize_dao.rs', 169)}), which Squads defines as ${constant('spending_limit_period_days')} days (${squadsCode(104)}). <b>Allowed at the launch limit</b> is the number of periods started since the raise times the monthly limit set at launch. A limit can be changed or removed after launch, so we also read the current limit and every transaction in the limit account's history that changed it. A change is a transaction that runs Squads <code>MultisigAddSpendingLimit</code>: the amount it set is read from the instruction's arguments (${squadsIx('multisig_add_spending_limit.rs', 7)}). A removal is one that runs only <code>MultisigRemoveSpendingLimit</code>, which closes the account (${squadsIx('multisig_remove_spending_limit.rs', 23)}). Each is shown with its transaction and the path that approved it, decided as for a movement: from the Squads proposal the change executed, by the instruction that called <code>ProposalApprove</code> (the admin path, or a passed futarchy proposal's <code>FinalizeProposal</code>). The publication gate checks that the last change matches the chain today: the amount the account holds, or no account after a removal. The figures still measure draws against the limit at launch. If a limit differs from launch and no change is found, the page marks it as pending.</p>
 
 <h2 id="reconcile">Reconciliation</h2>
 <p>For each treasury we add up every movement, positive in and negative out, and compare the total with the balance read in the same scan. A treasury is shown only if they agree. Amounts are added as whole numbers of micro-USDC (USDC has six decimals), never as floating-point numbers, so no amount is lost to rounding.</p>
@@ -145,7 +146,6 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 <ul>
 <li>Where the USDC that left in the launch transaction to accounts other than the treasury went afterwards, and every token other than USDC.</li>
 <li>What each <b>other inflow</b> was for.</li>
-<li>The transaction that changed a DAO's <b>spending limit</b>, where it changed.</li>
 <li>Whether each <b>admin-key movement</b> matches the proposal shown before it.</li>
 <li>Raises on launchpad ${programChip('v05')} and ${programChip('v041')}, which are counted but not decoded: their code is not in the current version of MetaDAO's repository.</li>
 <li>Treasuries whose USDC account is not owned by the DAO vault, shown as not read.</li>

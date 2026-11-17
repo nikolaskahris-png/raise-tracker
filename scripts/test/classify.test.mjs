@@ -125,3 +125,26 @@ test('a market vote whose Squads proposal was approved by an admin key is not a 
   assert.equal(m.prior?.address, futarchyProposal);
   assert.equal(m.prior?.finalize_signature, f.signature);
 });
+
+// Item 8: the transactions that changed a team-budget limit, replayed from stored answers
+// (recorded by scripts/test/record-limit-changes.mjs, which also wrote the fixture column).
+const limits = read('limits.json');
+for (const [label, want] of Object.entries(limits)) {
+  test(`${label}: the limit changes read offline equal the fixture column`, async () => {
+    const rpc = async (method, params) => {
+      const key = `${method} ${JSON.stringify(params)}`;
+      if (!(key in want.answers)) throw new Error(`not in fixtures: ${key.slice(0, 120)}`);
+      return structuredClone(want.answers[key]);
+    };
+    const k = makeClassifier({ rpc, proposals: indexProposals([]), adminVoteWindowS: 0 });
+    const ch = await k.spendingLimitChanges({ account: want.account, dao: want.dao, multisig: want.multisig, launchSignature: want.launch_signature, skip: new Set(want.skip) });
+    const micro = (v) => `${v / 1000000n}.${(v % 1000000n).toString().padStart(6, '0')}`;
+    assert.equal(ch.map((c) => `${c.time}|${c.signature}|${c.path}|${c.action}|${c.amount === null ? '' : micro(c.amount)}|${c.period}`).join(' '), want.expect);
+    const t = readFileSync(new URL('../../site/test/fixtures/2026-11-16/treasury.csv', import.meta.url), 'utf8').replace(/\r/g, '').trim().split('\n');
+    assert.ok(t.find((l) => l.startsWith(`${label},`)).endsWith(`,${want.expect}`), 'the fixture column is what the chain gives');
+  });
+}
+test('the stored limit changes cover both approval paths and a removal', () => {
+  const all = Object.values(limits).map((x) => x.expect).join(' ');
+  for (const s of ['|admin|set|', '|proposal|set|', '|admin|removed||']) assert.ok(all.includes(s), s);
+});

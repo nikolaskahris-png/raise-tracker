@@ -175,7 +175,14 @@ export type TreasuryRow = {
   readonly launchSignature: string;
   readonly launchOther: Micro;
   readonly launchRecipients: readonly { readonly owner: string; readonly account: string; readonly amount: Micro }[];
+  /** Every transaction that set the team-budget limit after launch, oldest first: the monthly amount it set, and
+   *  whether MetaDAO's admin key or a passed futarchy proposal approved it. */
+  readonly limitChanges: readonly LimitChange[];
 };
+/** `set`: the transaction set the limit to `amount` per `period`. `removed`: it removed the limit, leaving none. */
+export type LimitChange =
+  | { readonly time: Date; readonly signature: string; readonly path: 'admin' | 'proposal' | 'other'; readonly action: 'set'; readonly amount: Micro; readonly period: string }
+  | { readonly time: Date; readonly signature: string; readonly path: 'admin' | 'proposal' | 'other'; readonly action: 'removed'; readonly amount: null; readonly period: '' };
 
 export const FLOW_CLASSES = ['launch_funding', 'inflow_other', 'team_budget', 'market_approved', 'admin_after_vote', 'admin_vote_passed_after', 'admin_vote_no_finalize', 'admin_no_vote_found', 'admin_against_market', 'liquidation', 'other_out'] as const;
 export type FlowClass = (typeof FLOW_CLASSES)[number];
@@ -197,8 +204,25 @@ const CLASS_COLUMN: Record<FlowClass, string> = {
 export function parseTreasury(text: string): TreasuryRow[] {
   const F = 'treasury.csv';
   const { header, rows } = parseCsv(text, F);
-  requireColumns(F, header, ['ticker', 'base_mint', 'launch', 'dao', 'dao_vault', 'track', 'raised_usd', 'balance_now_usd', ...Object.values(CLASS_COLUMN), 'periods_started', 'monthly_budget_usd', 'spending_limit_now_usd', 'limit_changed', 'reconciles', 'treasury_usdc_account', 'squads_multisig', 'spending_limit_account', 'balance_slot', 'launch_signature', 'launch_other_usdc', 'launch_other_recipients']);
+  requireColumns(F, header, ['ticker', 'base_mint', 'launch', 'dao', 'dao_vault', 'track', 'raised_usd', 'balance_now_usd', ...Object.values(CLASS_COLUMN), 'periods_started', 'monthly_budget_usd', 'spending_limit_now_usd', 'limit_changed', 'reconciles', 'treasury_usdc_account', 'squads_multisig', 'spending_limit_account', 'balance_slot', 'launch_signature', 'launch_other_usdc', 'launch_other_recipients', 'spending_limit_changes']);
   return rows.map((r) => {
+    const limitChanges = r.get('spending_limit_changes') === '' ? [] : r.get('spending_limit_changes').split(' ').map((x): LimitChange => {
+      const parts = x.split('|');
+      if (parts.length !== 6) throw at(F, r, 'spending_limit_changes', `expected 6 fields in ${x}`);
+      const [t = '', signature = '', path = '', action = '', amount = '', period = ''] = parts;
+      const time = new Date(t);
+      if (!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z$/.test(t) || Number.isNaN(time.getTime())) throw at(F, r, 'spending_limit_changes', `bad time in ${x}`);
+      if (!SIGNATURE.test(signature)) throw at(F, r, 'spending_limit_changes', `bad signature in ${x}`);
+      if (path !== 'admin' && path !== 'proposal' && path !== 'other') throw at(F, r, 'spending_limit_changes', `bad path in ${x}`);
+      if (action === 'removed') {
+        if (amount !== '' || period !== '') throw at(F, r, 'spending_limit_changes', `a removal sets no amount: ${x}`);
+        return { time, signature, path, action, amount: null, period: '' };
+      }
+      if (action !== 'set') throw at(F, r, 'spending_limit_changes', `bad action in ${x}`);
+      if (!['OneTime', 'Day', 'Week', 'Month'].includes(period)) throw at(F, r, 'spending_limit_changes', `bad period in ${x}`);
+      try { return { time, signature, path, action, amount: parseMicro(amount), period }; } catch (e) { throw at(F, r, 'spending_limit_changes', (e as Error).message); }
+    });
+    for (let i = 1; i < limitChanges.length; i++) if ((limitChanges[i]?.time.getTime() ?? 0) < (limitChanges[i - 1]?.time.getTime() ?? 0)) throw at(F, r, 'spending_limit_changes', 'not oldest first');
     const cols = {} as Record<FlowClass, Micro>;
     for (const c of FLOW_CLASSES) cols[c] = money(F, r, CLASS_COLUMN[c]);
     return {
@@ -227,6 +251,7 @@ export function parseTreasury(text: string): TreasuryRow[] {
         if (!BASE58.test(owner) || !BASE58.test(account)) throw at(F, r, 'launch_other_recipients', `bad recipient ${x}`);
         try { return { owner, account, amount: parseMicro(amount) }; } catch (e) { throw at(F, r, 'launch_other_recipients', (e as Error).message); }
       }),
+      limitChanges,
     };
   });
 }
