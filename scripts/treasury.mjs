@@ -141,7 +141,10 @@ const ADMIN_VOTE_WINDOW_S = C.admin_vote_window_days * DAY_S; // a proposal that
 const iso = t => new Date(t * 1000).toISOString();
 const microStr = v => `${v < 0n ? '-' : ''}${(v < 0n ? -v : v) / 1000000n}.${((v < 0n ? -v : v) % 1000000n).toString().padStart(6, '0')}`;
 
-const raises = JSON.parse(readFileSync('data/raises.json', 'utf8')).rows
+// The exact raises.json this step read: its sha256 and scan slot go into the report, and the site checks them against the scan's.
+const raisesText = readFileSync('data/raises.json', 'utf8');
+const raisesRead = { sha256: createHash('sha256').update(raisesText).digest('hex'), slot: JSON.parse(raisesText).scanned_slot };
+const raises = JSON.parse(raisesText).rows
   .filter(r => r.decoded === 'yes' && r.state === 'Complete' && Number(r.minimum_raise_usd) >= C.min_real_raise_usd && r.dao_vault && r.dao);
 const summary = [], flows = [], seen = {}, problems = [];
 const now = Date.now();
@@ -265,7 +268,7 @@ writeFileSync('data/treasury.csv', csv(summary));
 writeFileSync('data/treasury-flows.csv', csv(flows));
 const tot = k => summary.reduce((a, s) => a + Number(s[k]), 0).toFixed(0);
 const report = [
-  `# Treasury report — ${new Date().toISOString()}`, '', `Treasuries: ${summary.length} of ${raises.length}. RPC calls: ${rpcStats.calls}.`,
+  `# Treasury report — ${new Date().toISOString()}`, '', `Read raises.json sha256: ${raisesRead.sha256}, from the scan at slot ${raisesRead.slot}`, '', `Treasuries: ${summary.length} of ${raises.length}. RPC calls: ${rpcStats.calls}.`,
   `Reconciled (history sums exactly to today's balance): ${summary.filter(s => s.reconciles === 'yes').length}/${summary.length}`, '',
   `Futarchy proposals indexed: ${proposalBySquads.size} (decode errors: ${proposalDecodeErrors})`, '',
   '## Outflows, all treasuries (USD)', `- team_budget: ${tot('team_budget_usd')}`, `- market_approved (linked proposal Passed): ${tot('market_approved_usd')}`, `- admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): ${tot('admin_after_vote_usd')}`, `- admin_vote_passed_after (admin key; a proposal enqueued before the movement finalized as Passed after it): ${tot('admin_vote_passed_after_usd')}`, `- admin_vote_no_finalize (admin key; a Passed proposal whose FinalizeProposal was not found): ${tot('admin_vote_no_finalize_usd')}`,`- admin_no_vote_found (admin key; no passed proposal on this DAO in the 60 days before): ${tot('admin_no_vote_found_usd')}`, `- admin_against_market (admin key, linked proposal not Passed): ${tot('admin_against_market_usd')}`, `- liquidation: ${tot('liquidation_usd')}`, `- other_out: ${tot('other_out_usd')}`, '',

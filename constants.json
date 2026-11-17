@@ -10,5 +10,9 @@
   "sample_treasuries": 3,
   "sample_movements": 10,
   "ledger_min_usd": 1000,
-  "scan_times_utc": ["05:17", "17:41"]
+  "scan_times_utc": [
+    "05:17",
+    "17:41"
+  ],
+  "max_report_gap_hours": 2
 }

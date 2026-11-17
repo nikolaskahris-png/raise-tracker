@@ -1,5 +1,6 @@
 // Loads every input file and joins them into the shape the pages render.
 import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { sum, type Micro } from './money.ts';
 import {
@@ -18,12 +19,15 @@ export type Inputs = {
   readonly treasuryReport: TreasuryReport;
   readonly names: ReadonlyMap<string, PressName>;
   readonly readings: ReadonlyMap<string, Reading>;
+  /** sha256 of raises.csv exactly as the site read it (line endings normalised to LF, as the scan wrote it). */
+  readonly raisesCsvSha: string;
 };
 
 export function readInputs(dataDir: string, registryDir: string): Inputs {
   const f = (name: string) => readFileSync(join(dataDir, name), 'utf8');
   return {
     raises: parseRaises(f('raises.csv')),
+    raisesCsvSha: createHash('sha256').update(f('raises.csv').replace(/\r\n?/g, '\n')).digest('hex'),
     treasury: parseTreasury(f('treasury.csv')),
     flows: parseFlows(f('treasury-flows.csv')),
     scanReport: parseScanReport(f('scan-report.md')),

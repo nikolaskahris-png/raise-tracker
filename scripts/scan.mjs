@@ -104,15 +104,20 @@ rows.sort((x, y) => (x.started_utc || '').localeCompare(y.started_utc || ''));
 const cols = ['version', 'launch', 'decoded', 'metadata_account', 'metadata_name', 'metadata_symbol', 'base_mint', 'state', 'launch_authority', 'track', 'started_utc', 'closed_utc', 'completed_utc', 'duration_days', 'minimum_raise_usd', 'committed_usd', 'raised_usd', 'oversubscription', 'monthly_budget_usd', 'budget_wallets', 'budget_wallet_list', 'token_decimals', 'performance_package_tokens', 'insider_lock_months', 'dao', 'dao_vault', 'team_address', 'bytes', 'checks'];
 const esc = s => { s = s === undefined || s === null ? '' : String(s); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
 mkdirSync('data', { recursive: true });
-writeFileSync('data/raises.csv', [cols.join(',')].concat(rows.map(r => cols.map(c => esc(r[c])).join(','))).join('\n') + '\n');
-writeFileSync('data/raises.json', JSON.stringify({ scanned_at: new Date().toISOString(), scanned_slot: scanSlot, programs: PROGRAMS, counts, rows }, null, 1));
+// Both files are written from the same rows; their sha256 go into the report so the treasury step and the site
+// can prove they used exactly these files.
+const raisesCsv = [cols.join(',')].concat(rows.map(r => cols.map(c => esc(r[c])).join(','))).join('\n') + '\n';
+const raisesJson = JSON.stringify({ scanned_at: new Date().toISOString(), scanned_slot: scanSlot, programs: PROGRAMS, counts, rows }, null, 1);
+writeFileSync('data/raises.csv', raisesCsv);
+writeFileSync('data/raises.json', raisesJson);
+const sha256 = s => createHash('sha256').update(s).digest('hex');
 
 const dec = rows.filter(r => r.decoded === 'yes');
 const byState = {}; for (const r of dec) byState[r.state] = (byState[r.state] || 0) + 1;
 const trackStats = t => { const set = dec.filter(r => r.track === t); const c = set.filter(r => r.state === 'Complete').length, f = set.filter(r => r.state === 'Refunding').length; return `- ${t}: ${set.length} raises, ${c} complete, ${f} refunding, ${set.length - c - f} other${c + f ? `, success ${(100 * c / (c + f)).toFixed(1)}% of finished` : ''}`; };
 const failedChecks = dec.filter(r => r.checks !== 'OK');
 const report = [
-  `# Scan report — ${new Date().toISOString()}`, '', `Slot at the start of the scan: ${scanSlot}`, '',
+  `# Scan report — ${new Date().toISOString()}`, '', `Slot at the start of the scan: ${scanSlot}`, '', `raises.json sha256: ${sha256(raisesJson)}`, `raises.csv sha256: ${sha256(raisesCsv)}`, '',
   '## Launch accounts per program', ...Object.entries(counts).map(([v, n]) => `- ${v} (${PROGRAMS[v]}): ${n}${DECODABLE.has(v) ? '' : ' — not decoded (older layout)'}`), '',
   '## By track', trackStats('curated'), trackStats('permissionless'), trackStats('test'), '',
   '## Decoded raises by state', ...Object.entries(byState).map(([s, n]) => `- ${s}: ${n}`), '',

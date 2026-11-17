@@ -1,5 +1,7 @@
 # Treasury report — 2026-11-16T01:38:10.046Z
 
+Read raises.json sha256: 27b307ca3bb0bfd4278ec0582fca6e0943e14bb598319cbec2f7d484a26ec7c0, from the scan at slot 469948591
+
 Treasuries: 31 of 33. RPC calls: 1376.
 Reconciled (history sums exactly to today's balance): 31/31
 
