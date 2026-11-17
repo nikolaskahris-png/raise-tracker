@@ -46,6 +46,9 @@ test('the workflows keep a second scan time, one data writer at a time, and only
   for (const f of ['scan.yml', 'collect.yml']) {
     assert.match(wf(f), /concurrency:\s*\n\s*group: data-writes/, f);
     assert.match(wf(f), /git pull --rebase\s*\n\s*git push/, f);
+    // a run that waited in the queue starts from the branch's tip, not from the commit that was current when it was queued
+    assert.match(wf(f), /uses: actions\/checkout@v4\s*\n\s*with:\s*\n\s*ref: \$\{\{ github\.ref_name \}\}/, f);
+    assert.doesNotMatch(wf(f), /cancel-in-progress: true/, f);
   }
   const site = wf('site.yml');
   assert.match(site, /workflows: \[scan-raises\]\s*\n\s*types: \[completed\]\s*\n\s*branches: \[main\]/);

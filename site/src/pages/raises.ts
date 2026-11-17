@@ -110,7 +110,7 @@ ${authorities.map((a) => `<tr><td>${chip(a.authority, 'address')}</td><td>${TRAC
 </section>
 <section class="wrap" style="padding-top:48px;padding-bottom:24px">
 <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px">
-<div><div class="eyebrow" style="margin-bottom:12px">All ${fig(fmtInt(withTreasury.length), { kind: 'sum', what: 'treasuries read', rows: { companies: withTreasury } })} treasuries</div><h2 style="font-size:clamp(26px,3vw,36px);font-weight:600">Where every treasury dollar went</h2></div>
+<div><div class="eyebrow" style="margin-bottom:12px">All ${fig(fmtInt(withTreasury.length), { kind: 'sum', what: 'treasuries read', rows: { companies: withTreasury } })} treasuries</div><h2 style="font-size:clamp(26px,3vw,36px);font-weight:600">Where the treasuries' USDC went</h2></div>
 <div class="soft" style="font-size:14px">Total that came in: ${fig(fmtUsd(T.totalIn, { decimals: 2 }), { kind: 'sum', what: 'every movement into the treasuries', rows: { flows: site.allFlows.filter((f) => f.usdc > 0n) } }, { style: 'font-weight:600;color:#0A0B0F' })}</div>
 </div>
 <div class="card" style="padding:clamp(20px,3vw,32px)">
@@ -146,7 +146,7 @@ ${site.undecoded.length ? `<div class="card" style="padding:20px"><span class="b
 <div style="display:flex;flex-wrap:wrap;gap:12px"><a href="${url(ctx, 'methodology/')}" class="btn btn-dark">Read the methodology</a><a href="https://github.com/${ctx.repo}" class="btn btn-light" rel="noopener">View source</a></div>
 </div>
 </section>`;
-  return page(ctx, { title: 'All raises: how MetaDAO raises went, and where every treasury dollar went | raise-tracker', description: 'How every raise on MetaDAO went, by launch authority, and where the money in the treasuries went. Every figure links to its source.', active: 'raises', body });
+  return page(ctx, { title: "All raises: how MetaDAO raises went, and where the treasuries' USDC went | raise-tracker", description: 'How every raise on MetaDAO went, by launch authority, and where the money in the treasuries went. Every figure links to its source.', active: 'raises', body });
 }
 
 export const _test = { totals };
