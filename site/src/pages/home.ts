@@ -71,7 +71,7 @@ const trackOf = (c: Company): string => (c.raise.track === 'permissionless' ? 'p
 
 function nameBits(c: Company): { tag: string; sub: string; when: string } {
   const r = c.raise;
-  const tag = c.name.kind === 'none' ? ' <span class="badge">Name pending</span>' : c.name.press ? ' <span class="badge">Project name quoted</span>' : '';
+  const tag = c.name.kind === 'none' ? ' <span class="badge">Name pending</span>' : c.name.press ? ` <span class="badge">Name from ${esc(c.name.press.publisher)}</span>` : '';
   const sub = c.name.kind === 'onchain' ? c.name.symbol : `${r.mint.slice(0, 8)}…`;
   const w = r.completed ?? r.closed ?? r.started;
   return { tag, sub, when: w ? date(w, 'month') : '' };
@@ -162,5 +162,5 @@ export function homePage(ctx: Ctx, site: Site): string {
 </div>
 ${TABLE_JS}
 </section>`;
-  return page(ctx, { title: 'raise-tracker: what teams raised on MetaDAO, and what is left in their treasuries', description: 'What teams raised on MetaDAO, what they have left in their treasuries and what their public code shows. Every figure links to its source.', active: 'companies', body });
+  return page(ctx, { title: 'raise-tracker: what teams raised on MetaDAO, what they have left, and what their public code shows', description: 'What teams raised on MetaDAO, what they have left in their treasuries and what their public code shows. Every figure links to its source.', active: 'companies', body });
 }
