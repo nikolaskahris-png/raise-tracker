@@ -213,7 +213,7 @@ th[aria-sort=ascending] .sortbtn::after{content:"↑"}th[aria-sort=descending] .
 .colist dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px;margin:6px 0 0;font-size:13px}
 .colist dt{color:#55524c;font-size:11px;text-transform:uppercase;letter-spacing:.05em}.colist dd{margin:2px 0 0}
 .colist .recs{margin-top:12px;font-size:13px;line-height:1.5}
-.colist .open{display:inline-flex;align-items:center;gap:.3em;min-height:44px;font-weight:500;font-size:14px}
+.colist .open{display:inline-block;line-height:44px;min-height:44px;font-weight:500;font-size:14px}
 .tblbox{overflow-x:auto}
 .filters{padding-top:6px}.srch{width:100%}.srch input{width:100%}
 .tabbar label{min-height:44px}

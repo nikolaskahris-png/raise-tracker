@@ -256,6 +256,10 @@ test('B13. the phone layout: the table is hidden, the list shows, tap targets ar
   assert.match(mobile, /\.colist \.open\{[^}]*min-height:44px/);
   assert.match(mobile, /\.topnav a\{[^}]*min-height:44px/);
   assert.match(css, /\.colist\{display:none\}/);
+  // "Open Umbra’s page": no gap between the name and the apostrophe, in the markup or from the layout
+  assert.match(css, /\.colist \.open\{display:inline-block;/);
+  assert.doesNotMatch(/\.colist \.open\{([^}]*)\}/.exec(css)?.[1] ?? '', /gap|flex/);
+  for (const m of home.matchAll(/<a class="open"[^>]*>(.*?)<\/a>/g)) assert.match(m[1] ?? '', /^Open <span data-label[^>]*>[^<]*<\/span>’s page →$/);
   assert.match(css, /\.tabbar label\{[^}]*min-height:44px/);
 });
 

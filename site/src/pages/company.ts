@@ -179,7 +179,7 @@ function whereItWent(ctx: Ctx, t: Treasury, nm: string): string {
   })();
   return `<section class="wrap" style="padding-top:56px">
 <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px">
-<div><div class="eyebrow" style="margin-bottom:12px">Treasury</div><h2 style="font-size:clamp(26px,3vw,34px);font-weight:600">Where every treasury dollar went</h2></div>
+<div><div class="eyebrow" style="margin-bottom:12px">Treasury</div><h2 style="font-size:clamp(26px,3vw,34px);font-weight:600">Where the treasury's USDC went</h2></div>
 ${t.row.reconciles ? `<a class="badge b-v" href="${meth('reconcile')}">History reconciles to the cent</a>` : ''}
 </div>
 <div class="card" style="padding:clamp(20px,3vw,32px)">

@@ -12,6 +12,7 @@ test('no page claims to follow every dollar; titles say treasury dollars', () =>
   }
   assert.match(visible(home), /What teams raised on MetaDAO, what they have left, and what their public code shows/);
   assert.match(visible(read(dist, 'raises/index.html')), /Where every treasury dollar went/);
-  assert.match(visible(umbra), /Where every treasury dollar went/);
+  assert.match(visible(umbra), /Where the treasury's USDC went/);
+  assert.doesNotMatch(visible(umbra), /every treasury dollar/);
   assert.match(/<title>([^<]*)<\/title>/.exec(home)?.[1] ?? '', /every treasury dollar/);
 });
