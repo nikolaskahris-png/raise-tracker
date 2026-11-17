@@ -1,0 +1,54 @@
+[
+ {
+  "ticker": "UMBRA",
+  "expect": "launch_funding",
+  "signature": "2QRczdVYwrec2ebwtuhgnFkPQc36e6ZvVgXpyq3wH9tScKZJG3yy4TbQbJ2LXTXbdGRV2sv5PXpGLqFEGHr8Xaco",
+  "ata": "43GopUATK1nhWwmj1cm2mN1TocvaxdXgKg8VD64ZtviR",
+  "multisig": "3ED6NpBuvkbp2x8VME9P718jpyzKeafpKZgMn2LbXeP9",
+  "dao": "BLkBSE96kQys7SrMioKxeMiVbeo4Ckk2Y4n1JphKxYnv"
+ },
+ {
+  "ticker": "UMBRA",
+  "expect": "team_budget",
+  "signature": "3at12jz6ASSjA6jZHRTehqGMg2aRE7CSbU9oR48sqJbni8bhxgHDCauamLHC9WrQdxDwp2Ro3PjytawS5pgzZUj9",
+  "ata": "43GopUATK1nhWwmj1cm2mN1TocvaxdXgKg8VD64ZtviR",
+  "multisig": "3ED6NpBuvkbp2x8VME9P718jpyzKeafpKZgMn2LbXeP9",
+  "dao": "BLkBSE96kQys7SrMioKxeMiVbeo4Ckk2Y4n1JphKxYnv"
+ },
+ {
+  "ticker": "UMBRA",
+  "expect": "market_approved",
+  "signature": "4R3UzACotNYkp5mYCQ8RCwbLdbXZG33YRsVtGVW5gpLZzFAVfXZyJBSYTtDWTdQAg8bcWqF82HAG8XrW8QJpH6gt",
+  "ata": "43GopUATK1nhWwmj1cm2mN1TocvaxdXgKg8VD64ZtviR",
+  "multisig": "3ED6NpBuvkbp2x8VME9P718jpyzKeafpKZgMn2LbXeP9",
+  "dao": "BLkBSE96kQys7SrMioKxeMiVbeo4Ckk2Y4n1JphKxYnv",
+  "finalize": {
+   "proposal": "71nYHjLpgY7evn9G4UaGCBd6cYHpGWzrzd3ESs2KUduG",
+   "signature": "5HssNDahUQTPQgab9b66SGkveL2tcScegTJZcRKrfSEqmfkDEdAEQToaK84paEirN76v2AaqqKKNkrS2MLophDtS"
+  }
+ },
+ {
+  "ticker": "UMBRA",
+  "expect": "inflow_other",
+  "signature": "5hzPubvZtf8oZvFijLDwjD38wmjqnQ71t9EQufGM6cMRpSWd3yYRGXyNqFGkkHdpB2kJF3TqJLi7gnsYzTKyqE9k",
+  "ata": "43GopUATK1nhWwmj1cm2mN1TocvaxdXgKg8VD64ZtviR",
+  "multisig": "3ED6NpBuvkbp2x8VME9P718jpyzKeafpKZgMn2LbXeP9",
+  "dao": "BLkBSE96kQys7SrMioKxeMiVbeo4Ckk2Y4n1JphKxYnv"
+ },
+ {
+  "ticker": "FUTARDIO",
+  "expect": "admin_after_vote",
+  "signature": "4v4h6zR3FjYSHZoDLyRjc7nudSJ4rfskv1bvjisGs3GsJc6kfJx3bfi3f7EWCpr537P3ogpPnGtKu3SwbShyUao8",
+  "ata": "5nX4ejGFqTZTL3aLrU9QgLUwMHrZtQAPVPWXHpumRUMA",
+  "multisig": "6WsgyumdJd8zuUaoo11KP3kB62QUwJ33WMBofeYg8nLM",
+  "dao": "CkEUCAooQi64UFhPFS5MWpZw6LQqjsDQBj3Z5uiXS1eN"
+ },
+ {
+  "ticker": "FUTARDIO",
+  "expect": "other_out",
+  "signature": "2mAuCQvcriHSmLvYaNqm2dsykneuCd6pKAViR6yqCGmrd5bPimAC26HZKj8c95GoQ8bsekEDkS1HtqsykcvB23jJ",
+  "ata": "5nX4ejGFqTZTL3aLrU9QgLUwMHrZtQAPVPWXHpumRUMA",
+  "multisig": "6WsgyumdJd8zuUaoo11KP3kB62QUwJ33WMBofeYg8nLM",
+  "dao": "CkEUCAooQi64UFhPFS5MWpZw6LQqjsDQBj3Z5uiXS1eN"
+ }
+]
