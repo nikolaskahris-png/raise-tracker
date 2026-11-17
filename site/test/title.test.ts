@@ -23,5 +23,11 @@ test('"every dollar", "every treasury dollar" and "every transaction" appear now
   const walk = (dir: string): string[] => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? walk(p) : /\.(html|csv|css|md)$/.test(n) ? [p] : []; });
   const files = walk(dist);
   assert.ok(files.length > 100, `only ${files.length} files built`);
-  for (const f of files) assert.doesNotMatch(readFileSync(f, 'utf8'), /every (treasury dollar|dollar|transaction)/i, f);
+  for (const f of files) assert.doesNotMatch(readFileSync(f, 'utf8'), /every\s+(treasury\s+dollar|dollar|transaction)/i, f);
+});
+
+test('the home-page badge names the publisher taken from registry/names.json, not a hand-written source', () => {
+  const home = read(dist, 'index.html');
+  assert.match(home, /<span class="badge">Name from SolanaFloor<\/span>/);
+  assert.doesNotMatch(home, /Project name quoted/);
 });

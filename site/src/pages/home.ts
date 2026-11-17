@@ -71,7 +71,7 @@ const trackOf = (c: Company): string => (c.raise.track === 'permissionless' ? 'p
 
 function nameBits(c: Company): { tag: string; sub: string; when: string } {
   const r = c.raise;
-  const tag = c.name.kind === 'none' ? ' <span class="badge">Name pending</span>' : c.name.press ? ' <span class="badge">Project name quoted</span>' : '';
+  const tag = c.name.kind === 'none' ? ' <span class="badge">Name pending</span>' : c.name.press ? ` <span class="badge">Name from ${esc(c.name.press.publisher)}</span>` : '';
   const sub = c.name.kind === 'onchain' ? c.name.symbol : `${r.mint.slice(0, 8)}…`;
   const w = r.completed ?? r.closed ?? r.started;
   return { tag, sub, when: w ? date(w, 'month') : '' };
