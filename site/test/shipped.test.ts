@@ -92,6 +92,7 @@ test('neutral wording: no verdict is drawn from these numbers', () => {
   assert.match(m, /make no judgement about a team/);
   assert.match(m, /Accounts whose name ends in \[bot\] are left out/);
   assert.match(m, /not the sum of the per-repository numbers/);
+  assert.match(m, /One person who commits both with and without a GitHub account is counted twice, so the number can be higher than the people involved\./);
   for (const f of [section(LOYAL), section(UMBRA_MINT)]) {
     assert.doesNotMatch(squash(f), /\b(inactive|dead|abandoned|good|bad|healthy|stalled|slow|fast|only \d)\b/i);
     assert.doesNotMatch(squash(f), /Active · last commit[^.]*(inactive)/i);
