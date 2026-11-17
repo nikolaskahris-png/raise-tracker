@@ -196,5 +196,5 @@ export function homePage(ctx: Ctx, site: Site): string {
 </div>
 ${TABLE_JS}
 </section>`;
-  return page(ctx, { title: 'raise-tracker: what teams raised on MetaDAO, and where every treasury dollar went', description: 'What teams raised on MetaDAO, what they have left in their treasuries and what their public code shows. Every figure links to its source.', active: 'companies', body });
+  return page(ctx, { title: 'raise-tracker: what teams raised on MetaDAO, and what is left in their treasuries', description: 'What teams raised on MetaDAO, what they have left in their treasuries and what their public code shows. Every figure links to its source.', active: 'companies', body });
 }

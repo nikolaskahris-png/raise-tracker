@@ -17,7 +17,12 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
+      # A run waits in the queue for the data writer before it starts. Without `ref`, checkout uses the commit that was
+      # current when the run was queued, so a run that waited behind another data commit would build on a stale base and
+      # conflict at `git pull --rebase` (scan-raises #20, 17 Nov 2026). `ref` makes it start from the branch's tip.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'

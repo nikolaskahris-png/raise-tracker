@@ -294,7 +294,7 @@ test('A4. a figure is a link with a dotted underline whose title says the kind o
 test('the raises page keeps what the home page used to hold: how the raises went, where the money went, what is still being verified', () => {
   const raises = read(dist, 'raises/index.html');
   const h = visible(raises);
-  assert.match(h, /Where every treasury dollar went/);
+  assert.match(h, /Where the treasuries' USDC went/);
   assert.match(h, /Still being verified/);
   assert.match(h, /Every launch authority, with its raises/);
   assert.match(raises, /<a href="\/raises\/" class="nav on" aria-current="page">All raises<\/a>/);
