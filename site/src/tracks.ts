@@ -5,6 +5,9 @@ import { sum, type Micro } from './money.ts';
 import { separated, wilson, type Interval } from './stats.ts';
 import type { Site } from './model.ts';
 import type { Raise } from './schema.ts';
+import { fig } from './fig.ts';
+import { fmtInt } from './money.ts';
+import { constant, MIN_REAL_RAISE, PERMISSIONLESS_AUTHORITY } from './constants.ts';
 
 export type RealTrack = 'curated' | 'permissionless';
 /** Display names. The data keeps the scripts' word "curated"; the site never shows it. */
@@ -36,7 +39,7 @@ export function outcomes(raises: readonly Raise[]): Outcomes {
 
 export const trackOutcomes = (site: Site, t: RealTrack): Outcomes => outcomes(site.real.filter((r) => r.track === t));
 
-export type AuthorityRow = { readonly authority: string; readonly track: RealTrack; readonly o: Outcomes };
+export type AuthorityRow = { readonly authority: string; readonly track: RealTrack; readonly o: Outcomes; readonly tests: readonly Raise[] };
 
 /** One row per launch authority of a real raise (minimum at or above the test threshold), most raises first. */
 export function byAuthority(site: Site): AuthorityRow[] {
@@ -48,8 +51,21 @@ export function byAuthority(site: Site): AuthorityRow[] {
     groups.set(r.launchAuthority, g);
   }
   return [...groups.entries()]
-    .map(([authority, rs]) => ({ authority, track: (rs[0]?.track ?? 'curated') as RealTrack, o: outcomes(rs) }))
+    .map(([authority, rs]) => ({ authority, track: (rs[0]?.track ?? 'curated') as RealTrack, o: outcomes(rs), tests: site.decoded.filter((r) => r.launchAuthority === authority && r.track === 'test') }))
     .sort((a, b) => b.o.raises.length - a.o.raises.length || a.authority.localeCompare(b.authority));
+}
+
+/**
+ * Why a group's count differs from every raise its authorities started: test launches (minimum under the threshold) are left out.
+ * The same sentence, with the same three figures, is used on every page.
+ */
+export function startedSentence(site: Site, t: RealTrack): string {
+  const mine = (r: Raise) => (t === 'permissionless' ? r.launchAuthority === PERMISSIONLESS_AUTHORITY : r.launchAuthority !== PERMISSIONLESS_AUTHORITY);
+  const all = site.decoded.filter(mine);
+  const tests = all.filter((r) => r.minimum < MIN_REAL_RAISE);
+  const counted = all.filter((r) => r.minimum >= MIN_REAL_RAISE);
+  const who = t === 'permissionless' ? 'the permissionless authority' : 'the other launch authorities';
+  return `${fig(fmtInt(all.length), { kind: 'sum', what: `every raise started by ${who}`, rows: { raises: all } })} raises; ${fig(fmtInt(tests.length), { kind: 'sum', what: `test launches started by ${who}`, rows: { raises: tests } })} of them were test launches with a minimum under ${constant('min_real_raise_usd')}, so the counts and rates here use ${fig(fmtInt(counted.length), { kind: 'sum', what: `raises started by ${who}, test launches excluded`, rows: { raises: counted } })}.`;
 }
 
 /**
