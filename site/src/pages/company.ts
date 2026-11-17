@@ -67,7 +67,7 @@ export function displayName(c: Company): string {
 
 function nameBadge(c: Company): string {
   if (c.name.kind === 'none') return '<span class="badge b-p">Name pending</span>';
-  return `<a class="badge b-d" href="${addrUrl(c.name.account)}" rel="noopener" title="The name and symbol this token declares in its Metaplex metadata account"><span class="mk mk-d" aria-hidden="true"></span>Name from the token's onchain metadata ↗</a>`;
+  return `<a class="badge b-od" href="${addrUrl(c.name.account)}" rel="noopener" title="The name and symbol this token declares in its Metaplex metadata account: onchain, but chosen by whoever controls it"><span class="mk mk-o" aria-hidden="true"></span>Declared onchain · token metadata ↗</a>`;
 }
 
 /** Where the name comes from: the onchain metadata, and, when present, the verbatim press quote that adds the project name. */
@@ -78,7 +78,7 @@ function nameSource(c: Company): string {
   if (!p) return `<p class="soft" style="font-size:14px;line-height:1.55;margin-top:14px;max-width:760px">${onchain}</p>`;
   const day = (s: string) => date(new Date(`${s}T00:00:00Z`));
   return `<div class="soft" style="font-size:14px;line-height:1.55;margin-top:14px;max-width:760px"><p>${onchain}</p>
-<p style="margin-top:8px"><b>Project name.</b> ${esc(p.publisher)} (published ${day(p.published)}, read by us ${day(p.read)}) names the project: <q data-quote cite="${esc(p.source)}">${esc(p.quote)}</q> <a href="${esc(p.source)}" rel="noopener">Source ↗</a></p>
+<p style="margin-top:8px"><span class="badge b-d"><span class="mk mk-d" aria-hidden="true"></span>Declared offchain</span> <b>Project name.</b> ${esc(p.publisher)} (published ${day(p.published)}, read by us ${day(p.read)}) names the project: <q data-quote cite="${esc(p.source)}">${esc(p.quote)}</q> <a href="${esc(p.source)}" rel="noopener">Source ↗</a></p>
 <p style="margin-top:8px">We use the article only for the name ${label(p.project, 'Project name from the article')}, matched to this token because the quote names its onchain symbol. Every figure on this page comes from the chain.</p></div>`;
 }
 
