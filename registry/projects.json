@@ -1,5 +1,5 @@
 {
-  "_rules": "A GitHub owner is added only from a source that allows it: the project's own website or GitHub, a founder's own claim, or a platform that gave written permission. Each entry records its source and the date it was checked. Sources: (A) a page on the team's own site or X that links the repo, recorded with that page; (B) found through the GitHub API (org profile website/X, or the mint inside the team's own repo) and not linked from the team's own page: counted separately, never as A. 'status' is 'found' or 'ден всЁизке' (not found). Nothing is guessed.",
+  "_rules": "A GitHub owner is added only from a source that allows it: the project's own website or GitHub, a founder's own claim, or a platform that gave written permission. Each entry records its source and the date it was checked. Sources: (A) a page on the team's own site or X that links the repo, recorded with that page; (B) found through the GitHub API (org profile website/X, or the mint inside the team's own repo) and not linked from the team's own page: counted separately, never as A. 'status' is one of: found; not_found (no repo found, never read as 'no commits'); private_declared (the team's own filing says the code is private); open_declared_not_found (the team's own filing says the code is open but gives no repo and none was found). Nothing is guessed.",
   "projects": [
     {
       "name": "Omnipair",
@@ -21,17 +21,24 @@
       "name": "Avici",
       "ticker": "AVICI",
       "base_mint": "BANKJmvhT8tiJRsBSS1n2HryMBPvT5Ze4HU95DUAmeta",
-      "github": [],
-      "status": "ден всЁизке",
-      "source": null,
-      "checked": "2026-11-17"
+      "github": [
+        "Avici-Labs"
+      ],
+      "status": "found",
+      "source": {
+        "kind": "filing",
+        "page": "https://blockworks.com/token-transparency/filing/avici",
+        "note": "filing section 05b lists the org Avici-Labs as a DAO asset; it does not say the code is open. Public repos checked 2026-11-17: 5, none is the main product"
+      },
+      "checked": "2026-11-17",
+      "confidence": "A"
     },
     {
       "name": "HiveBits",
       "ticker": "NECTAR",
       "base_mint": "CMFmrTNfNEYNnauug1mi2LMkghaVT3Sx6CxJ8xLcmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -40,7 +47,7 @@
       "ticker": "CARS",
       "base_mint": "CARSsxWPkpQWvfyRBwfGMGvysJBHdHGfE46X5MNgmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "note": "org github.com/ripcars (website ripcars.io, X ripcarsio) exists but has 0 public repos",
       "checked": "2026-11-17"
@@ -50,7 +57,7 @@
       "ticker": "ORENDAL",
       "base_mint": "95XVMy1tQcn4gsxu88JiCCw6k5oLJ74xhbAa7Gr3meta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -91,7 +98,7 @@
       "ticker": "DRAWUP",
       "base_mint": "2HPNEWcxDDnLhdSmfsNPf6TC1byJXPNj6mczqY5ymeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -100,7 +107,7 @@
       "ticker": "SUPER",
       "base_mint": "5TbDn1dFEcUTJp69Fxnu5wbwNec6LmoK42Sr5mmNmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -109,7 +116,7 @@
       "ticker": "KIMIA",
       "base_mint": "BGLJaGukwopAFUaVC9iJNqMYEeKwRf3LK65NttPVmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -118,8 +125,12 @@
       "ticker": "RAWR",
       "base_mint": "4K1m7gAMDKzrxQn68yuZAd767w57Fw7Ykw69dG3umeta",
       "github": [],
-      "status": "ден всЁизке",
-      "source": null,
+      "status": "open_declared_not_found",
+      "source": {
+        "kind": "filing",
+        "page": "https://blockworks.com/token-transparency/filing/jurassic-finance",
+        "note": "filing: 'Codebases and repositories controlled by the DAO are open source.' No org or repo given and none found 2026-11-17"
+      },
       "checked": "2026-11-17"
     },
     {
@@ -143,17 +154,22 @@
       "ticker": "GANG",
       "base_mint": "syQqkspvb2PRr1meJ5pJDmhgxwc4hUou2TMjjrTmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
-      "checked": "2026-11-17"
+      "checked": "2026-11-17",
+      "note": "filing (https://blockworks.com/token-transparency/filing/the-syndicate) says the IP belongs to the DAO, gives no org and does not say if it is public; none found 2026-11-17"
     },
     {
       "name": "ORDR",
       "ticker": "ORDR",
       "base_mint": "FgVcn25UXf4MoNf4coaz2o5xDGPK1goMbUBfyUgrmeta",
       "github": [],
-      "status": "ден всЁизке",
-      "source": null,
+      "status": "private_declared",
+      "source": {
+        "kind": "filing",
+        "page": "https://blockworks.com/token-transparency/filing/ordr-trade",
+        "note": "filing: 'The core protocol repositories are private and proprietary'. Org github.com/CHA0S-LABS exists (2 public repos: ordr-landing, .github); not measured"
+      },
       "checked": "2026-11-17"
     },
     {
@@ -161,7 +177,7 @@
       "ticker": "PREDICT",
       "base_mint": "5FtV5gisCyCqJHsiCne4pX2r6d2YPRF9Kcfx2DKvmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -170,7 +186,7 @@
       "ticker": "POKER",
       "base_mint": "GYYCX5q47qDU7ctwCjZv7KKgW2L3788f4vtdR3Kjmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -179,7 +195,7 @@
       "ticker": "SAT",
       "base_mint": "BSwp4GjLnejXKqvmjueJmPXC7UZhNoF6RuMQJRpSmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -204,7 +220,7 @@
       "ticker": "FINAL",
       "base_mint": "4WSZkN6p4wfqGqQSwTnvpCTnjNMdazDebYQJu14nmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -245,7 +261,7 @@
       "ticker": "COPE",
       "base_mint": "JCvQTE37BG4Ybn5nC7yWkFRpd2ACLaVyxM7KMM1mmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -270,7 +286,7 @@
       "ticker": "GSIM",
       "base_mint": "DwCBrWrAGokHmysLL2XbY7TCZpbRH9QUAZxHnyWxmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -279,7 +295,7 @@
       "ticker": "FUTARDIO",
       "base_mint": "Cbjr1Nvcay3QWDriyRKtokJ7V4PMknesGxeK8z7Zmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     },
@@ -320,7 +336,7 @@
       "ticker": "BASKET",
       "base_mint": "2rNBaMg5VAr1aMNCwAPdDZVgzzdTaNDebUnNqPFNmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "note": "candidate intenttechnologies (trybasket.com) not accepted: only 2 PHP repos, no sign it is the Solana project",
       "checked": "2026-11-17"
@@ -362,7 +378,7 @@
       "ticker": "MORI",
       "base_mint": "MoR1whCWjcLiUqAan4GHLRcn8wK4Jktk2DyDryNmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "note": "candidate Yomi-Games (mori.finance) not accepted: game and NFT repos, no sign it is the Solana project",
       "checked": "2026-11-17"
@@ -372,7 +388,7 @@
       "ticker": "KREW",
       "base_mint": "5Xg5fq7PgLNafbgXYfpWNmPhYpkSMEAqb7SPeHNdmeta",
       "github": [],
-      "status": "ден всЁизке",
+      "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
     }
