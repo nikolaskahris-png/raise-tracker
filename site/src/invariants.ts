@@ -61,6 +61,13 @@ export function checkInvariants(site: Site): string[] {
     else if (launch[0]?.signature !== t.launchSignature) fail.push(`${t.label}: launch_signature is not the launch deposit's transaction`);
     if (t.launchRecipients.reduce((a, x) => a + x.amount, 0n) !== t.launchOther) fail.push(`${t.label}: launch_other_usdc is not the sum of its recipients`);
     if (t.launchRecipients.some((x) => x.amount <= 0n)) fail.push(`${t.label}: a launch recipient with no USDC`);
+    // The team-budget limit: the last change must match the chain today. A last "set" must have set the amount the
+    // limit account holds; a last "removed" means there is no limit account. None can be the launch or a team draw.
+    const lastChange = t.limitChanges.at(-1);
+    if (lastChange?.action === 'set' && lastChange.amount !== t.spendingLimitNow) fail.push(`${t.label}: the last limit change (${lastChange.signature}) set ${lastChange.amount} base units, the limit account holds ${t.spendingLimitNow ?? 'nothing'}`);
+    if (lastChange?.action === 'removed' && t.spendingLimitNow !== null) fail.push(`${t.label}: the last limit change (${lastChange.signature}) removed the limit, but the limit account holds ${t.spendingLimitNow}`);
+    const draws = new Set(inputs.flows.filter((f) => f.mint === t.mint && f.cls === 'team_budget').map((f) => f.signature));
+    for (const x of t.limitChanges) if (x.signature === t.launchSignature || draws.has(x.signature)) fail.push(`${t.label}: ${x.signature} is listed as a limit change but is the launch or a team draw`);
   }
 
   // 5. Movements: unique signatures per treasury, and every movement belongs to a treasury row.

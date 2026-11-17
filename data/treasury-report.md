@@ -1,8 +1,8 @@
-# Treasury report — 2026-11-17T10:19:42.817Z
+# Treasury report — 2026-11-17T10:57:33.067Z
 
-Read raises.json sha256: ccfc468daa1d9a787cfb000e3bf468c7b80a1c9275840a2546a4372a7458a529, from the scan at slot 470492074
+Read raises.json sha256: 10205e3557e81dd4fa871074d5d4611fa49f7e0c9fd9474ef4cd9083a94ea4bd, from the scan at slot 470502558
 
-Treasuries: 31 of 33. RPC calls: 6243.
+Treasuries: 31 of 33. RPC calls: 6323.
 Reconciled (history sums exactly to today's balance): 31/31
 
 Futarchy proposals indexed: 184 (decode errors: 0)
@@ -30,26 +30,26 @@ Futarchy proposals indexed: 184 (decode errors: 0)
 - 2026-05-26T22:00:25.000Z FUTARDIO -1000.000000 USDC to 3gXzFVWE2J4Pcy5yDy7LY2yomiyB6P1ZfxmwF8QKf3b9 — class admin_after_vote, proposal #4 E5AEP2hCTfYVq4Rnc1TKZjTauSSEYFFBr8g49ktoN3pU finalized 2026-05-14T20:17:00.000Z (5mmQmQnQVKXy1EJ297ckjDsWTFfL7WosVgBeBEFVQrFMiMtLP52ZMDZRju96FYqpGMszcU9rkJLbTqLbup2SoY7q) — admin_approved by A4THR6vJ6LWJ75681gfRrDhgRfxHbxhjdJV9Bz5v97GK CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 EP3SoC2SvR3d4c2eXVBvhEMWSr2j3YtoCY3UMiQV7BPD proposal=D97syiUw2JZy1j83FZBB4arhWhT33jXvSWH6ZaNymuFS
 
 ## Team budget
-- UMBRA: drew 1163631 over 14 period(s) of 34091/month at launch (allowed 477274); limit now 150000.00 Month; changed: yes; largest 30-day draw 200000
+- UMBRA: drew 1163631 over 14 period(s) of 34091/month at launch (allowed 477274); limit now 150000.00 Month; changed: yes (by 2026-01-21T01:07:52.000Z|46p752ga7Gu1sdib1jQsAoZ5YGReUo3menhDWxWHvwoUCFagJeSguGbdHVg3ki1KeMZZdKN3vftNZMoSPWKkTjkd|admin|set|100000.000000|Month 2026-10-27T16:48:26.000Z|4CbDxocathyhoRAm1wFiU2TGTH7fRkvDYrHHVUmYnRrcHCVm3Ygp96msaZC7TNitGQTuKVCviqdVzAE3Pxy6mKjB|proposal|set|150000.000000|Month); largest 30-day draw 200000
 - AVICI: drew 1200000 over 14 period(s) of 100000/month at launch (allowed 1400000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
 - LOYAL: drew 640000 over 14 period(s) of 60000/month at launch (allowed 840000); limit now 60000.00 Month; changed: no; largest 30-day draw 120000
-- ZKFG: drew 400000 over 13 period(s) of 50000/month at launch (allowed 650000); limit now ? ; changed: unknown; largest 30-day draw 100000
-- PAYS: drew 279500 over 13 period(s) of 33500/month at launch (allowed 435500); limit now ? ; changed: unknown; largest 30-day draw 67000
+- ZKFG: drew 400000 over 13 period(s) of 50000/month at launch (allowed 650000); limit now ? ; changed: unknown (by 2026-02-24T20:00:54.000Z|3fBHz3BFjs1Mp3SKPq846XH4wiFr3SC14K7k8FKn3UK1RnwJyQs6K8vEDhSx7yz7vfU8726ARcVxYJ4qy1jYDJoj|admin|set|50000.000000|Month 2026-06-23T00:46:09.000Z|3f9gjjy5DhRPZvhSd35932BTBeKrqtKgdcBsQyzx9wEH3Q3B1LxCF9EjfwKTSTHHkWUmfpKejo1dkCBaGBcvvh52|admin|removed||); largest 30-day draw 100000
+- PAYS: drew 279500 over 13 period(s) of 33500/month at launch (allowed 435500); limit now ? ; changed: unknown (by 2026-06-21T23:44:42.000Z|wwYEQmcqQWmvCszMZABUDYmHdZULo7g5vJuzAC4o6TYcCCoARMpfwH85Xuh4JKJ77WN3FuNT4nDtkhzWWTcx8FQ|admin|removed|| 2026-07-29T22:23:26.000Z|5zmDF9Yp1UPstbgYk7ZrDqWW2F7kBQ9n6qLz8WC2UjHzphCcLPP9ooc3f4MeovsgE4SwjwVxt28mx5s8Qz4SaamS|admin|set|11500.000000|Month 2026-09-01T22:32:29.000Z|65mghNNUj74uP886PHiazrELTv3pmMLiprBe4X8oCwWFFxQ4236PXHkEHQzjkSbvSjqiUHhhbXEdvBAauGkeT8EM|admin|removed||); largest 30-day draw 67000
 - SOLO: drew 1200000 over 13 period(s) of 100000/month at launch (allowed 1300000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
 - RNGR: drew 500000 over 11 period(s) of 250000/month at launch (allowed 2750000); limit now 250000.00 Month; changed: no; largest 30-day draw 250000
-- FUTARDIO: drew 400 over 9 period(s) of 2500/month at launch (allowed 22500); limit now 50.00 Month; changed: yes; largest 30-day draw 100
+- FUTARDIO: drew 400 over 9 period(s) of 2500/month at launch (allowed 22500); limit now 50.00 Month; changed: yes (by 2026-03-08T19:32:52.000Z|254ygGTyVHRrEJYK7kjWohQYYZFeU3oB5cUorSsysjv6XUXgfbswtJqHyCkUZkeY6NcTsF1vHYPX4ZXfZWfEFrYW|admin|set|50.000000|Month); largest 30-day draw 100
 - SUPER: drew 39998 over 9 period(s) of 5000/month at launch (allowed 45000); limit now 5000.00 Month; changed: no; largest 30-day draw 10000
 - P2P: drew 1400000 over 8 period(s) of 175000/month at launch (allowed 1400000); limit now 175000.00 Month; changed: no; largest 30-day draw 350000
 - RAWR: drew 48000 over 7 period(s) of 8000/month at launch (allowed 56000); limit now 8000.00 Month; changed: no; largest 30-day draw 16000
 - GSIM: drew 27600 over 6 period(s) of 4600/month at launch (allowed 27600); limit now 4600.00 Month; changed: no; largest 30-day draw 9200
 - ARL: drew 8000 over 5 period(s) of 1650/month at launch (allowed 8250); limit now 1650.00 Month; changed: no; largest 30-day draw 3300
-- LASO: drew 286666 over 5 period(s) of 50000/month at launch (allowed 250000); limit now 68333.00 Month; changed: yes; largest 30-day draw 136666
+- LASO: drew 286666 over 5 period(s) of 50000/month at launch (allowed 250000); limit now 68333.00 Month; changed: yes (by 2026-09-30T00:09:57.000Z|22nFERVAHMbRSGpD7Y6XQoNP7zccCzieeBes61kedaYGfVQKZQ9StNEoQTBB4JVsqNK46mcHWHqpPMaR6yaMhLbG|proposal|set|68333.000000|Month); largest 30-day draw 136666
 - CRED: drew 1000000 over 5 period(s) of 250000/month at launch (allowed 1250000); limit now 250000.00 Month; changed: no; largest 30-day draw 500000
 - CARS: drew 140000 over 4 period(s) of 40000/month at launch (allowed 160000); limit now 40000.00 Month; changed: no; largest 30-day draw 80000
 - ORDR: drew 60000 over 4 period(s) of 15000/month at launch (allowed 60000); limit now 15000.00 Month; changed: no; largest 30-day draw 30000
 - BASKET: drew 4000 over 4 period(s) of 1000/month at launch (allowed 4000); limit now 1000.00 Month; changed: no; largest 30-day draw 2000
 - KIMIA: drew 38400 over 4 period(s) of 9600/month at launch (allowed 38400); limit now 9600.00 Month; changed: no; largest 30-day draw 19200
-- LFOWN: drew 60 over 3 period(s) of 1/month at launch (allowed 3); limit now 58.71 Month; changed: yes; largest 30-day draw 59
+- LFOWN: drew 60 over 3 period(s) of 1/month at launch (allowed 3); limit now 58.71 Month; changed: yes (by 2026-10-08T14:01:27.000Z|2q2oB5bgfnoKn3iVefcah6scSdCwEfDdD5rEZQGVdPXM81uBnDD45z78dWkMFUZXu3oHNoBi3hSfudYJ4qqBmmDe|proposal|set|58.710000|Month); largest 30-day draw 59
 - NECTAR: drew 30000 over 3 period(s) of 10000/month at launch (allowed 30000); limit now 10000.00 Month; changed: no; largest 30-day draw 20000
 - PREDICT: drew 0 over 2 period(s) of 1/month at launch (allowed 2); limit now 1.00 Month; changed: no; largest 30-day draw 0
 - GANG: drew 83332 over 2 period(s) of 41666/month at launch (allowed 83332); limit now 41666.00 Month; changed: no; largest 30-day draw 83332

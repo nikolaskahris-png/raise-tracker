@@ -37,7 +37,7 @@ console.log(`futarchy proposals indexed: ${proposalBySquads.size}, decode errors
 
 const ADMIN_VOTE_WINDOW_S = C.admin_vote_window_days * DAY_S; // a proposal that passed up to this long before an admin-key movement is shown with it
 // The classification itself lives in classify.mjs, tested offline against stored real transactions.
-const { allSignatures, getTx, classify, flowColumns } = makeClassifier({ rpc, proposals, adminVoteWindowS: ADMIN_VOTE_WINDOW_S });
+const { allSignatures, getTx, classify, flowColumns, spendingLimitChanges } = makeClassifier({ rpc, proposals, adminVoteWindowS: ADMIN_VOTE_WINDOW_S });
 const microStr = v => `${v < 0n ? '-' : ''}${(v < 0n ? -v : v) / 1000000n}.${((v < 0n ? -v : v) % 1000000n).toString().padStart(6, '0')}`;
 
 // The exact raises.json this step read: its sha256 and scan slot go into the report, and the site checks them against the scan's.
@@ -88,6 +88,9 @@ for (const r of raises) {
       const sl = await rpc('getAccountInfo', [slAddr, { encoding: 'base64' }]);
       if (sl.value) { const d = decodeSpendingLimit(Buffer.from(sl.value.data[0], 'base64')); if (d.multisig === multisig && d.create_key === r.dao && d.mint === USDC) slNow = d; else problems.push(`${label}: spending limit account did not match`); }
     } catch (e) { problems.push(`${label}: spending limit read failed: ${e.message}`); }
+    // Every transaction that set the limit after launch, with the amount it set and the path that approved it.
+    // A failure here fails the whole treasury (its movements are not kept either).
+    const slChanges = slAddr ? await spendingLimitChanges({ account: slAddr, dao: r.dao, multisig, launchSignature: launch.signature, skip: new Set(mine.filter(f => f.class === 'team_budget').map(f => f.signature)) }) : [];
     // Largest amount drawn in any single 30-day window, compared with the launch limit.
     teamUses.sort((x, y) => x.t - y.t); let maxWindow = 0;
     for (let i = 0, j = 0, run = 0; j < teamUses.length; j++) { run += teamUses[j].amt; while (teamUses[j].t - teamUses[i].t >= PERIOD_S) run -= teamUses[i++].amt; maxWindow = Math.max(maxWindow, run); }
@@ -103,7 +106,8 @@ for (const r of raises) {
       max_30day_team_draw_usd: maxWindow.toFixed(2),
       team_budget_used_pct: allowed > 0 ? (100 * sums.team_budget / allowed).toFixed(1) : '', reconciles: reconciles ? 'yes' : 'NO', treasury_usdc_account: ata, squads_multisig: multisig, spending_limit_account: slAddr, balance_slot: acct.context.slot,
       launch_signature: launch.signature, launch_other_usdc: microStr(launch.others.reduce((a, o) => a + o.amount, 0n)),
-      launch_other_recipients: launch.others.map(o => `${o.owner}:${o.account}:${microStr(o.amount)}`).join(' ') });
+      launch_other_recipients: launch.others.map(o => `${o.owner}:${o.account}:${microStr(o.amount)}`).join(' '),
+      spending_limit_changes: slChanges.map(c => `${c.time}|${c.signature}|${c.path}|${c.action}|${c.amount === null ? '' : microStr(c.amount)}|${c.period}`).join(' ') });
     flows.push(...mine);
   } catch (e) { problems.push(`${label}: ${e.message}`); }
 }
@@ -118,7 +122,7 @@ const report = [
   `Futarchy proposals indexed: ${proposalBySquads.size} (decode errors: ${proposalDecodeErrors})`, '',
   '## Outflows, all treasuries (USD)', `- team_budget: ${tot('team_budget_usd')}`, `- market_approved (linked proposal Passed): ${tot('market_approved_usd')}`, `- admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): ${tot('admin_after_vote_usd')}`, `- admin_vote_passed_after (admin key; a proposal enqueued before the movement finalized as Passed after it): ${tot('admin_vote_passed_after_usd')}`, `- admin_vote_no_finalize (admin key; a Passed proposal whose FinalizeProposal was not found): ${tot('admin_vote_no_finalize_usd')}`,`- admin_no_vote_found (admin key; no passed proposal on this DAO in the 60 days before): ${tot('admin_no_vote_found_usd')}`, `- admin_against_market (admin key, linked proposal not Passed): ${tot('admin_against_market_usd')}`, `- liquidation: ${tot('liquidation_usd')}`, `- other_out: ${tot('other_out_usd')}`, '',
   '## Every movement approved through an admin key', ...flows.filter(f => /admin_approved/.test(f.approval)).map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC to ${f.counterparty || '?'} — class ${f.class}${f.prior_vote_number !== '' ? `, proposal #${f.prior_vote_number} ${f.prior_vote_address}${f.prior_vote_finalized_utc ? ` finalized ${f.prior_vote_finalized_utc} (${f.prior_vote_finalize_signature})` : ' (FinalizeProposal not found)'}` : ''} — ${f.approval}`), '',
-  '## Team budget', ...summary.map(x => `- ${x.ticker}: drew ${Number(x.team_budget_usd).toFixed(0)} over ${x.periods_started} period(s) of ${x.monthly_budget_usd}/month at launch (allowed ${Number(x.budget_allowed_usd).toFixed(0)}); limit now ${x.spending_limit_now_usd || '?'} ${x.spending_limit_period}; changed: ${x.limit_changed}; largest 30-day draw ${Number(x.max_30day_team_draw_usd).toFixed(0)}`), '',
+  '## Team budget', ...summary.map(x => `- ${x.ticker}: drew ${Number(x.team_budget_usd).toFixed(0)} over ${x.periods_started} period(s) of ${x.monthly_budget_usd}/month at launch (allowed ${Number(x.budget_allowed_usd).toFixed(0)}); limit now ${x.spending_limit_now_usd || '?'} ${x.spending_limit_period}; changed: ${x.limit_changed}${x.spending_limit_changes ? ` (by ${x.spending_limit_changes})` : ''}; largest 30-day draw ${Number(x.max_30day_team_draw_usd).toFixed(0)}`), '',
   '## Unclassified outflows', ...flows.filter(f => f.class === 'other_out').map(f => `- ${f.time_utc} ${f.ticker} ${f.usdc} USDC to ${f.counterparty || '?'} — ${f.approval || f.instructions}`), '',
   '## Instruction names seen on treasury movements (for review)', ...Object.entries(seen).sort((a, b) => b[1] - a[1]).map(([n, c]) => `- ${n}: ${c}`), '',
   `## Problems: ${problems.length}`, ...problems.map(p => `- ${p}`), '',

@@ -3,7 +3,7 @@ import { fmtInt, fmtUsd, microToDecimal, pct, ratio, sum, type Micro } from '../
 import { addr, page, url, type Ctx } from '../layout.ts';
 import type { Company, Site, Treasury } from '../model.ts';
 import { IDENTIFICATION_NOTE, TRACK_SHORT } from '../tracks.ts';
-import { ADMIN_CLASSES, isAdmin, type Flow, type FlowClass } from '../schema.ts';
+import { ADMIN_CLASSES, isAdmin, type Flow, type FlowClass, type LimitChange } from '../schema.ts';
 
 export { PERIOD_MS } from '../constants.ts';
 import { AVERAGE_MONTH_MS, CONSTANT_TEXT, LEDGER_MIN, PERIOD_MS, constant } from '../constants.ts';
@@ -289,10 +289,28 @@ ${bars}
 <div class="kv"><span class="soft">Largest ${constant('spending_limit_period_days')}-day period</span>${fig(fmtUsd(maxDraw, { decimals: 2 }), { kind: 'sum', what: `${c.displayName}: team draws in the largest period`, rows: { flows: periods.find((p) => p.drawn === maxDraw)?.flows ?? [] } }, { style: 'font-weight:600' })}</div>
 <div class="kv"><span class="soft">Wallets that can draw</span>${fig(fmtInt(r.budgetWallets.length), { kind: 'account', address: r.launch }, { style: 'font-weight:600' })}</div>
 <div style="display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 12px">${r.budgetWallets.map((w) => addr(w)).join('')}</div>
-${changed && limitNow !== null ? `<div class="note note-p" style="margin:8px 0 14px;padding:12px 14px;font-size:13px;line-height:1.5"><span class="mk mk-p" style="margin-top:2px;background:#fff" aria-hidden="true">${CLOCK}</span><span><b>Pending verification.</b> The limit went from ${fig(fmtUsd(launchLimit), { kind: 'account', address: r.launch })} to ${fig(fmtUsd(limitNow), { kind: 'account', address: t.row.spendingLimitAccount ?? t.row.multisig })} a month. Both amounts are onchain. The transaction that changed it is not linked yet, so draws above the launch limit are not judged here.</span></div>` : ''}
+${limitChanges(t, launchLimit, r.launch)}
+${changed && limitNow !== null && t.row.limitChanges.length === 0 ? `<div class="note note-p" style="margin:8px 0 14px;padding:12px 14px;font-size:13px;line-height:1.5"><span class="mk mk-p" style="margin-top:2px;background:#fff" aria-hidden="true">${CLOCK}</span><span><b>Pending verification.</b> The limit went from ${fig(fmtUsd(launchLimit), { kind: 'account', address: r.launch })} to ${fig(fmtUsd(limitNow), { kind: 'account', address: t.row.spendingLimitAccount ?? t.row.multisig })} a month. Both amounts are onchain. The transaction that changed it is not linked yet, so draws above the launch limit are not judged here.</span></div>` : ''}
 </div>
 </div>
 </section>`;
+}
+
+const LIMIT_PATH: Record<LimitChange['path'], string> = {
+  admin: "approved through MetaDAO's admin key, not a market vote",
+  proposal: 'approved by a passed futarchy proposal',
+  other: 'approval path not identified',
+};
+/** Each transaction that changed the team-budget limit after launch: the amount it set (linked to it), or its removal. */
+function limitChanges(t: Treasury, launchLimit: Micro, launch: string): string {
+  const ch = t.row.limitChanges;
+  if (ch.length === 0) return '';
+  const what = (x: LimitChange) => x.action === 'removed'
+    ? `<b>removed the limit</b>, leaving no limit account`
+    : `set to ${fig(fmtUsd(x.amount), { kind: 'tx', signature: x.signature }, { style: 'font-weight:600' })} ${x.period === 'Month' ? 'a month' : esc(`per ${x.period}`)}`;
+  return `<div class="note" style="margin:8px 0 14px;padding:12px 14px;font-size:13px;line-height:1.5;display:block" id="limit-changes"><b>The limit was changed onchain.</b> At launch it was ${fig(fmtUsd(launchLimit), { kind: 'account', address: launch })} a month. Each change below is the transaction that made it:
+<ul style="margin:8px 0 0 18px;padding:0">${ch.map((x) => `<li style="margin:4px 0">${date(x.time)}: ${what(x)}, ${LIMIT_PATH[x.path]} ${chip(x.signature, 'tx')}</li>`).join('')}</ul>
+<div class="muted" style="margin-top:8px">The figures above measure draws against the limit at launch.</div></div>`;
 }
 
 function inflows(t: Treasury, nm: string): string {

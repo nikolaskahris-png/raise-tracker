@@ -2,7 +2,7 @@
 // scripts/test/classify.test.mjs against real transactions stored as fixtures.
 // Every chain read goes through the `rpc(method, params)` passed in, so a test can replay stored answers.
 import { createHash } from 'node:crypto';
-import { b58e, USDC } from './decode.mjs';
+import { b58e, b58d, USDC } from './decode.mjs';
 
 export const SQUADS = 'SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf';
 export const TOKEN = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
@@ -84,6 +84,21 @@ export function decodeSpendingLimit(d) {
   return { multisig, create_key, mint, amount, period, remaining, last_reset };
 }
 export const iso = t => new Date(t * 1000).toISOString();
+
+// Squads v4 MultisigAddSpendingLimit arguments: create_key (32), vault_index (u8), mint (32), amount (u64), period (u8), ...
+// Checked on Umbra's launch transaction: it decodes to the DAO, USDC, 34091000000 base units and Month, the launch
+// account's monthly budget.
+const ADD_SPENDING_LIMIT = createHash('sha256').update('global:multisig_add_spending_limit').digest().subarray(0, 8);
+export function addSpendingLimitArgs(tx) {
+  const out = [];
+  for (const i of [...tx.transaction.message.instructions, ...(tx.meta.innerInstructions || []).flatMap(x => x.instructions)]) {
+    if (i.programId !== SQUADS || !i.data) continue;
+    const d = Buffer.from(b58d(i.data));
+    if (d.length < 82 || !d.subarray(0, 8).equals(ADD_SPENDING_LIMIT)) continue;
+    out.push({ create_key: b58e(d.subarray(8, 40)), mint: b58e(d.subarray(41, 73)), amount: d.readBigUInt64LE(73), period: SL_PERIODS[d[81]] });
+  }
+  return out;
+}
 
 /**
  * @param {{ rpc: (method: string, params: unknown[]) => Promise<any>, proposals: ReturnType<typeof indexProposals>, adminVoteWindowS: number }} o
@@ -223,5 +238,35 @@ export function makeClassifier({ rpc, proposals, adminVoteWindowS }) {
     counterparty: m.counterparty.join(' '), signature, instructions: [...new Set(m.names)].join(' '),
   });
 
-  return { allSignatures, getTx, approvalOf, finalizeOf, classify, flowColumns };
+  /**
+   * The transactions that changed a treasury's team-budget limit after launch: every successful transaction in the
+   * spending-limit account's history that ran a Squads MultisigAddSpendingLimit (`set`, with the amount it set, read
+   * from the instruction's arguments) or only a MultisigRemoveSpendingLimit (`removed`: no limit left), except the
+   * launch itself. `skip` holds signatures already known not to be changes (the team draws), so they are not fetched
+   * again. Each change also gives the path that approved it, decided like a movement's: from the Squads proposal the
+   * change executed (approvalOf, the instruction that called ProposalApprove):
+   *   admin     MetaDAO's admin path approved it
+   *   proposal  a passed futarchy proposal approved it (its FinalizeProposal)
+   *   other     no Squads proposal found, or its approval was not identified
+   */
+  async function spendingLimitChanges({ account, dao, multisig, launchSignature, skip }) {
+    const out = [];
+    for (const s of await allSignatures(account)) {
+      if (s.err || s.signature === launchSignature || skip.has(s.signature)) continue;
+      const tx = await getTx(s.signature); if (!tx) continue;
+      const n = ixNames(tx.meta.logMessages);
+      const adds = n.includes('squads:MultisigAddSpendingLimit'), removes = n.includes('squads:MultisigRemoveSpendingLimit');
+      if (!adds && !removes) continue;
+      const ix = allIxs(tx).find(i => i.programId === SQUADS && i.accounts && i.accounts[0] === multisig && i.accounts.length >= 4);
+      const how = ix ? (await approvalOf(ix.accounts[1])).how : 'unknown';
+      const path = how === 'admin_approved' ? 'admin' : how === 'market_approved' ? 'proposal' : 'other';
+      if (!adds) { out.push({ time: iso(tx.blockTime), signature: s.signature, path, action: 'removed', amount: null, period: '' }); continue; }
+      const set = addSpendingLimitArgs(tx).filter(a => a.create_key === dao && a.mint === USDC);
+      if (set.length !== 1) throw new Error(`spending limit change ${s.signature}: ${set.length} USDC limits for this DAO in it`);
+      out.push({ time: iso(tx.blockTime), signature: s.signature, path, action: 'set', amount: set[0].amount, period: set[0].period });
+    }
+    return out;
+  }
+
+  return { allSignatures, getTx, approvalOf, finalizeOf, classify, flowColumns, spendingLimitChanges };
 }
