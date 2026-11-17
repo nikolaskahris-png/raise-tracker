@@ -38,6 +38,17 @@ def program_accounts(program, disc):
     }])
 
 
+def org_repos(org, per_page=100, max_pages=20):
+    """Every public repo of an org, newest push first, following pages until a short page."""
+    repos = []
+    for page in range(1, max_pages + 1):
+        batch, _ = github(f"/orgs/{org}/repos?type=public&sort=pushed&per_page={per_page}&page={page}")
+        repos += batch
+        if len(batch) < per_page:
+            return repos
+    raise FetchError(f"/orgs/{org}/repos: more than {max_pages * per_page} repos, not read in full")
+
+
 def write_jsonl_gz(path, rows):
     with gzip.open(path, "wt", encoding="utf-8") as f:
         for r in rows:
@@ -130,7 +141,7 @@ def main():
             for owner in p.get("github", []):
                 row = {"project": p["name"], "owner": owner}
                 try:
-                    repos, _ = github(f"/users/{owner}/repos?per_page=100&sort=pushed")
+                    repos = org_repos(owner)
                     row["repos"] = []
                     for r in repos[:30]:
                         commits, pages = 0, 0
