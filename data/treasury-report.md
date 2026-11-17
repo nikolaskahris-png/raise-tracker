@@ -1,15 +1,15 @@
-# Treasury report — 2026-11-16T19:51:34.588Z
+# Treasury report — 2026-11-17T10:19:42.817Z
 
-Read raises.json sha256: 41f7d521371ce59a59f353e1eab094481748d0368930150cb2d8f0264632bc2b, from the scan at slot 470249681
+Read raises.json sha256: ccfc468daa1d9a787cfb000e3bf468c7b80a1c9275840a2546a4372a7458a529, from the scan at slot 470492074
 
-Treasuries: 31 of 33. RPC calls: 6308.
+Treasuries: 31 of 33. RPC calls: 6243.
 Reconciled (history sums exactly to today's balance): 31/31
 
-Futarchy proposals indexed: 183 (decode errors: 0)
+Futarchy proposals indexed: 184 (decode errors: 0)
 
 ## Outflows, all treasuries (USD)
-- team_budget: 8311587
-- market_approved (linked proposal Passed): 12267500
+- team_budget: 8561587
+- market_approved (linked proposal Passed): 12275500
 - admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): 6038457
 - admin_vote_passed_after (admin key; a proposal enqueued before the movement finalized as Passed after it): 0
 - admin_vote_no_finalize (admin key; a Passed proposal whose FinalizeProposal was not found): 0
@@ -32,7 +32,7 @@ Futarchy proposals indexed: 183 (decode errors: 0)
 ## Team budget
 - UMBRA: drew 1163631 over 14 period(s) of 34091/month at launch (allowed 477274); limit now 150000.00 Month; changed: yes; largest 30-day draw 200000
 - AVICI: drew 1200000 over 14 period(s) of 100000/month at launch (allowed 1400000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
-- LOYAL: drew 640000 over 13 period(s) of 60000/month at launch (allowed 780000); limit now 60000.00 Month; changed: no; largest 30-day draw 120000
+- LOYAL: drew 640000 over 14 period(s) of 60000/month at launch (allowed 840000); limit now 60000.00 Month; changed: no; largest 30-day draw 120000
 - ZKFG: drew 400000 over 13 period(s) of 50000/month at launch (allowed 650000); limit now ? ; changed: unknown; largest 30-day draw 100000
 - PAYS: drew 279500 over 13 period(s) of 33500/month at launch (allowed 435500); limit now ? ; changed: unknown; largest 30-day draw 67000
 - SOLO: drew 1200000 over 13 period(s) of 100000/month at launch (allowed 1300000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
@@ -44,7 +44,7 @@ Futarchy proposals indexed: 183 (decode errors: 0)
 - GSIM: drew 27600 over 6 period(s) of 4600/month at launch (allowed 27600); limit now 4600.00 Month; changed: no; largest 30-day draw 9200
 - ARL: drew 8000 over 5 period(s) of 1650/month at launch (allowed 8250); limit now 1650.00 Month; changed: no; largest 30-day draw 3300
 - LASO: drew 286666 over 5 period(s) of 50000/month at launch (allowed 250000); limit now 68333.00 Month; changed: yes; largest 30-day draw 136666
-- CRED: drew 750000 over 5 period(s) of 250000/month at launch (allowed 1250000); limit now 250000.00 Month; changed: no; largest 30-day draw 500000
+- CRED: drew 1000000 over 5 period(s) of 250000/month at launch (allowed 1250000); limit now 250000.00 Month; changed: no; largest 30-day draw 500000
 - CARS: drew 140000 over 4 period(s) of 40000/month at launch (allowed 160000); limit now 40000.00 Month; changed: no; largest 30-day draw 80000
 - ORDR: drew 60000 over 4 period(s) of 15000/month at launch (allowed 60000); limit now 15000.00 Month; changed: no; largest 30-day draw 30000
 - BASKET: drew 4000 over 4 period(s) of 1000/month at launch (allowed 4000); limit now 1000.00 Month; changed: no; largest 30-day draw 2000
@@ -66,11 +66,11 @@ Futarchy proposals indexed: 183 (decode errors: 0)
 - 2026-04-15T23:59:57.000Z FUTARDIO -2976.000000 USDC to D4L2F4U9ZLza7BbaRQEEBnNSBpTSfxHRNo8epCsUjGT1 — squads:BatchExecuteTransaction LBUZKhRx:AddLiquidityOneSidePrecise2 spl_token:TransferChecked
 
 ## Instruction names seen on treasury movements (for review)
-- squads:SpendingLimitUse: 320
+- squads:SpendingLimitUse: 321
 - spl_token:TransferChecked: 165
 - spl_token:Transfer: 102
 - spl_token:InitializeAccount3: 80
-- squads:VaultTransactionExecute: 67
+- squads:VaultTransactionExecute: 68
 - spl_token:GetAccountDataSize: 62
 - spl_token:InitializeImmutableOwner: 62
 - jupiter:Route: 58
