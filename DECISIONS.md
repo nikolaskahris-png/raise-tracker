@@ -15,7 +15,7 @@ Every host the code contacts must be in this table; `site/test/sources.test.ts` 
 | Solana Compass (`solanacompass.com`), "…ZKFG-008 passes" (published 20 Jun 2026) | **Link only**, for reading, on the ZKFG page. Not quoted, not used for the name or any figure | ✅ link only (changed 16 Nov 2026) | The site has no terms page (`/terms` returns 404) and refuses automated requests, so we cannot show that quoting is allowed. The quote and the project name "Zinc" were removed; the token shows its onchain name "ZKFG" |
 | Personal notes on defi-kai.github.io | Was: the name "Paystream" | ❌ removed 16 Nov 2026 | Not a publication, and the page returns 404. The token's onchain metadata names it "Paystream" |
 | `explorer.solana.com` | Links from every figure | ✅ | Links only; nothing is fetched |
-| Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`) | Typefaces, loaded by the visitor's browser | ⚠️ | Not a data source. It sends visitors' IP addresses to Google; self-hosting the fonts would remove that |
+| Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`) | Was: typefaces loaded by the visitor's browser | ❌ **removed 16 Nov 2026** | It sent visitors' IP addresses to Google. Inter, Inter Tight and JetBrains Mono are now served by the site itself (`site/assets/fonts`, SIL Open Font License 1.1, licences published with them) |
 
 ## 2026-11-14: sources only where the terms allow automated collection
 
