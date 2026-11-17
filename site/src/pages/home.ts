@@ -4,46 +4,12 @@ import { date, esc, fig, label } from '../fig.ts';
 import { fmtCompact, fmtInt, fmtUsd, pctWhole, sum, type Micro } from '../money.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import { displayName } from './company.ts';
-import { type CodeInfo, type Company, type Site } from '../model.ts';
-import { C, constant } from '../constants.ts';
+import { type Company, type Site } from '../model.ts';
+import { codeBars, codeText } from './code.ts';
+import { C } from '../constants.ts';
 import { ADMIN_CLASSES, isAdmin } from '../schema.ts';
 
-const GH = 'https://github.com/';
 const usd2 = (v: Micro) => fmtUsd(v, { decimals: 2 });
-
-/** A tiny bar chart of commits per month from the month of the raise; the numbers are in the CSV the page links, not in the picture. */
-function bars(months: readonly { month: string; commits: number }[]): string {
-  const max = Math.max(1, ...months.map((m) => m.commits));
-  const w = 5, gap = 2, h = 22;
-  const width = months.length * (w + gap) - gap;
-  const rects = months.map((m, i) => { const bh = m.commits === 0 ? 1 : Math.max(3, Math.round((m.commits / max) * h)); return `<rect x="${i * (w + gap)}" y="${h - bh}" width="${w}" height="${bh}" fill="#111"${m.commits === 0 ? ' opacity=".25"' : ''}></rect>`; }).join('');
-  return `<svg class="spark" width="${width}" height="${h}" viewBox="0 0 ${width} ${h}" role="img" aria-label="Public commits per month, from the month of the raise to the day they were read">${rects}</svg>`;
-}
-
-/** What Public code says, worded as the mockup words it. `dim`: not an active repository. */
-function codeText(c: Company): { html: string; dim: boolean } {
-  const k: CodeInfo = c.code;
-  switch (k.kind) {
-    case 'active': {
-      const n = k.daysAgo ?? 0;
-      const src = { kind: 'formula', href: `${GH}${k.lastRepo ?? ''}/commits`, formula: 'days from the newest commit on the default branch to the day the commits were read' } as const;
-      const when = n <= 1 ? fig(n === 0 ? 'today' : 'yesterday', src) : `${fig(fmtInt(n), src)} days ago`;
-      return { html: `Active · last commit ${when}`, dim: false };
-    }
-    case 'quiet':
-      return { html: k.lastCommit === null ? 'No public commits since the raise' : `No public commits in ${constant('public_code_quiet_days')} days`, dim: true };
-    case 'private':
-      return { html: `Private, as the team states · <a href="${esc(k.filing)}" rel="noopener">filing</a>`, dim: true };
-    case 'open_declared':
-      return { html: `Says open source; no repo found · <a href="${esc(k.filing)}" rel="noopener">filing</a>`, dim: true };
-    case 'none':
-      return { html: 'No public repo found', dim: true };
-    case 'unchecked':
-      return { html: 'Not checked yet', dim: true };
-  }
-}
-
-const codeBars = (c: Company): string => ((c.code.kind === 'active' || c.code.kind === 'quiet') && c.code.months.length > 0 ? bars(c.code.months) : '');
 
 export type Tag = { readonly kind: 'admin' | 'removed' | 'changed' | 'launch' | 'unclassified'; readonly html: string };
 

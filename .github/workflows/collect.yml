@@ -39,6 +39,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python collector/commits.py
+      - name: Shipped work as numbers: releases and contributors (the file is replaced only if every repository was read)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python collector/shipped.py
       - name: Commit snapshot (even if some steps failed, so failures are on record)
         if: always()
         run: |

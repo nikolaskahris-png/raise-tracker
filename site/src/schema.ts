@@ -509,3 +509,47 @@ export function parseProjects(json: string): readonly Project[] {
     return { name, ticker: String(p['ticker'] ?? ''), mint, status, github, sourcePage: src?.page ?? null, sourceKind: (src?.kind as Project['sourceKind']) ?? null };
   });
 }
+
+// ---- shipped.csv -----------------------------------------------------------------------------------
+
+export type ShippedRow = {
+  readonly ticker: string;
+  readonly mint: string;
+  readonly repo: string; // owner/name
+  readonly releases: number; // published releases since the raise (drafts never, pre-releases apart)
+  readonly prereleases: number;
+  readonly latestTag: string | null; // the newest published release that is not a pre-release
+  readonly latestDate: Date | null;
+  readonly latestUrl: string | null;
+  /** How many different people committed to this repo's default branch since the raise, bots left out. A number only. */
+  readonly contributors: number;
+  /** The same for all the project's repos together. */
+  readonly contributorsProject: number;
+  readonly readAt: Date;
+};
+
+export function parseShipped(text: string): readonly ShippedRow[] {
+  const F = 'shipped.csv';
+  const { header, rows } = parseCsv(text, F);
+  requireColumns(F, header, ['ticker', 'base_mint', 'repo', 'releases_since_raise', 'prereleases_since_raise', 'latest_release_tag', 'latest_release_date', 'latest_release_url', 'contributors_since_raise', 'contributors_project_since_raise', 'read_at']);
+  const seen = new Set<string>();
+  return rows.map((r) => {
+    for (const h of header) if (r.get(h).includes('@')) throw at(F, r, h, 'contains an @: this file holds numbers only, never an email or a username');
+    const repo = req(F, r, 'repo');
+    if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) throw at(F, r, 'repo', `not owner/name: "${repo}"`);
+    const mint = addr(F, r, 'base_mint');
+    if (seen.has(`${mint}|${repo}`)) throw at(F, r, 'repo', `${repo} appears twice`);
+    seen.add(`${mint}|${repo}`);
+    const tag = r.get('latest_release_tag'), day = r.get('latest_release_date'), href = r.get('latest_release_url');
+    if ((tag === '') !== (day === '') || (tag === '') !== (href === '')) throw at(F, r, 'latest_release_tag', 'tag, date and url are all given or all empty');
+    if (tag !== '' && (!DAY.test(day) || Number.isNaN(Date.parse(day)))) throw at(F, r, 'latest_release_date', `not YYYY-MM-DD: "${day}"`);
+    if (tag !== '' && !href.startsWith(`https://github.com/${repo}/releases/`)) throw at(F, r, 'latest_release_url', `not a release page of ${repo}: "${href}"`);
+    const readDay = req(F, r, 'read_at');
+    if (!DAY.test(readDay) || Number.isNaN(Date.parse(readDay))) throw at(F, r, 'read_at', `not YYYY-MM-DD: "${readDay}"`);
+    return {
+      ticker: req(F, r, 'ticker'), mint, repo, releases: int(F, r, 'releases_since_raise'), prereleases: int(F, r, 'prereleases_since_raise'),
+      latestTag: tag === '' ? null : tag, latestDate: tag === '' ? null : new Date(`${day}T00:00:00Z`), latestUrl: tag === '' ? null : href,
+      contributors: int(F, r, 'contributors_since_raise'), contributorsProject: int(F, r, 'contributors_project_since_raise'), readAt: new Date(`${readDay}T00:00:00Z`),
+    };
+  });
+}

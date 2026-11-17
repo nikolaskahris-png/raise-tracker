@@ -1,3 +1,4 @@
+import { publicCodeSection } from './code.ts';
 import { addrUrl, chip, date, duration, esc, fig, label, txUrl } from '../fig.ts';
 import { fmtInt, fmtUsd, microToDecimal, pct, ratio, sum, type Micro } from '../money.ts';
 import { addr, page, url, type Ctx } from '../layout.ts';
@@ -379,6 +380,7 @@ export function companyPage(ctx: Ctx, _site: Site, c: Company): string {
   const body = [
     header(ctx, c, t ? t.flows.length : null),
     stats(ctx, c),
+    publicCodeSection(ctx, c),
     t ? raiseToTreasury(ctx, c, t) : '',
     t ? whereItWent(ctx, t, c.displayName) : notRead(),
     t ? decisions(ctx, t) : '',
