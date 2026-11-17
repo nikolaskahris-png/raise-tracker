@@ -23,13 +23,17 @@ jobs:
         with:
           python-version: "3.12"
       - name: Offline tests
-        run: python tests/test_decode.py
+        run: python -m unittest discover -s tests
       - name: Collect
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RPC_URL: ${{ secrets.RPC_URL }}
           RUN_TRIGGER: ${{ github.event_name }}
         run: python collector/run.py
+      - name: Public commits per month (the file is replaced only if every repository was read)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python collector/commits.py
       - name: Commit snapshot (even if some steps failed, so failures are on record)
         if: always()
         run: |

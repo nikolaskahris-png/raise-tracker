@@ -14,7 +14,7 @@ const SCAN = Date.parse('2026-11-16T01:33:40.161Z');
 function banner(env: Record<string, string>): string {
   const out = join(mkdtempSync(join(tmpdir(), 'rt-sched-')), 'dist');
   const clean = Object.fromEntries(Object.entries(process.env).filter(([k]) => !['SITE_TRIGGER', 'SCAN_TRIGGER', 'SITE_NOW'].includes(k)));
-  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...clean, DATA_DIR: FIX, OUT_DIR: out, BASE_PATH: '/', ...env }, encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...clean, DATA_DIR: FIX, REGISTRY_DIR: join(here, 'fixtures', 'registry'), OUT_DIR: out, BASE_PATH: '/', ...env }, encoding: 'utf8' });
   assert.equal(r.status, 0, r.stdout + r.stderr);
   const html = readFileSync(join(out, 'index.html'), 'utf8');
   return /<div class="banner">([\s\S]*?)<main/.exec(html)?.[1] ?? '';
@@ -57,7 +57,7 @@ test('the methodology states the times that scan.yml schedules', () => {
   const crons = [...readFileSync(join(here, '..', '..', '.github', 'workflows', 'scan.yml'), 'utf8').matchAll(/- cron: '(\d+) (\d+) \* \* \*'/g)]
     .map((m) => `${String(m[2]).padStart(2, '0')}:${String(m[1]).padStart(2, '0')}`);
   const out = join(mkdtempSync(join(tmpdir(), 'rt-sched-m-')), 'dist');
-  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: FIX, OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: FIX, REGISTRY_DIR: join(here, 'fixtures', 'registry'), OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
   assert.equal(r.status, 0, r.stderr);
   const m = text(readFileSync(join(out, 'methodology', 'index.html'), 'utf8'));
   for (const c of crons) assert.ok(m.includes(c), `methodology does not state ${c}`);

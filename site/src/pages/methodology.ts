@@ -1,11 +1,13 @@
 import { readFileSync } from 'node:fs';
-import { addrUrl, chip, esc, fig } from '../fig.ts';
+import { addrUrl, chip, date, esc, fig } from '../fig.ts';
 import { fmtInt } from '../money.ts';
 import { startedSentence } from '../tracks.ts';
 import { allFormulas } from '../lists.ts';
 import type { ListRows } from '../lists.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import type { Site } from '../model.ts';
+import { checksSection } from './checks.ts';
+import { fmtInt as fmtIntM } from '../money.ts';
 
 export { PERMISSIONLESS_AUTHORITY } from '../constants.ts';
 import { PERMISSIONLESS_AUTHORITY, constant } from '../constants.ts';
@@ -44,6 +46,15 @@ const code = (file: string, line: number): string => `<a class="chip" href="${co
 const squadsIx = (file: string, line: number): string => `<a class="chip" href="https://github.com/Squads-Protocol/v4/blob/${SQUADS_COMMIT}/programs/squads_multisig_program/src/instructions/${file}#L${line}" rel="noopener">squads ${file}#L${line}</a>`;
 const squadsCode = (line: number): string => `<a class="chip" href="https://github.com/Squads-Protocol/v4/blob/${SQUADS_COMMIT}/programs/squads_multisig_program/src/state/spending_limit.rs#L${line}" rel="noopener">squads spending_limit.rs#L${line}</a>`;
 
+/** What this build was made from: the scan's slot and the data commit. They are here, not at the top of every page. */
+function buildSection(ctx: Ctx): string {
+  const commit = ctx.commit ? ` The data commit is <a class="chip" href="https://github.com/${ctx.repo}/tree/${ctx.commit}/data" rel="noopener">${esc(ctx.commit.slice(0, 7))}</a>.` : '';
+  return `<section id="build" class="wrap" style="padding-top:28px">
+<div class="eyebrow" style="margin-bottom:8px">This build</div>
+<p class="soft" style="max-width:760px">Every page shows the data of the scan of ${date(ctx.scanAt, 'minute')}, which started at slot ${fig(fmtIntM(ctx.scanSlot), { kind: 'block', slot: ctx.scanSlot })}.${commit} If a check fails, nothing is published and the previous version stays up.</p>
+</section>`;
+}
+
 export function methodologyPage(ctx: Ctx, site: Site): string {
   const csv = (f: string) => url(ctx, `data/${f}`);
   const permFirst = site.decoded.filter((r) => r.launchAuthority === PERMISSIONLESS_AUTHORITY && r.started).map((r) => r.started as Date).sort((a, b) => a.getTime() - b.getTime())[0];
@@ -58,6 +69,8 @@ export function methodologyPage(ctx: Ctx, site: Site): string {
 <h1 style="font-size:clamp(34px,5vw,56px);line-height:1.05;font-weight:600;max-width:880px">How every number is read, checked and published.</h1>
 <p class="soft" style="font-size:18px;line-height:1.6;max-width:720px;margin-top:20px">Every figure on this site comes from the Solana blockchain, from a list of records that are each on the blockchain, or from a formula over those. Nothing is typed in by hand. This page says exactly where each kind of number comes from, what we do not know yet, and how to check any number yourself.</p>
 </section>
+${buildSection(ctx)}
+${checksSection(site)}
 
 <section class="wrap prose" style="padding-top:8px">
 
@@ -66,6 +79,7 @@ export function methodologyPage(ctx: Ctx, site: Site): string {
 <li><b>Solana mainnet</b>, read through a standard RPC provider. Every raise, balance and movement comes from here.</li>
 <li><b>MetaDAO's open-source programs</b> (<a href="https://github.com/metaDAOproject/programs" rel="noopener">github.com/metaDAOproject/programs</a>). We decode accounts with the field layouts in that code, one layout per program version.</li>
 <li><b>Each token's onchain metadata</b> (its Metaplex metadata account), for the company's name and symbol. It is onchain and anyone can read it, but whoever controls the token's metadata chose it, so names are marked as declared.</li>
+<li><b>GitHub</b> (<code>api.github.com</code>): the public repositories of the organisations in the registry, and their commits, within the API's rate limits. Teams' own sites and Blockworks Token Transparency filings are read by hand, one page per team, for the link to a repository or the declaration that the code is private or open; only that link and the page are kept.</li>
 <li><b>Published articles</b>, only to add a project name that the onchain metadata does not give. We quote the sentence word for word, with the article's date and the day we read it, and take nothing else from it.</li>
 </ul>
 <p>We do not collect from websites whose terms forbid automated collection, and we never compile information about a person. Founder information appears only when founders add it themselves.</p>
@@ -83,7 +97,7 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 <p>Each launch account records the <b>launch authority</b>, the key that started the raise. It is the only split of raises the chain gives us. One authority, ${chip(PERMISSIONLESS_AUTHORITY, 'address')}, started its first raise on ${day(permFirst)}, the platform's own FUTARDIO token among them. It started ${startedSentence(site, 'permissionless')} We identify it as MetaDAO's permissionless platform, launched as Futardio and renamed Backable. That identification is ours, from the chain; it is not declared onchain.</p>
 <p>Every other authority (${n(otherAuthorities, 'launch authorities other than the permissionless one, among real raises', { authorities: [...new Set(site.real.filter((r) => r.track === 'curated').map((r) => r.launchAuthority))] })} of them among real raises) is grouped as <b>other launch authorities</b>. We do not know who controls those keys or how their raises were chosen, so the site does not call them curated or selected. The home page lists every authority with its own counts.</p>
 <p>A raise with a minimum under ${constant('min_real_raise_usd')} is treated as a <b>test launch</b> and left out of every rate and total. The <b>completion rate</b> is completed raises divided by finished raises, where finished means Complete or Refunding.</p>
-<p><b>Uncertainty.</b> Each rate is shown with its ${constant('confidence')} <b>Wilson score interval</b> and the number of finished raises it rests on (n). With few raises the interval is wide. The home page's title names a direction only when the two groups' intervals do not overlap, and it never states a ratio between the rates: with these sample sizes a ratio is far too uncertain.</p>
+<p><b>Uncertainty.</b> Each rate is shown with its ${constant('confidence')} <b>Wilson score interval</b> and the number of finished raises it rests on (n). With few raises the interval is wide. The title on the All raises page names a direction only when the two groups' intervals do not overlap, and it never states a ratio between the rates: with these sample sizes a ratio is far too uncertain.</p>
 <h2 id="categories">What a treasury is, and how each movement is classified</h2>
 <p>When a raise completes, the launchpad sends most of the USDC to the DAO's treasury: a Squads multisig vault controlled by the DAO's futarchy program. We read the vault's USDC account and every transaction that ever changed its balance. Each movement goes into exactly one category:</p>
 <ul>
@@ -119,8 +133,26 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 <p>For each treasury we add up every movement, positive in and negative out, and compare the total with the balance read in the same scan. A treasury is shown only if they agree. Amounts are added as whole numbers of micro-USDC (USDC has six decimals), never as floating-point numbers, so no amount is lost to rounding.</p>
 <p>The data keeps the slot the scan started at (shown at the top of every page, linked to its block) and, for each treasury, the slot at which its balance was read (<code>balance_slot</code> in treasury.csv). A balance on this site is the balance at that slot; the explorer shows today's.</p>
 
+<h2 id="public-code">Public code</h2>
+<p>The <b>Public code</b> column says what a team's public GitHub repositories show, and nothing about the work that is not public. Where the repository comes from is written in <code>registry/projects.json</code>, with the page where it was found: the team's own website or X account, a filing the team wrote itself, or, when neither links it, a search of the GitHub API (kept apart from the rest in that file). A repository is never guessed.</p>
+<ul>
+<li><b>Active</b>: the newest commit is within the last ${constant('public_code_quiet_days')} days of the day the commits were read. The small chart shows commits per month, from the month of the raise to that day.</li>
+<li><b>No public commits in ${constant('public_code_quiet_days')} days</b>: a repository was found, and its newest commit is older.</li>
+<li><b>Private, as the team states</b> and <b>Says open source; no repo found</b>: what the team's own filing says, with a link to it. We do not measure these.</li>
+<li><b>No public commits since the raise</b>: a repository was found and has no commit since the raise. <b>No public repo found</b>: we looked and found none. <b>Not checked yet</b>: nobody has looked for this company's repository.</li>
+</ul>
+<p>Commits are counted on each repository's <b>default branch</b> only, by commit date in UTC, from the date the raise completed. Other branches are not read, and forks are left out. The count is read from the GitHub API once a day into <a href="${csv('commits-monthly.csv')}">commits-monthly.csv</a>: if any repository cannot be read, the file is not replaced. <b>No public commits does not mean no work</b>: some teams keep their code private.</p>
+
+<h2 id="table">How to read the companies table</h2>
+<p><b>Permissionless</b> is our identification, not something declared onchain: a raise counts as permissionless when its launch authority is the key that runs MetaDAO's permissionless platform (Futardio, now Backable; ${chip(PERMISSIONLESS_AUTHORITY, 'address')}). Every other raise is "not permissionless"; we do not know who controls those authorities or how their raises were chosen. See <a href="#tracks">Raises by launch authority</a>.</p>
+<p><b>Rounded amounts.</b> The table rounds amounts to millions, thousands or dollars. The exact amount is in the figure's title and on the company's page, and a total opens the list whose exact amounts add up to it.</p>
+<p><b>Left in treasury</b> is the USDC in the DAO's vault at the scan, with its share of the amount raised and a thin bar for that share. If the balance is more than the raise, the table says "more than raised" and the bar is full. <b>Team can spend</b> is the monthly limit now (see <a href="#budget">Team budget</a>) and how many whole months the balance lasts at it: "treasury empty" when the balance is zero, "no limit" when the limit was removed or is not read, "under one month" below one month, and "over five years" above ${constant('runway_cap_months')} months.</p>
+
+<h2 id="not-in-table">What is not in the companies table</h2>
+<p>The table holds every raise that completed through MetaDAO's launchpad programs and has a DAO we can read. MetaDAO, Omnipair, Sanctum and Flash.Trade use MetaDAO's decision markets, but there is no launch account for them in the launchpad programs we decode: no raise amount, no raise date, and no treasury whose history starts at a raise. We do not show them rather than invent those figures. Their names are in the registry; nothing about them is guessed.</p>
+
 <h2 id="names">Names</h2>
-<p>Two marks keep declarations apart from facts. <span class="mk mk-o" aria-hidden="true"></span> <b>Declared onchain</b>: written onchain, so anyone can read it, but chosen by whoever controls it, like a token's name in its metadata. <span class="mk mk-d" aria-hidden="true"></span> <b>Declared offchain</b>: stated outside the chain, like a sentence quoted from an article.</p>
+<p>Two kinds of declaration are kept apart from facts. <b>Declared onchain</b>: written onchain, so anyone can read it, but chosen by whoever controls it, like a token's name in its metadata. <b>Declared offchain</b>: stated outside the chain, like a sentence quoted from an article.</p>
 <p>A company's name and symbol are read from its token's <b>onchain metadata</b>, the Metaplex metadata account derived from the token's mint. Each company page links that account. The metadata is set by whoever controls it, usually the team or the launchpad, so a name is a declaration, not a verified fact.</p>
 <p>When an article names the project behind a token more fully than the metadata does, the page shows the article's sentence <b>word for word</b>, the publisher, the date it was published and the day we read it. The build refuses a quote unless it names the token's onchain symbol, so a quote cannot be attached to the wrong token. We do not take amounts, dates or any other fact from articles: every figure comes from the chain.</p>
 <p>A token without onchain metadata is shown by its mint address, with the name marked as pending.</p>
@@ -153,7 +185,7 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 </ul>
 
 <h2 id="verify">Check a number yourself</h2>
-<p>Every figure is a link. A figure with ${'<span class="mk mk-v" aria-hidden="true"><svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M3 8.5l3.2 3L13 4.5"></path></svg></span>'} opens the transaction or account on the <a href="${addrUrl(PERMISSIONLESS_AUTHORITY).replace(/\/address\/.*$/, '')}" rel="noopener">Solana Explorer</a>. A figure with Σ opens the list it adds up. A figure with = opens its formula in the list below. The data files are published with the site (<a href="${csv('raises.csv')}">raises.csv</a>, <a href="${csv('treasury.csv')}">treasury.csv</a>, <a href="${csv('treasury-flows.csv')}">treasury-flows.csv</a>), each company page has its own CSV of movements, and the code and every daily snapshot are on <a href="https://github.com/${ctx.repo}" rel="noopener">GitHub</a>. The decoders follow <a href="${SRC}" rel="noopener">MetaDAO's program source</a>.</p>
+<p>Every figure is a link with a thin dotted underline, and its title says what it opens. A figure that opens a transaction or an account is read from there, on the <a href="${addrUrl(PERMISSIONLESS_AUTHORITY).replace(/\/address\/.*$/, '')}" rel="noopener">Solana Explorer</a>. A figure that opens a list is a total of exactly the rows in that list. A figure that opens a formula is calculated, and the formula is written out in the list below. The data files are published with the site (<a href="${csv('raises.csv')}">raises.csv</a>, <a href="${csv('treasury.csv')}">treasury.csv</a>, <a href="${csv('treasury-flows.csv')}">treasury-flows.csv</a>), each company page has its own CSV of movements, and the code and every daily snapshot are on <a href="https://github.com/${ctx.repo}" rel="noopener">GitHub</a>. The decoders follow <a href="${SRC}" rel="noopener">MetaDAO's program source</a>.</p>
 <h3 id="formulas">Every formula on this site</h3>
 <p>A figure marked = is computed from figures that are each linked. Tapping it opens its formula here.</p>
 <ul>${allFormulas().map((f) => `<li id="${f.id}">${esc(f.formula)}</li>`).join('')}</ul>

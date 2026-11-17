@@ -7,6 +7,7 @@ import { buildSite, readInputs } from './model.ts';
 import { checkInvariants } from './invariants.ts';
 import { CSS, type Ctx } from './layout.ts';
 import { homePage } from './pages/home.ts';
+import { raisesPage } from './pages/raises.ts';
 import { companyPage, movementsCsv } from './pages/company.ts';
 import { methodologyPage, notFoundPage } from './pages/methodology.ts';
 import { checkHtmlDir } from './check-html.ts';
@@ -18,6 +19,7 @@ import { identifiersOf } from './model.ts';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..', '..');
 const dataDir = process.env['DATA_DIR'] ?? join(root, 'data');
+const registryDir = process.env['REGISTRY_DIR'] ?? join(root, 'registry');
 const out = resolve(process.env['OUT_DIR'] ?? join(here, '..', 'dist'));
 
 // The commit the data was read from: the checked-out HEAD (in a workflow_run, GITHUB_SHA is the scan's commit, before its data commit).
@@ -25,7 +27,7 @@ function commitOf(): string | null {
   try { return execSync('git rev-parse HEAD', { cwd: root, encoding: 'utf8' }).trim(); } catch { return process.env['GITHUB_SHA'] ?? null; }
 }
 
-const site = buildSite(readInputs(dataDir, join(root, 'registry')));
+const site = buildSite(readInputs(dataDir, registryDir));
 const failures = checkInvariants(site);
 if (failures.length) {
   console.error(`Publication gate: ${failures.length} check(s) failed. Nothing was built.`);
@@ -56,13 +58,14 @@ const FONTS = join(here, '..', 'assets', 'fonts');
 for (const f of readdirSync(FONTS)) if (f !== 'fonts.css') copyFileSync(join(FONTS, f), (mkdirSync(join(out, 'fonts'), { recursive: true }), join(out, 'fonts', f)));
 write('site.css', readFileSync(join(FONTS, 'fonts.css'), 'utf8') + CSS);
 write('index.html', homePage(ctx, site));
+write('raises/index.html', raisesPage(ctx, site));
 write('404.html', notFoundPage(ctx));
 for (const c of site.companies) {
   write(`company/${c.raise.mint}/index.html`, companyPage(ctx, site, c));
   if (c.treasury) write(`company/${c.raise.mint}/movements.csv`, movementsCsv(c.treasury));
 }
 mkdirSync(join(out, 'data'), { recursive: true });
-for (const f of ['raises.csv', 'treasury.csv', 'treasury-flows.csv', 'scan-report.md', 'treasury-report.md']) copyFileSync(join(dataDir, f), join(out, 'data', f));
+for (const f of ['raises.csv', 'treasury.csv', 'treasury-flows.csv', 'commits-monthly.csv', 'scan-report.md', 'treasury-report.md']) copyFileSync(join(dataDir, f), join(out, 'data', f));
 write('methodology/index.html', methodologyPage(ctx, site)); // last: lists every formula the other pages used
 // One page per Σ figure. Writing a list page can register no new list (its totals open itself), but loop to be sure.
 const written = new Set<string>();

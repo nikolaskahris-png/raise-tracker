@@ -13,7 +13,7 @@ import { isAdmin, parseFlows } from '../src/schema.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const FIX = join(here, 'fixtures', '2026-11-16');
-const REG = join(here, '..', '..', 'registry');
+const REG = join(here, 'fixtures', 'registry');
 const ZKFG = 'ZKFHiLAfAFMTcDAuCtjNW54VzpERvoe7PBF9mYgmeta';
 const gate = (dir: string) => checkInvariants(buildSite(readInputs(dir, REG)));
 
@@ -38,7 +38,7 @@ function setCell(dir: string, cls: string, col: string, value: string): void {
 }
 function build(dir: string): string {
   const out = join(mkdtempSync(join(tmpdir(), 'rt-admin-out-')), 'dist');
-  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: dir, OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: dir, REGISTRY_DIR: join(here, 'fixtures', 'registry'), OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
   assert.equal(r.status, 0, r.stdout + r.stderr);
   return out;
 }
@@ -80,8 +80,8 @@ test('ZKFG: the days are counted from when proposal #8 passed, not from when it 
   assert.doesNotMatch(html, /enqueued/i);
 });
 
-test('the home note says only what the order shows, and changes when it does not hold', () => {
-  const home = text(readFileSync(join(build(FIX), 'index.html'), 'utf8'));
+test('the All raises note says only what the order shows, and changes when it does not hold', () => {
+  const home = text(readFileSync(join(build(FIX), 'raises', 'index.html'), 'utf8'));
   assert.match(home, /This is timing only: the chain does not tell us whether a proposal covers a payment\./);
   const d = copy();
   setCell(d, 'admin_after_vote', 'class', 'admin_vote_no_finalize');
@@ -104,7 +104,7 @@ test('the home note says only what the order shows, and changes when it does not
   tl[k] = cells.join(',');
   writeFileSync(tp, tl.join('\n'));
   assert.deepEqual(gate(d), []);
-  const changed = text(readFileSync(join(build(d), 'index.html'), 'utf8'));
+  const changed = text(readFileSync(join(build(d), 'raises', 'index.html'), 'utf8'));
   assert.match(changed, /Not every admin-key movement came after a vote\./);
   assert.doesNotMatch(changed, /Every admin-key movement came after/);
 });

@@ -21,7 +21,7 @@ let out: string | null = null;
 function built(): string {
   if (out) return out;
   const o = join(mkdtempSync(join(tmpdir(), 'rt-medium-')), 'dist');
-  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: FIX, OUT_DIR: o, BASE_PATH: '/' }, encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: FIX, REGISTRY_DIR: join(here, 'fixtures', 'registry'), OUT_DIR: o, BASE_PATH: '/' }, encoding: 'utf8' });
   assert.equal(r.status, 0, r.stdout + r.stderr);
   return (out = o);
 }
@@ -51,7 +51,7 @@ test('the list behind a figure holds exactly its rows (Umbra: 4 market votes, $8
   const href = /<a\b[^>]*data-figure="sum"[^>]*href="(\/lists\/umbra-movements-approved-by-market-vote-[a-z0-9]+\/)"[^>]*>\$805,000\.00/.exec(page)?.[1];
   assert.ok(href, 'no Σ for $805,000.00 with its list');
   const list = text(html(`${href.slice(1)}index.html`));
-  assert.match(list, /4 Σ movements · total \$805,000\.00/);
+  assert.match(list, /4 movements · total \$805,000\.00/);
   assert.equal((html(`${href.slice(1)}index.html`).match(/<tr><td><time/g) ?? []).length, 4);
 });
 
@@ -85,9 +85,9 @@ test('no number typed by hand, not even in a label', () => {
   assert.equal(unsourcedDigits(page(`<span data-constant="admin_vote_window_days">${CONSTANT_TEXT['admin_vote_window_days']}</span>`), { constants: CONSTANT_TEXT }).length, 0);
 });
 
-test('home: 31 of 33 treasuries read, and all 31 add up', () => {
-  assert.match(text(html('index.html')), /31 Σ of 33 Σ read; all 31 Σ add up to the cent/);
-  assert.doesNotMatch(text(html('index.html')), /31 \/ 31/);
+test('methodology: 31 of 33 treasuries read, and all 31 add up', () => {
+  assert.match(text(html('methodology/index.html')), /31 of 33 read; all 31 add up to the cent/);
+  assert.doesNotMatch(text(html('methodology/index.html')), /31 \/ 31/);
 });
 
 test('Umbra: $3,000,000 raised = $2,400,000 to the treasury + $600,000 as liquidity to its own market', () => {

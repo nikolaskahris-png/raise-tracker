@@ -6,12 +6,12 @@ import { build, read, visible } from './helpers.ts';
 
 const dist = build();
 // visible() turns tags into spaces, so a space may sit before the comma that follows the constant
-const SENTENCE = /started 128 Σ raises; 4 Σ of them were test launches with a minimum under \$10,000 ?, so the counts and rates here use 124 Σ/;
+const SENTENCE = /started 128 raises; 4 of them were test launches with a minimum under \$10,000 ?, so the counts and rates here use 124/;
 
 test('home explains 128 - 4 = 124 for the permissionless authority, and the same for other authorities', () => {
-  const home = visible(read(dist, 'index.html'));
+  const home = visible(read(dist, 'raises/index.html'));
   assert.match(home, SENTENCE);
-  assert.match(home, /started 86 Σ raises; 63 Σ of them were test launches with a minimum under \$10,000 ?, so the counts and rates here use 23 Σ/);
+  assert.match(home, /started 86 raises; 63 of them were test launches with a minimum under \$10,000 ?, so the counts and rates here use 23/);
 });
 
 test('the methodology says it in the same words', () => {
@@ -19,8 +19,8 @@ test('the methodology says it in the same words', () => {
 });
 
 test('the authority table shows test launches next to the raises it counts', () => {
-  const home = read(dist, 'index.html');
+  const home = read(dist, 'raises/index.html');
   assert.match(home, /<th scope="col" class="r">Raises counted<\/th><th scope="col" class="r">Test launches<\/th>/);
   const row = /LRrTQL…tARt[\s\S]*?<\/tr>/.exec(home)?.[0] ?? '';
-  assert.match(visible(`<main>${row}</main>`), /124 Σ 4 Σ/);
+  assert.match(visible(`<main>${row}</main>`), /124 4/);
 });

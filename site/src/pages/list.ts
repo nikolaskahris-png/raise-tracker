@@ -1,6 +1,6 @@
 // One page per Σ figure: exactly the rows that figure adds up, each linked to the chain, with the totals it can be checked against.
 import { chip, date, esc, fig } from '../fig.ts';
-import { fmtInt, fmtUsd, microToDecimal, sum } from '../money.ts';
+import { fmtCompact, fmtInt, fmtUsd, microToDecimal, sum } from '../money.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import type { ListEntry, ListRows } from '../lists.ts';
 import type { Site } from '../model.ts';
@@ -16,6 +16,7 @@ export function totalsOf(rows: ListRows, site: Site): string[] {
   const out = new Set<string>();
   const add = (n: number | bigint) => out.add(fmtInt(n));
   const money = (v: bigint, signs = false) => {
+    out.add(fmtCompact(v)); // a table shows rounded amounts; the list is where the exact ones add up
     for (const d of ['auto', 2, 0] as const) {
       out.add(fmtUsd(v, { decimals: d }));
       if (signs) out.add(fmtUsd(v, { decimals: d, sign: 'always' }));

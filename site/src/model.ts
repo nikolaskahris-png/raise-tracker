@@ -4,12 +4,12 @@ import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { sum, type Micro } from './money.ts';
 import {
-  FLOW_CLASSES, parseFlows, parseNames, parseReadings, parseRaises, parseScanReport, parseTreasury, parseTreasuryReport,
-  type PressName, type Reading, type Flow, type FlowClass, type Raise, type ScanReport, type TreasuryReport, type TreasuryRow, type UndecodedLaunch,
+  FLOW_CLASSES, parseCommits, parseFlows, parseProjects, parseNames, parseReadings, parseRaises, parseScanReport, parseTreasury, parseTreasuryReport,
+  type CommitRow, type Project, type PressName, type Reading, type Flow, type FlowClass, type Raise, type ScanReport, type TreasuryReport, type TreasuryRow, type UndecodedLaunch,
 } from './schema.ts';
 
 export { MIN_REAL_RAISE } from './constants.ts';
-import { MIN_REAL_RAISE } from './constants.ts';
+import { C, MIN_REAL_RAISE } from './constants.ts';
 
 export type Inputs = {
   readonly raises: readonly (Raise | UndecodedLaunch)[];
@@ -19,6 +19,8 @@ export type Inputs = {
   readonly treasuryReport: TreasuryReport;
   readonly names: ReadonlyMap<string, PressName>;
   readonly readings: ReadonlyMap<string, Reading>;
+  readonly commits: readonly CommitRow[];
+  readonly projects: readonly Project[];
   /** sha256 of raises.csv exactly as the site read it (line endings normalised to LF, as the scan wrote it). */
   readonly raisesCsvSha: string;
 };
@@ -34,6 +36,8 @@ export function readInputs(dataDir: string, registryDir: string): Inputs {
     treasuryReport: parseTreasuryReport(f('treasury-report.md')),
     names: parseNames(readFileSync(join(registryDir, 'names.json'), 'utf8')),
     readings: parseReadings(readFileSync(join(registryDir, 'names.json'), 'utf8')),
+    commits: parseCommits(f('commits-monthly.csv')),
+    projects: parseProjects(readFileSync(join(registryDir, 'projects.json'), 'utf8')),
   };
 }
 
@@ -54,6 +58,36 @@ export type Treasury = {
   readonly net: Micro;
 };
 
+/**
+ * What a company's public code shows. `active` and `quiet` come from the public commits we read; `private` and `open_declared`
+ * are what the team's own filing says (we do not measure them); `none`: a search found no repository; `unchecked`: nobody has looked yet.
+ */
+export type CodeInfo =
+  | { readonly kind: 'active' | 'quiet'; readonly repos: readonly string[]; readonly lastCommit: Date | null; readonly lastRepo: string | null; readonly readAt: Date; readonly daysAgo: number | null; readonly months: readonly { readonly month: string; readonly commits: number }[] }
+  | { readonly kind: 'private' | 'open_declared'; readonly filing: string }
+  | { readonly kind: 'none' | 'unchecked' };
+
+export function codeOf(mint: string, projects: readonly Project[], commits: readonly CommitRow[]): CodeInfo {
+  const p = projects.find((x) => x.mint === mint);
+  if (!p) return { kind: 'unchecked' };
+  if (p.status === 'not_found') return { kind: 'none' };
+  if (p.status === 'private_declared') return { kind: 'private', filing: p.sourcePage ?? '' };
+  if (p.status === 'open_declared_not_found') return { kind: 'open_declared', filing: p.sourcePage ?? '' };
+  const rows = commits.filter((c) => c.mint === mint);
+  const readAt = rows[0]?.readAt ?? new Date(0);
+  const byMonth = new Map<string, number>();
+  for (const r of rows) byMonth.set(r.month, (byMonth.get(r.month) ?? 0) + r.commits);
+  const months = [...byMonth.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([month, n]) => ({ month, commits: n }));
+  const last = rows.filter((r) => r.lastCommit).sort((a, b) => (b.lastCommit as Date).getTime() - (a.lastCommit as Date).getTime())[0];
+  const lastCommit = last?.lastCommit ?? null;
+  // Whole UTC days between the commit's day and the day it was read (a commit made later on the read day is 0 days ago).
+  const day = (d: Date): number => Math.floor(d.getTime() / 86_400_000);
+  const daysAgo = lastCommit ? Math.max(0, day(readAt) - day(lastCommit)) : null;
+  const repos = [...new Set(rows.map((r) => r.repo))].sort();
+  const active = daysAgo !== null && daysAgo <= C.public_code_quiet_days;
+  return { kind: active ? 'active' : 'quiet', repos, lastCommit, lastRepo: last?.repo ?? null, readAt, daysAgo, months };
+}
+
 export type Company = {
   readonly raise: Raise;
   readonly name: Name;
@@ -62,6 +96,7 @@ export type Company = {
   readonly problem: string | null;
   /** An article only linked for reading (names.json "reading"): never quoted, never used for the name. */
   readonly reading: Reading | null;
+  readonly code: CodeInfo;
 };
 
 export type Site = {
@@ -128,7 +163,7 @@ export function buildSite(inputs: Inputs): Site {
         const totalOut = -sum(flows.filter((f) => f.usdc < 0n).map((f) => f.usdc));
         treasury = { row, flows, byClass, totalIn, totalOut, net: totalIn - totalOut };
       }
-      return { raise: r, name, displayName, treasury, reading: inputs.readings.get(r.mint) ?? null, problem: row ? null : problemFor(r.metadataSymbol ?? r.mint.slice(0, 8)) ?? problemFor(r.mint.slice(0, 8)) };
+      return { raise: r, name, displayName, treasury, reading: inputs.readings.get(r.mint) ?? null, code: codeOf(r.mint, inputs.projects, inputs.commits), problem: row ? null : problemFor(r.metadataSymbol ?? r.mint.slice(0, 8)) ?? problemFor(r.mint.slice(0, 8)) };
     })
     .sort((a, b) => Number((b.raise.raised ?? 0n) - (a.raise.raised ?? 0n)) || a.raise.mint.localeCompare(b.raise.mint));
 

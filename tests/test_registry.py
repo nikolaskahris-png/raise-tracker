@@ -15,7 +15,8 @@ class Registry(unittest.TestCase):
 
     def test_statuses_are_known_and_ascii(self):
         projects = json.loads(open(PATH, encoding="utf-8").read())["projects"]
-        self.assertEqual(len(projects), 32)
+        self.assertGreaterEqual(len(projects), 32)
+        self.assertEqual(len({p["base_mint"] for p in projects}), len(projects), "a mint appears twice")
         for p in projects:
             self.assertIn(p["status"], STATUSES, p["name"])
             self.assertTrue(p["status"].isascii())

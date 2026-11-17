@@ -80,3 +80,36 @@ export function ratio(part: Micro, whole: Micro, decimals: number): string {
   const s = (v / scale).toString();
   return decimals === 0 ? s : `${s}.${(v % scale).toString().padStart(decimals, '0')}`;
 }
+
+/**
+ * A rounded amount for tables: $3.0M, $989K, $9.6K, $50. Exact integer arithmetic on micro-USDC, never floating point.
+ * From $1,000,000 one decimal of millions; from $10,000 whole thousands; from $1,000 one decimal of thousands; below, whole dollars.
+ * The exact amount belongs in the figure's title and on the company's page.
+ */
+export function fmtCompact(x: Micro): string {
+  const a = abs(x);
+  const sign = x < 0n ? '\u2212' : '';
+  const M = 1_000_000_000_000n; // one million dollars, in micro-USDC
+  const K = 1_000_000_000n; // one thousand dollars
+  const tenthsOf = (unit: bigint) => (a * 10n * 2n + unit) / (unit * 2n); // round half up
+  const asM = () => { const t = tenthsOf(M); return `${sign}$${t / 10n}.${t % 10n}M`; };
+  if (a >= M) return asM();
+  if (a >= 10n * K) {
+    const k = (a * 2n + K) / (K * 2n);
+    return k >= 1000n ? asM() : `${sign}$${k}K`;
+  }
+  if (a >= K) {
+    const t = tenthsOf(K);
+    return t >= 100n ? `${sign}$${t / 10n}K` : `${sign}$${t / 10n}.${t % 10n}K`;
+  }
+  const d = (a * 2n + 1_000_000n) / 2_000_000n;
+  return d >= 1000n ? `${sign}$1.0K` : `${sign}$${d}`;
+}
+
+/** part / whole as a whole percentage; "<1%" when the part is not zero but rounds to zero. */
+export function pctWhole(part: Micro, whole: Micro): string {
+  if (whole <= 0n) throw new Error('percentage of zero');
+  if (part === 0n) return '0%';
+  const p = (part * 100n * 2n + whole) / (whole * 2n);
+  return p === 0n ? '<1%' : `${p}%`;
+}
