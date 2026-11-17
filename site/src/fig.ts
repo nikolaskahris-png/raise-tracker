@@ -21,24 +21,6 @@ export function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-const CHECK = '<svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"></path></svg>';
-
-function mark(src: Source, dark: boolean): string {
-  const dk = dark ? ' mk-dk' : '';
-  switch (src.kind) {
-    case 'tx':
-    case 'account':
-    case 'block':
-      return `<span class="mk mk-v${dk}" aria-hidden="true">${CHECK}</span>`;
-    case 'sum':
-      return `<span class="mk mk-s${dk}" aria-hidden="true">Σ</span>`;
-    case 'formula':
-      return `<span class="mk mk-f${dk}" aria-hidden="true">=</span>`;
-    case 'declared':
-      return `<span class="mk mk-d" aria-hidden="true"></span>`;
-  }
-}
-
 function hrefOf(src: Source): string {
   switch (src.kind) {
     case 'tx': return txUrl(src.signature);
@@ -61,12 +43,17 @@ function titleOf(src: Source): string {
   }
 }
 
-export type FigOpts = { readonly cls?: string; readonly style?: string; readonly dark?: boolean; readonly bare?: boolean };
+/**
+ * `exact`: the unrounded amount, put in the link's title when the text shown is rounded.
+ * `dark` and `bare` are kept so older callers still compile; nothing is drawn beside a figure any more.
+ */
+export type FigOpts = { readonly cls?: string; readonly style?: string; readonly dark?: boolean; readonly bare?: boolean; readonly exact?: string };
 
 /** A number with its source. `text` is the already formatted figure. */
 export function fig(text: string, src: Source, o: FigOpts = {}): string {
   const external = /^https?:/.test(hrefOf(src));
-  return `<a class="fig${o.dark ? ' fig-dk' : ''}${o.cls ? ' ' + o.cls : ''}" data-figure="${src.kind}" href="${esc(hrefOf(src))}" title="${esc(titleOf(src))}"${external ? ' rel="noopener"' : ''}${o.style ? ` style="${o.style}"` : ''}>${esc(text)}${o.bare ? '' : mark(src, o.dark ?? false)}</a>`;
+  const title = o.exact ? `Exact: ${o.exact}. ${titleOf(src)}` : titleOf(src);
+  return `<a class="fig${o.cls ? ' ' + o.cls : ''}" data-figure="${src.kind}" href="${esc(hrefOf(src))}" title="${esc(title)}"${external ? ' rel="noopener"' : ''}${o.style ? ` style="${o.style}"` : ''}>${esc(text)}</a>`;
 }
 
 /** A shortened address or signature, linking to the explorer. Digits inside chips are identifiers, not figures. */

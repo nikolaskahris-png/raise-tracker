@@ -7,6 +7,7 @@
   "average_month_days": 30.4375,
   "stale_hours": 36,
   "public_code_quiet_days": 90,
+  "runway_cap_months": 60,
   "confidence": 0.95,
   "sample_treasuries": 3,
   "sample_movements": 10,

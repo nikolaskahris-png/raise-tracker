@@ -6,8 +6,8 @@ import { build, read, visible, MINT } from './helpers.ts';
 
 const dist = build();
 
-test('home presents the permissionless authority as our identification', () => {
-  const home = visible(read(dist, 'index.html'));
+test('the All raises page presents the permissionless authority as our identification', () => {
+  const home = visible(read(dist, 'raises/index.html'));
   assert.doesNotMatch(home, /The authority of MetaDAO's permissionless platform/);
   assert.match(home, /Our identification from the chain: the authority of MetaDAO's permissionless platform \(Futardio, now Backable\)\. It is not declared onchain\./);
   assert.match(home, /LRrTQL…tARt Permissionless \(our identification\)/);

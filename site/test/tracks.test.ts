@@ -74,11 +74,11 @@ test('one row per launch authority, adding up to the group totals', () => {
   assert.equal(new Set(rows.map((r) => r.authority)).size, rows.length);
 });
 
-test('the home page shows each rate with its interval and n, and never says curated or a multiple', () => {
-  const home = visible(readFileSync(join(built(), 'index.html'), 'utf8'));
+test('the All raises page shows each rate with its interval and n, and never says curated or a multiple', () => {
+  const home = visible(readFileSync(join(built(), 'raises', 'index.html'), 'utf8'));
   // each figure is followed by its mark (= computed, Σ sum) as a separate word
-  assert.match(home, /82\.4% = 95% interval 59\.0% = to 93\.8% = · n = 17 Σ finished raises/);
-  assert.match(home, /15\.8% = 95% interval 10\.4% = to 23\.4% = · n = 120 Σ finished raises/);
+  assert.match(home, /82\.4% 95% interval 59\.0% to 93\.8% · n = 17 finished raises/);
+  assert.match(home, /15\.8% 95% interval 10\.4% to 23\.4% · n = 120 finished raises/);
   assert.match(home, /Raises from other launch authorities completed more often than permissionless ones\./);
   assert.match(home, /Every launch authority, with its raises/);
   assert.doesNotMatch(home, /curated/i);

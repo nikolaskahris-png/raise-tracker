@@ -80,8 +80,8 @@ test('ZKFG: the days are counted from when proposal #8 passed, not from when it 
   assert.doesNotMatch(html, /enqueued/i);
 });
 
-test('the home note says only what the order shows, and changes when it does not hold', () => {
-  const home = text(readFileSync(join(build(FIX), 'index.html'), 'utf8'));
+test('the All raises note says only what the order shows, and changes when it does not hold', () => {
+  const home = text(readFileSync(join(build(FIX), 'raises', 'index.html'), 'utf8'));
   assert.match(home, /This is timing only: the chain does not tell us whether a proposal covers a payment\./);
   const d = copy();
   setCell(d, 'admin_after_vote', 'class', 'admin_vote_no_finalize');
@@ -104,7 +104,7 @@ test('the home note says only what the order shows, and changes when it does not
   tl[k] = cells.join(',');
   writeFileSync(tp, tl.join('\n'));
   assert.deepEqual(gate(d), []);
-  const changed = text(readFileSync(join(build(d), 'index.html'), 'utf8'));
+  const changed = text(readFileSync(join(build(d), 'raises', 'index.html'), 'utf8'));
   assert.match(changed, /Not every admin-key movement came after a vote\./);
   assert.doesNotMatch(changed, /Every admin-key movement came after/);
 });

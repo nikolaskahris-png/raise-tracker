@@ -7,6 +7,7 @@ import { buildSite, readInputs } from './model.ts';
 import { checkInvariants } from './invariants.ts';
 import { CSS, type Ctx } from './layout.ts';
 import { homePage } from './pages/home.ts';
+import { raisesPage } from './pages/raises.ts';
 import { companyPage, movementsCsv } from './pages/company.ts';
 import { methodologyPage, notFoundPage } from './pages/methodology.ts';
 import { checkHtmlDir } from './check-html.ts';
@@ -57,6 +58,7 @@ const FONTS = join(here, '..', 'assets', 'fonts');
 for (const f of readdirSync(FONTS)) if (f !== 'fonts.css') copyFileSync(join(FONTS, f), (mkdirSync(join(out, 'fonts'), { recursive: true }), join(out, 'fonts', f)));
 write('site.css', readFileSync(join(FONTS, 'fonts.css'), 'utf8') + CSS);
 write('index.html', homePage(ctx, site));
+write('raises/index.html', raisesPage(ctx, site));
 write('404.html', notFoundPage(ctx));
 for (const c of site.companies) {
   write(`company/${c.raise.mint}/index.html`, companyPage(ctx, site, c));

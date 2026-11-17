@@ -391,6 +391,68 @@
       "status": "not_found",
       "source": null,
       "checked": "2026-11-17"
+    },
+    {
+      "name": "Ranger",
+      "ticker": "RNGR",
+      "base_mint": "RNGRtJMbCveqCp7AC6U95KmrdKecFckaJZiWbPGmeta",
+      "github": [
+        "ranger-finance"
+      ],
+      "status": "found",
+      "confidence": "B",
+      "source": {
+        "kind": "github-api",
+        "page": "https://github.com/ranger-finance",
+        "note": "org profile lists ranger.finance (the site now answers HTTP 404, so no page of the team links the org); the org's repositories are those of a perps and trading product on Solana. Not confirmed by the team's own page"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Paystream",
+      "ticker": "PAYS",
+      "base_mint": "PAYZP1W3UmdEsNLJwmH61TNqACYJTvhXy8SCN4Tmeta",
+      "github": [
+        "PaystreamFinance"
+      ],
+      "status": "found",
+      "confidence": "B",
+      "source": {
+        "kind": "github-api",
+        "page": "https://github.com/PaystreamFinance",
+        "note": "org profile lists paystream.finance and X Paystreamlabs (the site answered HTTP 402 when read on 2026-11-17, so no page of the team could be read for a link to the org). Not confirmed by the team's own page"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "ZKFG",
+      "ticker": "ZKFG",
+      "base_mint": "ZKFHiLAfAFMTcDAuCtjNW54VzpERvoe7PBF9mYgmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "note": "GitHub code search for the mint finds only third-party token lists; a search for organisations by name finds nothing that matches",
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "ACCRUE",
+      "ticker": "ACCRUE",
+      "base_mint": "31hoVYavdrwYVcbWoZtXpUvf84D5Zroqai2wSnkAmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "note": "GitHub code search for the mint finds only third-party repositories; organisations called accrue-* have no link to this project (candidate accrue-money rejected: forks and JavaScript samples, no site or X)",
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Tset",
+      "ticker": "TSET",
+      "base_mint": "6ysB4gbn6byAn9SRwMmkjBEFseK8cGneGBY1SZ4Cmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "note": "GitHub code search for the mint finds nothing; a search for organisations by name finds nothing that matches",
+      "checked": "2026-11-17"
     }
   ]
 }
