@@ -439,3 +439,73 @@ export function parseNames(json: string): ReadonlyMap<string, PressName> {
   }
   return out;
 }
+
+// ---- commits-monthly.csv --------------------------------------------------------------------------
+
+export type CommitRow = {
+  readonly ticker: string;
+  readonly mint: string;
+  readonly repo: string; // owner/name
+  readonly month: string; // YYYY-MM
+  readonly commits: number;
+  /** The newest commit on the default branch since the raise (the same on every row of a repo); null if none. */
+  readonly lastCommit: Date | null;
+  /** The UTC day the commits were read from GitHub. */
+  readonly readAt: Date;
+};
+
+export function parseCommits(text: string): readonly CommitRow[] {
+  const F = 'commits-monthly.csv';
+  const { header, rows } = parseCsv(text, F);
+  requireColumns(F, header, ['ticker', 'base_mint', 'repo', 'month', 'commits', 'last_commit', 'read_at']);
+  const seen = new Set<string>();
+  return rows.map((r) => {
+    const repo = req(F, r, 'repo');
+    if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) throw at(F, r, 'repo', `not owner/name: "${repo}"`);
+    const month = req(F, r, 'month');
+    if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)) throw at(F, r, 'month', `not YYYY-MM: "${month}"`);
+    const mint = addr(F, r, 'base_mint');
+    if (seen.has(`${mint}|${repo}|${month}`)) throw at(F, r, 'month', `${repo} ${month} appears twice`);
+    seen.add(`${mint}|${repo}|${month}`);
+    const day = req(F, r, 'read_at');
+    if (!DAY.test(day) || Number.isNaN(Date.parse(day))) throw at(F, r, 'read_at', `not YYYY-MM-DD: "${day}"`);
+    return { ticker: req(F, r, 'ticker'), mint, repo, month, commits: int(F, r, 'commits'), lastCommit: optTime(F, r, 'last_commit'), readAt: new Date(`${day}T00:00:00Z`) };
+  });
+}
+
+// ---- registry/projects.json -----------------------------------------------------------------------
+
+export const CODE_STATUSES = ['found', 'not_found', 'private_declared', 'open_declared_not_found'] as const;
+export type CodeStatus = (typeof CODE_STATUSES)[number];
+export type Project = {
+  readonly name: string;
+  readonly ticker: string;
+  readonly mint: string;
+  readonly status: CodeStatus;
+  readonly github: readonly string[];
+  /** The page where the repo (or the team's declaration) was found; null when nothing was found. */
+  readonly sourcePage: string | null;
+  readonly sourceKind: 'team-site' | 'filing' | 'github-api' | null;
+};
+
+export function parseProjects(json: string): readonly Project[] {
+  const raw = JSON.parse(json) as { projects?: unknown };
+  if (!Array.isArray(raw.projects)) throw new SchemaError('projects.json: no projects list');
+  return raw.projects.map((p: Record<string, unknown>, i: number): Project => {
+    const where = `projects.json #${i + 1}`;
+    const name = typeof p['name'] === 'string' ? p['name'] : '';
+    const status = p['status'] as CodeStatus;
+    if (!name) throw new SchemaError(`${where}: no name`);
+    if (!(CODE_STATUSES as readonly string[]).includes(status)) throw new SchemaError(`${where} (${name}): unknown status "${String(p['status'])}"`);
+    const mint = String(p['base_mint'] ?? '');
+    if (!BASE58.test(mint)) throw new SchemaError(`${where} (${name}): base_mint is not a mint`);
+    const github = Array.isArray(p['github']) ? (p['github'] as unknown[]).map(String) : [];
+    if (status === 'found' && github.length === 0) throw new SchemaError(`${where} (${name}): found without a GitHub owner`);
+    if (status !== 'found' && github.length > 0) throw new SchemaError(`${where} (${name}): ${status} but lists a GitHub owner`);
+    const src = p['source'] as { kind?: string; page?: string } | null;
+    const needsSource = status !== 'not_found';
+    if (needsSource && !(src && typeof src.page === 'string' && /^https:\/\//.test(src.page))) throw new SchemaError(`${where} (${name}): ${status} needs a source page`);
+    if ((status === 'private_declared' || status === 'open_declared_not_found') && src?.kind !== 'filing') throw new SchemaError(`${where} (${name}): ${status} is a declaration and needs a filing as its source`);
+    return { name, ticker: String(p['ticker'] ?? ''), mint, status, github, sourcePage: src?.page ?? null, sourceKind: (src?.kind as Project['sourceKind']) ?? null };
+  });
+}

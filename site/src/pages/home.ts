@@ -1,8 +1,8 @@
-import { chip, duration, fig, label, esc, txUrl } from '../fig.ts';
+import { chip, date, duration, fig, label, esc, txUrl } from '../fig.ts';
 import { fmtInt, fmtUsd, pct, sum, type Micro } from '../money.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import { displayName } from './company.ts';
-import { MIN_REAL_RAISE, type Company, type Site } from '../model.ts';
+import { MIN_REAL_RAISE, type CodeInfo, type Company, type Site } from '../model.ts';
 import { byAuthority, startedSentence, trackHeadline, trackOutcomes, TRACK_NAME, TRACK_SHORT } from '../tracks.ts';
 import { pct1 } from '../stats.ts';
 import type { ListRows } from '../lists.ts';
@@ -10,12 +10,11 @@ import type { ListRows } from '../lists.ts';
 const CLASS_WORDS: Partial<Record<string, string>> = { team_budget: 'team budget draws', market_approved: 'movements approved by market vote' };
 import { constant } from '../constants.ts';
 import { PROGRAMS, programChip } from './methodology.ts';
+import { CLOCK } from './checks.ts';
 import { ADMIN_CLASSES, isAdmin, type FlowClass } from '../schema.ts';
 
 const COLORS = { team: '#2A44E8', market: '#0F1A4A', admin: '#F08C2B', left: '#C9D1F5', other: '#8A8F9C' } as const;
-const ARROW = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg>';
 const CHECK = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"></path></svg>';
-const CLOCK = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="8" cy="8" r="5.5"></circle><path d="M8 5v3.2l2 1.3"></path></svg>';
 
 export type Totals = {
   readonly totalIn: Micro; readonly team: Micro; readonly market: Micro; readonly admin: Micro; readonly liquidation: Micro; readonly otherOut: Micro; readonly left: Micro; readonly inflowOther: Micro;
@@ -38,28 +37,115 @@ function bar(parts: { v: Micro; color: string }[], whole: Micro, cls = 'bar'): s
 }
 
 
+const GH = 'https://github.com/';
+
+/** A tiny bar chart of commits per month from the month of the raise; the numbers are in the CSV the page links, not in the picture. */
+function spark(months: readonly { month: string; commits: number }[]): string {
+  const max = Math.max(1, ...months.map((m) => m.commits));
+  const w = 5, gap = 2, h = 20;
+  const width = months.length * (w + gap) - gap;
+  const bars = months.map((m, i) => { const bh = m.commits === 0 ? 1 : Math.max(2, Math.round((m.commits / max) * h)); return `<rect x="${i * (w + gap)}" y="${h - bh}" width="${w}" height="${bh}" rx="1" fill="${m.commits === 0 ? '#C9CDD6' : '#2A44E8'}"></rect>`; }).join('');
+  return `<svg class="spark" width="${width}" height="${h}" viewBox="0 0 ${width} ${h}" role="img" aria-label="Public commits per month, from the month of the raise to the day they were read">${bars}</svg>`;
+}
+
+/** The four values of Public code (plus "not checked yet" for a company nobody has looked up), worded as the plan says. */
+function codeCell(c: Company): string {
+  const k: CodeInfo = c.code;
+  switch (k.kind) {
+    case 'active': {
+      const n = k.daysAgo ?? 0;
+      const src = { kind: 'formula', href: `${GH}${k.lastRepo ?? ''}/commits`, formula: 'days from the newest commit on the default branch to the day the commits were read' } as const;
+      return `<div class="code-v"><b>Active</b> · last commit ${fig(fmtInt(n), src)} day${n === 1 ? '' : 's'} ago</div>${spark(k.months)}`;
+    }
+    case 'quiet':
+      return `<div class="code-v"><b>No public commits in ${constant('public_code_quiet_days')} days</b></div>`;
+    case 'private':
+      return `<div class="code-v"><b>Private, as the team states</b> <a href="${esc(k.filing)}" rel="noopener">filing</a></div>`;
+    case 'open_declared':
+      return `<div class="code-v"><b>Team states open source; no repository found</b> <a href="${esc(k.filing)}" rel="noopener">filing</a></div>`;
+    case 'none':
+      return `<div class="code-v"><b>No public repository found</b></div>`;
+    case 'unchecked':
+      return `<div class="code-v muted">Not checked yet</div>`;
+  }
+}
+
+type Tag = { readonly kind: 'admin' | 'removed' | 'changed' | 'launch' | 'unclassified'; readonly html: string };
+
+/** The On record tags that hold for this company: facts only, in a fixed order. If nothing holds, no tags. */
+export function tagsOf(ctx: Ctx, c: Company): Tag[] {
+  const t = c.treasury;
+  if (!t) return [];
+  const page = (anchor: string) => url(ctx, `company/${c.raise.mint}/#${anchor}`);
+  const out: Tag[] = [];
+  const admin = t.flows.filter((f) => isAdmin(f.cls));
+  if (admin.length > 0) {
+    const rows = { flows: admin };
+    const what = `${c.displayName}: movements approved with MetaDAO's admin key`;
+    out.push({ kind: 'admin', html: `<a href="${page('decisions')}">Admin-key transfer</a>: ${fig(fmtUsd(sum(ADMIN_CLASSES.map((k) => t.byClass[k]))), { kind: 'sum', what, rows })} (${fig(fmtInt(admin.length), { kind: 'sum', what, rows })})` });
+  }
+  const changes = t.row.limitChanges;
+  if (changes.some((x) => x.action === 'removed')) out.push({ kind: 'removed', html: `<a href="${page('limit-changes')}">Spending limit removed</a>` });
+  else if (changes.length > 0 || t.row.limitChanged === 'yes') out.push({ kind: 'changed', html: `<a href="${page('limit-changes')}">Spending limit changed</a>` });
+  const unidentified = sum(t.row.launchRecipients.filter((x) => x.owner !== c.raise.dao).map((x) => x.amount));
+  if (unidentified > 0n) out.push({ kind: 'launch', html: `<a href="${page('launch')}">At launch</a>, ${fig(fmtUsd(unidentified), { kind: 'tx', signature: t.row.launchSignature })} went to accounts not identified` });
+  if (t.byClass.other_out > 0n) {
+    const rows = { flows: t.flows.filter((f) => f.cls === 'other_out') };
+    out.push({ kind: 'unclassified', html: `<a href="${page('decisions')}">Unclassified movement</a>: ${fig(fmtUsd(t.byClass.other_out), { kind: 'sum', what: `${c.displayName}: movements not classified yet`, rows })}` });
+  }
+  return out;
+}
+
+/** The limit column: the limit now (or "No limit (removed)"), and how long the balance lasts at it, or why that is not said. */
+function limitCell(ctx: Ctx, t: NonNullable<Company['treasury']>): { html: string; sort: string } {
+  const removed = t.row.limitChanges.some((x) => x.action === 'removed');
+  const now = t.row.spendingLimitNow;
+  let top: string, sort = '-1';
+  if (removed) top = '<b>No limit (removed)</b>';
+  else if (now !== null && t.row.spendingLimitAccount) { top = fig(fmtUsd(now), { kind: 'account', address: t.row.spendingLimitAccount }); sort = now.toString(); }
+  else top = '<span class="muted">Limit not read</span>';
+  let second = '';
+  if (t.net <= 0n) second = 'Treasury empty';
+  else if (!removed && now !== null && now > 0n) second = `≈ ${fig(fmtInt(t.net / now), { kind: 'formula', href: url(ctx, 'methodology/#budget'), formula: 'treasury balance / monthly team limit, rounded down' })} months at this limit`;
+  return { html: `<div class="v">${top}</div>${second ? `<div class="sub">${second}</div>` : ''}`, sort };
+}
+
 function companyRow(ctx: Ctx, c: Company): string {
   const r = c.raise;
   const href = url(ctx, `company/${r.mint}/`);
   const nameTag = c.name.kind === 'none' ? ' <span class="badge b-p" style="height:20px;font-size:11px">Name pending</span>' : c.name.press ? ' <span class="badge b-d" style="height:20px;font-size:11px"><span class="mk mk-d" aria-hidden="true"></span>Project name quoted</span>' : '';
   const sub = c.name.kind === 'onchain' ? c.name.symbol : `${r.mint.slice(0, 8)}…`;
+  const when = r.completed ?? r.closed ?? r.started;
   const raised = r.raised === null ? '—' : fig(fmtUsd(r.raised), { kind: 'account', address: r.launch });
-  if (!c.treasury) {
-    return `<tr><td><a href="${href}" style="color:#0A0B0F"><div style="font-weight:600">${displayName(c)}${nameTag}</div><div class="mono muted" style="font-size:12px">${label(sub, `Ticker or token mint ${r.mint}`)}</div></a></td><td class="r">${raised}</td><td class="r muted">not read</td><td><div class="bar"></div></td><td><span class="badge b-p">Not read</span></td></tr>`;
-  }
   const t = c.treasury;
-  const now = fig(fmtUsd(t.net, { decimals: 2 }), { kind: 'account', address: t.row.usdcAccount });
-  const parts = [
-    { v: t.byClass.team_budget, color: COLORS.team }, { v: t.byClass.market_approved, color: COLORS.market },
-    { v: sum(ADMIN_CLASSES.map((k) => t.byClass[k])), color: COLORS.admin },
-    { v: t.byClass.liquidation + t.byClass.other_out, color: COLORS.other }, { v: t.net, color: COLORS.left },
-  ];
-  return `<tr><td><a href="${href}" style="color:#0A0B0F"><div style="font-weight:600;display:flex;align-items:center;gap:8px">${displayName(c)}${nameTag}</div><div class="mono muted" style="font-size:12px">${label(sub, `Ticker or token mint ${r.mint}`)}</div></a></td><td class="r">${raised}</td><td class="r">${now}</td><td>${bar(parts, t.totalIn)}</td><td><a class="badge b-v" href="${href}">Reconciled</a></td></tr>`;
+  const tags = tagsOf(ctx, c);
+  const lim = t ? limitCell(ctx, t) : null;
+  const left = t
+    ? `<div class="v">${fig(fmtUsd(t.net, { decimals: 2 }), { kind: 'account', address: t.row.usdcAccount })}</div>${r.raised !== null && r.raised > 0n ? `<div class="sub">${fig(pct(t.net, r.raised), { kind: 'formula', href: url(ctx, 'methodology/#categories'), formula: 'treasury balance / amount raised' })} of the raise</div>` : ''}`
+    : '<div class="v muted">Not read</div>';
+  const codeSort = c.code.kind === 'active' || c.code.kind === 'quiet' ? String(c.code.lastCommit?.getTime() ?? 0) : '-1';
+  return `<tr data-track="${r.track}" data-search="${esc(`${c.displayName} ${sub}`.toLowerCase())}">
+<td class="co" data-v="${esc(c.displayName.toLowerCase())}"><a href="${href}" class="coname"><span class="n">${displayName(c)}${nameTag}</span></a><div class="mono muted" style="font-size:12px">${label(sub, `Ticker or token mint ${r.mint}`)}${when ? ` · ${date(when, 'month')}` : ''}</div><div class="trk">${r.track === 'permissionless' ? TRACK_SHORT.permissionless : TRACK_SHORT.curated}</div></td>
+<td class="r m1" data-v="${(r.raised ?? 0n).toString()}"><span class="ml">Raised</span><div class="v">${raised}</div></td>
+<td class="r m2" data-v="${t ? t.net.toString() : '-1'}"><span class="ml">Left in treasury</span>${left}</td>
+<td class="r m3" data-v="${lim?.sort ?? '-1'}"><span class="ml">Team limit / month</span>${lim ? lim.html : '<div class="v muted">—</div>'}</td>
+<td class="code" data-v="${codeSort}"><span class="ml">Public code</span>${codeCell(c)}</td>
+<td class="rec"><span class="ml">On record</span>${tags.map((x) => `<span class="tag tag-${x.kind}">${x.html}</span>`).join('')}</td>
+</tr>`;
 }
 
+const sortBtn = (k: string, text: string, num: boolean) => `<th scope="col" class="${num ? 'r ' : ''}sortable" aria-sort="none"><button type="button" class="sortbtn" data-k="${k}">${text}</button></th>`;
+
 function table(ctx: Ctx, cs: readonly Company[]): string {
-  return `<div class="card tblbox"><table class="tbl"><thead><tr><th scope="col">Company</th><th scope="col" class="r">Raised</th><th scope="col" class="r">In treasury at the scan</th><th scope="col">Where it went</th><th scope="col">Status</th></tr></thead><tbody>${cs.map((c) => companyRow(ctx, c)).join('')}</tbody></table></div>`;
+  return `<div class="card tblbox cobox"><table class="tbl cotbl" id="cotbl"><thead><tr>${sortBtn('co', 'Company', false)}${sortBtn('m1', 'Raised', true)}${sortBtn('m2', 'Left in treasury', true)}${sortBtn('m3', 'Team limit / month', true)}${sortBtn('code', 'Public code', false)}<th scope="col">On record</th></tr></thead><tbody>${cs.map((c) => companyRow(ctx, c)).join('')}</tbody></table></div>`;
 }
+
+/** Search and column sorting. Without JavaScript the table is still there, sorted by Raised; the search box stays hidden. */
+const TABLE_JS = `<script>(function(){var tb=document.getElementById('cotbl');if(!tb)return;var body=tb.tBodies[0];var q=document.getElementById('q');
+function sortBy(i,dir,num){var rows=[].slice.call(body.rows);rows.sort(function(a,b){var x=a.cells[i].getAttribute('data-v'),y=b.cells[i].getAttribute('data-v');var c=num?(Number(x)-Number(y)):x.localeCompare(y);return dir*(c||a.cells[0].getAttribute('data-v').localeCompare(b.cells[0].getAttribute('data-v')));});rows.forEach(function(r){body.appendChild(r);});}
+[].forEach.call(tb.querySelectorAll('.sortbtn'),function(b,i){b.addEventListener('click',function(){var th=b.parentNode;var d=th.getAttribute('aria-sort')==='descending'?1:-1;if(th.getAttribute('aria-sort')==='none'&&i===0)d=1;[].forEach.call(tb.querySelectorAll('th'),function(h){h.setAttribute('aria-sort','none');});th.setAttribute('aria-sort',d===1?'ascending':'descending');sortBy(i,d,i>0&&i<5);});});
+if(q){q.hidden=false;q.addEventListener('input',function(){var s=q.value.trim().toLowerCase();[].forEach.call(body.rows,function(r){r.classList.toggle('nomatch',s!==''&&r.getAttribute('data-search').indexOf(s)<0);});});}
+})();</script>`;
 
 function squares(n: number, color: string, outline = false): string {
   return Array.from({ length: n }, () => `<div class="sq" style="${outline ? 'border:1.5px solid #4A5068' : `background:${color}`}"></div>`).join('');
@@ -75,13 +161,8 @@ export function homePage(ctx: Ctx, site: Site): string {
   const CONF = constant('confidence');
   const ciFig = (x: number, dark = true) => fig(pct1(x), { kind: 'formula', href: meth('tracks'), formula: 'Wilson score interval at the confidence level shown' }, { dark });
   const tests = site.decoded.filter((r) => r.minimum < MIN_REAL_RAISE).length;
-  const launchAccounts = site.inputs.raises.length;
   const withTreasury = site.companies.filter((c) => c.treasury);
   const notRead = site.companies.filter((c) => !c.treasury);
-  const completedReal = site.real.filter((r) => r.state === 'Complete');
-  const raisedReal = sum(completedReal.map((r) => r.raised ?? 0n));
-  const flowsCount = site.allFlows.length;
-  const reconciled = withTreasury.filter((c) => c.treasury?.row.reconciles).length;
 
   // The title is written from the data: a direction only when the 95% intervals do not overlap, never a multiple.
   const headline = trackHeadline(other, perm);
@@ -110,40 +191,32 @@ export function homePage(ctx: Ctx, site: Site): string {
     `<div><div style="display:flex;align-items:center;gap:8px;font-size:13px" class="soft"><span class="sw" style="background:${color}"></span>${name}</div>${fig(fmtUsd(v, { decimals: 2 }), { kind: 'sum', what, rows }, { style: "font-size:24px;font-weight:600;margin-top:8px;font-family:'Inter Tight',sans-serif" })}<div class="muted" style="font-size:13px;margin-top:6px">${note}</div></div>`;
   const n = (cls: string) => fig(fmtInt(site.allFlows.filter((f) => f.cls === cls).length), { kind: 'sum', what: `${CLASS_WORDS[cls] ?? cls}, all treasuries`, rows: { flows: site.allFlows.filter((f) => f.cls === cls) } });
 
-  const sortedCur = site.companies.filter((c) => c.raise.track === 'curated');
-  const sortedPerm = site.companies.filter((c) => c.raise.track === 'permissionless');
   const quoted = site.companies.filter((c) => c.name.kind === 'onchain' && c.name.press);
   const unnamed = site.companies.filter((c) => c.name.kind === 'none');
   const byVersion = (v: string) => site.undecoded.filter((u) => u.version === v).length;
 
   const body = `
-<section class="wrap" style="padding-top:72px;padding-bottom:40px">
-<div class="eyebrow" style="margin-bottom:18px">Onchain fundraising on Solana · MetaDAO launchpad</div>
-<h1 style="font-size:clamp(38px,6vw,68px);line-height:1.02;font-weight:600;max-width:900px">What teams raised onchain, and where every treasury dollar went.</h1>
-<p style="font-size:19px;line-height:1.55;max-width:680px;margin-top:24px" class="soft">A free public record. Every figure on this site links to the Solana transaction or account it comes from, or to the list it adds up. No figure is typed in by hand.</p>
-<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px">
-<a href="#companies" class="btn btn-dark">Browse companies ${ARROW}</a>
-<a href="${url(ctx, 'methodology/')}" class="btn btn-light">How every number is verified</a>
+<section class="wrap" style="padding-top:56px;padding-bottom:24px">
+<h1 style="font-size:clamp(28px,4.2vw,46px);line-height:1.1;font-weight:600;max-width:900px">Every team that raised on MetaDAO: what they raised, what is left, and what their public code shows.</h1>
+<p style="font-size:17px;line-height:1.55;max-width:700px;margin-top:16px" class="soft">Every number links to the chain.</p>
+<label class="srch" id="qbox"><span class="sr">Search a company by name or ticker</span><input id="q" type="search" placeholder="Search by name or ticker" autocomplete="off" hidden></label>
+</section>
+
+<section id="companies" class="wrap tabs" style="padding-top:8px;padding-bottom:24px">
+<input type="radio" name="trk" id="t-all" checked><input type="radio" name="trk" id="t-cur"><input type="radio" name="trk" id="t-perm">
+<div class="tabhead" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px">
+<h2 style="font-size:clamp(22px,2.6vw,30px);font-weight:600">Companies</h2>
+<div class="tabbar" role="group" aria-label="Launch authority"><label for="t-all">All</label><label for="t-cur">Other authorities</label><label for="t-perm">Permissionless</label></div>
 </div>
-<div class="stats" style="margin-top:56px">
-<div class="stat"><div class="stat-l">Raises decoded from the chain</div><div class="stat-v">${fig(fmtInt(site.decoded.length), { kind: 'sum', what: 'launch accounts decoded from the chain', rows: { raises: site.decoded } })}</div><div class="stat-n">of ${fig(fmtInt(launchAccounts), { kind: 'sum', what: 'launch accounts found onchain', rows: { raises: site.inputs.raises } })} launch accounts</div></div>
-<div class="stat"><div class="stat-l">Raised in completed raises</div><div class="stat-v">${fig(fmtUsd(raisedReal), { kind: 'sum', what: 'completed raises, test launches excluded', rows: { raises: completedReal } })}</div><div class="stat-n">${fig(fmtInt(completedReal.length), { kind: 'sum', what: 'completed raises, test launches excluded', rows: { raises: completedReal } })} raises, test launches excluded</div></div>
-<div class="stat"><div class="stat-l">Treasury movements, each linked</div><div class="stat-v">${fig(fmtInt(flowsCount), { kind: 'sum', what: 'every treasury movement', rows: { flows: site.allFlows } })}</div><div class="stat-n">USDC in and out of ${fig(fmtInt(withTreasury.length), { kind: 'sum', what: 'treasuries read', rows: { companies: withTreasury } })} treasuries</div></div>
-<div class="stat"><div class="stat-l">Treasuries read and reconciled</div><div class="stat-v">${fig(fmtInt(withTreasury.length), { kind: 'sum', what: 'treasuries read', rows: { companies: withTreasury } })} <span style="font-size:0.55em;font-weight:500">of</span> ${fig(fmtInt(site.companies.length), { kind: 'sum', what: 'completed raises with a DAO', rows: { companies: site.companies } })}</div><div class="stat-n">read; ${reconciled === withTreasury.length ? 'all' : ''} ${fig(fmtInt(reconciled), { kind: 'sum', what: 'treasuries whose history adds up to their balance at the scan', rows: { companies: withTreasury.filter((c) => c.treasury?.row.reconciles) } })} add up to the cent</div></div>
-</div>
-<div class="legend">
-<span><span class="mk mk-v" aria-hidden="true">${CHECK}</span>Verified onchain: opens the transaction or account</span>
-<span><span class="mk mk-s" aria-hidden="true">Σ</span>Sum of verified records: opens the list</span>
-<span><span class="mk mk-f" aria-hidden="true">=</span>Computed from verified figures: opens the formula</span>
-<span><span class="mk mk-o" aria-hidden="true"></span>Declared onchain: written onchain by whoever controls it, like a token's name</span>
-<span><span class="mk mk-d" aria-hidden="true"></span>Declared offchain: stated outside the chain, like a quoted article</span>
-<span><span class="mk mk-p" aria-hidden="true">${CLOCK}</span>Pending verification: shown, never hidden</span>
-</div>
+<div class="panels">${table(ctx, site.companies)}</div>
+<div class="legend1">Every number opens its source. On company pages: <span class="mk mk-s" aria-hidden="true">Σ</span> = a total (click for the list) · <span class="mk mk-v" aria-hidden="true">${CHECK}</span> = read from one transaction or account · <span class="mk mk-f" aria-hidden="true">=</span> = calculated (click for the formula) · <span class="mk mk-p" aria-hidden="true">${CLOCK}</span> = amount is onchain, purpose not identified yet.</div>
+<div class="muted" style="font-size:13px;margin-top:10px;line-height:1.55">No public commits does not mean no work: some teams keep their code private. Public code counts commits on each repository's default branch, read from GitHub. <a href="${meth('public-code')}">How it is counted</a> · <a href="${csv('commits-monthly.csv')}">Download commits-monthly.csv</a> · <a href="${csv('treasury.csv')}">Download treasury.csv</a></div>
+${TABLE_JS}
 </section>
 
 <section id="raises" class="wrap" style="padding-top:24px;padding-bottom:24px">
 <div style="background:#0A0B0F;color:#FFFFFF;border-radius:20px;padding:clamp(24px,4vw,48px)">
-<div class="eyebrow" style="color:#8E95A8;margin-bottom:14px">Raise outcomes by launch authority</div>
+<div class="eyebrow" style="color:#8E95A8;margin-bottom:14px">How the raises went · by launch authority</div>
 <h2 style="font-size:clamp(28px,3.6vw,42px);line-height:1.1;font-weight:600;max-width:760px">${headline}</h2>
 <p style="color:#A9AFBF;font-size:16px;line-height:1.55;max-width:640px;margin-top:14px">Each square is one finished raise. Filled means it completed and the treasury was funded. Outlined means it missed its minimum and investors were refunded. The range under each rate is its ${CONF} confidence interval: with few raises, the true rate could be anywhere in it.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;margin-top:40px">
@@ -184,19 +257,7 @@ ${cat(COLORS.left, 'Still in the treasuries', T.left, `${fig(share(T.left, T.tot
 </div>
 </section>
 
-<section id="companies" class="wrap tabs" style="padding-top:48px;padding-bottom:24px">
-<input type="radio" name="trk" id="t-cur" checked><input type="radio" name="trk" id="t-perm"><input type="radio" name="trk" id="t-all">
-<div class="tabhead" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px">
-<div><div class="eyebrow" style="margin-bottom:12px">Companies</div><h2 style="font-size:clamp(26px,3vw,36px);font-weight:600">Completed raises with a treasury</h2></div>
-<div class="tabbar" role="group" aria-label="Track"><label for="t-cur">Other authorities</label><label for="t-perm">Permissionless</label><label for="t-all">All</label></div>
-</div>
-<div class="panels">
-<div class="tab-panel p-cur">${table(ctx, sortedCur)}</div>
-<div class="tab-panel p-perm">${table(ctx, sortedPerm)}</div>
-<div class="tab-panel p-all">${table(ctx, site.companies)}</div>
-</div>
-<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;font-size:13px" class="muted"><span>Sorted by amount raised · Raised opens the launch account · In treasury opens the USDC account · Click a company for every movement</span><a href="${csv('treasury.csv')}">Download treasury.csv</a></div>
-</section>
+
 
 <section class="wrap" style="padding-top:48px;padding-bottom:24px">
 <div class="eyebrow" style="margin-bottom:12px">Not hidden</div>

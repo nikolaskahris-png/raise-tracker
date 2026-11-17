@@ -14,7 +14,7 @@ import { unsourcedDigits } from '../src/check-html.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const FIX = join(here, 'fixtures', '2026-11-16');
-const REG = join(here, '..', '..', 'registry');
+const REG = join(here, 'fixtures', 'registry');
 const RNGR = 'RNGRtJMbCveqCp7AC6U95KmrdKecFckaJZiWbPGmeta';
 const ZKFG = 'ZKFHiLAfAFMTcDAuCtjNW54VzpERvoe7PBF9mYgmeta';
 const PAYS = 'PAYZP1W3UmdEsNLJwmH61TNqACYJTvhXy8SCN4Tmeta';
@@ -23,7 +23,7 @@ let built: string | null = null;
 function build(): string {
   if (built) return built;
   const out = join(mkdtempSync(join(tmpdir(), 'rt-names-')), 'dist');
-  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: FIX, OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: FIX, REGISTRY_DIR: join(here, 'fixtures', 'registry'), OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
   assert.equal(r.status, 0, r.stdout + r.stderr);
   built = out;
   return out;

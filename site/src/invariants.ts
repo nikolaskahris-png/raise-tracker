@@ -116,5 +116,14 @@ export function checkInvariants(site: Site): string[] {
   if (site.companies.length === 0 || inputs.flows.length === 0) fail.push('no companies or no movements');
   if (toCents(site.companies.reduce((a, c) => a + (c.treasury?.totalIn ?? 0n), 0n)) <= 0n) fail.push('total inflow is zero');
 
+  // 5. Public code: every project with a repo that is a company on the site has its commits in commits-monthly.csv, from the
+  //    raise to the day they were read, and no commit file row belongs to a project that has no repo in the registry.
+  const foundMints = new Set(inputs.projects.filter((p) => p.status === 'found').map((p) => p.mint));
+  for (const row of inputs.commits) if (!foundMints.has(row.mint)) { fail.push(`commits-monthly.csv: ${row.ticker} ${row.repo} is not a project with a repository in registry/projects.json`); break; }
+  for (const c of site.companies) {
+    if (c.code.kind !== 'active' && c.code.kind !== 'quiet') continue;
+    if (c.code.repos.length === 0) fail.push(`${c.displayName}: the registry lists a repository but commits-monthly.csv has none`);
+    else if (c.code.months.length === 0) fail.push(`${c.displayName}: commits-monthly.csv has no months`);
+  }
   return fail;
 }

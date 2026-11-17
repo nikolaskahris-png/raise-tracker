@@ -12,6 +12,7 @@ type Constants = {
   readonly spending_limit_period_days: number;
   readonly average_month_days: number;
   readonly stale_hours: number;
+  readonly public_code_quiet_days: number;
   readonly confidence: number;
   readonly sample_treasuries: number;
   readonly sample_movements: number;
@@ -37,6 +38,7 @@ export const CONSTANT_TEXT: Readonly<Record<string, string>> = {
   admin_vote_window_days: String(C.admin_vote_window_days),
   spending_limit_period_days: String(C.spending_limit_period_days),
   stale_hours: String(C.stale_hours),
+  public_code_quiet_days: String(C.public_code_quiet_days),
   confidence: `${Math.round(C.confidence * 100)}%`,
   sample_treasuries: String(C.sample_treasuries),
   sample_movements: String(C.sample_movements),

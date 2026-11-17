@@ -14,14 +14,14 @@ import type { Raise } from '../src/schema.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const FIX = join(here, 'fixtures', '2026-11-16');
-const REG = join(here, '..', '..', 'registry');
+const REG = join(here, 'fixtures', 'registry');
 const site = buildSite(readInputs(FIX, REG));
 
 let out: string | null = null;
 function built(): string {
   if (out) return out;
   const o = join(mkdtempSync(join(tmpdir(), 'rt-tracks-')), 'dist');
-  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: FIX, OUT_DIR: o, BASE_PATH: '/' }, encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: FIX, REGISTRY_DIR: join(here, 'fixtures', 'registry'), OUT_DIR: o, BASE_PATH: '/' }, encoding: 'utf8' });
   assert.equal(r.status, 0, r.stdout + r.stderr);
   return (out = o);
 }

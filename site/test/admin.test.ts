@@ -13,7 +13,7 @@ import { isAdmin, parseFlows } from '../src/schema.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const FIX = join(here, 'fixtures', '2026-11-16');
-const REG = join(here, '..', '..', 'registry');
+const REG = join(here, 'fixtures', 'registry');
 const ZKFG = 'ZKFHiLAfAFMTcDAuCtjNW54VzpERvoe7PBF9mYgmeta';
 const gate = (dir: string) => checkInvariants(buildSite(readInputs(dir, REG)));
 
@@ -38,7 +38,7 @@ function setCell(dir: string, cls: string, col: string, value: string): void {
 }
 function build(dir: string): string {
   const out = join(mkdtempSync(join(tmpdir(), 'rt-admin-out-')), 'dist');
-  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: dir, OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: dir, REGISTRY_DIR: join(here, 'fixtures', 'registry'), OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
   assert.equal(r.status, 0, r.stdout + r.stderr);
   return out;
 }

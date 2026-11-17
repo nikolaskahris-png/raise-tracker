@@ -12,7 +12,7 @@ import { checkInvariants } from '../src/invariants.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const FIX = join(here, 'fixtures', '2026-11-16');
-const REG = join(here, '..', '..', 'registry');
+const REG = join(here, 'fixtures', 'registry');
 
 function copy(): string {
   const d = mkdtempSync(join(tmpdir(), 'rt-'));
@@ -130,7 +130,7 @@ test('the build publishes nothing when the gate fails', () => {
   const d = copy();
   editCell(d, 'treasury.csv', 1, 'team_budget_usd', plusCent);
   const out = join(mkdtempSync(join(tmpdir(), 'rt-out-')), 'dist');
-  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: d, OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: d, REGISTRY_DIR: join(here, 'fixtures', 'registry'), OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
   assert.equal(r.status, 1, r.stdout + r.stderr);
   assert.match(r.stderr, /Publication gate/);
   assert.equal(existsSync(out), false);
@@ -138,7 +138,7 @@ test('the build publishes nothing when the gate fails', () => {
 
 test('the build succeeds on the frozen data and every page passes the HTML checks', () => {
   const out = join(mkdtempSync(join(tmpdir(), 'rt-out-')), 'dist');
-  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: FIX, OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: FIX, REGISTRY_DIR: join(here, 'fixtures', 'registry'), OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
   assert.equal(r.status, 0, r.stdout + r.stderr);
   assert.ok(existsSync(join(out, 'company', 'PRVT6TB7uss3FrUd2D9xs2zqDBsa3GbMJMwCQsgmeta', 'index.html')));
   const home = readFileSync(join(out, 'index.html'), 'utf8');

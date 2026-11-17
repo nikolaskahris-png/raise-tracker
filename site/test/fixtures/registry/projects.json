@@ -1,0 +1,396 @@
+{
+  "_rules": "A GitHub owner is added only from a source that allows it: the project's own website or GitHub, a founder's own claim, or a platform that gave written permission. Each entry records its source and the date it was checked. Sources: (A) a page on the team's own site or X that links the repo, recorded with that page; (B) found through the GitHub API (org profile website/X, or the mint inside the team's own repo) and not linked from the team's own page: counted separately, never as A. 'status' is one of: found; not_found (no repo found, never read as 'no commits'); private_declared (the team's own filing says the code is private); open_declared_not_found (the team's own filing says the code is open but gives no repo and none was found). Nothing is guessed.",
+  "projects": [
+    {
+      "name": "Omnipair",
+      "ticker": "OMFG",
+      "base_mint": "omfgRBnxHsNJh6YeGbGAmWenNkenzsXyBXm3WDhmeta",
+      "github": [
+        "omnipair"
+      ],
+      "status": "found",
+      "confidence": "A",
+      "source": {
+        "kind": "team-site",
+        "page": "https://www.omnipair.fi",
+        "note": "site links to github.com/omnipair"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Avici",
+      "ticker": "AVICI",
+      "base_mint": "BANKJmvhT8tiJRsBSS1n2HryMBPvT5Ze4HU95DUAmeta",
+      "github": [
+        "Avici-Labs"
+      ],
+      "status": "found",
+      "source": {
+        "kind": "filing",
+        "page": "https://blockworks.com/token-transparency/filing/avici",
+        "note": "filing section 05b lists the org Avici-Labs as a DAO asset; it does not say the code is open. Public repos checked 2026-11-17: 5, none is the main product"
+      },
+      "checked": "2026-11-17",
+      "confidence": "A"
+    },
+    {
+      "name": "HiveBits",
+      "ticker": "NECTAR",
+      "base_mint": "CMFmrTNfNEYNnauug1mi2LMkghaVT3Sx6CxJ8xLcmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Rip Cars",
+      "ticker": "CARS",
+      "base_mint": "CARSsxWPkpQWvfyRBwfGMGvysJBHdHGfE46X5MNgmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "note": "org github.com/ripcars (website ripcars.io, X ripcarsio) exists but has 0 public repos",
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Orendal",
+      "ticker": "ORENDAL",
+      "base_mint": "95XVMy1tQcn4gsxu88JiCCw6k5oLJ74xhbAa7Gr3meta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Areal Finance",
+      "ticker": "ARL",
+      "base_mint": "6JSXRGMH6wNiukuLi4x6rSHazJMQL51WGbzirXxsmeta",
+      "github": [
+        "ArealFinance"
+      ],
+      "status": "found",
+      "confidence": "B",
+      "source": {
+        "kind": "github-api",
+        "page": "https://github.com/ArealFinance",
+        "note": "org profile lists areal.finance and X areal_finance; the site fetch showed no GitHub link"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "LFOWN",
+      "ticker": "LFOWN",
+      "base_mint": "5gDnzAC4EEFmTjFzFjHUXS7wx5Cdvi2NTKGZT61meta",
+      "github": [
+        "sparkfun-labs"
+      ],
+      "status": "found",
+      "confidence": "B",
+      "source": {
+        "kind": "github-api",
+        "page": "https://github.com/sparkfun-labs",
+        "note": "sparkfun-labs/lfown README describes LFOWN and names letsfuckingown.fun, which links X LFOWNDOTFUN; the org profile has no website or X"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "DRAWUP",
+      "ticker": "DRAWUP",
+      "base_mint": "2HPNEWcxDDnLhdSmfsNPf6TC1byJXPNj6mczqY5ymeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Superclaw",
+      "ticker": "SUPER",
+      "base_mint": "5TbDn1dFEcUTJp69Fxnu5wbwNec6LmoK42Sr5mmNmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Kimia",
+      "ticker": "KIMIA",
+      "base_mint": "BGLJaGukwopAFUaVC9iJNqMYEeKwRf3LK65NttPVmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Jurassic",
+      "ticker": "RAWR",
+      "base_mint": "4K1m7gAMDKzrxQn68yuZAd767w57Fw7Ykw69dG3umeta",
+      "github": [],
+      "status": "open_declared_not_found",
+      "source": {
+        "kind": "filing",
+        "page": "https://blockworks.com/token-transparency/filing/jurassic-finance",
+        "note": "filing: 'Codebases and repositories controlled by the DAO are open source.' No org or repo given and none found 2026-11-17"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Credible Finance",
+      "ticker": "CRED",
+      "base_mint": "CREDBHvVqREBCAxMihzr8D1nepHMr2gmQoZWpmgGmeta",
+      "github": [
+        "crediblefinance"
+      ],
+      "status": "found",
+      "confidence": "B",
+      "source": {
+        "kind": "github-api",
+        "page": "https://github.com/crediblefinance",
+        "note": "org profile lists credible.finance; credible.finance does not link GitHub"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "The Syndicate",
+      "ticker": "GANG",
+      "base_mint": "syQqkspvb2PRr1meJ5pJDmhgxwc4hUou2TMjjrTmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17",
+      "note": "filing (https://blockworks.com/token-transparency/filing/the-syndicate) says the IP belongs to the DAO, gives no org and does not say if it is public; none found 2026-11-17"
+    },
+    {
+      "name": "ORDR",
+      "ticker": "ORDR",
+      "base_mint": "FgVcn25UXf4MoNf4coaz2o5xDGPK1goMbUBfyUgrmeta",
+      "github": [],
+      "status": "private_declared",
+      "source": {
+        "kind": "filing",
+        "page": "https://blockworks.com/token-transparency/filing/ordr-trade",
+        "note": "filing: 'The core protocol repositories are private and proprietary'. Org github.com/CHA0S-LABS exists (2 public repos: ordr-landing, .github); not measured"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "PREDICT",
+      "ticker": "PREDICT",
+      "base_mint": "5FtV5gisCyCqJHsiCne4pX2r6d2YPRF9Kcfx2DKvmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "The Inner Table",
+      "ticker": "POKER",
+      "base_mint": "GYYCX5q47qDU7ctwCjZv7KKgW2L3788f4vtdR3Kjmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "SAT",
+      "ticker": "SAT",
+      "base_mint": "BSwp4GjLnejXKqvmjueJmPXC7UZhNoF6RuMQJRpSmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Umbra",
+      "ticker": "UMBRA",
+      "base_mint": "PRVT6TB7uss3FrUd2D9xs2zqDBsa3GbMJMwCQsgmeta",
+      "github": [
+        "umbra-defi"
+      ],
+      "status": "found",
+      "confidence": "B",
+      "source": {
+        "kind": "github-api",
+        "page": "https://github.com/umbra-defi",
+        "note": "org profile lists umbraprivacy.com and X UmbraPrivacy; the same X handle is linked from umbraprivacy.com. The site does not link GitHub"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Final",
+      "ticker": "FINAL",
+      "base_mint": "4WSZkN6p4wfqGqQSwTnvpCTnjNMdazDebYQJu14nmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Sanctum",
+      "ticker": "SANC",
+      "base_mint": "CLoUDKc4Ane7HeQcPpE3YHnznRxhMimJ4MyaUqyHFzAu",
+      "github": [
+        "igneous-labs"
+      ],
+      "status": "found",
+      "confidence": "A",
+      "source": {
+        "kind": "team-site",
+        "page": "https://sanctum.so",
+        "note": "site links to github.com/igneous-labs"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "P2P Protocol",
+      "ticker": "P2P",
+      "base_mint": "P2PXup1ZvMpCDkJn3PQxtBYgxeCSfH39SFeurGSmeta",
+      "github": [
+        "p2pdotme"
+      ],
+      "status": "found",
+      "confidence": "B",
+      "source": {
+        "kind": "github-api",
+        "page": "https://github.com/p2pdotme",
+        "note": "GitHub code search for the mint finds p2pdotme/user-app-client; org profile says 'Decentralised Stablecoin On/Off Ramp'; p2p.me links X P2Pdotme but org X is p2pdotfound"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Cope",
+      "ticker": "COPE",
+      "base_mint": "JCvQTE37BG4Ybn5nC7yWkFRpd2ACLaVyxM7KMM1mmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "MetaDAO",
+      "ticker": "META",
+      "base_mint": "METAwkXcqyXKy1AtsSgJ8JiUHwGCafnZL38n3vYmeta",
+      "github": [
+        "metaDAOproject"
+      ],
+      "status": "found",
+      "confidence": "B",
+      "source": {
+        "kind": "github-api",
+        "page": "https://github.com/metaDAOproject",
+        "note": "entry from 2026-11-14; org profile lists metadao.fi and X MetaDAOProject"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "GeSIM",
+      "ticker": "GSIM",
+      "base_mint": "DwCBrWrAGokHmysLL2XbY7TCZpbRH9QUAZxHnyWxmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Futardio cult",
+      "ticker": "FUTARDIO",
+      "base_mint": "Cbjr1Nvcay3QWDriyRKtokJ7V4PMknesGxeK8z7Zmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Solomon",
+      "ticker": "SOLO",
+      "base_mint": "SoLo9oxzLDpcq1dpqAgMwgce5WqkRDtNXK7EPnbmeta",
+      "github": [
+        "SolomonLabs"
+      ],
+      "status": "found",
+      "confidence": "B",
+      "source": {
+        "kind": "github-api",
+        "page": "https://github.com/SolomonLabs",
+        "note": "org profile lists solomonlabs.org and X solomon_labs; the same X handle is linked from solomonlabs.org. The site does not link GitHub"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Laso Finance",
+      "ticker": "LASO",
+      "base_mint": "LASocYgQAo8GfypSjedNQgLft8y8DVGg1kSqR3smeta",
+      "github": [
+        "LasoFinance"
+      ],
+      "status": "found",
+      "confidence": "A",
+      "source": {
+        "kind": "team-site",
+        "page": "https://laso.finance",
+        "note": "site links to github.com/LasoFinance"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Basket",
+      "ticker": "BASKET",
+      "base_mint": "2rNBaMg5VAr1aMNCwAPdDZVgzzdTaNDebUnNqPFNmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "note": "candidate intenttechnologies (trybasket.com) not accepted: only 2 PHP repos, no sign it is the Solana project",
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Loyal",
+      "ticker": "LOYAL",
+      "base_mint": "LYLikzBQtpa9ZgVrJsqYGQpR3cC1WMJrBHaXGrQmeta",
+      "github": [
+        "loyal-labs"
+      ],
+      "status": "found",
+      "confidence": "A",
+      "source": {
+        "kind": "team-site",
+        "page": "https://askloyal.com",
+        "note": "site links to github.com/loyal-labs"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Flash.Trade",
+      "ticker": "FAF",
+      "base_mint": "FAFxVxnkzZHMCodkWyoccgUNgVScqMw2mhhQBYDFjFAF",
+      "github": [
+        "flash-trade"
+      ],
+      "status": "found",
+      "confidence": "B",
+      "source": {
+        "kind": "github-api",
+        "page": "https://github.com/flash-trade",
+        "note": "org profile lists flash.trade and X FlashTrade_; flash.trade shows no GitHub link"
+      },
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "Mori Finance",
+      "ticker": "MORI",
+      "base_mint": "MoR1whCWjcLiUqAan4GHLRcn8wK4Jktk2DyDryNmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "note": "candidate Yomi-Games (mori.finance) not accepted: game and NFT repos, no sign it is the Solana project",
+      "checked": "2026-11-17"
+    },
+    {
+      "name": "MimiKrew",
+      "ticker": "KREW",
+      "base_mint": "5Xg5fq7PgLNafbgXYfpWNmPhYpkSMEAqb7SPeHNdmeta",
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-17"
+    }
+  ]
+}

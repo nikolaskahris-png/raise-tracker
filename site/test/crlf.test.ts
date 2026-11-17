@@ -11,7 +11,7 @@ import { parseScanReport, parseTreasuryReport } from '../src/schema.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const FIX = join(here, 'fixtures', '2026-11-16');
-const REG = join(here, '..', '..', 'registry');
+const REG = join(here, 'fixtures', 'registry');
 const lf = (s: string) => s.replace(/\r\n?/g, '\n');
 const crlf = (s: string) => lf(s).replace(/\n/g, '\r\n');
 

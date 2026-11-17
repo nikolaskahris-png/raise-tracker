@@ -148,7 +148,7 @@ function raiseToTreasury(ctx: Ctx, c: Company, t: Treasury): string {
   const daoSum = sum(toDao.map((x) => x.amount));
   const rest = r.raised - t.byClass.launch_funding - t.row.launchOther;
   const row = (label: string, value: string, note = '') => `<div class="kv" style="align-items:flex-start"><span class="soft">${label}${note ? `<br><span class="muted" style="font-size:12px">${note}</span>` : ''}</span>${value}</div>`;
-  return `<section class="wrap" style="padding-top:56px">
+  return `<section id="launch" class="wrap" style="padding-top:56px">
 <div class="eyebrow" style="margin-bottom:12px">From the raise to the treasury</div>
 <h2 style="font-size:clamp(26px,3vw,34px);font-weight:600;margin-bottom:8px">Where the raised USDC went at launch</h2>
 <p class="soft" style="font-size:15px;margin:0 0 20px;max-width:720px;line-height:1.55">Read from the launch transaction ${chip(sig, 'tx')}. This site follows only the USDC in the treasury vault. What left to other accounts in that transaction is shown here, and followed no further.</p>

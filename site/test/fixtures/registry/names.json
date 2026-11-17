@@ -1,0 +1,19 @@
+{
+  "_about": "Every company's name comes from its token's onchain metadata (Metaplex). An entry here either adds a project name, quoted verbatim from a published article ('quote', with 'published' and 'read' dates; the build checks that the quote names the token's onchain symbol), or only links an article for reading ('reading'), which never changes a name and is never quoted. Nothing else from an article is used as a fact. Sources and their terms are listed in DECISIONS.md and erevna/02-piges.md.",
+  "RNGRtJMbCveqCp7AC6U95KmrdKecFckaJZiWbPGmeta": {
+    "project": "Ranger Finance",
+    "quote": "In March 2026, $RNGR token holders voted to liquidate Ranger Finance’s treasury via MetaDAO’s futarchy-based governance system.",
+    "source": "https://solanafloor.com/news/ranger-finance-winds-down",
+    "publisher": "SolanaFloor",
+    "published": "2026-05-15",
+    "read": "2026-11-16"
+  },
+  "ZKFHiLAfAFMTcDAuCtjNW54VzpERvoe7PBF9mYgmeta": {
+    "reading": {
+      "source": "https://solanacompass.com/news/metadaos-futarchy-just-executed-its-first-onchain-take-private-as-zkfg-008-passes",
+      "publisher": "Solana Compass",
+      "published": "2026-06-20",
+      "read": "2026-11-16"
+    }
+  }
+}

@@ -6,8 +6,8 @@ import { build, read, visible, MINT } from './helpers.ts';
 
 const dist = build();
 
-test('the legend explains both marks, and no longer calls onchain names "not onchain"', () => {
-  const home = read(dist, 'index.html');
+test('the legend, on the Methodology page, explains both marks, and no longer calls onchain names "not onchain"', () => {
+  const home = read(dist, 'methodology/index.html');
   assert.match(home, /<span class="mk mk-o"[^>]*><\/span>Declared onchain: written onchain by whoever controls it/);
   assert.match(home, /<span class="mk mk-d"[^>]*><\/span>Declared offchain: stated outside the chain/);
   assert.doesNotMatch(visible(home), /Declared: stated by someone, not onchain/);

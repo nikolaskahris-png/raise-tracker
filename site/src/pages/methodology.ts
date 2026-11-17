@@ -6,6 +6,7 @@ import { allFormulas } from '../lists.ts';
 import type { ListRows } from '../lists.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import type { Site } from '../model.ts';
+import { checksSection } from './checks.ts';
 
 export { PERMISSIONLESS_AUTHORITY } from '../constants.ts';
 import { PERMISSIONLESS_AUTHORITY, constant } from '../constants.ts';
@@ -58,6 +59,7 @@ export function methodologyPage(ctx: Ctx, site: Site): string {
 <h1 style="font-size:clamp(34px,5vw,56px);line-height:1.05;font-weight:600;max-width:880px">How every number is read, checked and published.</h1>
 <p class="soft" style="font-size:18px;line-height:1.6;max-width:720px;margin-top:20px">Every figure on this site comes from the Solana blockchain, from a list of records that are each on the blockchain, or from a formula over those. Nothing is typed in by hand. This page says exactly where each kind of number comes from, what we do not know yet, and how to check any number yourself.</p>
 </section>
+${checksSection(site)}
 
 <section class="wrap prose" style="padding-top:8px">
 
@@ -66,6 +68,7 @@ export function methodologyPage(ctx: Ctx, site: Site): string {
 <li><b>Solana mainnet</b>, read through a standard RPC provider. Every raise, balance and movement comes from here.</li>
 <li><b>MetaDAO's open-source programs</b> (<a href="https://github.com/metaDAOproject/programs" rel="noopener">github.com/metaDAOproject/programs</a>). We decode accounts with the field layouts in that code, one layout per program version.</li>
 <li><b>Each token's onchain metadata</b> (its Metaplex metadata account), for the company's name and symbol. It is onchain and anyone can read it, but whoever controls the token's metadata chose it, so names are marked as declared.</li>
+<li><b>GitHub</b> (<code>api.github.com</code>): the public repositories of the organisations in the registry, and their commits, within the API's rate limits. Teams' own sites and Blockworks Token Transparency filings are read by hand, one page per team, for the link to a repository or the declaration that the code is private or open; only that link and the page are kept.</li>
 <li><b>Published articles</b>, only to add a project name that the onchain metadata does not give. We quote the sentence word for word, with the article's date and the day we read it, and take nothing else from it.</li>
 </ul>
 <p>We do not collect from websites whose terms forbid automated collection, and we never compile information about a person. Founder information appears only when founders add it themselves.</p>
@@ -118,6 +121,16 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 <h2 id="reconcile">Reconciliation</h2>
 <p>For each treasury we add up every movement, positive in and negative out, and compare the total with the balance read in the same scan. A treasury is shown only if they agree. Amounts are added as whole numbers of micro-USDC (USDC has six decimals), never as floating-point numbers, so no amount is lost to rounding.</p>
 <p>The data keeps the slot the scan started at (shown at the top of every page, linked to its block) and, for each treasury, the slot at which its balance was read (<code>balance_slot</code> in treasury.csv). A balance on this site is the balance at that slot; the explorer shows today's.</p>
+
+<h2 id="public-code">Public code</h2>
+<p>The <b>Public code</b> column says what a team's public GitHub repositories show, and nothing about the work that is not public. Where the repository comes from is written in <code>registry/projects.json</code>, with the page where it was found: the team's own website or X account, a filing the team wrote itself, or, when neither links it, a search of the GitHub API (kept apart from the rest in that file). A repository is never guessed.</p>
+<ul>
+<li><b>Active</b>: the newest commit is within the last ${constant('public_code_quiet_days')} days of the day the commits were read. The small chart shows commits per month, from the month of the raise to that day.</li>
+<li><b>No public commits in ${constant('public_code_quiet_days')} days</b>: a repository was found, and its newest commit is older, or there is none since the raise.</li>
+<li><b>Private, as the team states</b> and <b>Team states open source; no repository found</b>: what the team's own filing says, with a link to it. We do not measure these.</li>
+<li><b>No public repository found</b>: we looked and found none. <b>Not checked yet</b>: nobody has looked for this company's repository.</li>
+</ul>
+<p>Commits are counted on each repository's <b>default branch</b> only, by commit date in UTC, from the date the raise completed. Other branches are not read, and forks are left out. The count is read from the GitHub API once a day into <a href="${csv('commits-monthly.csv')}">commits-monthly.csv</a>: if any repository cannot be read, the file is not replaced. <b>No public commits does not mean no work</b>: some teams keep their code private.</p>
 
 <h2 id="names">Names</h2>
 <p>Two marks keep declarations apart from facts. <span class="mk mk-o" aria-hidden="true"></span> <b>Declared onchain</b>: written onchain, so anyone can read it, but chosen by whoever controls it, like a token's name in its metadata. <span class="mk mk-d" aria-hidden="true"></span> <b>Declared offchain</b>: stated outside the chain, like a sentence quoted from an article.</p>

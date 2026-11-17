@@ -18,6 +18,7 @@ import { identifiersOf } from './model.ts';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..', '..');
 const dataDir = process.env['DATA_DIR'] ?? join(root, 'data');
+const registryDir = process.env['REGISTRY_DIR'] ?? join(root, 'registry');
 const out = resolve(process.env['OUT_DIR'] ?? join(here, '..', 'dist'));
 
 // The commit the data was read from: the checked-out HEAD (in a workflow_run, GITHUB_SHA is the scan's commit, before its data commit).
@@ -25,7 +26,7 @@ function commitOf(): string | null {
   try { return execSync('git rev-parse HEAD', { cwd: root, encoding: 'utf8' }).trim(); } catch { return process.env['GITHUB_SHA'] ?? null; }
 }
 
-const site = buildSite(readInputs(dataDir, join(root, 'registry')));
+const site = buildSite(readInputs(dataDir, registryDir));
 const failures = checkInvariants(site);
 if (failures.length) {
   console.error(`Publication gate: ${failures.length} check(s) failed. Nothing was built.`);
@@ -62,7 +63,7 @@ for (const c of site.companies) {
   if (c.treasury) write(`company/${c.raise.mint}/movements.csv`, movementsCsv(c.treasury));
 }
 mkdirSync(join(out, 'data'), { recursive: true });
-for (const f of ['raises.csv', 'treasury.csv', 'treasury-flows.csv', 'scan-report.md', 'treasury-report.md']) copyFileSync(join(dataDir, f), join(out, 'data', f));
+for (const f of ['raises.csv', 'treasury.csv', 'treasury-flows.csv', 'commits-monthly.csv', 'scan-report.md', 'treasury-report.md']) copyFileSync(join(dataDir, f), join(out, 'data', f));
 write('methodology/index.html', methodologyPage(ctx, site)); // last: lists every formula the other pages used
 // One page per Σ figure. Writing a list page can register no new list (its totals open itself), but loop to be sure.
 const written = new Set<string>();
