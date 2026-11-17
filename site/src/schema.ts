@@ -244,6 +244,8 @@ export type Flow = {
   /** For an admin-key movement: the proposal on the same DAO shown with it, and when it passed (its FinalizeProposal). */
   readonly prior: { readonly number: number; readonly address: string; readonly finalizeSignature: string | null; readonly finalizedAt: Date | null } | null;
   readonly adminKeys: readonly string[];
+  /** Who approved the Squads transaction: its own proposal's FinalizeProposal, an admin key, or not found ('' when the movement had no Squads approval). */
+  readonly approvalHow: ApprovalHow;
   readonly counterparty: readonly string[];
   readonly signature: string;
   /** Program instructions the transaction ran, as program:Instruction names (from its logs). */
@@ -251,6 +253,9 @@ export type Flow = {
 };
 
 const REF = /^#(\d+) ([1-9A-HJ-NP-Za-km-z]{32,44})$/;
+
+export const APPROVAL_HOWS = ['market_approved', 'admin_approved', 'unknown', ''] as const;
+export type ApprovalHow = (typeof APPROVAL_HOWS)[number];
 
 export function parseFlows(text: string): Flow[] {
   const F = 'treasury-flows.csv';
@@ -283,12 +288,15 @@ export function parseFlows(text: string): Flow[] {
     if ((cls === 'admin_no_vote_found' || !isAdmin(cls)) && prior !== null) throw at(F, r, 'prior_vote_number', `a ${cls} movement has no prior vote`);
     const approval = r.get('approval');
     const by = /admin_approved by ([1-9A-HJ-NP-Za-km-z ]+?)(?: \(| proposal=)/.exec(approval);
+    const how = approval.split(' ')[0] ?? '';
+    if (!(APPROVAL_HOWS as readonly string[]).includes(how)) throw at(F, r, 'approval', `unknown approval path ${how}`);
+    const approvalHow = how as ApprovalHow;
     const adminKeys = by?.[1] ? by[1].split(' ').filter((k) => BASE58.test(k)) : [];
     const counterparty = r.get('counterparty') === '' ? [] : r.get('counterparty').split(' ');
     counterparty.forEach((c) => { if (!BASE58.test(c)) throw at(F, r, 'counterparty', `bad address ${c}`); });
     return {
       mint: addr(F, r, 'base_mint'), label: req(F, r, 'ticker'), time: time(F, r, 'time_utc'), usdc, cls,
-      decisionNumber, decisionAddress, prior, adminKeys, counterparty, signature: sig, instructions: (r.get('instructions') || '').split(' ').filter(Boolean),
+      decisionNumber, decisionAddress, prior, adminKeys, approvalHow, counterparty, signature: sig, instructions: (r.get('instructions') || '').split(' ').filter(Boolean),
     };
   });
 }

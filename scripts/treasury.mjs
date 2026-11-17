@@ -181,9 +181,16 @@ for (const r of raises) {
         const ix = allIxs(tx).find(i => i.programId === SQUADS && i.accounts && i.accounts[0] === multisig && i.accounts.length >= 4);
         const proposal = ix ? ix.accounts[1] : null;
         const a = proposal ? await approvalOf(proposal) : { how: 'unknown', approver: '' };
-        // A movement counts as market-decided when the exact Squads transaction had a futarchy proposal that Passed,
-        // whichever key approved it in the end. Otherwise the admin path is reported separately.
-        if (a.decision === 'Passed') cls = 'market_approved';
+        // A movement counts as market-decided only when its own futarchy proposal Passed AND that proposal's
+        // FinalizeProposal approved it (no admin instruction in its history). If the admin key approved a transaction
+        // whose own proposal passed, it is an admin-key movement, timed against that same proposal.
+        if (a.decision === 'Passed' && a.how === 'market_approved') cls = 'market_approved';
+        else if (a.how === 'admin_approved' && a.decision === 'Passed') {
+          const own = proposalBySquads.get(proposal);
+          const f = own ? await finalizeOf(own.address) : null;
+          cls = !f ? 'admin_vote_no_finalize' : f.time <= tx.blockTime ? 'admin_after_vote' : 'admin_vote_passed_after';
+          if (own) prior = { number: own.number, address: own.address, finalize_signature: f ? f.signature : '', finalized_utc: f ? iso(f.time) : '' };
+        }
         else if (a.how === 'admin_approved') {
           // MetaDAO's key often carries out a broader vote (for example a liquidation) as a separate transaction.
           // Find the proposals on the same DAO that are Passed and were enqueued before the movement, and when each one
