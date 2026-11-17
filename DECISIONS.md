@@ -1,5 +1,15 @@
 # Decisions
 
+## 2026-11-17: new source, a team's own site and X, read by hand, for its GitHub repo
+
+| Source | Used for | Allowed? | Basis |
+|---|---|---|---|
+| The team's own website and X account, read by hand | Finding which GitHub org or repo the team says is theirs | ✅ link and page only | Published by the team itself to be found. Nothing is copied: `registry/projects.json` keeps only the link to the repo and the page where it was found. No automated collection of these pages |
+| Pages read on 17 Nov 2026, each named in `registry/projects.json` as the page where a repo link was found: `www.omnipair.fi`, `askloyal.com`, `laso.finance`, `sanctum.so` | One link each, to the team's GitHub org | ✅ link only | Same row as above; nothing from these pages is stored except the link and the page address |
+| `api.github.com` search (org profile, or the token mint / program ID inside a repo) | Finding the repo when the team's own pages do not link it | ✅ already allowed above | Recorded as source `github-api` and counted separately from the team's own pages, because a search match is not the team saying so |
+
+Purpose: the share of teams with commits 30, 90 and 180 days after the raise. A team with no repo found is recorded as "δεν βρέθηκε" (not found), never as "no commits". Sites and pages of metadao.fi, star.fun and Colosseum stay excluded as above.
+
 ## 2026-11-16: every source the code or the site uses, and what allows it
 
 Every host the code contacts must be in this table; `site/test/sources.test.ts` fails otherwise.
