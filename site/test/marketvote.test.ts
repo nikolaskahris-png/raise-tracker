@@ -30,7 +30,8 @@ test('a market-vote movement approved by an admin key is refused by the gate', (
 });
 
 test('the treasury script only calls a movement a market vote when FinalizeProposal approved it', () => {
-  const src = readFileSync(join(FIX, '..', '..', '..', '..', 'scripts', 'treasury.mjs'), 'utf8');
+  // the classification lives in scripts/classify.mjs (item 11 tests it on real transactions)
+  const src = readFileSync(join(FIX, '..', '..', '..', '..', 'scripts', 'classify.mjs'), 'utf8');
   assert.match(src, /if \(a\.decision === 'Passed' && a\.how === 'market_approved'\) cls = 'market_approved';/);
   assert.doesNotMatch(src, /if \(a\.decision === 'Passed'\) cls = 'market_approved';/);
 });

@@ -10,8 +10,9 @@
 //   other            anything else (reported with the instruction names seen, so it can be reviewed)
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { b58e, b58d, USDC, pda } from './decode.mjs';
+import { b58d, USDC, pda } from './decode.mjs';
 import { makeRpc } from './rpc.mjs';
+import { SQUADS, TOKEN, ATA, FUTARCHY, PROPOSAL_DISCRIMINATOR, indexProposals, decodeSpendingLimit, makeClassifier } from './classify.mjs';
 // Fixed rules of the method, shared with scan.mjs and the site.
 const C = JSON.parse(readFileSync(new URL('../constants.json', import.meta.url), 'utf8'));
 const DAY_S = 86400;
@@ -20,21 +21,6 @@ const PERIOD_S = C.spending_limit_period_days * DAY_S;
 const KEY = process.env.HELIUS_API_KEY;
 if (!KEY) { console.error('HELIUS_API_KEY is not set'); process.exit(1); }
 const RPC = `https://mainnet.helius-rpc.com/?api-key=${KEY}`;
-const SQUADS = 'SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf';
-const TOKEN = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
-const ATA = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL';
-const ADMIN_ENQUEUE = '6awyHMshBGVjJ3ozdSJdyyDE1CTAXUwrpNMaRGMsb4sf'; // futarchy admin_enqueue_multisig_proposal_approval
-const ADMIN_EXECUTE = 'CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2'; // futarchy admin_execute_multisig_proposal
-const PROGRAM_NAMES = {
-  [SQUADS]: 'squads', FUTARELBfJfQ8RDGhg1wdhddq1odMAJUePHFuBYfUxKq: 'futarchy', LiQnowFbFQdYyZhF4pUbpsrZCjxRTQ1upKJxZ2VXjde: 'liquidation',
-  WALL8ucBuUyL46QYxwYJjidaFYhdvxUFrgvBxPshERx: 'bid_wall', moonDJUoHteKkGATejA5bdJVwJ6V6Dg74gyqyJTx73n: 'launchpad_v08',
-  moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM: 'launchpad_v07', MooNyh4CBUYEKyXVnjGYQ8mEiJDpGvJMdvrZx1iGeHV: 'launchpad_v06',
-  [TOKEN]: 'spl_token', [ATA]: 'ata', JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4: 'jupiter',
-};
-const FUTARCHY = 'FUTARELBfJfQ8RDGhg1wdhddq1odMAJUePHFuBYfUxKq';
-const PROPOSAL_STATES = ['Draft', 'Pending', 'Passed', 'Failed', 'Removed'];
-const SL_PERIODS = ['OneTime', 'Day', 'Week', 'Month'];
-const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 const { rpc, stats: rpcStats } = makeRpc(RPC); // retries network failures too (scripts/rpc.mjs)
 
@@ -44,101 +30,14 @@ const squadsMultisig = dao => pda([enc('multisig'), enc('multisig'), b58d(dao)],
 // self-test against an address read from the chain earlier (Rip Cars treasury USDC account owner check is done at runtime)
 if (pda([enc('launch'), b58d('CARSsxWPkpQWvfyRBwfGMGvysJBHdHGfE46X5MNgmeta')], 'moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM') !== '8uMemVUT1ToSuda2jBVhcaPmJWq5C3bKe7DhrM5wkqZP') throw new Error('PDA self-test failed');
 
-// Attribute "Instruction: X" log lines to the program that emitted them.
-function ixNames(logs) {
-  const stack = [], out = [];
-  for (const l of logs || []) {
-    let m;
-    if ((m = l.match(/^Program (\w+) invoke \[\d+\]/))) stack.push(m[1]);
-    else if ((m = l.match(/^Program (\w+) (success|failed)/))) stack.pop();
-    else if ((m = l.match(/^Program log: Instruction: (\w+)/)) && stack.length) out.push(`${PROGRAM_NAMES[stack.at(-1)] || stack.at(-1).slice(0, 8)}:${m[1]}`);
-  }
-  return out;
-}
-const keysOf = tx => tx.transaction.message.accountKeys.map(k => (typeof k === 'string' ? k : k.pubkey)).concat(tx.meta.loadedAddresses ? [...tx.meta.loadedAddresses.writable, ...tx.meta.loadedAddresses.readonly] : []);
-const signersOf = tx => tx.transaction.message.accountKeys.filter(k => k.signer).map(k => k.pubkey);
-const allIxs = tx => [...tx.transaction.message.instructions, ...(tx.meta.innerInstructions || []).flatMap(i => i.instructions)];
+// Every futarchy Proposal account, indexed by its Squads proposal and by DAO.
+const proposals = indexProposals(await rpc('getProgramAccounts', [FUTARCHY, { encoding: 'base64', filters: [{ memcmp: { offset: 0, bytes: PROPOSAL_DISCRIMINATOR } }] }]));
+const proposalBySquads = proposals.bySquads, proposalDecodeErrors = proposals.errors;
+console.log(`futarchy proposals indexed: ${proposalBySquads.size}, decode errors: ${proposalDecodeErrors}`);
 
-async function allSignatures(address) {
-  const out = []; let before;
-  for (;;) {
-    const page = await rpc('getSignaturesForAddress', [address, { limit: 1000, ...(before ? { before } : {}) }]);
-    out.push(...page); if (page.length < 1000) break; before = page.at(-1).signature;
-  }
-  return out.reverse(); // oldest first
-}
-const getTx = sig => rpc('getTransaction', [sig, { encoding: 'jsonParsed', maxSupportedTransactionVersion: 0, commitment: 'confirmed' }]);
-
-// Futarchy Proposal accounts (state/proposal.rs). Only the prefix up to squads_proposal is decoded;
-// state is a Borsh enum where Draft carries a u64, so the offset after it varies.
-function decodeProposalPrefix(d) {
-  let o = 8; const dv = new DataView(d.buffer, d.byteOffset, d.byteLength);
-  const number = dv.getUint32(o, true); o += 4;
-  o += 32; // proposer
-  const enqueued = Number(dv.getBigInt64(o, true)); o += 8;
-  const tag = d[o++]; if (tag > 4) throw new Error('bad proposal state ' + tag); if (tag === 0) o += 8;
-  o += 32 + 32; // base_vault, quote_vault
-  const dao = b58e(d.subarray(o, o + 32)); o += 32;
-  o += 1 + 32 + 4; // pda_bump, question, duration_in_seconds
-  const squads_proposal = b58e(d.subarray(o, o + 32));
-  return { number, enqueued, state: PROPOSAL_STATES[tag], dao, squads_proposal };
-}
-// Squads v4 SpendingLimit account.
-function decodeSpendingLimit(d) {
-  let o = 8; const dv = new DataView(d.buffer, d.byteOffset, d.byteLength); const pk = () => { const x = b58e(d.subarray(o, o + 32)); o += 32; return x; };
-  const multisig = pk(), create_key = pk(); o += 1; const mint = pk();
-  const amount = Number(dv.getBigUint64(o, true)) / 1e6; o += 8;
-  const period = SL_PERIODS[d[o++]]; const remaining = Number(dv.getBigUint64(o, true)) / 1e6; o += 8;
-  const last_reset = Number(dv.getBigInt64(o, true));
-  return { multisig, create_key, mint, amount, period, remaining, last_reset };
-}
-const proposalBySquads = new Map(), proposalsByDao = {}; let proposalDecodeErrors = 0;
-{
-  const disc = b58e(createHash('sha256').update('account:Proposal').digest().subarray(0, 8));
-  const accts = await rpc('getProgramAccounts', [FUTARCHY, { encoding: 'base64', filters: [{ memcmp: { offset: 0, bytes: disc } }] }]);
-  for (const a of accts) {
-    try { const p = { ...decodeProposalPrefix(Buffer.from(a.account.data[0], 'base64')), address: a.pubkey }; proposalBySquads.set(p.squads_proposal, p); (proposalsByDao[p.dao] ??= []).push(p); }
-    catch { proposalDecodeErrors++; }
-  }
-  console.log(`futarchy proposals indexed: ${proposalBySquads.size}, decode errors: ${proposalDecodeErrors}`);
-}
-
-const approvalCache = new Map();
-async function approvalOf(proposal) {
-  if (approvalCache.has(proposal)) return approvalCache.get(proposal);
-  // Read the whole history of the Squads proposal and decide how it was approved.
-  // Market path: futarchy FinalizeProposal (a passed decision market) approves it.
-  // Admin paths (names differ across futarchy versions): any futarchy instruction whose name starts with "Admin",
-  // or ExecuteMultisigProposalApproval, which consumes an approval enqueued by the admin or a liquidator.
-  let finalize = false, admin = false, approvers = new Set(), names = new Set();
-  for (const s of await allSignatures(proposal)) {
-    if (s.err) continue;
-    const tx = await getTx(s.signature); const n = ixNames(tx.meta.logMessages);
-    n.filter(x => x.startsWith('futarchy:') || x.startsWith('squads:Proposal')).forEach(x => names.add(x));
-    if (n.includes('futarchy:FinalizeProposal')) finalize = true;
-    if (n.some(x => /^futarchy:Admin/.test(x)) || n.includes('futarchy:ExecuteMultisigProposalApproval')) { admin = true; if (n.some(x => /^futarchy:Admin/.test(x))) signersOf(tx).forEach(k => approvers.add(k)); }
-  }
-  const how = admin ? 'admin_approved' : finalize ? 'market_approved' : 'unknown';
-  const linked = proposalBySquads.get(proposal);
-  const res = { how, approver: [...approvers].join(' '), names: [...names].join(' '), decision: linked ? linked.state : 'none', decision_number: linked ? linked.number : '', decision_address: linked ? linked.address : '' };
-  approvalCache.set(proposal, res); return res;
-}
-
-// When a futarchy proposal passed: the block time of the FinalizeProposal transaction in the proposal account's history.
-// Its "enqueued" time is when trading started, not when it passed, so it is never used as the time of a decision.
-const finalizeCache = new Map();
-async function finalizeOf(address) {
-  if (finalizeCache.has(address)) return finalizeCache.get(address);
-  let found = null;
-  for (const s of await allSignatures(address)) {
-    if (s.err) continue;
-    const tx = await getTx(s.signature);
-    if (tx && ixNames(tx.meta.logMessages).includes('futarchy:FinalizeProposal')) { found = { time: tx.blockTime, signature: s.signature }; break; }
-  }
-  finalizeCache.set(address, found); return found;
-}
 const ADMIN_VOTE_WINDOW_S = C.admin_vote_window_days * DAY_S; // a proposal that passed up to this long before an admin-key movement is shown with it
-const iso = t => new Date(t * 1000).toISOString();
+// The classification itself lives in classify.mjs, tested offline against stored real transactions.
+const { allSignatures, getTx, classify, flowColumns } = makeClassifier({ rpc, proposals, adminVoteWindowS: ADMIN_VOTE_WINDOW_S });
 const microStr = v => `${v < 0n ? '-' : ''}${(v < 0n ? -v : v) / 1000000n}.${((v < 0n ? -v : v) % 1000000n).toString().padStart(6, '0')}`;
 
 // The exact raises.json this step read: its sha256 and scan slot go into the report, and the site checks them against the scan's.
@@ -166,76 +65,15 @@ for (const r of raises) {
     for (const s of await allSignatures(ata)) {
       if (s.err) continue;
       const tx = await getTx(s.signature); if (!tx) { problems.push(`${label}: missing tx ${s.signature}`); continue; }
-      const keys = keysOf(tx), idx = keys.indexOf(ata);
-      const bal = (arr) => { const b = (arr || []).find(x => x.accountIndex === idx); return b ? Number(b.uiTokenAmount.amount) / 1e6 : 0; };
-      const delta = bal(tx.meta.postTokenBalances) - bal(tx.meta.preTokenBalances);
-      if (Math.abs(delta) < 1e-9) continue;
-      net += delta;
-      const names = ixNames(tx.meta.logMessages);
-      for (const n of names) seen[n] = (seen[n] || 0) + 1;
-      let cls, approval = '', decision = '', decisionRef = '', prior = null;
-      if (delta > 0) cls = names.some(n => n.startsWith('launchpad')) ? 'launch_funding' : 'inflow_other';
-      else if (names.includes('squads:SpendingLimitUse')) cls = 'team_budget';
-      else if (names.some(n => n.startsWith('liquidation:'))) cls = 'liquidation';
-      else if (names.includes('squads:VaultTransactionExecute')) {
-        const ix = allIxs(tx).find(i => i.programId === SQUADS && i.accounts && i.accounts[0] === multisig && i.accounts.length >= 4);
-        const proposal = ix ? ix.accounts[1] : null;
-        const a = proposal ? await approvalOf(proposal) : { how: 'unknown', approver: '' };
-        // A movement counts as market-decided only when its own futarchy proposal Passed AND that proposal's
-        // FinalizeProposal approved it (no admin instruction in its history). If the admin key approved a transaction
-        // whose own proposal passed, it is an admin-key movement, timed against that same proposal.
-        if (a.decision === 'Passed' && a.how === 'market_approved') cls = 'market_approved';
-        else if (a.how === 'admin_approved' && a.decision === 'Passed') {
-          const own = proposalBySquads.get(proposal);
-          const f = own ? await finalizeOf(own.address) : null;
-          cls = !f ? 'admin_vote_no_finalize' : f.time <= tx.blockTime ? 'admin_after_vote' : 'admin_vote_passed_after';
-          if (own) prior = { number: own.number, address: own.address, finalize_signature: f ? f.signature : '', finalized_utc: f ? iso(f.time) : '' };
-        }
-        else if (a.how === 'admin_approved') {
-          // MetaDAO's key often carries out a broader vote (for example a liquidation) as a separate transaction.
-          // Find the proposals on the same DAO that are Passed and were enqueued before the movement, and when each one
-          // passed (its FinalizeProposal). Three outcomes, never merged:
-          //   admin_after_vote        a proposal passed before the movement, within the window (the most recent one is shown)
-          //   admin_vote_passed_after none had passed yet; a proposal enqueued before the movement passed after it
-          //   admin_vote_no_finalize  a proposal is marked Passed but its FinalizeProposal transaction was not found
-          if (a.decision !== 'none') cls = 'admin_against_market';
-          else {
-            const cands = (proposalsByDao[r.dao] || []).filter(p => p.state === 'Passed' && p.enqueued <= tx.blockTime && tx.blockTime - p.enqueued <= 2 * ADMIN_VOTE_WINDOW_S);
-            const withF = []; for (const p of cands) withF.push({ p, f: await finalizeOf(p.address) });
-            const before = withF.filter(x => x.f && x.f.time <= tx.blockTime && tx.blockTime - x.f.time <= ADMIN_VOTE_WINDOW_S).sort((x, y) => y.f.time - x.f.time)[0];
-            const after = withF.filter(x => x.f && x.f.time > tx.blockTime).sort((x, y) => x.f.time - y.f.time)[0];
-            const noF = withF.filter(x => !x.f).sort((x, y) => y.p.enqueued - x.p.enqueued)[0];
-            const pick = before ? ['admin_after_vote', before] : after ? ['admin_vote_passed_after', after] : noF ? ['admin_vote_no_finalize', noF] : null;
-            if (!pick) cls = 'admin_no_vote_found';
-            else {
-              cls = pick[0];
-              const x = pick[1];
-              prior = { number: x.p.number, address: x.p.address, finalize_signature: x.f ? x.f.signature : '', finalized_utc: x.f ? iso(x.f.time) : '' };
-            }
-          }
-        }
-        else cls = 'other_out';
-        if (proposal && proposalBySquads.has(proposal) && proposalBySquads.get(proposal).dao !== r.dao) problems.push(`${label}: linked proposal belongs to another DAO (${proposal})`);
-        decision = a.decision; decisionRef = a.decision_address ? `#${a.decision_number} ${a.decision_address}` : '';
-        approval = `${a.how}${a.approver ? ' by ' + a.approver : ''}${a.how === 'unknown' ? ' [' + (a.names || 'no futarchy instructions') + ']' : ''}${names.includes('futarchy:AdminExecuteMultisigProposal') ? ' (executed via admin key)' : ''} proposal=${proposal || '?'}`;
-      } else cls = 'other_out';
-      if (cls === 'launch_funding') {
-        const pre = i => BigInt((tx.meta.preTokenBalances || []).find(x => x.accountIndex === i)?.uiTokenAmount.amount ?? '0');
-        const others = (tx.meta.postTokenBalances || []).filter(b => b.mint === USDC && b.accountIndex !== idx)
-          .map(b => ({ owner: b.owner, account: keys[b.accountIndex], amount: BigInt(b.uiTokenAmount.amount) - pre(b.accountIndex) }))
-          .filter(o => o.amount > 0n);
-        launch = { signature: s.signature, others };
-      }
-      sums[cls] += Math.abs(delta);
-      if (cls === 'team_budget') teamUses.push({ t: tx.blockTime, amt: -delta });
-      // counterparty: the other USDC account whose balance moved the opposite way
-      const others = (tx.meta.postTokenBalances || []).filter(b => b.mint === USDC && b.accountIndex !== idx).map(b => {
-        const pre = (tx.meta.preTokenBalances || []).find(x => x.accountIndex === b.accountIndex);
-        return { owner: b.owner, d: Number(b.uiTokenAmount.amount) / 1e6 - (pre ? Number(pre.uiTokenAmount.amount) / 1e6 : 0) };
-      }).filter(o => Math.sign(o.d) === -Math.sign(delta));
-      mine.push({ ticker: label, base_mint: r.base_mint, track: r.track || '', time_utc: new Date(tx.blockTime * 1000).toISOString(), usdc: delta.toFixed(6), class: cls, approval, market_decision: decision, decision_ref: decisionRef,
-        prior_vote_number: prior ? prior.number : '', prior_vote_address: prior ? prior.address : '', prior_vote_finalize_signature: prior ? prior.finalize_signature : '', prior_vote_finalized_utc: prior ? prior.finalized_utc : '',
-        counterparty: others.map(o => o.owner).join(' '), signature: s.signature, instructions: [...new Set(names)].join(' ') });
+      const m = await classify({ tx, ata, multisig, dao: r.dao });
+      if (!m) continue;
+      net += m.delta;
+      for (const n of m.names) seen[n] = (seen[n] || 0) + 1;
+      for (const p of m.problems) problems.push(`${label}: ${p}`);
+      if (m.cls === 'launch_funding') launch = { signature: s.signature, others: m.launchOthers };
+      sums[m.cls] += Math.abs(m.delta);
+      if (m.cls === 'team_budget') teamUses.push({ t: tx.blockTime, amt: -m.delta });
+      mine.push({ ticker: label, base_mint: r.base_mint, track: r.track || '', ...flowColumns(m, tx, s.signature) });
     }
     // Starting treasury = the USDC the launchpad actually deposited (CompleteLaunch), read from the chain.
     // Not raised x 0.8: e.g. Ranger raised 8,000,000 but its treasury received 6,000,000.
