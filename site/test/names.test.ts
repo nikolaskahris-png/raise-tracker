@@ -44,10 +44,19 @@ test('Ranger: onchain name, press project name with a verbatim quote, no figure 
   assert.doesNotMatch(html, /Press reports/);
 });
 
-test('ZKFG is shown as Zinc (ZKFG), quoting the source', () => {
+test('ZKFG keeps its onchain name; the Solana Compass article is only a link to read, never quoted', () => {
   const html = pageOf(ZKFG);
-  assert.equal(h1(html), 'Zinc (ZKFG)');
-  assert.match(html, /Zinc's original ZKFG token/);
+  assert.equal(h1(html), 'ZKFG');
+  assert.doesNotMatch(html, /Zinc/);
+  assert.doesNotMatch(html, /<q data-quote/);
+  assert.match(html, /Further reading: <a href="https:\/\/solanacompass\.com\/news\/metadaos-futarchy-just-executed-its-first-onchain-take-private-as-zkfg-008-passes" rel="noopener">an article by Solana Compass<\/a>, published <time[^>]*>20 Jun 2026<\/time>\. It is not used for the name or any figure\./);
+});
+
+test('a reading entry in names.json can never change a name', () => {
+  const site = buildSite(readInputs(FIX, REG));
+  const z = site.companies.find((c) => c.raise.mint === ZKFG);
+  assert.equal(z?.displayName, 'ZKFG');
+  assert.equal(z?.name.kind === 'onchain' ? z.name.press : 'x', null);
 });
 
 test('Paystream comes from the chain, not from personal notes', () => {

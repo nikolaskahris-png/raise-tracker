@@ -71,11 +71,19 @@ function nameBadge(c: Company): string {
 }
 
 /** Where the name comes from: the onchain metadata, and, when present, the verbatim press quote that adds the project name. */
+/** An article linked for reading only. The link text names no title, so it holds no digit the checks cannot trace. */
+function readingOf(c: Company): string {
+  const r = c.reading;
+  if (!r) return '';
+  return `<p style="margin-top:8px">Further reading: <a href="${esc(r.source)}" rel="noopener">an article by ${esc(r.publisher)}</a>, published ${date(new Date(`${r.published}T00:00:00Z`))}. It is not used for the name or any figure.</p>`;
+}
+
 function nameSource(c: Company): string {
   if (c.name.kind !== 'onchain') return '';
   const onchain = `The token's onchain metadata (${chip(c.name.account, 'address', 'metadata account')}) declares the name ${label(c.name.name, 'Name in the onchain metadata')} and the symbol ${label(c.name.symbol, 'Symbol in the onchain metadata')}. Whoever controls the metadata sets it.`;
   const p = c.name.press;
-  if (!p) return `<p class="soft" style="font-size:14px;line-height:1.55;margin-top:14px;max-width:760px">${onchain}</p>`;
+  const rd = readingOf(c);
+  if (!p) return `<div class="soft" style="font-size:14px;line-height:1.55;margin-top:14px;max-width:760px"><p>${onchain}</p>${rd}</div>`;
   const day = (s: string) => date(new Date(`${s}T00:00:00Z`));
   return `<div class="soft" style="font-size:14px;line-height:1.55;margin-top:14px;max-width:760px"><p>${onchain}</p>
 <p style="margin-top:8px"><span class="badge b-d"><span class="mk mk-d" aria-hidden="true"></span>Declared offchain</span> <b>Project name.</b> ${esc(p.publisher)} (published ${day(p.published)}, read by us ${day(p.read)}) names the project: <q data-quote cite="${esc(p.source)}">${esc(p.quote)}</q> <a href="${esc(p.source)}" rel="noopener">Source ↗</a></p>
