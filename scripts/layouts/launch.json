@@ -1,0 +1,460 @@
+{
+ "_about": "Field order of the launchpad Launch account at a fixed commit of github.com/metaDAOproject/programs (Business Source License 1.1: only field names, types and line numbers are recorded here, no code). scripts/test/layouts.test.mjs checks that decode.mjs reads the same fields in the same order; the methodology links each line.",
+ "repo": "metaDAOproject/programs",
+ "commit": "74aec758b5c8b5363b94ecce0a45bcd426c9746e",
+ "versions": {
+  "v06": {
+   "path": "programs/v06_launchpad/src/state/launch.rs",
+   "struct_line": 27,
+   "fields": [
+    {
+     "name": "pda_bump",
+     "type": "u8",
+     "line": 29
+    },
+    {
+     "name": "minimum_raise_amount",
+     "type": "u64",
+     "line": 32
+    },
+    {
+     "name": "monthly_spending_limit_amount",
+     "type": "u64",
+     "line": 35
+    },
+    {
+     "name": "monthly_spending_limit_members",
+     "type": "Vec<Pubkey>",
+     "line": 38
+    },
+    {
+     "name": "launch_authority",
+     "type": "Pubkey",
+     "line": 40
+    },
+    {
+     "name": "launch_signer",
+     "type": "Pubkey",
+     "line": 42
+    },
+    {
+     "name": "launch_signer_pda_bump",
+     "type": "u8",
+     "line": 44
+    },
+    {
+     "name": "launch_quote_vault",
+     "type": "Pubkey",
+     "line": 46
+    },
+    {
+     "name": "launch_base_vault",
+     "type": "Pubkey",
+     "line": 48
+    },
+    {
+     "name": "base_mint",
+     "type": "Pubkey",
+     "line": 50
+    },
+    {
+     "name": "quote_mint",
+     "type": "Pubkey",
+     "line": 52
+    },
+    {
+     "name": "unix_timestamp_started",
+     "type": "Option<i64>",
+     "line": 54
+    },
+    {
+     "name": "unix_timestamp_closed",
+     "type": "Option<i64>",
+     "line": 56
+    },
+    {
+     "name": "total_committed_amount",
+     "type": "u64",
+     "line": 58
+    },
+    {
+     "name": "final_raise_amount",
+     "type": "Option<u64>",
+     "line": 60
+    },
+    {
+     "name": "state",
+     "type": "LaunchState",
+     "line": 62
+    },
+    {
+     "name": "seq_num",
+     "type": "u64",
+     "line": 64
+    },
+    {
+     "name": "seconds_for_launch",
+     "type": "u32",
+     "line": 66
+    },
+    {
+     "name": "dao",
+     "type": "Option<Pubkey>",
+     "line": 68
+    },
+    {
+     "name": "dao_vault",
+     "type": "Option<Pubkey>",
+     "line": 70
+    },
+    {
+     "name": "performance_package_grantee",
+     "type": "Pubkey",
+     "line": 72
+    },
+    {
+     "name": "performance_package_token_amount",
+     "type": "u64",
+     "line": 74
+    },
+    {
+     "name": "months_until_insiders_can_unlock",
+     "type": "u8",
+     "line": 76
+    },
+    {
+     "name": "team_address",
+     "type": "Pubkey",
+     "line": 78
+    }
+   ]
+  },
+  "v07": {
+   "path": "programs/v07_launchpad/src/state/launch.rs",
+   "struct_line": 27,
+   "fields": [
+    {
+     "name": "pda_bump",
+     "type": "u8",
+     "line": 29
+    },
+    {
+     "name": "minimum_raise_amount",
+     "type": "u64",
+     "line": 32
+    },
+    {
+     "name": "monthly_spending_limit_amount",
+     "type": "u64",
+     "line": 35
+    },
+    {
+     "name": "monthly_spending_limit_members",
+     "type": "Vec<Pubkey>",
+     "line": 38
+    },
+    {
+     "name": "launch_authority",
+     "type": "Pubkey",
+     "line": 40
+    },
+    {
+     "name": "launch_signer",
+     "type": "Pubkey",
+     "line": 42
+    },
+    {
+     "name": "launch_signer_pda_bump",
+     "type": "u8",
+     "line": 44
+    },
+    {
+     "name": "launch_quote_vault",
+     "type": "Pubkey",
+     "line": 46
+    },
+    {
+     "name": "launch_base_vault",
+     "type": "Pubkey",
+     "line": 48
+    },
+    {
+     "name": "base_mint",
+     "type": "Pubkey",
+     "line": 50
+    },
+    {
+     "name": "quote_mint",
+     "type": "Pubkey",
+     "line": 52
+    },
+    {
+     "name": "unix_timestamp_started",
+     "type": "Option<i64>",
+     "line": 54
+    },
+    {
+     "name": "unix_timestamp_closed",
+     "type": "Option<i64>",
+     "line": 56
+    },
+    {
+     "name": "total_committed_amount",
+     "type": "u64",
+     "line": 58
+    },
+    {
+     "name": "state",
+     "type": "LaunchState",
+     "line": 60
+    },
+    {
+     "name": "seq_num",
+     "type": "u64",
+     "line": 62
+    },
+    {
+     "name": "seconds_for_launch",
+     "type": "u32",
+     "line": 64
+    },
+    {
+     "name": "dao",
+     "type": "Option<Pubkey>",
+     "line": 66
+    },
+    {
+     "name": "dao_vault",
+     "type": "Option<Pubkey>",
+     "line": 68
+    },
+    {
+     "name": "performance_package_grantee",
+     "type": "Pubkey",
+     "line": 70
+    },
+    {
+     "name": "performance_package_token_amount",
+     "type": "u64",
+     "line": 72
+    },
+    {
+     "name": "months_until_insiders_can_unlock",
+     "type": "u8",
+     "line": 74
+    },
+    {
+     "name": "team_address",
+     "type": "Pubkey",
+     "line": 76
+    },
+    {
+     "name": "total_approved_amount",
+     "type": "u64",
+     "line": 78
+    },
+    {
+     "name": "additional_tokens_amount",
+     "type": "u64",
+     "line": 80
+    },
+    {
+     "name": "additional_tokens_recipient",
+     "type": "Option<Pubkey>",
+     "line": 82
+    },
+    {
+     "name": "additional_tokens_claimed",
+     "type": "bool",
+     "line": 84
+    },
+    {
+     "name": "unix_timestamp_completed",
+     "type": "Option<i64>",
+     "line": 86
+    },
+    {
+     "name": "is_performance_package_initialized",
+     "type": "bool",
+     "line": 88
+    },
+    {
+     "name": "accumulator_activation_delay_seconds",
+     "type": "u32",
+     "line": 91
+    },
+    {
+     "name": "has_bid_wall",
+     "type": "bool",
+     "line": 93
+    }
+   ]
+  },
+  "v08": {
+   "path": "programs/v08_launchpad/src/state/launch.rs",
+   "struct_line": 27,
+   "fields": [
+    {
+     "name": "pda_bump",
+     "type": "u8",
+     "line": 29
+    },
+    {
+     "name": "minimum_raise_amount",
+     "type": "u64",
+     "line": 32
+    },
+    {
+     "name": "monthly_spending_limit_amount",
+     "type": "u64",
+     "line": 35
+    },
+    {
+     "name": "monthly_spending_limit_members",
+     "type": "Vec<Pubkey>",
+     "line": 38
+    },
+    {
+     "name": "launch_authority",
+     "type": "Pubkey",
+     "line": 40
+    },
+    {
+     "name": "launch_signer",
+     "type": "Pubkey",
+     "line": 42
+    },
+    {
+     "name": "launch_signer_pda_bump",
+     "type": "u8",
+     "line": 44
+    },
+    {
+     "name": "launch_quote_vault",
+     "type": "Pubkey",
+     "line": 46
+    },
+    {
+     "name": "launch_base_vault",
+     "type": "Pubkey",
+     "line": 48
+    },
+    {
+     "name": "base_mint",
+     "type": "Pubkey",
+     "line": 50
+    },
+    {
+     "name": "quote_mint",
+     "type": "Pubkey",
+     "line": 52
+    },
+    {
+     "name": "unix_timestamp_started",
+     "type": "Option<i64>",
+     "line": 54
+    },
+    {
+     "name": "unix_timestamp_closed",
+     "type": "Option<i64>",
+     "line": 56
+    },
+    {
+     "name": "total_committed_amount",
+     "type": "u64",
+     "line": 58
+    },
+    {
+     "name": "state",
+     "type": "LaunchState",
+     "line": 60
+    },
+    {
+     "name": "seq_num",
+     "type": "u64",
+     "line": 62
+    },
+    {
+     "name": "seconds_for_launch",
+     "type": "u32",
+     "line": 64
+    },
+    {
+     "name": "dao",
+     "type": "Option<Pubkey>",
+     "line": 66
+    },
+    {
+     "name": "dao_vault",
+     "type": "Option<Pubkey>",
+     "line": 68
+    },
+    {
+     "name": "performance_package_grantee",
+     "type": "Pubkey",
+     "line": 70
+    },
+    {
+     "name": "performance_package_token_amount",
+     "type": "u64",
+     "line": 72
+    },
+    {
+     "name": "months_until_insiders_can_unlock",
+     "type": "u8",
+     "line": 74
+    },
+    {
+     "name": "team_address",
+     "type": "Pubkey",
+     "line": 76
+    },
+    {
+     "name": "total_approved_amount",
+     "type": "u64",
+     "line": 78
+    },
+    {
+     "name": "additional_tokens_amount",
+     "type": "u64",
+     "line": 80
+    },
+    {
+     "name": "additional_tokens_recipient",
+     "type": "Option<Pubkey>",
+     "line": 82
+    },
+    {
+     "name": "additional_tokens_claimed",
+     "type": "bool",
+     "line": 84
+    },
+    {
+     "name": "unix_timestamp_completed",
+     "type": "Option<i64>",
+     "line": 86
+    },
+    {
+     "name": "is_finalized",
+     "type": "bool",
+     "line": 88
+    },
+    {
+     "name": "accumulator_activation_delay_seconds",
+     "type": "u32",
+     "line": 91
+    },
+    {
+     "name": "has_bid_wall",
+     "type": "bool",
+     "line": 93
+    },
+    {
+     "name": "mint_governor",
+     "type": "Pubkey",
+     "line": 95
+    }
+   ]
+  }
+ }
+}
