@@ -102,6 +102,7 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 <li>A second fixed key, ${chip(ADMIN_EXECUTE, 'address')}, can execute an approved vault transaction (${code('admin_execute_multisig_proposal.rs', 7)}, checked at ${code('admin_execute_multisig_proposal.rs', 64)}, executed at ${code('admin_execute_multisig_proposal.rs', 89)}).</li>
 <li>The DAO's multisig is created with no time lock (${code('initialize_dao.rs', 143)}), so an approved transaction can execute at once.</li>
 </ul>
+<p>Executing is not approving. We decide how a vault transaction was approved from the instruction that called Squads <code>ProposalApprove</code> in its proposal's history: <code>FinalizeProposal</code> is the market path; an <code>Admin</code> instruction, or <code>ExecuteMultisigProposalApproval</code>, is the admin path. A market vote that the second key only executed stays a market vote.</p>
 <p>For each movement approved this way we take the proposals on the same DAO that are marked Passed and find when each one passed: the block time of its <b>FinalizeProposal</b> transaction. We never use the time a proposal was opened. Each movement then falls into exactly one case, and its page links the proposal and its FinalizeProposal transaction:</p>
 <ul>
 <li><b>After a vote passed</b>: a proposal on the DAO passed before the movement, at most ${constant('admin_vote_window_days')} days earlier. The nearest one is shown.</li>
