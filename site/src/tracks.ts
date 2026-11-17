@@ -12,7 +12,9 @@ import { constant, MIN_REAL_RAISE, PERMISSIONLESS_AUTHORITY } from './constants.
 export type RealTrack = 'curated' | 'permissionless';
 /** Display names. The data keeps the scripts' word "curated"; the site never shows it. */
 export const TRACK_NAME: Readonly<Record<RealTrack, string>> = { curated: 'Other launch authorities', permissionless: 'Permissionless authority' };
-export const TRACK_SHORT: Readonly<Record<RealTrack, string>> = { curated: 'Other authority', permissionless: 'Permissionless' };
+export const TRACK_SHORT: Readonly<Record<RealTrack, string>> = { curated: 'Other authority', permissionless: 'Permissionless (our identification)' };
+/** Why the permissionless label is ours: shown wherever it appears. */
+export const IDENTIFICATION_NOTE = 'Our identification from the chain, not declared onchain: see the methodology';
 
 export type Outcomes = {
   readonly raises: readonly Raise[];

@@ -149,7 +149,7 @@ export function homePage(ctx: Ctx, site: Site): string {
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;margin-top:40px">
 ${([
     { s: other, t: 'curated' as const, sub: 'Every launch authority except the permissionless one. Who controls them, and how their raises were chosen, is not onchain.', color: '#8EA0FF', big: '#FFFFFF' },
-    { s: perm, t: 'permissionless' as const, sub: 'The authority of MetaDAO\'s permissionless platform (Futardio, now Backable).', color: '#F5A55A', big: '#F5A55A' },
+    { s: perm, t: 'permissionless' as const, sub: 'Our identification from the chain: the authority of MetaDAO\'s permissionless platform (Futardio, now Backable). It is not declared onchain.', color: '#F5A55A', big: '#F5A55A' },
   ]).map(({ s, t, sub, color, big }) => `<div>
 <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid #23283A;padding-bottom:14px">
 <div><div style="font-size:15px;font-weight:600">${TRACK_NAME[t]}</div><div style="font-size:13px;color:#A9AFBF;margin-top:4px;max-width:280px">${sub}</div></div>

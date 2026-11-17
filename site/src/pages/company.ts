@@ -2,7 +2,7 @@ import { addrUrl, chip, date, duration, esc, fig, label, txUrl } from '../fig.ts
 import { fmtInt, fmtUsd, microToDecimal, pct, ratio, sum, type Micro } from '../money.ts';
 import { addr, page, url, type Ctx } from '../layout.ts';
 import type { Company, Site, Treasury } from '../model.ts';
-import { TRACK_SHORT } from '../tracks.ts';
+import { IDENTIFICATION_NOTE, TRACK_SHORT } from '../tracks.ts';
 import { ADMIN_CLASSES, isAdmin, type Flow, type FlowClass } from '../schema.ts';
 
 export { PERIOD_MS } from '../constants.ts';
@@ -102,7 +102,7 @@ function header(ctx: Ctx, c: Company, movementsCount: number | null): string {
 ${nameBadge(c)}
 </div>
 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:16px">
-<span class="badge b-n">${r.track === 'permissionless' ? TRACK_SHORT.permissionless : TRACK_SHORT.curated}</span>
+${r.track === 'permissionless' ? `<span class="badge b-n" title="${IDENTIFICATION_NOTE}">${TRACK_SHORT.permissionless}</span>` : `<span class="badge b-n">${TRACK_SHORT.curated}</span>`}
 ${chip(r.launchAuthority, 'address', `authority ${r.launchAuthority.slice(0, 6)}…`)}
 <span class="badge b-v">Raise complete</span>
 <span class="badge b-n">Launchpad</span> ${programChip(r.version)}
