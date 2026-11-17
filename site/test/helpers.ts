@@ -19,7 +19,7 @@ export function build(dataDir = FIX, env: Record<string, string> = {}): string {
   assert.equal(r.status, 0, r.stdout + r.stderr);
   return out;
 }
-export const read = (dist: string, rel: string): string => readFileSync(join(dist, rel), 'utf8');
+export const read = (dist: string, rel: string): string => readFileSync(rel ? join(dist, rel) : dist, 'utf8');
 /** The visible text of <main> (scripts and svg removed, tags as spaces). */
 export const visible = (html: string): string => (/<main\b[^>]*>([\s\S]*)<\/main>/.exec(html)?.[1] ?? '')
   .replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');

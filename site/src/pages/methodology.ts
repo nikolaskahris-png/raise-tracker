@@ -1,6 +1,7 @@
 import { addrUrl, chip, esc, fig } from '../fig.ts';
 import { fmtInt } from '../money.ts';
 import { startedSentence } from '../tracks.ts';
+import { allFormulas } from '../lists.ts';
 import type { ListRows } from '../lists.ts';
 import { page, url, type Ctx } from '../layout.ts';
 import type { Site } from '../model.ts';
@@ -138,7 +139,11 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 </ul>
 
 <h2 id="verify">Check a number yourself</h2>
-<p>Every figure is a link. A figure with ${'<span class="mk mk-v" aria-hidden="true"><svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M3 8.5l3.2 3L13 4.5"></path></svg></span>'} opens the transaction or account on the <a href="${addrUrl(PERMISSIONLESS_AUTHORITY).replace(/\/address\/.*$/, '')}" rel="noopener">Solana Explorer</a>. A figure with Σ opens the list it adds up. A figure with = shows its formula when you hover it. The data files are published with the site (<a href="${csv('raises.csv')}">raises.csv</a>, <a href="${csv('treasury.csv')}">treasury.csv</a>, <a href="${csv('treasury-flows.csv')}">treasury-flows.csv</a>), each company page has its own CSV of movements, and the code and every daily snapshot are on <a href="https://github.com/${ctx.repo}" rel="noopener">GitHub</a>. The decoders follow <a href="${SRC}" rel="noopener">MetaDAO's program source</a>.</p>
+<p>Every figure is a link. A figure with ${'<span class="mk mk-v" aria-hidden="true"><svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M3 8.5l3.2 3L13 4.5"></path></svg></span>'} opens the transaction or account on the <a href="${addrUrl(PERMISSIONLESS_AUTHORITY).replace(/\/address\/.*$/, '')}" rel="noopener">Solana Explorer</a>. A figure with Σ opens the list it adds up. A figure with = opens its formula in the list below. The data files are published with the site (<a href="${csv('raises.csv')}">raises.csv</a>, <a href="${csv('treasury.csv')}">treasury.csv</a>, <a href="${csv('treasury-flows.csv')}">treasury-flows.csv</a>), each company page has its own CSV of movements, and the code and every daily snapshot are on <a href="https://github.com/${ctx.repo}" rel="noopener">GitHub</a>. The decoders follow <a href="${SRC}" rel="noopener">MetaDAO's program source</a>.</p>
+<h3 id="formulas">Every formula on this site</h3>
+<p>A figure marked = is computed from figures that are each linked. Tapping it opens its formula here.</p>
+<ul>${allFormulas().map((f) => `<li id="${f.id}">${esc(f.formula)}</li>`).join('')}</ul>
+
 <h3 id="verify-launch">Decode a launch account yourself</h3>
 <p>A figure read from a launch account opens that account in the Solana Explorer, which shows its raw bytes. To turn them into the figures shown here, run the decoder from this site's repository; it needs only Node and no keys:</p>
 <p><code>node scripts/verify-launch.mjs &lt;launch account&gt;</code></p>

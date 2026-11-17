@@ -2,7 +2,7 @@
 // The post-build check (check-html.ts) fails the build if any digit in <main> is outside a figure,
 // a <time>, an address chip or a labelled constant.
 
-import { listHref, type ListRows } from './lists.ts';
+import { formulaHref, listHref, type ListRows } from './lists.ts';
 
 export type Source =
   | { readonly kind: 'tx'; readonly signature: string }
@@ -45,7 +45,7 @@ function hrefOf(src: Source): string {
     case 'account': return addrUrl(src.address);
     case 'block': return blockUrl(src.slot);
     case 'sum': return listHref(src.what, src.rows);
-    case 'formula':
+    case 'formula': return src.href.includes('methodology/') ? formulaHref(src.formula) : src.href;
     case 'declared': return src.href;
   }
 }
