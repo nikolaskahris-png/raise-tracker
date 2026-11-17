@@ -313,7 +313,7 @@ test('the Methodology page carries the five check numbers and says how the table
 });
 
 test('the commits file is published beside the other data', () => {
-  assert.match(readFileSync(join(dist, 'data', 'commits-monthly.csv'), 'utf8'), /^ticker,base_mint,repo,month,commits,last_commit,read_at\n/);
+  assert.match(readFileSync(join(dist, 'data', 'commits-monthly.csv'), 'utf8'), /^ticker,base_mint,repo,month,commits,last_commit,contributors_repo,contributors_project,read_at\n/);
 });
 
 // ---- the gate ----------------------------------------------------------------------------------------

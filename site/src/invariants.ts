@@ -125,5 +125,16 @@ export function checkInvariants(site: Site): string[] {
     if (c.code.repos.length === 0) fail.push(`${c.displayName}: the registry lists a repository but commits-monthly.csv has none`);
     else if (c.code.months.length === 0) fail.push(`${c.displayName}: commits-monthly.csv has no months`);
   }
+  // 6. Shipped work: every repository the commits file lists has its releases and contributor counts in shipped.csv, with the same
+  //    number of contributors for the project in both files; shipped.csv holds nothing for a project without a repository.
+  const commitRepos = (mint: string) => new Set(inputs.commits.filter((c) => c.mint === mint).map((c) => c.repo));
+  for (const m of new Set(inputs.shipped.map((s) => s.mint))) if (!foundMints.has(m)) { fail.push(`shipped.csv: ${m} is not a project with a repository in registry/projects.json`); break; }
+  for (const c of site.companies) {
+    if (c.code.kind !== 'active' && c.code.kind !== 'quiet') continue;
+    const want = commitRepos(c.raise.mint), have = new Set((c.shipped?.repos ?? []).map((r) => r.repo));
+    if (!c.shipped) { fail.push(`${c.displayName}: has a repository but shipped.csv has no row for it`); continue; }
+    for (const repo of want) if (!have.has(repo)) fail.push(`${c.displayName}: ${repo} is in commits-monthly.csv but not in shipped.csv`);
+    for (const repo of have) if (!want.has(repo)) fail.push(`${c.displayName}: ${repo} is in shipped.csv but not in commits-monthly.csv`);
+  }
   return fail;
 }

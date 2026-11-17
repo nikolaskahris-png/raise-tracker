@@ -151,6 +151,14 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 <h2 id="not-in-table">What is not in the companies table</h2>
 <p>The table holds every raise that completed through MetaDAO's launchpad programs and has a DAO we can read. MetaDAO, Omnipair, Sanctum and Flash.Trade use MetaDAO's decision markets, but there is no launch account for them in the launchpad programs we decode: no raise amount, no raise date, and no treasury whose history starts at a raise. We do not show them rather than invent those figures. Their names are in the registry; nothing about them is guessed.</p>
 
+<h2 id="shipped">Releases and people who committed</h2>
+<p>On a company's page, <b>Public code</b> adds two counts for each public repository the registry lists for the team, read from the GitHub API once a day. They count what was published since the raise, and say nothing about work that is not public.</p>
+<ul>
+<li><b>Releases since the raise</b>: releases published on or after the day the raise completed. A draft is never counted. Pre-releases are counted apart. The latest release shown is the newest one that is not a pre-release, with its tag, its date and a link to it. Publishing releases is optional: many teams ship without them, so zero releases does not mean that nothing was shipped.</li>
+<li><b>People who committed since the raise</b>: how many different people committed to the repository's default branch since the raise. A person is a GitHub account; a commit with no account counts by the author email it carries. Accounts whose name ends in [bot] are left out. For a team with several repositories the number counts a person once across all of them, so it is not the sum of the per-repository numbers.</li>
+</ul>
+<p>Only the counts are stored (<a href="${csv('shipped.csv')}">shipped.csv</a>) and shown: no account name and no email is kept in the data or on any page. The same limits as for commits apply: default branch only, forks left out, and either every repository is read or the file is not replaced. These numbers describe public activity and make no judgement about a team.</p>
+
 <h2 id="names">Names</h2>
 <p>Two kinds of declaration are kept apart from facts. <b>Declared onchain</b>: written onchain, so anyone can read it, but chosen by whoever controls it, like a token's name in its metadata. <b>Declared offchain</b>: stated outside the chain, like a sentence quoted from an article.</p>
 <p>A company's name and symbol are read from its token's <b>onchain metadata</b>, the Metaplex metadata account derived from the token's mint. Each company page links that account. The metadata is set by whoever controls it, usually the team or the launchpad, so a name is a declaration, not a verified fact.</p>

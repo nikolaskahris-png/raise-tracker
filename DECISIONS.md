@@ -1,5 +1,12 @@
 # Decisions
 
+## 2026-11-17: shipped work from the GitHub API, as counts
+
+| Source | Used for | Allowed? | Basis |
+|---|---|---|---|
+| `api.github.com`, `/repos/{owner}/{repo}/releases` | For each repository in `registry/projects.json` (not forks): how many releases were published since the raise (drafts never counted, pre-releases apart), and the tag, date and URL of the newest one | ✅ already allowed above | API use within rate limits, public repositories only. Numbers, a tag, a date and a release URL are stored in `data/shipped.csv` |
+| `api.github.com`, the commits `collector/commits.py` already reads | How many different people committed to the default branch since the raise: distinct GitHub logins, or the author email when a commit has no login; accounts ending in `[bot]` left out | ✅ counts only | **Only the count is stored.** No username and no email is written to any file, page or log: the schema refuses a cell with an `@`, and a test reads what the collector writes. No new request: the same commits |
+
 ## 2026-11-17: new source, a team's own site and X, read by hand, for its GitHub repo
 
 | Source | Used for | Allowed? | Basis |

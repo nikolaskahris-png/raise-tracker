@@ -4,8 +4,8 @@ import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { sum, type Micro } from './money.ts';
 import {
-  FLOW_CLASSES, parseCommits, parseFlows, parseProjects, parseNames, parseReadings, parseRaises, parseScanReport, parseTreasury, parseTreasuryReport,
-  type CommitRow, type Project, type PressName, type Reading, type Flow, type FlowClass, type Raise, type ScanReport, type TreasuryReport, type TreasuryRow, type UndecodedLaunch,
+  FLOW_CLASSES, parseCommits, parseFlows, parseProjects, parseShipped, parseNames, parseReadings, parseRaises, parseScanReport, parseTreasury, parseTreasuryReport,
+  type CommitRow, type Project, type ShippedRow, type PressName, type Reading, type Flow, type FlowClass, type Raise, type ScanReport, type TreasuryReport, type TreasuryRow, type UndecodedLaunch,
 } from './schema.ts';
 
 export { MIN_REAL_RAISE } from './constants.ts';
@@ -20,6 +20,7 @@ export type Inputs = {
   readonly names: ReadonlyMap<string, PressName>;
   readonly readings: ReadonlyMap<string, Reading>;
   readonly commits: readonly CommitRow[];
+  readonly shipped: readonly ShippedRow[];
   readonly projects: readonly Project[];
   /** sha256 of raises.csv exactly as the site read it (line endings normalised to LF, as the scan wrote it). */
   readonly raisesCsvSha: string;
@@ -37,6 +38,7 @@ export function readInputs(dataDir: string, registryDir: string): Inputs {
     names: parseNames(readFileSync(join(registryDir, 'names.json'), 'utf8')),
     readings: parseReadings(readFileSync(join(registryDir, 'names.json'), 'utf8')),
     commits: parseCommits(f('commits-monthly.csv')),
+    shipped: parseShipped(f('shipped.csv')),
     projects: parseProjects(readFileSync(join(registryDir, 'projects.json'), 'utf8')),
   };
 }
@@ -88,6 +90,28 @@ export function codeOf(mint: string, projects: readonly Project[], commits: read
   return { kind: active ? 'active' : 'quiet', repos, lastCommit, lastRepo: last?.repo ?? null, readAt, daysAgo, months };
 }
 
+/** What a company's repositories show as numbers: releases and how many people committed, since the raise. */
+export type Shipped = {
+  readonly repos: readonly ShippedRow[]; // one per repository, by name
+  readonly releases: number; // all repositories together
+  readonly prereleases: number;
+  readonly people: number; // different people across all repositories (not the sum of the per-repository counts)
+  readonly latest: ShippedRow | null; // the repository whose latest release is the newest
+  readonly owner: string;
+  readonly readAt: Date;
+};
+
+export function shippedOf(mint: string, rows: readonly ShippedRow[]): Shipped | null {
+  const repos = rows.filter((r) => r.mint === mint).sort((a, b) => a.repo.localeCompare(b.repo));
+  const first = repos[0];
+  if (!first) return null;
+  const withLatest = repos.filter((r) => r.latestDate !== null).sort((a, b) => (b.latestDate as Date).getTime() - (a.latestDate as Date).getTime());
+  return {
+    repos, releases: repos.reduce((a, r) => a + r.releases, 0), prereleases: repos.reduce((a, r) => a + r.prereleases, 0),
+    people: first.contributorsProject, latest: withLatest[0] ?? null, owner: first.repo.split('/')[0] ?? '', readAt: first.readAt,
+  };
+}
+
 export type Company = {
   readonly raise: Raise;
   readonly name: Name;
@@ -97,6 +121,7 @@ export type Company = {
   /** An article only linked for reading (names.json "reading"): never quoted, never used for the name. */
   readonly reading: Reading | null;
   readonly code: CodeInfo;
+  readonly shipped: Shipped | null;
 };
 
 export type Site = {
@@ -163,7 +188,7 @@ export function buildSite(inputs: Inputs): Site {
         const totalOut = -sum(flows.filter((f) => f.usdc < 0n).map((f) => f.usdc));
         treasury = { row, flows, byClass, totalIn, totalOut, net: totalIn - totalOut };
       }
-      return { raise: r, name, displayName, treasury, reading: inputs.readings.get(r.mint) ?? null, code: codeOf(r.mint, inputs.projects, inputs.commits), problem: row ? null : problemFor(r.metadataSymbol ?? r.mint.slice(0, 8)) ?? problemFor(r.mint.slice(0, 8)) };
+      return { raise: r, name, displayName, treasury, reading: inputs.readings.get(r.mint) ?? null, code: codeOf(r.mint, inputs.projects, inputs.commits), shipped: shippedOf(r.mint, inputs.shipped), problem: row ? null : problemFor(r.metadataSymbol ?? r.mint.slice(0, 8)) ?? problemFor(r.mint.slice(0, 8)) };
     })
     .sort((a, b) => Number((b.raise.raised ?? 0n) - (a.raise.raised ?? 0n)) || a.raise.mint.localeCompare(b.raise.mint));
 
