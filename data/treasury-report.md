@@ -1,8 +1,8 @@
-# Treasury report — 2026-11-18T00:17:16.516Z
+# Treasury report — 2026-11-18T14:16:51.308Z
 
-Read raises.json sha256: 3febdd9a62d1265e99a25a3682d8439132806f75bc6a9c73c694b209e5572bbf, from the scan at slot 470725442
+Read raises.json sha256: 8c47399f173a6a83d98936758579113b0a918b4b08e63c44e93ef9d675427c47, from the scan at slot 470958939
 
-Treasuries: 31 of 33. RPC calls: 6652.
+Treasuries: 31 of 33. RPC calls: 6353.
 Reconciled (history sums exactly to today's balance): 31/31
 
 Futarchy proposals indexed: 184 (decode errors: 0)
@@ -33,7 +33,7 @@ Futarchy proposals indexed: 184 (decode errors: 0)
 - UMBRA: drew 1163631 over 14 period(s) of 34091/month at launch (allowed 477274); limit now 150000.00 Month; changed: yes (by 2026-01-21T01:07:52.000Z|46p752ga7Gu1sdib1jQsAoZ5YGReUo3menhDWxWHvwoUCFagJeSguGbdHVg3ki1KeMZZdKN3vftNZMoSPWKkTjkd|admin|set|100000.000000|Month 2026-10-27T16:48:26.000Z|4CbDxocathyhoRAm1wFiU2TGTH7fRkvDYrHHVUmYnRrcHCVm3Ygp96msaZC7TNitGQTuKVCviqdVzAE3Pxy6mKjB|proposal|set|150000.000000|Month); largest 30-day draw 200000
 - AVICI: drew 1200000 over 14 period(s) of 100000/month at launch (allowed 1400000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
 - LOYAL: drew 640000 over 14 period(s) of 60000/month at launch (allowed 840000); limit now 60000.00 Month; changed: no; largest 30-day draw 120000
-- ZKFG: drew 400000 over 13 period(s) of 50000/month at launch (allowed 650000); limit now ? ; changed: unknown (by 2026-02-24T20:00:54.000Z|3fBHz3BFjs1Mp3SKPq846XH4wiFr3SC14K7k8FKn3UK1RnwJyQs6K8vEDhSx7yz7vfU8726ARcVxYJ4qy1jYDJoj|admin|set|50000.000000|Month 2026-06-23T00:46:09.000Z|3f9gjjy5DhRPZvhSd35932BTBeKrqtKgdcBsQyzx9wEH3Q3B1LxCF9EjfwKTSTHHkWUmfpKejo1dkCBaGBcvvh52|admin|removed||); largest 30-day draw 100000
+- ZKFG: drew 400000 over 14 period(s) of 50000/month at launch (allowed 700000); limit now ? ; changed: unknown (by 2026-02-24T20:00:54.000Z|3fBHz3BFjs1Mp3SKPq846XH4wiFr3SC14K7k8FKn3UK1RnwJyQs6K8vEDhSx7yz7vfU8726ARcVxYJ4qy1jYDJoj|admin|set|50000.000000|Month 2026-06-23T00:46:09.000Z|3f9gjjy5DhRPZvhSd35932BTBeKrqtKgdcBsQyzx9wEH3Q3B1LxCF9EjfwKTSTHHkWUmfpKejo1dkCBaGBcvvh52|admin|removed||); largest 30-day draw 100000
 - PAYS: drew 279500 over 13 period(s) of 33500/month at launch (allowed 435500); limit now ? ; changed: unknown (by 2026-06-21T23:44:42.000Z|wwYEQmcqQWmvCszMZABUDYmHdZULo7g5vJuzAC4o6TYcCCoARMpfwH85Xuh4JKJ77WN3FuNT4nDtkhzWWTcx8FQ|admin|removed|| 2026-07-29T22:23:26.000Z|5zmDF9Yp1UPstbgYk7ZrDqWW2F7kBQ9n6qLz8WC2UjHzphCcLPP9ooc3f4MeovsgE4SwjwVxt28mx5s8Qz4SaamS|admin|set|11500.000000|Month 2026-09-01T22:32:29.000Z|65mghNNUj74uP886PHiazrELTv3pmMLiprBe4X8oCwWFFxQ4236PXHkEHQzjkSbvSjqiUHhhbXEdvBAauGkeT8EM|admin|removed||); largest 30-day draw 67000
 - SOLO: drew 1200000 over 13 period(s) of 100000/month at launch (allowed 1300000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
 - RNGR: drew 500000 over 11 period(s) of 250000/month at launch (allowed 2750000); limit now 250000.00 Month; changed: no; largest 30-day draw 250000
