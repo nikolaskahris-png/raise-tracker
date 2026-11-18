@@ -1,8 +1,8 @@
-# Scan report — 2026-11-17T16:05:06.552Z
+# Scan report — 2026-11-17T23:56:19.166Z
 
-Slot at the start of the scan: 470594293
+Slot at the start of the scan: 470725442
 
-raises.json sha256: a6c3128b0534e62ef58150916c38191c241be50aeccaa1523080aa0fe484fe25
+raises.json sha256: 3febdd9a62d1265e99a25a3682d8439132806f75bc6a9c73c694b209e5572bbf
 raises.csv sha256: fdd0695f298b78e07ba3f8a9693774cfe39b6442f5791d234d2d132358a17b41
 
 ## Launch accounts per program
