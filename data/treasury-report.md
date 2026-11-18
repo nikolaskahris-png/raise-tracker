@@ -1,8 +1,8 @@
-# Treasury report — 2026-11-18T14:16:51.308Z
+# Treasury report — 2026-11-18T14:46:39.087Z
 
-Read raises.json sha256: 8c47399f173a6a83d98936758579113b0a918b4b08e63c44e93ef9d675427c47, from the scan at slot 470958939
+Read raises.json sha256: c28546d1c74ceea74a5ddaf852bcbedff49739795757c744bc1391860f4c7610, from the scan at slot 470967231
 
-Treasuries: 31 of 33. RPC calls: 6353.
+Treasuries: 31 of 33. RPC calls: 6439.
 Reconciled (history sums exactly to today's balance): 31/31
 
 Futarchy proposals indexed: 184 (decode errors: 0)
@@ -131,5 +131,5 @@ Futarchy proposals indexed: 184 (decode errors: 0)
 - TokenzQd:TransferChecked: 1
 
 ## Problems: 2
-- ACCRUE: treasury USDC account mismatch
-- TSET: treasury USDC account mismatch
+- ACCRUE: treasury USDC account mismatch (account HWiQ29jqE9VqsjAX4DCJawH8idz7bewbCLJbicEEo9Dg now owned by BVZJTpa7bJRbEzdBM2M2T4ZqZyoHbntHBVjgrNyYS9Ss, holds 10157.509978 USDC; owner changed 2026-11-12T20:34:03.000Z in 4TfVvyzwC9CdPkDmNyUMnfDo2EGSovmtjdMAPTPd2bzbVBqgv1K3eGReKEBBdkJNCqp6NmddJZ6meyLuFdogHreL via VaultTransactionExecute+WithdrawLiquidity)
+- TSET: treasury USDC account mismatch (account G9LEB5YfRkvV65BVo3ykqyRrvejAvTEP59P4SgEPLmfS now owned by F55oyPK49nBhXJX1XR3iKasbfHLc2sqcCeLhypqU2ZqQ, holds 10099.892698 USDC; owner changed 2026-11-12T20:34:01.000Z in 51Ud4HUjvmBdiMB1HeDp4qxp9L7UarCz9JDS4oBuA5mMeioaRNP6Bqmce3BXufC42CWKTwqeUBV3Tr6m2gurn25k via VaultTransactionExecute+WithdrawLiquidity)
