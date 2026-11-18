@@ -27,6 +27,12 @@ function commitOf(): string | null {
   try { return execSync('git rev-parse HEAD', { cwd: root, encoding: 'utf8' }).trim(); } catch { return process.env['GITHUB_SHA'] ?? null; }
 }
 
+// The newest finished scan run, from the site workflow (SCAN_LAST_CONCLUSION / SCAN_LAST_AT). Absent when run by hand.
+function lastScanOf(): Ctx['lastScan'] {
+  const conclusion = process.env['SCAN_LAST_CONCLUSION'], at = process.env['SCAN_LAST_AT'];
+  return conclusion && at && !Number.isNaN(Date.parse(at)) ? { conclusion, at: new Date(at) } : null;
+}
+
 const site = buildSite(readInputs(dataDir, registryDir));
 const failures = checkInvariants(site);
 if (failures.length) {
@@ -42,6 +48,7 @@ const ctx: Ctx = {
   builtAt: process.env['SITE_NOW'] ? new Date(process.env['SITE_NOW']) : new Date(),
   siteTrigger: process.env['SITE_TRIGGER'] || null,
   scanTrigger: process.env['SCAN_TRIGGER'] || null,
+  lastScan: lastScanOf(),
   commit: commitOf(),
   repo: process.env['GITHUB_REPOSITORY'] ?? 'nikolaskahris-png/raise-tracker',
 };

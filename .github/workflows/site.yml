@@ -15,6 +15,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 concurrency:
@@ -39,6 +40,16 @@ jobs:
       - name: Tests (frozen data, tamper tests, HTML checks)
         working-directory: site
         run: npm test
+      # Did the newest finished scan fail? The bar warns of a failed scan only when GitHub says so.
+      - name: Read the result of the newest finished scan
+        id: lastscan
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          row=$(gh run list --workflow scan.yml --branch main --status completed --limit 1 --json conclusion,updatedAt --jq '.[0] | "\(.conclusion) \(.updatedAt)"' || true)
+          echo "newest finished scan: $row"
+          echo "conclusion=${row%% *}" >> "$GITHUB_OUTPUT"
+          echo "at=${row#* }" >> "$GITHUB_OUTPUT"
       - name: Build from the latest data (publication gate and HTML checks)
         working-directory: site
         env:
@@ -46,6 +57,8 @@ jobs:
           # What started this build. The banner says "rebuilt automatically" only when a scheduled scan did.
           SITE_TRIGGER: ${{ github.event_name }}
           SCAN_TRIGGER: ${{ github.event.workflow_run.event }}
+          SCAN_LAST_CONCLUSION: ${{ steps.lastscan.outputs.conclusion }}
+          SCAN_LAST_AT: ${{ steps.lastscan.outputs.at }}
         run: node src/build.ts
       - name: Re-read a sample from the chain
         working-directory: site

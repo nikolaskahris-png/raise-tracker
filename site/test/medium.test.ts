@@ -72,7 +72,7 @@ test('one constants file: the scripts and the site keep no copy of a rule', () =
 
 test('the methodology quotes the rules from constants.json', () => {
   const m = html('methodology/index.html');
-  for (const k of ['min_real_raise_usd', 'admin_vote_window_days', 'spending_limit_period_days', 'confidence', 'stale_hours', 'sample_treasuries', 'sample_movements', 'scan_times_utc.0', 'scan_times_utc.1']) {
+  for (const k of ['min_real_raise_usd', 'admin_vote_window_days', 'spending_limit_period_days', 'confidence', 'stale_hours', 'sample_treasuries', 'sample_movements', 'scan_times_utc.0', 'scan_times_utc.1', 'scan_times_utc.2', 'scan_times_utc.3']) {
     assert.ok(m.includes(`data-constant="${k}"`), k);
   }
 });

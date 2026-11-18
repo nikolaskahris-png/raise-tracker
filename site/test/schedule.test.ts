@@ -29,14 +29,26 @@ test('"rebuilt automatically" only when a scheduled scan started this build', ()
   }
 });
 
-test('data older than 30 hours shows the warning; newer data hides it, and the browser re-checks', () => {
-  const fresh = banner({ SITE_NOW: at(29) });
+test('data older than 48 hours says no scan has finished; newer data hides it, and the browser re-checks', () => {
+  const fresh = banner({ SITE_NOW: at(47) });
   assert.match(fresh, /<span class="stale"[^>]*hidden>/);
   assert.match(fresh, /<script>/);
-  const old = banner({ SITE_NOW: at(31) });
-  assert.match(old, /<span class="stale"[^>]*data-hours="30">/);
+  const old = banner({ SITE_NOW: at(49) });
+  assert.match(old, /<span class="stale"[^>]*data-hours="48">/);
   assert.doesNotMatch(old, /<span class="stale"[^>]*hidden>/);
-  assert.match(text(old), /This data is more than 30 hours old\./);
+  assert.match(text(old), /No scan has finished for more than 48 hours\./);
+  assert.doesNotMatch(text(old), /may have failed/);
+});
+
+test('"the latest scan failed" appears only when the newest finished run failed and no newer data replaced it', () => {
+  const failed = (conclusion: string, hours: number) => text(banner({ SITE_NOW: at(3), SCAN_LAST_CONCLUSION: conclusion, SCAN_LAST_AT: at(hours) }));
+  assert.match(failed('failure', 2), /The latest scan failed/);
+  assert.match(failed('timed_out', 2), /The latest scan failed/);
+  assert.doesNotMatch(failed('success', 2), /failed/);
+  assert.doesNotMatch(failed('cancelled', 2), /failed/);
+  assert.doesNotMatch(failed('failure', -2), /failed/, 'a failure older than the data on show is not the latest');
+  assert.doesNotMatch(text(banner({ SITE_NOW: at(3) })), /failed/);
+  assert.doesNotMatch(text(banner({ SITE_NOW: at(3) })), /started by hand/);
 });
 
 test('the workflows keep a second scan time, one data writer at a time, and only main rebuilds the site', () => {
@@ -66,10 +78,10 @@ test('the methodology states the times that scan.yml schedules', () => {
   for (const c of crons) assert.ok(m.includes(c), `methodology does not state ${c}`);
 });
 
-test('the warning is for a scan older than 30 hours, not for the normal GitHub delay (2 scans a day, up to ~8.5 h late)', () => {
-  // 30 h exactly is still fine; one minute more is not. 21 h is the longest normal gap (12 h between scans + 8.5 h delay).
-  assert.match(banner({ SITE_NOW: at(21) }), /<span class="stale"[^>]*hidden>/);
+test('the age warning is for a long outage, not for the normal GitHub delay (4 scans a day, 6 to 9 h late)', () => {
+  // 48 h exactly is still fine; one minute more is not. 30 h was the old limit and fired during an ordinary 14 h gap plus a 9 h delay.
   assert.match(banner({ SITE_NOW: at(30) }), /<span class="stale"[^>]*hidden>/);
-  assert.doesNotMatch(banner({ SITE_NOW: at(30 + 1 / 60) }), /<span class="stale"[^>]*hidden>/);
-  assert.equal(JSON.parse(readFileSync(join(here, '..', '..', 'constants.json'), 'utf8')).stale_hours, 30);
+  assert.match(banner({ SITE_NOW: at(48) }), /<span class="stale"[^>]*hidden>/);
+  assert.doesNotMatch(banner({ SITE_NOW: at(48 + 1 / 60) }), /<span class="stale"[^>]*hidden>/);
+  assert.equal(JSON.parse(readFileSync(join(here, '..', '..', 'constants.json'), 'utf8')).stale_hours, 48);
 });

@@ -54,7 +54,28 @@ for (const r of raises) {
     const ata = usdcAta(r.dao_vault), multisig = squadsMultisig(r.dao);
     const acct = await rpc('getAccountInfo', [ata, { encoding: 'jsonParsed' }]);
     const info = acct.value?.data?.parsed?.info;
-    if (!info || info.mint !== USDC || info.owner !== r.dao_vault) { problems.push(`${label}: treasury USDC account mismatch`); continue; }
+    if (!info || info.mint !== USDC || info.owner !== r.dao_vault) {
+      // Say what the chain shows instead of only "mismatch": the account at the expected address exists but another address
+      // owns it now. Find the transaction that changed the owner (a SetAuthority of type accountOwner on this account).
+      let detail = '';
+      if (info && info.mint === USDC) {
+        detail = ` (account ${ata} now owned by ${info.owner}, holds ${(Number(info.tokenAmount.amount) / 1e6).toFixed(6)} USDC`;
+        try {
+          for (const s of await allSignatures(ata)) {
+            if (s.err) continue;
+            const tx = await getTx(s.signature); if (!tx) continue;
+            const ixs = [...tx.transaction.message.instructions, ...(tx.meta?.innerInstructions ?? []).flatMap(g => g.instructions)];
+            if (ixs.some(i => i.parsed?.type === 'setAuthority' && i.parsed.info?.authorityType === 'accountOwner' && i.parsed.info?.account === ata && i.parsed.info?.newAuthority === info.owner)) {
+              const names = [...new Set((tx.meta?.logMessages ?? []).map(l => /^Program log: Instruction: (\w+)$/.exec(l)?.[1]).filter(Boolean))];
+              detail += `; owner changed ${new Date(tx.blockTime * 1000).toISOString()} in ${s.signature}${names.length ? ` via ${names.join('+')}` : ''}`;
+              break;
+            }
+          }
+        } catch (e) { /* the change is then simply not located; the owner and balance above are still true */ }
+        detail += ')';
+      }
+      problems.push(`${label}: treasury USDC account mismatch${detail}`); continue;
+    }
     const balanceNow = Number(info.tokenAmount.amount) / 1e6;
     const sums = { launch_funding: 0, inflow_other: 0, team_budget: 0, market_approved: 0, admin_after_vote: 0, admin_vote_passed_after: 0, admin_vote_no_finalize: 0, admin_no_vote_found: 0, admin_against_market: 0, liquidation: 0, other_out: 0 };
     const teamUses = [];

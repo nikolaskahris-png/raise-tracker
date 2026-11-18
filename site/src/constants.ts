@@ -14,6 +14,7 @@ type Constants = {
   readonly stale_hours: number;
   readonly public_code_quiet_days: number;
   readonly runway_cap_months: number;
+  readonly runway_min_limit_pct: number;
   readonly confidence: number;
   readonly sample_treasuries: number;
   readonly sample_movements: number;
@@ -41,6 +42,7 @@ export const CONSTANT_TEXT: Readonly<Record<string, string>> = {
   stale_hours: String(C.stale_hours),
   public_code_quiet_days: String(C.public_code_quiet_days),
   runway_cap_months: String(C.runway_cap_months),
+  runway_min_limit_pct: `${C.runway_min_limit_pct}%`, // with its % sign: a bare "1" would collide with the 1 in "$1,000"
   confidence: `${Math.round(C.confidence * 100)}%`,
   sample_treasuries: String(C.sample_treasuries),
   sample_movements: String(C.sample_movements),

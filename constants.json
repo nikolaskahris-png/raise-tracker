@@ -5,16 +5,19 @@
   "admin_vote_window_days": 60,
   "spending_limit_period_days": 30,
   "average_month_days": 30.4375,
-  "stale_hours": 30,
+  "stale_hours": 48,
   "public_code_quiet_days": 90,
   "runway_cap_months": 60,
+  "runway_min_limit_pct": 1,
   "confidence": 0.95,
   "sample_treasuries": 3,
   "sample_movements": 10,
   "ledger_min_usd": 1000,
   "scan_times_utc": [
     "05:17",
-    "17:41"
+    "11:41",
+    "17:41",
+    "23:11"
   ],
   "max_report_gap_hours": 2
 }
