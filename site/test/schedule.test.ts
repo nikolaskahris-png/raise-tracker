@@ -29,14 +29,14 @@ test('"rebuilt automatically" only when a scheduled scan started this build', ()
   }
 });
 
-test('data older than 36 hours shows the warning; newer data hides it, and the browser re-checks', () => {
-  const fresh = banner({ SITE_NOW: at(35) });
+test('data older than 30 hours shows the warning; newer data hides it, and the browser re-checks', () => {
+  const fresh = banner({ SITE_NOW: at(29) });
   assert.match(fresh, /<span class="stale"[^>]*hidden>/);
   assert.match(fresh, /<script>/);
-  const old = banner({ SITE_NOW: at(37) });
-  assert.match(old, /<span class="stale"[^>]*data-hours="36">/);
+  const old = banner({ SITE_NOW: at(31) });
+  assert.match(old, /<span class="stale"[^>]*data-hours="30">/);
   assert.doesNotMatch(old, /<span class="stale"[^>]*hidden>/);
-  assert.match(text(old), /This data is more than 36 hours old\./);
+  assert.match(text(old), /This data is more than 30 hours old\./);
 });
 
 test('the workflows keep a second scan time, one data writer at a time, and only main rebuilds the site', () => {
@@ -64,4 +64,12 @@ test('the methodology states the times that scan.yml schedules', () => {
   assert.equal(r.status, 0, r.stderr);
   const m = text(readFileSync(join(out, 'methodology', 'index.html'), 'utf8'));
   for (const c of crons) assert.ok(m.includes(c), `methodology does not state ${c}`);
+});
+
+test('the warning is for a scan older than 30 hours, not for the normal GitHub delay (2 scans a day, up to ~8.5 h late)', () => {
+  // 30 h exactly is still fine; one minute more is not. 21 h is the longest normal gap (12 h between scans + 8.5 h delay).
+  assert.match(banner({ SITE_NOW: at(21) }), /<span class="stale"[^>]*hidden>/);
+  assert.match(banner({ SITE_NOW: at(30) }), /<span class="stale"[^>]*hidden>/);
+  assert.doesNotMatch(banner({ SITE_NOW: at(30 + 1 / 60) }), /<span class="stale"[^>]*hidden>/);
+  assert.equal(JSON.parse(readFileSync(join(here, '..', '..', 'constants.json'), 'utf8')).stale_hours, 30);
 });
