@@ -27,8 +27,8 @@ export function tagsOf(ctx: Ctx, c: Company): Tag[] {
   const changes = t.row.limitChanges;
   if (changes.some((x) => x.action === 'removed')) out.push({ kind: 'removed', html: `<a href="${page('limit-changes')}">Spending limit removed</a>` });
   else if (changes.length > 0 || t.row.limitChanged === 'yes') out.push({ kind: 'changed', html: `<a href="${page('limit-changes')}">Spending limit changed</a>` });
-  const unidentified = sum(t.row.launchRecipients.filter((x) => x.owner !== c.raise.dao).map((x) => x.amount));
-  if (unidentified > 0n) out.push({ kind: 'launch', html: `${fig(fmtCompact(unidentified), { kind: 'tx', signature: t.row.launchSignature }, { exact: usd2(unidentified) })} <a href="${page('launch')}">at launch</a> to unidentified accounts` });
+  const unlabeled = sum(t.row.launchRecipients.filter((x) => x.owner !== c.raise.dao).map((x) => x.amount));
+  if (unlabeled > 0n) out.push({ kind: 'launch', html: `${fig(fmtCompact(unlabeled), { kind: 'tx', signature: t.row.launchSignature }, { exact: usd2(unlabeled) })} <a href="${page('launch')}">at launch</a> to accounts not yet labeled` });
   if (t.byClass.other_out > 0n) {
     out.push({ kind: 'unclassified', html: `<a href="${page('decisions')}">Unclassified movement</a> ${fig(fmtCompact(t.byClass.other_out), { kind: 'sum', what: `${c.displayName}: movements not classified yet`, rows: { flows: t.flows.filter((f) => f.cls === 'other_out') } }, { exact: usd2(t.byClass.other_out) })}` });
   }
@@ -37,13 +37,16 @@ export function tagsOf(ctx: Ctx, c: Company): Tag[] {
 
 /**
  * How long the balance lasts at the monthly limit, in words: "treasury empty", "no limit", "under 1 month", "≈ N months",
- * "over 5 years" (more than the cap in constants.json). The phrase with a number in it is the figure: its formula is on the Methodology page.
+ * "over 5 years" (more than the cap in constants.json), "limit too low to estimate runway" (limit under 1% of the balance). The phrase with a number in it is the figure: its formula is on the Methodology page.
  */
 export function runway(ctx: Ctx, t: NonNullable<Company['treasury']>): string {
   const removed = t.row.limitChanges.some((x) => x.action === 'removed');
   const now = t.row.spendingLimitNow;
   if (t.net <= 0n) return 'treasury empty';
   if (removed || now === null || now <= 0n) return 'no limit';
+  // A limit under runway_min_limit_pct of the balance says nothing about how long the money lasts: the team can ask the market
+  // for more, or the limit is a token amount. No length of time is claimed.
+  if (now * 100n < t.net * BigInt(C.runway_min_limit_pct)) return fig('limit too low to estimate runway', { kind: 'formula', href: url(ctx, 'methodology/#runway'), formula: 'monthly team limit is under the set share of the treasury balance' });
   const months = t.net / now; // whole months, rounded down
   const text = months < 1n ? 'under 1 month' : months > BigInt(C.runway_cap_months) ? 'over 5 years' : `≈ ${months} month${months === 1n ? '' : 's'}`;
   return fig(text, { kind: 'formula', href: url(ctx, 'methodology/#budget'), formula: 'treasury balance / monthly team limit, rounded down' });

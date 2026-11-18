@@ -6,7 +6,8 @@ import { ADMIN_VOTE_WINDOW_MS, C } from './constants.ts';
 import type { Site } from './model.ts';
 
 /** Problems the treasury script reports that the site knows how to show ("not read"). Anything else stops the build. */
-export const KNOWN_PROBLEMS = [/^\S+: treasury USDC account mismatch$/];
+export const TREASURY_MOVED = /^\S+: treasury USDC account mismatch(?: \(account ([1-9A-HJ-NP-Za-km-z]{32,44}) now owned by ([1-9A-HJ-NP-Za-km-z]{32,44}), holds (\d+\.\d{6}) USDC(?:; owner changed (\d{4}-\d\d-\d\dT[\d:.]+Z) in ([1-9A-HJ-NP-Za-km-z]{64,90})(?: via (\w+(?:\+\w+)*))?)?\))?$/;
+export const KNOWN_PROBLEMS = [TREASURY_MOVED];
 export const MAX_REPORT_GAP_MS = C.max_report_gap_hours * 3_600_000;
 
 export function checkInvariants(site: Site): string[] {

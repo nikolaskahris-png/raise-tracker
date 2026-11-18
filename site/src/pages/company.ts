@@ -9,6 +9,7 @@ import { ADMIN_CLASSES, isAdmin, type Flow, type FlowClass, type LimitChange } f
 export { PERIOD_MS } from '../constants.ts';
 import { AVERAGE_MONTH_MS, CONSTANT_TEXT, LEDGER_MIN, PERIOD_MS, constant } from '../constants.ts';
 import { programChip } from './methodology.ts';
+import { TREASURY_MOVED } from '../invariants.ts';
 export const ADMIN_KEYS: Readonly<Record<string, string>> = {
   CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2: 'futarchy admin (execute)',
   '6awyHMshBGVjJ3ozdSJdyyDE1CTAXUwrpNMaRGMsb4sf': 'futarchy admin (enqueue approval)',
@@ -371,8 +372,15 @@ ${rows.map((f) => `<tr><td>${date(f.time)}</td><td>${badge(f)}</td><td class="r"
 </section>`;
 }
 
-function notRead(): string {
-  return `<section class="wrap" style="padding-top:56px"><div class="note note-p"><div><b>Treasury not read.</b> The scan reported a USDC account mismatch. The USDC account at the expected address does not belong to this DAO's vault, so no balance or movement is shown rather than showing zero. The raise figures above are read directly from the launch account.</div></div></section>`;
+function notRead(c: Company): string {
+  const m = c.problem ? TREASURY_MOVED.exec(c.problem) : null;
+  const generic = `The scan reported a USDC account mismatch. The USDC account at the expected address does not belong to this DAO's vault, so no balance or movement is shown rather than showing zero. The raise figures above are read directly from the launch account.`;
+  if (!m || !m[2]) return `<section class="wrap" style="padding-top:56px"><div class="note note-p"><div><b>Treasury not read.</b> ${generic}</div></div></section>`;
+  const [, account, owner, amount, when, sig, via] = m;
+  const changed = when && sig
+    ? ` The owner was changed on ${date(new Date(when), 'minute')} by ${chip(sig, 'tx')}, a transaction executed through this DAO's own multisig${via ? ` (instructions: ${esc(via.split('+').join(', '))})` : ''}.`
+    : ' We did not locate the transaction that changed the owner.';
+  return `<section class="wrap" style="padding-top:56px"><div class="note note-p"><div><b>Treasury not read: the USDC account changed owner.</b> The USDC account at this DAO's expected address now belongs to ${addr(owner!)}, an address we have not labeled, and held ${fig(fmtUsd(BigInt(amount!.replace('.', '')), { decimals: 2 }), { kind: 'account', address: account! })} at the scan.${changed} Because the account is no longer controlled by the DAO's vault, we show no balance or movements for it rather than a figure that would no longer mean "the team's treasury". The raise figures above are read directly from the launch account.</div></div></section>`;
 }
 
 export function companyPage(ctx: Ctx, _site: Site, c: Company): string {
@@ -382,7 +390,7 @@ export function companyPage(ctx: Ctx, _site: Site, c: Company): string {
     stats(ctx, c),
     publicCodeSection(ctx, c),
     t ? raiseToTreasury(ctx, c, t) : '',
-    t ? whereItWent(ctx, t, c.displayName) : notRead(),
+    t ? whereItWent(ctx, t, c.displayName) : notRead(c),
     t ? decisions(ctx, t) : '',
     t ? budget(ctx, c, t) : '',
     t ? inflows(t, c.displayName) : '',

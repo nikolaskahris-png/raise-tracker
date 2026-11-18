@@ -120,7 +120,9 @@ test('9. how long the balance lasts: whole months, "under 1 month", "over 5 year
   assert.equal(words(runway(ctx, t('149999.99', '150000'))), 'under 1 month');
   assert.equal(words(runway(ctx, t('300000', '5000'))), '≈ 60 months');
   assert.equal(words(runway(ctx, t('305000', '5000'))), 'over 5 years');
-  assert.equal(words(runway(ctx, t('17074', '50'))), 'over 5 years');
+  assert.equal(words(runway(ctx, t('17074', '50'))), 'limit too low to estimate runway'); // 0.29% of the balance
+  assert.equal(words(runway(ctx, t('685000', '1'))), 'limit too low to estimate runway');
+  assert.equal(words(runway(ctx, t('100000', '1000'))), 'over 5 years'); // exactly 1%: still estimated (100 months is above the cap)
   assert.equal(runway(ctx, t('0', '5000')), 'treasury empty');
   assert.equal(runway(ctx, t('0', null, true)), 'treasury empty');
   assert.equal(runway(ctx, t('5000', null, true)), 'no limit');
@@ -128,9 +130,9 @@ test('9. how long the balance lasts: whole months, "under 1 month", "over 5 year
   assert.match(runway(ctx, t('2', '5000')), /^<a class="fig" data-figure="formula"/);
 });
 
-test('9. on the page: Superclaw under 1 month, Futardio over 5 years, Ranger treasury empty, Umbra 6 months', () => {
+test('9. on the page: Superclaw under 1 month, Futardio limit too low to estimate runway, Ranger treasury empty, Umbra 6 months', () => {
   assert.match(rowText(T.SUPER), /under 1 month/);
-  assert.match(rowText(FUTARDIO), /over 5 years/);
+  assert.match(rowText(FUTARDIO), /limit too low to estimate runway/);
   assert.match(rowText(T.RNGR), /treasury empty/);
   assert.match(rowText(T.ZKFG), /treasury empty/);
   assert.match(rowText(T.UMBRA), /≈ 6 months/);
@@ -197,7 +199,7 @@ test('B8. On record: Spending limit removed (ZKFG, PAYS), changed (Umbra, Laso, 
 });
 
 test('B8. On record: money that went to accounts not identified at launch (Ranger $400K), and an unclassified movement (Futardio $3.0K)', () => {
-  assert.match(rowText(T.RNGR), /\$400K at launch to unidentified accounts/);
+  assert.match(rowText(T.RNGR), /\$400K at launch to accounts not yet labeled/);
   assert.match(home, new RegExp(`<a href="/company/${T.RNGR}/#launch">at launch</a>`));
   assert.match(rowText(FUTARDIO), /Unclassified movement \$3\.0K/);
   const cells = [...home.matchAll(/<td class="rec">([\s\S]*?)<\/td>/g)].map((m) => m[1] ?? '');

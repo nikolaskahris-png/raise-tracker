@@ -27,7 +27,7 @@ Figures are from `data/` as committed on 17–18 Nov 2026 (scan 17 Nov 23:56 UTC
 | Treasury movements | ✅ 925 USDC movements classified (in and out) for the treasuries read; each admin-key movement is linked to the vote before it, or marked as having none. Last scan: 31 of 33 treasuries read, 31/31 reconcile (movements sum exactly to today's balance); $9.7M in those 31. Not checked: whether the logs the RPC returns are complete |
 | Company names | ✅ from each token's onchain metadata. One project name (Ranger Finance) is added by short quotation with source (`registry/names.json`) |
 | GitHub activity | ⚠️ partial. `registry/projects.json` lists 37 teams: a public repo is found for 15 (11 of the 33 raising companies; 7 with commits in the last 90 days, 4 quiet), none found for 20, one says "open source" but no repo was found, one says "private". Each repo found comes from a source DECISIONS.md allows. `data/shipped.csv` (read 17 Nov): 80 repositories of 11 teams, of which 5 repositories (3 teams) have published a release since the raise |
-| Public site | ✅ online, built only from `data/` and checked before every deploy. A bar on every page warns when the last scan is more than 30 hours old |
+| Public site | ✅ online, built only from `data/` and checked before every deploy. A bar on every page warns when the latest scan failed, or when no scan has finished for more than 48 hours |
 
 ## What the snapshot collects, daily
 

@@ -81,17 +81,11 @@
       "name": "LFOWN",
       "ticker": "LFOWN",
       "base_mint": "5gDnzAC4EEFmTjFzFjHUXS7wx5Cdvi2NTKGZT61meta",
-      "github": [
-        "sparkfun-labs"
-      ],
-      "status": "found",
-      "confidence": "B",
-      "source": {
-        "kind": "github-api",
-        "page": "https://github.com/sparkfun-labs",
-        "note": "sparkfun-labs/lfown README describes LFOWN and names letsfuckingown.fun, which links X LFOWNDOTFUN; the org profile has no website or X"
-      },
-      "checked": "2026-11-17"
+      "github": [],
+      "status": "not_found",
+      "source": null,
+      "checked": "2026-11-18",
+      "note": "Withdrawn 18 Nov 2026. github.com/sparkfun-labs/lfown contains this token's mint, launch and treasury addresses, but it also lists other teams' mints (ACCRUE, PREDICT, KREW, BASKET, COPE) as quote assets, so a mint in the code does not show who owns the code. letsfuckingown.fun (read 18 Nov 2026) links no GitHub, and the org profile gives no website or X. Nothing on a page the team controls links the repo, so it is not shown."
     },
     {
       "name": "DRAWUP",

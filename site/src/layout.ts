@@ -11,6 +11,8 @@ export type Ctx = {
   /** What started this build: GitHub's event_name for the site workflow, and for a workflow_run, the scan's own event. */
   readonly siteTrigger: string | null;
   readonly scanTrigger: string | null;
+  /** Newest finished scan-raises run on main when this build started, from the site workflow (null when unknown). */
+  readonly lastScan: { readonly conclusion: string; readonly at: Date } | null;
   readonly commit: string | null; // data commit the site was built from (shown on the Methodology page)
   readonly repo: string;
 };
@@ -21,11 +23,31 @@ export const url = (ctx: Ctx, path: string): string => `${ctx.base}${path.replac
 export const STALE_HOURS = C.stale_hours;
 export const isStale = (ctx: Ctx): boolean => ctx.builtAt.getTime() - ctx.scanAt.getTime() > STALE_HOURS * 3_600_000;
 
+/** A scan failed only when GitHub says the newest finished scan run ended in failure or a timeout, and no newer data replaced it. */
+export function scanFailure(ctx: Ctx): Date | null {
+  const l = ctx.lastScan;
+  return l && (l.conclusion === 'failure' || l.conclusion === 'timed_out') && l.at.getTime() > ctx.scanAt.getTime() ? l.at : null;
+}
+
 /** Says the site rebuilt itself only when this very build was started by a scheduled scan; otherwise it claims nothing. */
 export function buildNote(ctx: Ctx): string {
   if (ctx.siteTrigger === 'workflow_run' && ctx.scanTrigger === 'schedule') return 'Rebuilt automatically after the scheduled scan. ';
-  if (ctx.siteTrigger === 'workflow_run') return 'Rebuilt after a scan started by hand. ';
   return '';
+}
+
+/**
+ * Two different warnings, each only when it is true. A failed scan names the failed run. Data older than stale_hours with no
+ * failed run says only that no scan has finished, because that is all we know (GitHub may be late or may have dropped the run).
+ * The browser re-checks the age, so a page that nobody rebuilt still warns.
+ */
+export function staleBanner(ctx: Ctx): string {
+  const failed = scanFailure(ctx);
+  const old = isStale(ctx);
+  const failedHtml = failed ? `<span class="stale">The latest scan failed (${date(failed, 'minute')}). The figures below are from the last scan that worked.</span>` : '';
+  const oldText = `No scan has finished for more than ${constant('stale_hours')} hours. The figures below may be out of date.`;
+  return `${failedHtml}
+<span class="stale" data-age data-scan="${ctx.scanAt.toISOString()}" data-hours="${STALE_HOURS}"${old ? '' : ' hidden'}>${oldText}</span>
+<script>(function(){var s=document.querySelector('.stale[data-age]');if(!s)return;var h=(Date.now()-Date.parse(s.getAttribute('data-scan')))/36e5;if(h>Number(s.getAttribute('data-hours')))s.hidden=false;})();</script>`;
 }
 
 export type Active = 'companies' | 'raises' | 'methodology';
@@ -72,8 +94,7 @@ ${nav(`https://github.com/${ctx.repo}`, 'Data &amp; code', false, true)}
 <div class="banner"><div class="wrap banner-in">
 <span>Updated ${date(ctx.scanAt, 'minute')} · read directly from Solana · every figure links to its source</span>
 <span>${o.banner ? `${o.banner} ` : ''}${buildNote(ctx)}</span>
-<span class="stale" data-scan="${ctx.scanAt.toISOString()}" data-hours="${STALE_HOURS}"${isStale(ctx) ? '' : ' hidden'}>This data is more than ${constant('stale_hours')} hours old. The latest scan may have failed or not run yet.</span>
-<script>(function(){var s=document.querySelector('.stale');if(!s)return;var h=(Date.now()-Date.parse(s.getAttribute('data-scan')))/36e5;if(h>Number(s.getAttribute('data-hours')))s.hidden=false;})();</script>
+${staleBanner(ctx)}
 </div></div>
 <main id="main">
 ${o.body}
