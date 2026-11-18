@@ -8,6 +8,7 @@ import { type Company, type Site } from '../model.ts';
 import { codeBars, codeText } from './code.ts';
 import { C } from '../constants.ts';
 import { ADMIN_CLASSES, isAdmin } from '../schema.ts';
+import { TREASURY_MOVED } from '../invariants.ts';
 
 const usd2 = (v: Micro) => fmtUsd(v, { decimals: 2 });
 
@@ -54,7 +55,11 @@ export function runway(ctx: Ctx, t: NonNullable<Company['treasury']>): string {
 
 function leftCell(ctx: Ctx, c: Company): { top: string; sub: string; bar: string; sort: string } {
   const r = c.raise, t = c.treasury;
-  if (!t) return { top: '<span class="muted">not read</span>', sub: '', bar: '', sort: '-1' };
+  if (!t) {
+    // A DAO whose USDC account changed owner (a liquidated DAO) says so; any other unread treasury says "not read". Never "… left".
+    const m = c.problem ? TREASURY_MOVED.exec(c.problem) : null;
+    return { top: `<span class="muted">${m && m[2] ? 'account changed owner' : 'not read'}</span>`, sub: '', bar: '', sort: '-1' };
+  }
   const top = fig(fmtCompact(t.net), { kind: 'account', address: t.row.usdcAccount }, { exact: usd2(t.net) });
   const more = r.raised !== null && t.net > r.raised;
   const sub = r.raised === null || r.raised <= 0n ? '' : more ? 'more than raised' : fig(pctWhole(t.net, r.raised), { kind: 'formula', href: url(ctx, 'methodology/#categories'), formula: 'treasury balance / amount raised' });
@@ -117,7 +122,7 @@ function list(ctx: Ctx, cs: readonly Company[]): string {
     const raised = r.raised === null ? '—' : fig(fmtCompact(r.raised), { kind: 'account', address: r.launch }, { exact: usd2(r.raised) });
     const lim = t ? limitCell(ctx, t).html : '<div>—</div>';
     return `<details data-track="${trackOf(c)}" data-search="${esc(`${c.displayName} ${sub}`.toLowerCase())}">
-<summary><div class="l"><div class="nm">${displayName(c)}${tag}</div><div class="st">${code.html.replace(/ · <a [^>]*>filing<\/a>/, '')}</div></div><div class="rt"><div class="a">${raised}</div><div class="b">${left.top} left</div></div></summary>
+<summary><div class="l"><div class="nm">${displayName(c)}${tag}</div><div class="st">${code.html.replace(/ · <a [^>]*>filing<\/a>/, '')}</div></div><div class="rt"><div class="a">${raised}</div><div class="b">${t ? `${left.top} left` : left.top}</div></div></summary>
 <div class="more">${left.bar}
 <dl><div><dt>Raised</dt><dd>${raised}<div class="sub"><span class="mono">${label(sub, `Ticker or token mint ${r.mint}`)}</span>${when ? ` · raised ${when}` : ''}</div></dd></div><div><dt>Left in treasury</dt><dd>${left.top} <span class="muted">${left.sub}</span></dd></div>
 <div><dt>Team can spend</dt><dd>${lim}</dd></div><div><dt>Public code</dt><dd>${code.html}${codeBars(c)}</dd></div></dl>

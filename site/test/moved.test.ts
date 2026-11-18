@@ -40,3 +40,22 @@ test('the company page says the account changed owner, with the owner, the balan
   assert.match(text, /\$10,157\.51/);
   assert.ok(readdirSync(out).length > 0);
 });
+
+test('the home page says the account changed owner, and never "not read left"', () => {
+  const build = (line: string | null): string => {
+    const data = join(mkdtempSync(join(tmpdir(), 'rt-moved-home-')), 'data');
+    cpSync(join(here, 'fixtures', '2026-11-16'), data, { recursive: true });
+    const rp = join(data, 'treasury-report.md');
+    if (line) writeFileSync(rp, readFileSync(rp, 'utf8').replace('- 31hoVYav: treasury USDC account mismatch', `- ${line}`));
+    const out = join(dirname(data), 'dist');
+    const r = spawnSync(process.execPath, [join(here, '..', 'src', 'build.ts')], { env: { ...process.env, DATA_DIR: data, REGISTRY_DIR: join(here, 'fixtures', 'registry'), OUT_DIR: out, BASE_PATH: '/' }, encoding: 'utf8' });
+    assert.equal(r.status, 0, r.stdout + r.stderr);
+    return readFileSync(join(out, 'index.html'), 'utf8').replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+  };
+  const moved = build(FULL);
+  assert.match(moved, /account changed owner/);
+  assert.doesNotMatch(moved, /not read left/);
+  const plain = build(null);
+  assert.match(plain, /not read/);
+  assert.doesNotMatch(plain, /not read left/);
+});
