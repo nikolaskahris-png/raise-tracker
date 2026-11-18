@@ -4,7 +4,7 @@ Open-source, free public record of teams that raise money onchain on Solana. The
 
 Site: https://nikolaskahris-png.github.io/raise-tracker
 
-**Read first:** the collector takes a daily snapshot into a new dated folder and never edits old ones. A day that isn't collected can't be recovered later, so the snapshot history is what makes the project valuable.
+**Read first:** the collector takes a daily snapshot into a new dated folder and never edits old ones. Whatever is offchain (GitHub activity, releases) cannot be found again for a day that was not collected. Onchain figures can be rebuilt from the transaction history with an archival RPC, at a cost. The daily collection keeps both ready and checked.
 
 ## Three parts
 
