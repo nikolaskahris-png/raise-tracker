@@ -11,10 +11,10 @@ Site: https://nikolaskahris-png.github.io/raise-tracker
 | Part | Code | Workflow, schedule (UTC) | Writes |
 |---|---|---|---|
 | **Daily snapshot** | `collector/` (Python, standard library only) | `collect.yml` (daily-snapshot), 03:17 | `data/YYYY/MM/YYYY-MM-DD/`, append-only |
-| **Raise and treasury scan** | `scripts/scan.mjs`, `scripts/treasury.mjs` (Node 22, no dependencies) | `scan.yml` (scan-raises), 05:17 and 17:41 | `data/raises.*`, `data/treasury*.csv`, `data/*-report.md`, replaced on every scan; earlier versions stay in the git history |
+| **Raise and treasury scan** | `scripts/scan.mjs`, `scripts/treasury.mjs` (Node 22, no dependencies) | `scan.yml` (scan-raises), 05:17, 11:41, 17:41 and 23:11 (a scheduled run stops at once when the data is under 5 hours old) | `data/raises.*`, `data/treasury*.csv`, `data/*-report.md`, replaced on every scan; earlier versions stay in the git history |
 | **Public site** | `site/` (see `site/README.md`) | `site.yml`, after every scan on `main` and daily at 09:23 | GitHub Pages. If any check fails, nothing is deployed and the previous version stays online |
 
-GitHub starts scheduled runs late on this repo, by up to about 8 hours (the 03:17 snapshot started at 11:01 on 15 Nov and 11:31 on 16 Nov 2026). That is why the scan has a second time. Both data workflows share one concurrency group, so two pushes never race.
+GitHub starts scheduled runs late on this repo, by up to about 8 hours (the 03:17 snapshot started at 11:01 on 15 Nov and 11:31 on 16 Nov 2026). That is why the scan has four times a day. Both data workflows share one concurrency group, so two pushes never race.
 
 ## Status (2026-11-18)
 
@@ -28,6 +28,16 @@ Figures are from `data/` as committed on 17–18 Nov 2026 (scan 17 Nov 23:56 UTC
 | Company names | ✅ from each token's onchain metadata. One project name (Ranger Finance) is added by short quotation with source (`registry/names.json`) |
 | GitHub activity | ⚠️ partial. `registry/projects.json` lists 37 teams: a public repo is found for 15 (11 of the 33 raising companies; 7 with commits in the last 90 days, 4 quiet), none found for 20, one says "open source" but no repo was found, one says "private". Each repo found comes from a source DECISIONS.md allows. `data/shipped.csv` (read 17 Nov): 80 repositories of 11 teams, of which 5 repositories (3 teams) have published a release since the raise |
 | Public site | ✅ online, built only from `data/` and checked before every deploy. A bar on every page warns when the latest scan failed, or when no scan has finished for more than 48 hours |
+
+## Roadmap
+
+Planned in three milestones, subject to funding (applying to the Solana Foundation). Weeks count from the start of the grant.
+
+| Milestone | Week | What |
+|---|---|---|
+| **M1. More launchpads** | 6 | Metaplex Genesis (official API) and Backable's funded raises. Open dataset (CC BY 4.0) with a schema. At least 90 consecutive days of daily snapshots in this repo |
+| **M2. Founder claims** | 14 | A founder proves control (a signature from the DAO or launch wallet, or the team's GitHub organization) and adds links. Each claim is stored as "claim → source". Open alerts (RSS, Telegram) for treasury withdrawals and for 60 days without a public commit |
+| **M3. 180 days** | 26 | A 180-day report across the launchpads. The share of teams with public commits 30, 90 and 180 days after the raise is given only if at least 20 teams with a known repo have passed 180 days; otherwise per team, without a percentage. At least 180 consecutive days of snapshots, a runbook so anyone can run it, RPC and hosting paid for 12 months |
 
 ## What the snapshot collects, daily
 
