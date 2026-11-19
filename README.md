@@ -10,7 +10,7 @@ Site: https://nikolaskahris-png.github.io/raise-tracker
 - **$9.7M** is still in the 31 treasuries we could read; 2 could not be read.
 - **10 of the 33** teams have a public code repository we could find, and 6 of them had a commit in the last 90 days. "No public repo found" does not mean no work: some teams keep their code private.
 
-Every figure on the site links to the Solana account or transaction it comes from. These numbers change with every scan; the site shows the current ones.
+Figures on the site link to their source: a Solana account or transaction, a GitHub page, or the formula behind them. These numbers change with each scan; the site shows the current ones.
 
 **Check one yourself:** `node scripts/verify-launch.mjs <launch account address>` reads the launch account straight from Solana and prints what the site shows for that raise (details below).
 
@@ -26,9 +26,9 @@ Every figure on the site links to the Solana account or transaction it comes fro
 
 GitHub starts scheduled runs late on this repo, by up to about 8 hours (the 03:17 snapshot started at 11:01 on 15 Nov and 11:31 on 16 Nov 2026). That is why the scan has four times a day. Both data workflows share one concurrency group, so two pushes never race.
 
-## Status (2026-11-18)
+## Status (2026-11-19)
 
-Figures are from `data/` as committed on 17–18 Nov 2026 (scan 17 Nov 23:56 UTC, treasury read 18 Nov 00:17 UTC). They change with every scan.
+Figures are from `data/` as committed on 18–19 Nov 2026 (scan 18 Nov 23:33 UTC, treasury read 18 Nov 23:54 UTC). They change with each scan.
 
 | Part | Status |
 |---|---|
