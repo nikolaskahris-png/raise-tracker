@@ -1,14 +1,14 @@
-# Treasury report — 2026-11-18T23:54:33.335Z
+# Treasury report — 2026-11-19T14:44:57.957Z
 
-Read raises.json sha256: bf4534732e73a8c4e7cf9faf2f8b26471ec467e0ad61b0c104f4a66b4d611462, from the scan at slot 471119695
+Read raises.json sha256: 09c6260cf16bb3954e0c05c2d6c5258a131f65e503be82f2feb7f813ffdcabe0, from the scan at slot 471368010
 
-Treasuries: 31 of 33. RPC calls: 6345.
+Treasuries: 31 of 33. RPC calls: 6428.
 Reconciled (history sums exactly to today's balance): 31/31
 
-Futarchy proposals indexed: 184 (decode errors: 0)
+Futarchy proposals indexed: 185 (decode errors: 0)
 
 ## Outflows, all treasuries (USD)
-- team_budget: 8565587
+- team_budget: 8617587
 - market_approved (linked proposal Passed): 12275500
 - admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): 6038457
 - admin_vote_passed_after (admin key; a proposal enqueued before the movement finalized as Passed after it): 0
@@ -30,7 +30,7 @@ Futarchy proposals indexed: 184 (decode errors: 0)
 - 2026-05-26T22:00:25.000Z FUTARDIO -1000.000000 USDC to 3gXzFVWE2J4Pcy5yDy7LY2yomiyB6P1ZfxmwF8QKf3b9 — class admin_after_vote, proposal #4 E5AEP2hCTfYVq4Rnc1TKZjTauSSEYFFBr8g49ktoN3pU finalized 2026-05-14T20:17:00.000Z (5mmQmQnQVKXy1EJ297ckjDsWTFfL7WosVgBeBEFVQrFMiMtLP52ZMDZRju96FYqpGMszcU9rkJLbTqLbup2SoY7q) — admin_approved by A4THR6vJ6LWJ75681gfRrDhgRfxHbxhjdJV9Bz5v97GK CWGawadYU8CzRVBecnJymNw97H7E3ndDinV5sMzesgY2 EP3SoC2SvR3d4c2eXVBvhEMWSr2j3YtoCY3UMiQV7BPD proposal=D97syiUw2JZy1j83FZBB4arhWhT33jXvSWH6ZaNymuFS
 
 ## Team budget
-- UMBRA: drew 1163631 over 14 period(s) of 34091/month at launch (allowed 477274); limit now 150000.00 Month; changed: yes (by 2026-01-21T01:07:52.000Z|46p752ga7Gu1sdib1jQsAoZ5YGReUo3menhDWxWHvwoUCFagJeSguGbdHVg3ki1KeMZZdKN3vftNZMoSPWKkTjkd|admin|set|100000.000000|Month 2026-10-27T16:48:26.000Z|4CbDxocathyhoRAm1wFiU2TGTH7fRkvDYrHHVUmYnRrcHCVm3Ygp96msaZC7TNitGQTuKVCviqdVzAE3Pxy6mKjB|proposal|set|150000.000000|Month); largest 30-day draw 200000
+- UMBRA: drew 1213631 over 14 period(s) of 34091/month at launch (allowed 477274); limit now 150000.00 Month; changed: yes (by 2026-01-21T01:07:52.000Z|46p752ga7Gu1sdib1jQsAoZ5YGReUo3menhDWxWHvwoUCFagJeSguGbdHVg3ki1KeMZZdKN3vftNZMoSPWKkTjkd|admin|set|100000.000000|Month 2026-10-27T16:48:26.000Z|4CbDxocathyhoRAm1wFiU2TGTH7fRkvDYrHHVUmYnRrcHCVm3Ygp96msaZC7TNitGQTuKVCviqdVzAE3Pxy6mKjB|proposal|set|150000.000000|Month); largest 30-day draw 200000
 - AVICI: drew 1200000 over 14 period(s) of 100000/month at launch (allowed 1400000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
 - LOYAL: drew 640000 over 14 period(s) of 60000/month at launch (allowed 840000); limit now 60000.00 Month; changed: no; largest 30-day draw 120000
 - ZKFG: drew 400000 over 14 period(s) of 50000/month at launch (allowed 700000); limit now ? ; changed: unknown (by 2026-02-24T20:00:54.000Z|3fBHz3BFjs1Mp3SKPq846XH4wiFr3SC14K7k8FKn3UK1RnwJyQs6K8vEDhSx7yz7vfU8726ARcVxYJ4qy1jYDJoj|admin|set|50000.000000|Month 2026-06-23T00:46:09.000Z|3f9gjjy5DhRPZvhSd35932BTBeKrqtKgdcBsQyzx9wEH3Q3B1LxCF9EjfwKTSTHHkWUmfpKejo1dkCBaGBcvvh52|admin|removed||); largest 30-day draw 100000
@@ -53,9 +53,9 @@ Futarchy proposals indexed: 184 (decode errors: 0)
 - NECTAR: drew 30000 over 3 period(s) of 10000/month at launch (allowed 30000); limit now 10000.00 Month; changed: no; largest 30-day draw 20000
 - PREDICT: drew 0 over 2 period(s) of 1/month at launch (allowed 2); limit now 1.00 Month; changed: no; largest 30-day draw 0
 - GANG: drew 83332 over 2 period(s) of 41666/month at launch (allowed 83332); limit now 41666.00 Month; changed: no; largest 30-day draw 83332
-- KREW: drew 2000 over 2 period(s) of 2000/month at launch (allowed 4000); limit now 2000.00 Month; changed: no; largest 30-day draw 2000
+- KREW: drew 4000 over 2 period(s) of 2000/month at launch (allowed 4000); limit now 2000.00 Month; changed: no; largest 30-day draw 4000
 - ORENDAL: drew 3000 over 1 period(s) of 3000/month at launch (allowed 3000); limit now 3000.00 Month; changed: no; largest 30-day draw 3000
-- DRAWUP: drew 2000 over 1 period(s) of 2000/month at launch (allowed 2000); limit now 2000.00 Month; changed: no; largest 30-day draw 2000
+- DRAWUP: drew 2000 over 2 period(s) of 2000/month at launch (allowed 4000); limit now 2000.00 Month; changed: no; largest 30-day draw 2000
 - POKER: drew 0 over 1 period(s) of 25000/month at launch (allowed 25000); limit now 25000.00 Month; changed: no; largest 30-day draw 0
 - COPE: drew 5000 over 1 period(s) of 5000/month at launch (allowed 5000); limit now 5000.00 Month; changed: no; largest 30-day draw 5000
 - SAT: drew 0 over 1 period(s) of 16000/month at launch (allowed 16000); limit now 16000.00 Month; changed: no; largest 30-day draw 0
@@ -66,7 +66,7 @@ Futarchy proposals indexed: 184 (decode errors: 0)
 - 2026-04-15T23:59:57.000Z FUTARDIO -2976.000000 USDC to D4L2F4U9ZLza7BbaRQEEBnNSBpTSfxHRNo8epCsUjGT1 — squads:BatchExecuteTransaction LBUZKhRx:AddLiquidityOneSidePrecise2 spl_token:TransferChecked
 
 ## Instruction names seen on treasury movements (for review)
-- squads:SpendingLimitUse: 322
+- squads:SpendingLimitUse: 324
 - spl_token:TransferChecked: 165
 - spl_token:Transfer: 102
 - spl_token:InitializeAccount3: 80
