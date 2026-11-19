@@ -15,11 +15,36 @@ jobs:
         with:
           node-version: '22'
       - name: "Probe"
+        continue-on-error: true
         env:
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
         run: node scripts/star-probe.mjs | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: "Probe 2: the program"
+        continue-on-error: true
+        env:
+          HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
+        run: node scripts/star-probe2.mjs | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: "Star CLI package: program IDs and IDL"
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/cli && cd /tmp/cli && npm pack @star-factory/launch-cli --silent && tar xzf *.tgz
+          { echo; echo "## @star-factory/launch-cli"; ls -R package | head -80 | sed 's/^/    /';
+            echo; echo "### base58 strings of 32-44 chars in the package"; grep -rhoE "[1-9A-HJ-NP-Za-km-z]{32,44}" package --include=*.js --include=*.json --include=*.mjs --include=*.cjs | sort | uniq -c | sort -rn | head -40 | sed 's/^/    /';
+            echo; echo "### files mentioning idl / programId"; grep -rlE "\"instructions\"|programId|PROGRAM_ID" package | head -20 | sed 's/^/    /'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: "Anchor IDL onchain"
+        continue-on-error: true
+        env:
+          HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
+        run: |
+          mkdir -p /tmp/idl && cd /tmp/idl && npm init -y >/dev/null && npm i --silent @coral-xyz/anchor@0.30.1 @solana/web3.js@1 >/dev/null 2>&1
+          node -e "const a=require('@coral-xyz/anchor');const w=require('@solana/web3.js');const c=new w.Connection('https://mainnet.helius-rpc.com/?api-key='+process.env.HELIUS_API_KEY);const p=new a.AnchorProvider(c,{publicKey:w.Keypair.generate().publicKey},{});a.Program.fetchIdl('9L1qqo7q7vq7sKuMsBGKPF81z6GK7N4orWGgGFwwqqDF',p).then(i=>{const s=i?JSON.stringify({name:i.name||i.metadata?.name,instructions:(i.instructions||[]).map(x=>x.name),accounts:(i.accounts||[]).map(x=>x.name)},null,1):'no IDL onchain';require('fs').writeFileSync('idl.txt',s);if(i)require('fs').writeFileSync('idl.json',JSON.stringify(i));console.log(s)}).catch(e=>{require('fs').writeFileSync('idl.txt','error '+e.message)})"
+          { echo; echo "## Anchor IDL onchain"; echo '```'; cat idl.txt | head -120; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          cp idl.json "$GITHUB_WORKSPACE/" 2>/dev/null || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: star-probe
-          path: star-probe.json
+          path: |
+            star-probe.json
+            star-probe2.json
+            idl.json
