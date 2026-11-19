@@ -1,0 +1,25 @@
+name: star-probe
+# Read-only probe of Star (star.fun) raises onchain. Runs only on pushes to probe/* branches; writes nothing to the repo.
+on:
+  push:
+    branches: ['probe/star']
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: "Probe"
+        env:
+          HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
+        run: node scripts/star-probe.mjs | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: star-probe
+          path: star-probe.json
