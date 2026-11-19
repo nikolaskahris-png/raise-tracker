@@ -39,15 +39,22 @@ jobs:
           { echo; echo "## Anchor IDL onchain"; echo '```'; cat idl.txt | head -120; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           cp idl.json "$GITHUB_WORKSPACE/" 2>/dev/null || true
       - name: "Probe 3: deployer"
+        if: false
         continue-on-error: true
         env:
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
         run: node scripts/star-probe3.mjs | tee -a "$GITHUB_STEP_SUMMARY"
       - name: "Star CLI docs: how a launch is built"
+        if: false
         continue-on-error: true
         run: |
           cd /tmp/cli 2>/dev/null || { mkdir -p /tmp/cli && cd /tmp/cli && npm pack @star-factory/launch-cli --silent && tar xzf *.tgz; }
           { echo; echo "## CLI docs: lines about programs, pools, curves, vaults, treasury"; grep -rniE "meteora|dbc|bonding|curve|graduat|program|pool|vault|treasury|squads|allowance|config|onchain|on-chain|api\.|https?://" package/README.md package/SKILL.md package/skills package/src | cut -c1-220 | head -120 | sed 's/^/    /'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: "Probe 4: operator accounts"
+        continue-on-error: true
+        env:
+          HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
+        run: node scripts/star-probe4.mjs | tee -a "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
