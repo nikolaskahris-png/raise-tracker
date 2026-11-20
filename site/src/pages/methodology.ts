@@ -111,6 +111,7 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 
 <h2 id="admin-key">The admin key</h2>
 <p>MetaDAO's futarchy program has an admin path next to the market vote. What follows is what the published source says at commit ${chip(MD_COMMIT, 'address', MD_COMMIT.slice(0, 7))} of <a href="https://github.com/metaDAOproject/programs" rel="noopener">metaDAOproject/programs</a>. DAOs created by earlier versions of the program may differ, and we have not checked each version.</p>
+<p id="unpublished"><b>Not everything the program runs on the chain is in that commit.</b> Two instructions we read in these DAOs' transactions are not in it. <code>AdminApproveMultisigProposal</code>, which approved some of the admin-key movements on this site, is in other <a href="https://github.com/metaDAOproject/programs/branches/all" rel="noopener">branches</a> of the repository and in no tagged release. <code>ExecuteSpendingLimitChange</code> is in the tags <a class="chip" href="https://github.com/metaDAOproject/programs/tree/v0.6.0" rel="noopener">v0.6.0</a> and <a class="chip" href="https://github.com/metaDAOproject/programs/tree/v0.6.1" rel="noopener">v0.6.1</a> and in other branches. So the program deployed on the chain is not exactly the source at this commit. For these instructions we go by what the transactions show on the chain, not by what their code checks.</p>
 <ul>
 <li>A key fixed in the code, ${chip(ADMIN_ENQUEUE, 'address')}, can queue the approval of a pending vault transaction of a DAO (${code('admin_enqueue_multisig_proposal_approval.rs', 6)}, checked at ${code('admin_enqueue_multisig_proposal_approval.rs', 82)}). On a DAO that has been liquidated, the liquidator's key takes its place (${code('admin_enqueue_multisig_proposal_approval.rs', 73)}). Nothing in this path checks a market vote.</li>
 <li>Anyone can then carry out the queued approval, which approves the vault transaction as the DAO (${code('execute_multisig_proposal_approval.rs', 85)}).</li>
@@ -189,13 +190,14 @@ ${PROGRAMS.map((p) => `<tr><td>${chip(p.id, 'address', p.v)}</td><td>${chip(p.id
 <li>Whether each <b>admin-key movement</b> matches the proposal shown before it.</li>
 <li>Raises on launchpad ${programChip('v05')} and ${programChip('v041')}, which are counted but not decoded: their code is not in the current version of MetaDAO's repository.</li>
 <li>Treasuries whose USDC account is not owned by the DAO vault, shown as not read.</li>
-<li>Founder history and GitHub activity, until founders claim their pages.</li>
+<li>Founder history, and the code of teams whose repository we could not find, until founders claim their pages.</li>
+<li>Whether the transaction logs the RPC returns are complete. Providers can cut long logs short, and the publication gate does not check for it yet.</li>
 </ul>
 
 <h2 id="verify">Check a number yourself</h2>
 <p>Every figure is a link with a thin dotted underline, and its title says what it opens. A figure that opens a transaction or an account is read from there, on the <a href="${addrUrl(PERMISSIONLESS_AUTHORITY).replace(/\/address\/.*$/, '')}" rel="noopener">Solana Explorer</a>. A figure that opens a list is a total of exactly the rows in that list. A figure that opens a formula is calculated, and the formula is written out in the list below. The data files are published with the site (<a href="${csv('raises.csv')}">raises.csv</a>, <a href="${csv('treasury.csv')}">treasury.csv</a>, <a href="${csv('treasury-flows.csv')}">treasury-flows.csv</a>), each company page has its own CSV of movements, and the code and every daily snapshot are on <a href="https://github.com/${ctx.repo}" rel="noopener">GitHub</a>. The decoders follow <a href="${SRC}" rel="noopener">MetaDAO's program source</a>.</p>
 <h3 id="formulas">Every formula on this site</h3>
-<p>A figure marked = is computed from figures that are each linked. Tapping it opens its formula here.</p>
+<p>A computed figure (its title starts with "Computed") is worked out from figures that are each linked. Tapping it opens its formula here.</p>
 <ul>${allFormulas().map((f) => `<li id="${f.id}">${esc(f.formula)}</li>`).join('')}</ul>
 
 <h3 id="verify-launch">Decode a launch account yourself</h3>
