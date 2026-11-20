@@ -1,24 +1,24 @@
-# Scan report — 2026-11-19T14:23:55.751Z
+# Scan report — 2026-11-19T23:47:13.519Z
 
-Slot at the start of the scan: 471368010
+Slot at the start of the scan: 471524882
 
-raises.json sha256: 09c6260cf16bb3954e0c05c2d6c5258a131f65e503be82f2feb7f813ffdcabe0
-raises.csv sha256: fdd0695f298b78e07ba3f8a9693774cfe39b6442f5791d234d2d132358a17b41
+raises.json sha256: e314ca5df264936d1bf9d1fc12be45680dfcaad66b1adcbbb62cf5e43494bff9
+raises.csv sha256: 1bb479057dbfbaa2bb534da22735c332411b25341730f3726c20bd1f8bee1e78
 
 ## Launch accounts per program
 - v08 (moonDJUoHteKkGATejA5bdJVwJ6V6Dg74gyqyJTx73n): 0
-- v07 (moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM): 173
+- v07 (moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM): 174
 - v06 (MooNyh4CBUYEKyXVnjGYQ8mEiJDpGvJMdvrZx1iGeHV): 41
 - v05 (mooNhciQJi1LqHDmse2JPic2NqG2PXCanbE3ZYzP3qA): 7 — not decoded (older layout)
 - v041 (AfJJJ5UqxhBKoE3grkKAZZsoXDE9kncbMKvqSHGsCNrE): 6 — not decoded (older layout)
 
 ## By track
 - curated: 23 raises, 14 complete, 3 refunding, 6 other, success 82.4% of finished
-- permissionless: 124 raises, 19 complete, 102 refunding, 3 other, success 15.7% of finished
+- permissionless: 125 raises, 19 complete, 102 refunding, 4 other, success 15.7% of finished
 - test: 67 raises, 40 complete, 11 refunding, 16 other, success 78.4% of finished
 
 ## Decoded raises by state
-- Initialized: 10
+- Initialized: 11
 - Live: 10
 - Closed: 5
 - Complete: 73

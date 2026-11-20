@@ -1,6 +1,6 @@
 {
- "scanned_at": "2026-11-19T14:23:55.750Z",
- "scanned_slot": 471368010,
+ "scanned_at": "2026-11-19T23:47:13.517Z",
+ "scanned_slot": 471524882,
  "programs": {
   "v08": "moonDJUoHteKkGATejA5bdJVwJ6V6Dg74gyqyJTx73n",
   "v07": "moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM",
@@ -10,7 +10,7 @@
  },
  "counts": {
   "v08": 0,
-  "v07": 173,
+  "v07": 174,
   "v06": 41,
   "v05": 7,
   "v041": 6
@@ -175,6 +175,38 @@
    "metadata_symbol": "RNGR",
    "token_decimals": 6,
    "performance_package_tokens": "7600000"
+  },
+  {
+   "version": "v07",
+   "launch": "BauKKwgxSzRTJPMYWFVCFQgAaspvPnCzX1RgyKr9SuQS",
+   "decoded": "yes",
+   "base_mint": "GKLX8mz6fyNcHxVjgaWzd543EqAi1asDGtWetK3Zmeta",
+   "state": "Initialized",
+   "launch_authority": "LRrTQLqFzAPxjschuAKQAqH1XHBuBgHqwhybENStARt",
+   "track": "permissionless",
+   "started_utc": "",
+   "closed_utc": "",
+   "completed_utc": "",
+   "duration_days": 3,
+   "minimum_raise_usd": "10000",
+   "committed_usd": "0",
+   "raised_usd": "",
+   "oversubscription": "",
+   "monthly_budget_usd": "1333",
+   "budget_wallets": 1,
+   "budget_wallet_list": "B5fbNcvPTCZijLLc4UbCCfGYWXNbTownUa5RkDh4LSb",
+   "performance_package_raw": "12900000000000",
+   "insider_lock_months": 18,
+   "dao": "",
+   "dao_vault": "",
+   "team_address": "B5fbNcvPTCZijLLc4UbCCfGYWXNbTownUa5RkDh4LSb",
+   "bytes": 785,
+   "checks": "OK",
+   "metadata_account": "Fn6tscHA7RTYgjq9QH9SKDmGM5iQyNwxSVAuabAKGem8",
+   "metadata_name": "DeFi Drones",
+   "metadata_symbol": "DFD",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v07",
