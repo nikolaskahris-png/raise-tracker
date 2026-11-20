@@ -45,8 +45,8 @@ Planned in three milestones, subject to funding (applying to the Solana Foundati
 
 | Milestone | Week | What |
 |---|---|---|
-| **M1. More launchpads** | 6 | Star, Metaplex Genesis (official API) and Backable's funded raises; Star read from the chain, not from its site. Open dataset (CC BY 4.0) with a schema. At least 90 consecutive days of daily snapshots in this repo |
-| **M2. Founder claims** | 14 | A founder proves control (a signature from the DAO or launch wallet, or the team's GitHub organization) and adds links. Each claim is stored as "claim → source". Open alerts (RSS, Telegram) for treasury withdrawals and for 60 days without a public commit |
+| **M1. More launchpads** | 6 | Star (read from the chain, not from its site) and Metaplex Genesis (official API). On MetaDAO, whose permissionless platform is now Backable: the 13 older launches (v0.5, v0.4.1) decoded, and the DAOs not yet tied to a company named. Open dataset (CC BY 4.0) with a schema. A daily snapshot with no gap through the milestone |
+| **M2. Founder claims** | 14 | At least 90 consecutive days of daily snapshots in this repo. A founder proves control (a signature from the DAO or launch wallet, or the team's GitHub organization) and adds links. Each claim is stored as "claim → source". Open alerts (RSS, Telegram) for treasury withdrawals and for 60 days without a public commit |
 | **M3. 180 days** | 26 | A 180-day report across the launchpads. The share of teams with public commits 30, 90 and 180 days after the raise is given only if at least 20 teams with a known repo have passed 180 days; otherwise per team, without a percentage. At least 180 consecutive days of snapshots, a runbook so anyone can run it, RPC and hosting paid for 12 months |
 
 ## What the snapshot collects, daily
