@@ -1,8 +1,8 @@
-# Treasury report — 2026-11-20T23:40:47.441Z
+# Treasury report — 2026-11-21T13:48:02.770Z
 
-Read raises.json sha256: 0b3583043a5ebe16da412df124b0486ce0d33ea0a0ed5e673ee409439084ee83, from the scan at slot 471918985
+Read raises.json sha256: 7736720271f3470ef5de1f7d690425c93c1500c9defbca046554bf76bfb81674, from the scan at slot 472155410
 
-Treasuries: 31 of 33. RPC calls: 6368.
+Treasuries: 31 of 33. RPC calls: 6738.
 Reconciled (history sums exactly to today's balance): 31/31
 
 Futarchy proposals indexed: 187 (decode errors: 0)
