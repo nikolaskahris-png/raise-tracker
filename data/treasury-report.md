@@ -1,8 +1,8 @@
-# Treasury report — 2026-11-22T13:39:41.924Z
+# Treasury report — 2026-11-22T23:06:24.540Z
 
-Read raises.json sha256: d4fb3ce51aa3a3cba3c2f6a611afca47134de9297dedb20ce7c128a94f7713d3, from the scan at slot 472554830
+Read raises.json sha256: 04a8a62ca8daf8cc4ecc248a91c344e19e87d6df71f2389be9c4fa8c6c9dbb1b, from the scan at slot 472713048
 
-Treasuries: 31 of 33. RPC calls: 6351.
+Treasuries: 31 of 33. RPC calls: 6728.
 Reconciled (history sums exactly to today's balance): 31/31
 
 Futarchy proposals indexed: 187 (decode errors: 0)
@@ -45,7 +45,7 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 - ARL: drew 8000 over 6 period(s) of 1650/month at launch (allowed 9900); limit now 1650.00 Month; changed: no; largest 30-day draw 3300
 - LASO: drew 286666 over 5 period(s) of 50000/month at launch (allowed 250000); limit now 68333.00 Month; changed: yes (by 2026-09-30T00:09:57.000Z|22nFERVAHMbRSGpD7Y6XQoNP7zccCzieeBes61kedaYGfVQKZQ9StNEoQTBB4JVsqNK46mcHWHqpPMaR6yaMhLbG|proposal|set|68333.000000|Month); largest 30-day draw 136666
 - CRED: drew 1000000 over 5 period(s) of 250000/month at launch (allowed 1250000); limit now 250000.00 Month; changed: no; largest 30-day draw 500000
-- CARS: drew 140000 over 4 period(s) of 40000/month at launch (allowed 160000); limit now 40000.00 Month; changed: no; largest 30-day draw 80000
+- CARS: drew 140000 over 5 period(s) of 40000/month at launch (allowed 200000); limit now 40000.00 Month; changed: no; largest 30-day draw 80000
 - ORDR: drew 60000 over 4 period(s) of 15000/month at launch (allowed 60000); limit now 15000.00 Month; changed: no; largest 30-day draw 30000
 - BASKET: drew 4000 over 4 period(s) of 1000/month at launch (allowed 4000); limit now 1000.00 Month; changed: no; largest 30-day draw 2000
 - KIMIA: drew 38400 over 4 period(s) of 9600/month at launch (allowed 38400); limit now 9600.00 Month; changed: no; largest 30-day draw 19200
