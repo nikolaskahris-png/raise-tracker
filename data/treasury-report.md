@@ -1,8 +1,8 @@
-# Treasury report — 2026-11-23T16:16:32.466Z
+# Treasury report — 2026-11-23T23:14:25.445Z
 
-Read raises.json sha256: d180d1641146d9653b04d599e60e6d1b25045f6823b32be00d79d51604cdcbc1, from the scan at slot 473000360
+Read raises.json sha256: 85c2b95cb1a1febcc91c5a7d512aaa914cc70d0db720dc945e5e73e0d14a19b3, from the scan at slot 473116966
 
-Treasuries: 31 of 33. RPC calls: 6498.
+Treasuries: 31 of 33. RPC calls: 6743.
 Reconciled (history sums exactly to today's balance): 31/31
 
 Futarchy proposals indexed: 187 (decode errors: 0)
@@ -54,9 +54,9 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 - PREDICT: drew 0 over 3 period(s) of 1/month at launch (allowed 3); limit now 1.00 Month; changed: no; largest 30-day draw 0
 - GANG: drew 83332 over 2 period(s) of 41666/month at launch (allowed 83332); limit now 41666.00 Month; changed: no; largest 30-day draw 83332
 - KREW: drew 4000 over 2 period(s) of 2000/month at launch (allowed 4000); limit now 2000.00 Month; changed: no; largest 30-day draw 4000
-- ORENDAL: drew 3000 over 1 period(s) of 3000/month at launch (allowed 3000); limit now 3000.00 Month; changed: no; largest 30-day draw 3000
+- ORENDAL: drew 3000 over 2 period(s) of 3000/month at launch (allowed 6000); limit now 3000.00 Month; changed: no; largest 30-day draw 3000
 - DRAWUP: drew 2000 over 2 period(s) of 2000/month at launch (allowed 4000); limit now 2000.00 Month; changed: no; largest 30-day draw 2000
-- POKER: drew 25000 over 1 period(s) of 25000/month at launch (allowed 25000); limit now 25000.00 Month; changed: no; largest 30-day draw 25000
+- POKER: drew 25000 over 2 period(s) of 25000/month at launch (allowed 50000); limit now 25000.00 Month; changed: no; largest 30-day draw 25000
 - COPE: drew 5000 over 1 period(s) of 5000/month at launch (allowed 5000); limit now 5000.00 Month; changed: no; largest 30-day draw 5000
 - SAT: drew 16000 over 1 period(s) of 16000/month at launch (allowed 16000); limit now 16000.00 Month; changed: no; largest 30-day draw 16000
 - FINAL: drew 0 over 1 period(s) of 5000/month at launch (allowed 5000); limit now 5000.00 Month; changed: no; largest 30-day draw 0

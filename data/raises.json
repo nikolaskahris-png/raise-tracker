@@ -1,6 +1,6 @@
 {
- "scanned_at": "2026-11-23T15:55:27.544Z",
- "scanned_slot": 473000360,
+ "scanned_at": "2026-11-23T22:53:21.265Z",
+ "scanned_slot": 473116966,
  "programs": {
   "v08": "moonDJUoHteKkGATejA5bdJVwJ6V6Dg74gyqyJTx73n",
   "v07": "moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM",
@@ -6987,7 +6987,7 @@
    "completed_utc": "",
    "duration_days": 3,
    "minimum_raise_usd": "10000",
-   "committed_usd": "9372.49",
+   "committed_usd": "11055.49",
    "raised_usd": "",
    "oversubscription": "",
    "monthly_budget_usd": "1333",
