@@ -1,14 +1,14 @@
-# Treasury report — 2026-11-24T16:11:44.295Z
+# Treasury report — 2026-11-24T21:49:33.912Z
 
-Read raises.json sha256: e9ca9ce887b18ec85a225a6999324df413429094b4e025c27b429934fe502b31, from the scan at slot 473400805
+Read raises.json sha256: e823a45e12db1d940a21f5d9025966bdf76fbd1bb84518940adfc2164693c34d, from the scan at slot 473495115
 
-Treasuries: 32 of 34. RPC calls: 6491.
+Treasuries: 32 of 34. RPC calls: 6378.
 Reconciled (history sums exactly to today's balance): 32/32
 
 Futarchy proposals indexed: 187 (decode errors: 0)
 
 ## Outflows, all treasuries (USD)
-- team_budget: 8662587
+- team_budget: 8678622
 - market_approved (linked proposal Passed): 12275500
 - admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): 6038457
 - admin_vote_passed_after (admin key; a proposal enqueued before the movement finalized as Passed after it): 0
@@ -32,7 +32,7 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 ## Team budget
 - UMBRA: drew 1213631 over 14 period(s) of 34091/month at launch (allowed 477274); limit now 150000.00 Month; changed: yes (by 2026-01-21T01:07:52.000Z|46p752ga7Gu1sdib1jQsAoZ5YGReUo3menhDWxWHvwoUCFagJeSguGbdHVg3ki1KeMZZdKN3vftNZMoSPWKkTjkd|admin|set|100000.000000|Month 2026-10-27T16:48:26.000Z|4CbDxocathyhoRAm1wFiU2TGTH7fRkvDYrHHVUmYnRrcHCVm3Ygp96msaZC7TNitGQTuKVCviqdVzAE3Pxy6mKjB|proposal|set|150000.000000|Month); largest 30-day draw 200000
 - AVICI: drew 1200000 over 14 period(s) of 100000/month at launch (allowed 1400000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
-- LOYAL: drew 640000 over 14 period(s) of 60000/month at launch (allowed 840000); limit now 60000.00 Month; changed: no; largest 30-day draw 120000
+- LOYAL: drew 656035 over 14 period(s) of 60000/month at launch (allowed 840000); limit now 60000.00 Month; changed: no; largest 30-day draw 120000
 - ZKFG: drew 400000 over 14 period(s) of 50000/month at launch (allowed 700000); limit now ? ; changed: unknown (by 2026-02-24T20:00:54.000Z|3fBHz3BFjs1Mp3SKPq846XH4wiFr3SC14K7k8FKn3UK1RnwJyQs6K8vEDhSx7yz7vfU8726ARcVxYJ4qy1jYDJoj|admin|set|50000.000000|Month 2026-06-23T00:46:09.000Z|3f9gjjy5DhRPZvhSd35932BTBeKrqtKgdcBsQyzx9wEH3Q3B1LxCF9EjfwKTSTHHkWUmfpKejo1dkCBaGBcvvh52|admin|removed||); largest 30-day draw 100000
 - PAYS: drew 279500 over 14 period(s) of 33500/month at launch (allowed 469000); limit now ? ; changed: unknown (by 2026-06-21T23:44:42.000Z|wwYEQmcqQWmvCszMZABUDYmHdZULo7g5vJuzAC4o6TYcCCoARMpfwH85Xuh4JKJ77WN3FuNT4nDtkhzWWTcx8FQ|admin|removed|| 2026-07-29T22:23:26.000Z|5zmDF9Yp1UPstbgYk7ZrDqWW2F7kBQ9n6qLz8WC2UjHzphCcLPP9ooc3f4MeovsgE4SwjwVxt28mx5s8Qz4SaamS|admin|set|11500.000000|Month 2026-09-01T22:32:29.000Z|65mghNNUj74uP886PHiazrELTv3pmMLiprBe4X8oCwWFFxQ4236PXHkEHQzjkSbvSjqiUHhhbXEdvBAauGkeT8EM|admin|removed||); largest 30-day draw 67000
 - SOLO: drew 1200000 over 13 period(s) of 100000/month at launch (allowed 1300000); limit now 100000.00 Month; changed: no; largest 30-day draw 200000
@@ -67,7 +67,7 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 - 2026-04-15T23:59:57.000Z FUTARDIO -2976.000000 USDC to D4L2F4U9ZLza7BbaRQEEBnNSBpTSfxHRNo8epCsUjGT1 — squads:BatchExecuteTransaction LBUZKhRx:AddLiquidityOneSidePrecise2 spl_token:TransferChecked
 
 ## Instruction names seen on treasury movements (for review)
-- squads:SpendingLimitUse: 332
+- squads:SpendingLimitUse: 333
 - spl_token:TransferChecked: 165
 - spl_token:Transfer: 102
 - spl_token:InitializeAccount3: 80
