@@ -1,14 +1,14 @@
-# Treasury report — 2026-11-24T07:16:03.230Z
+# Treasury report — 2026-11-24T16:11:44.295Z
 
-Read raises.json sha256: ddc697ef68cff0e0899f8ff53195c4b81da4b159882ece154c3898f039cf8153, from the scan at slot 473251368
+Read raises.json sha256: e9ca9ce887b18ec85a225a6999324df413429094b4e025c27b429934fe502b31, from the scan at slot 473400805
 
-Treasuries: 31 of 33. RPC calls: 6744.
-Reconciled (history sums exactly to today's balance): 31/31
+Treasuries: 32 of 34. RPC calls: 6491.
+Reconciled (history sums exactly to today's balance): 32/32
 
 Futarchy proposals indexed: 187 (decode errors: 0)
 
 ## Outflows, all treasuries (USD)
-- team_budget: 8658587
+- team_budget: 8662587
 - market_approved (linked proposal Passed): 12275500
 - admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): 6038457
 - admin_vote_passed_after (admin key; a proposal enqueued before the movement finalized as Passed after it): 0
@@ -40,7 +40,7 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 - FUTARDIO: drew 400 over 9 period(s) of 2500/month at launch (allowed 22500); limit now 50.00 Month; changed: yes (by 2026-03-08T19:32:52.000Z|254ygGTyVHRrEJYK7kjWohQYYZFeU3oB5cUorSsysjv6XUXgfbswtJqHyCkUZkeY6NcTsF1vHYPX4ZXfZWfEFrYW|admin|set|50.000000|Month); largest 30-day draw 100
 - SUPER: drew 39998 over 9 period(s) of 5000/month at launch (allowed 45000); limit now 5000.00 Month; changed: no; largest 30-day draw 10000
 - P2P: drew 1400000 over 8 period(s) of 175000/month at launch (allowed 1400000); limit now 175000.00 Month; changed: no; largest 30-day draw 350000
-- RAWR: drew 52000 over 7 period(s) of 8000/month at launch (allowed 56000); limit now 8000.00 Month; changed: no; largest 30-day draw 16000
+- RAWR: drew 56000 over 7 period(s) of 8000/month at launch (allowed 56000); limit now 8000.00 Month; changed: no; largest 30-day draw 16000
 - GSIM: drew 27600 over 6 period(s) of 4600/month at launch (allowed 27600); limit now 4600.00 Month; changed: no; largest 30-day draw 9200
 - ARL: drew 8000 over 6 period(s) of 1650/month at launch (allowed 9900); limit now 1650.00 Month; changed: no; largest 30-day draw 3300
 - LASO: drew 286666 over 5 period(s) of 50000/month at launch (allowed 250000); limit now 68333.00 Month; changed: yes (by 2026-09-30T00:09:57.000Z|22nFERVAHMbRSGpD7Y6XQoNP7zccCzieeBes61kedaYGfVQKZQ9StNEoQTBB4JVsqNK46mcHWHqpPMaR6yaMhLbG|proposal|set|68333.000000|Month); largest 30-day draw 136666
@@ -61,12 +61,13 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 - SAT: drew 16000 over 1 period(s) of 16000/month at launch (allowed 16000); limit now 16000.00 Month; changed: no; largest 30-day draw 16000
 - FINAL: drew 0 over 1 period(s) of 5000/month at launch (allowed 5000); limit now 5000.00 Month; changed: no; largest 30-day draw 0
 - MORI: drew 0 over 1 period(s) of 40000/month at launch (allowed 40000); limit now 40000.00 Month; changed: no; largest 30-day draw 0
+- DFD: drew 0 over 1 period(s) of 1333/month at launch (allowed 1333); limit now 1333.00 Month; changed: no; largest 30-day draw 0
 
 ## Unclassified outflows
 - 2026-04-15T23:59:57.000Z FUTARDIO -2976.000000 USDC to D4L2F4U9ZLza7BbaRQEEBnNSBpTSfxHRNo8epCsUjGT1 — squads:BatchExecuteTransaction LBUZKhRx:AddLiquidityOneSidePrecise2 spl_token:TransferChecked
 
 ## Instruction names seen on treasury movements (for review)
-- squads:SpendingLimitUse: 331
+- squads:SpendingLimitUse: 332
 - spl_token:TransferChecked: 165
 - spl_token:Transfer: 102
 - spl_token:InitializeAccount3: 80
@@ -76,17 +77,17 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 - jupiter:Route: 58
 - bskthjNM:CollectLargeBasketIntentFees: 41
 - bskthjNM:FinalizeLargeBasketMintIntent: 39
+- futarchy:InitializeDao: 32
+- squads:MultisigCreateV2: 32
+- squads:MultisigAddSpendingLimit: 32
+- futarchy:ProvideLiquidity: 32
+- cpamdpZC:InitializePoolWithDynamicConfig: 32
+- TokenzQd:InitializeMintCloseAuthority: 32
+- TokenzQd:InitializeMint2: 32
 - bskthjNM:ExecuteLargeBasketRedeemBatch: 32
-- futarchy:InitializeDao: 31
-- squads:MultisigCreateV2: 31
-- squads:MultisigAddSpendingLimit: 31
-- futarchy:ProvideLiquidity: 31
-- cpamdpZC:InitializePoolWithDynamicConfig: 31
-- TokenzQd:InitializeMintCloseAuthority: 31
-- TokenzQd:InitializeMint2: 31
-- TokenzQd:InitializeAccount3: 30
-- TokenzQd:MintTo: 30
-- launchpad_v07:CompleteLaunch: 25
+- TokenzQd:InitializeAccount3: 31
+- TokenzQd:MintTo: 31
+- launchpad_v07:CompleteLaunch: 26
 - SMRTzfY6:LogEvent: 22
 - whirLbMi:Swap: 17
 - cpamdpZC:ClaimPositionFee: 13
