@@ -1,14 +1,14 @@
-# Treasury report — 2026-11-26T01:29:11.599Z
+# Treasury report — 2026-11-26T15:29:35.470Z
 
-Read raises.json sha256: fd5602ab9e5838b5e69e0fa601404327cb65176ff552a93be2e95b16871abffd, from the scan at slot 473958226
+Read raises.json sha256: d11259f37882e2294752be75c8f8f838ea1337f686d58417ce8bb97f1e54394a, from the scan at slot 474192836
 
-Treasuries: 32 of 34. RPC calls: 6600.
+Treasuries: 32 of 34. RPC calls: 6567.
 Reconciled (history sums exactly to today's balance): 32/32
 
 Futarchy proposals indexed: 187 (decode errors: 0)
 
 ## Outflows, all treasuries (USD)
-- team_budget: 8678622
+- team_budget: 8680680
 - market_approved (linked proposal Passed): 12275500
 - admin_after_vote (admin key; a proposal on this DAO finalized as Passed in the 60 days before): 6038457
 - admin_vote_passed_after (admin key; a proposal enqueued before the movement finalized as Passed after it): 0
@@ -49,13 +49,13 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 - ORDR: drew 60000 over 4 period(s) of 15000/month at launch (allowed 60000); limit now 15000.00 Month; changed: no; largest 30-day draw 30000
 - BASKET: drew 4000 over 4 period(s) of 1000/month at launch (allowed 4000); limit now 1000.00 Month; changed: no; largest 30-day draw 2000
 - KIMIA: drew 38400 over 4 period(s) of 9600/month at launch (allowed 38400); limit now 9600.00 Month; changed: no; largest 30-day draw 19200
-- LFOWN: drew 60 over 3 period(s) of 1/month at launch (allowed 3); limit now 58.71 Month; changed: yes (by 2026-10-08T14:01:27.000Z|2q2oB5bgfnoKn3iVefcah6scSdCwEfDdD5rEZQGVdPXM81uBnDD45z78dWkMFUZXu3oHNoBi3hSfudYJ4qqBmmDe|proposal|set|58.710000|Month); largest 30-day draw 59
+- LFOWN: drew 118 over 3 period(s) of 1/month at launch (allowed 3); limit now 58.71 Month; changed: yes (by 2026-10-08T14:01:27.000Z|2q2oB5bgfnoKn3iVefcah6scSdCwEfDdD5rEZQGVdPXM81uBnDD45z78dWkMFUZXu3oHNoBi3hSfudYJ4qqBmmDe|proposal|set|58.710000|Month); largest 30-day draw 59
 - NECTAR: drew 30000 over 3 period(s) of 10000/month at launch (allowed 30000); limit now 10000.00 Month; changed: no; largest 30-day draw 20000
 - PREDICT: drew 0 over 3 period(s) of 1/month at launch (allowed 3); limit now 1.00 Month; changed: no; largest 30-day draw 0
 - GANG: drew 83332 over 2 period(s) of 41666/month at launch (allowed 83332); limit now 41666.00 Month; changed: no; largest 30-day draw 83332
 - KREW: drew 4000 over 2 period(s) of 2000/month at launch (allowed 4000); limit now 2000.00 Month; changed: no; largest 30-day draw 4000
 - ORENDAL: drew 3000 over 2 period(s) of 3000/month at launch (allowed 6000); limit now 3000.00 Month; changed: no; largest 30-day draw 3000
-- DRAWUP: drew 2000 over 2 period(s) of 2000/month at launch (allowed 4000); limit now 2000.00 Month; changed: no; largest 30-day draw 2000
+- DRAWUP: drew 4000 over 2 period(s) of 2000/month at launch (allowed 4000); limit now 2000.00 Month; changed: no; largest 30-day draw 4000
 - POKER: drew 25000 over 2 period(s) of 25000/month at launch (allowed 50000); limit now 25000.00 Month; changed: no; largest 30-day draw 25000
 - COPE: drew 5000 over 1 period(s) of 5000/month at launch (allowed 5000); limit now 5000.00 Month; changed: no; largest 30-day draw 5000
 - SAT: drew 16000 over 1 period(s) of 16000/month at launch (allowed 16000); limit now 16000.00 Month; changed: no; largest 30-day draw 16000
@@ -67,7 +67,7 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 - 2026-04-15T23:59:57.000Z FUTARDIO -2976.000000 USDC to D4L2F4U9ZLza7BbaRQEEBnNSBpTSfxHRNo8epCsUjGT1 — squads:BatchExecuteTransaction LBUZKhRx:AddLiquidityOneSidePrecise2 spl_token:TransferChecked
 
 ## Instruction names seen on treasury movements (for review)
-- squads:SpendingLimitUse: 333
+- squads:SpendingLimitUse: 335
 - spl_token:TransferChecked: 165
 - spl_token:Transfer: 102
 - spl_token:InitializeAccount3: 80
@@ -132,5 +132,5 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 - TokenzQd:TransferChecked: 1
 
 ## Problems: 2
-- ACCRUE: treasury USDC account mismatch (account HWiQ29jqE9VqsjAX4DCJawH8idz7bewbCLJbicEEo9Dg now owned by BVZJTpa7bJRbEzdBM2M2T4ZqZyoHbntHBVjgrNyYS9Ss, holds 10157.509978 USDC; owner changed 2026-11-12T20:34:03.000Z in 4TfVvyzwC9CdPkDmNyUMnfDo2EGSovmtjdMAPTPd2bzbVBqgv1K3eGReKEBBdkJNCqp6NmddJZ6meyLuFdogHreL via VaultTransactionExecute+WithdrawLiquidity)
-- TSET: treasury USDC account mismatch (account G9LEB5YfRkvV65BVo3ykqyRrvejAvTEP59P4SgEPLmfS now owned by F55oyPK49nBhXJX1XR3iKasbfHLc2sqcCeLhypqU2ZqQ, holds 10140.084361 USDC; owner changed 2026-11-12T20:34:01.000Z in 51Ud4HUjvmBdiMB1HeDp4qxp9L7UarCz9JDS4oBuA5mMeioaRNP6Bqmce3BXufC42CWKTwqeUBV3Tr6m2gurn25k via VaultTransactionExecute+WithdrawLiquidity)
+- ACCRUE: treasury USDC account mismatch (account HWiQ29jqE9VqsjAX4DCJawH8idz7bewbCLJbicEEo9Dg now owned by BVZJTpa7bJRbEzdBM2M2T4ZqZyoHbntHBVjgrNyYS9Ss, holds 0.000000 USDC; owner changed 2026-11-12T20:34:03.000Z in 4TfVvyzwC9CdPkDmNyUMnfDo2EGSovmtjdMAPTPd2bzbVBqgv1K3eGReKEBBdkJNCqp6NmddJZ6meyLuFdogHreL via VaultTransactionExecute+WithdrawLiquidity)
+- TSET: treasury USDC account mismatch (account G9LEB5YfRkvV65BVo3ykqyRrvejAvTEP59P4SgEPLmfS now owned by F55oyPK49nBhXJX1XR3iKasbfHLc2sqcCeLhypqU2ZqQ, holds 0.000000 USDC; owner changed 2026-11-12T20:34:01.000Z in 51Ud4HUjvmBdiMB1HeDp4qxp9L7UarCz9JDS4oBuA5mMeioaRNP6Bqmce3BXufC42CWKTwqeUBV3Tr6m2gurn25k via VaultTransactionExecute+WithdrawLiquidity)
