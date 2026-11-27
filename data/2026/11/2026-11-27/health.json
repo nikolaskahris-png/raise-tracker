@@ -1,0 +1,38 @@
+{
+ "all_ok": true,
+ "seconds_total": 353.0,
+ "started_utc": "2026-11-27T12:42:54.754744+00:00",
+ "steps": {
+  "futarchy": {
+   "daos": 101,
+   "decode_errors": 0,
+   "proposals_raw": 187,
+   "seconds": 1.2,
+   "status": "ok"
+  },
+  "github": {
+   "owners": 14,
+   "seconds": 75.9,
+   "status": "ok",
+   "unverified": 0
+  },
+  "launches": {
+   "by_version": {
+    "v0.5": 7,
+    "v0.6": 41,
+    "v0.7": 178,
+    "v0.8": 0
+   },
+   "launches_raw": 226,
+   "seconds": 1.8,
+   "status": "ok"
+  },
+  "treasuries": {
+   "seconds": 274.0,
+   "status": "ok",
+   "unverified": 0,
+   "vaults": 101
+  }
+ },
+ "trigger": "schedule"
+}
