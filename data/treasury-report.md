@@ -1,8 +1,8 @@
-# Treasury report — 2026-11-27T05:17:51.520Z
+# Treasury report — 2026-11-27T15:21:09.937Z
 
-Read raises.json sha256: 866fe75f2b28f054916c2d6948107959f26dbe103362725310fddb36aa19b4d9, from the scan at slot 474424099
+Read raises.json sha256: c1bca833b923763ff542f6e8c7da19429f216043d4151e5dc6fc403c24b0b736, from the scan at slot 474592526
 
-Treasuries: 32 of 34. RPC calls: 6387.
+Treasuries: 32 of 34. RPC calls: 6525.
 Reconciled (history sums exactly to today's balance): 32/32
 
 Futarchy proposals indexed: 187 (decode errors: 0)
@@ -39,7 +39,7 @@ Futarchy proposals indexed: 187 (decode errors: 0)
 - RNGR: drew 500000 over 11 period(s) of 250000/month at launch (allowed 2750000); limit now 250000.00 Month; changed: no; largest 30-day draw 250000
 - FUTARDIO: drew 400 over 9 period(s) of 2500/month at launch (allowed 22500); limit now 50.00 Month; changed: yes (by 2026-03-08T19:32:52.000Z|254ygGTyVHRrEJYK7kjWohQYYZFeU3oB5cUorSsysjv6XUXgfbswtJqHyCkUZkeY6NcTsF1vHYPX4ZXfZWfEFrYW|admin|set|50.000000|Month); largest 30-day draw 100
 - SUPER: drew 39998 over 9 period(s) of 5000/month at launch (allowed 45000); limit now 5000.00 Month; changed: no; largest 30-day draw 10000
-- P2P: drew 1400000 over 8 period(s) of 175000/month at launch (allowed 1400000); limit now 175000.00 Month; changed: no; largest 30-day draw 350000
+- P2P: drew 1400000 over 9 period(s) of 175000/month at launch (allowed 1575000); limit now 175000.00 Month; changed: no; largest 30-day draw 350000
 - RAWR: drew 56000 over 7 period(s) of 8000/month at launch (allowed 56000); limit now 8000.00 Month; changed: no; largest 30-day draw 16000
 - GSIM: drew 27600 over 6 period(s) of 4600/month at launch (allowed 27600); limit now 4600.00 Month; changed: no; largest 30-day draw 9200
 - ARL: drew 8000 over 6 period(s) of 1650/month at launch (allowed 9900); limit now 1650.00 Month; changed: no; largest 30-day draw 3300
