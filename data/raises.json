@@ -1,6 +1,6 @@
 {
- "scanned_at": "2026-11-27T15:00:02.032Z",
- "scanned_slot": 474592526,
+ "scanned_at": "2026-11-28T00:40:54.914Z",
+ "scanned_slot": 474754781,
  "programs": {
   "v08": "moonDJUoHteKkGATejA5bdJVwJ6V6Dg74gyqyJTx73n",
   "v07": "moontUzsdepotRGe5xsfip7vLPTJnVuafqdUWexVnPM",
@@ -10,7 +10,7 @@
  },
  "counts": {
   "v08": 0,
-  "v07": 178,
+  "v07": 179,
   "v06": 41,
   "v05": 7,
   "v041": 6
@@ -303,6 +303,38 @@
    "metadata_symbol": "SNPX",
    "token_decimals": 6,
    "performance_package_tokens": "0.00001"
+  },
+  {
+   "version": "v07",
+   "launch": "HPNsdjhoqJSG4ATRNMCBT43WdQdTf8ecGwegdEkgjsdE",
+   "decoded": "yes",
+   "base_mint": "CP7EzU63vdqRs7yobGdufbAAw467deXpmhLLBfhGmeta",
+   "state": "Initialized",
+   "launch_authority": "LRrTQLqFzAPxjschuAKQAqH1XHBuBgHqwhybENStARt",
+   "track": "permissionless",
+   "started_utc": "",
+   "closed_utc": "",
+   "completed_utc": "",
+   "duration_days": 3,
+   "minimum_raise_usd": "10000",
+   "committed_usd": "0",
+   "raised_usd": "",
+   "oversubscription": "",
+   "monthly_budget_usd": "1666",
+   "budget_wallets": 1,
+   "budget_wallet_list": "8GAVsydMpzCKCSRLquEif1YtM3rCBfEWw2YDj7jXFLK9",
+   "performance_package_raw": "12900000000000",
+   "insider_lock_months": 18,
+   "dao": "",
+   "dao_vault": "",
+   "team_address": "AVrnvEzt9M3wUxKAedY7Lmnw4pMCnjNG6jyFZU5wimUz",
+   "bytes": 785,
+   "checks": "OK",
+   "metadata_account": "5XHYzsikyyq1VQPRehm8yCXtvWQHs2ujQe3ooJfWsyjB",
+   "metadata_name": "Clustell",
+   "metadata_symbol": "CLUST",
+   "token_decimals": 6,
+   "performance_package_tokens": "12900000"
   },
   {
    "version": "v06",
